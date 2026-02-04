@@ -328,62 +328,72 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </h2>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Monthly */}
-            <Card className="p-8 text-center">
-              <Calendar className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Monthly</h3>
-              <div className="mb-4">
-                <div className="text-sm text-slate-500 line-through">$39/month</div>
-                <div className="text-4xl font-bold text-slate-900 dark:text-white">$20<span className="text-lg">/month</span></div>
-                <Badge className="mt-2">48% OFF</Badge>
+            <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300" />
+              <div className="relative">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Calendar className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Monthly</h3>
+                <div className="mb-6">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$39/month</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$20<span className="text-xl text-slate-600 dark:text-slate-400">/month</span></div>
+                  <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 font-bold">48% OFF</Badge>
+                </div>
+                <ul className="space-y-3 mb-8 text-left">
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Access to all certifications</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Cancel anytime</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools & analytics</span>
+                  </li>
+                </ul>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
+                  Start Monthly
+                </Button>
               </div>
-              <ul className="space-y-3 mb-8 text-left">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Access to all certifications</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Cancel anytime</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>All study tools & analytics</span>
-                </li>
-              </ul>
-              <Button className="w-full" onClick={() => onNavigate('register')}>
-                Start Monthly
-              </Button>
             </Card>
 
             {/* Annual */}
-            <Card className="p-8 text-center border-2 border-blue-500 relative">
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-3 border-blue-500 dark:border-blue-500 p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-4 py-1 shadow-lg">
                 BEST VALUE
               </Badge>
-              <Infinity className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Annual</h3>
-              <div className="mb-4">
-                <div className="text-sm text-slate-500 line-through">$468/year</div>
-                <div className="text-4xl font-bold text-slate-900 dark:text-white">$180<span className="text-lg">/year</span></div>
-                <Badge className="mt-2">Save $288</Badge>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300" />
+              <div className="relative">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Infinity className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Annual</h3>
+                <div className="mb-6">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$468/year</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$180<span className="text-xl text-slate-600 dark:text-slate-400">/year</span></div>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">Save $288</Badge>
+                </div>
+                <ul className="space-y-3 mb-8 text-left">
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Access to all certifications</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Save 2+ months vs monthly</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
+                  </li>
+                </ul>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
+                  Start Annual
+                </Button>
               </div>
-              <ul className="space-y-3 mb-8 text-left">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Access to all certifications</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Save 2+ months vs monthly</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Priority support</span>
-                </li>
-              </ul>
-              <Button className="w-full" onClick={() => onNavigate('register')}>
-                Start Annual
-              </Button>
             </Card>
           </div>
         </div>
