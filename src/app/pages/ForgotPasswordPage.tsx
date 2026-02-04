@@ -26,7 +26,12 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
     if (resetSuccess) {
       setSuccess(true)
     } else {
-      setError(authError || 'Password reset failed')
+      const errorMessage = authError || 'Password reset failed'
+      if (errorMessage.includes('no registered/verified email')) {
+        setError('Please verify your email address first before resetting your password.')
+      } else {
+        setError(errorMessage)
+      }
     }
     
     setLoading(false)
