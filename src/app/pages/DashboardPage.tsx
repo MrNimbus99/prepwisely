@@ -170,12 +170,13 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                     <span>7 days remaining</span>
                   </div>
 
-                  <div className="pt-4">
-                    <Button className="w-full">
-                      <BookOpen className="h-4 w-4 mr-2" />
-                      Continue Today's Exam
-                    </Button>
-                  </div>
+                  <Button 
+                    className="w-full"
+                    onClick={() => onNavigate('exam')}
+                  >
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    Continue Today's Exam
+                  </Button>
                 </div>
               </CardContent>
             </Card>

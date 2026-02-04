@@ -1,0 +1,246 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'PrepWisely Backend Infrastructure - API Gateway, Lambda, DynamoDB'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues: [dev, staging, prod]
+
+Resources:
+  # DynamoDB Tables
+  QuestionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'prepwisely-${Environment}-questions'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: questionId
+          AttributeType: S
+        - AttributeName: certification
+          AttributeType: S
+        - AttributeName: domain
+          AttributeType: S
+      KeySchema:
+        - AttributeName: questionId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: certification-index
+          KeySchema:
+            - AttributeName: certification
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: domain-index
+          KeySchema:
+            - AttributeName: domain
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  UserProgressTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'prepwisely-${Environment}-user-progress'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: certification
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: certification
+          KeyType: RANGE
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  ExamResultsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'prepwisely-${Environment}-exam-results'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: resultId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: examDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: resultId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: user-date-index
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: examDate
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  UserBookmarksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'prepwisely-${Environment}-user-bookmarks'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: questionId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: questionId
+          KeyType: RANGE
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # Lambda Execution Role
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'prepwisely-${Environment}-lambda-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource:
+                  - !GetAtt QuestionsTable.Arn
+                  - !GetAtt UserProgressTable.Arn
+                  - !GetAtt ExamResultsTable.Arn
+                  - !GetAtt UserBookmarksTable.Arn
+                  - !Sub '${QuestionsTable.Arn}/index/*'
+                  - !Sub '${ExamResultsTable.Arn}/index/*'
+
+  # Lambda Functions
+  ExamFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub 'prepwisely-${Environment}-exam'
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            return {
+              statusCode: 200,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
+              },
+              body: JSON.stringify({ message: 'Exam API ready' })
+            };
+          };
+      Environment:
+        Variables:
+          QUESTIONS_TABLE: !Ref QuestionsTable
+          USER_PROGRESS_TABLE: !Ref UserProgressTable
+          EXAM_RESULTS_TABLE: !Ref ExamResultsTable
+          USER_BOOKMARKS_TABLE: !Ref UserBookmarksTable
+
+  # API Gateway
+  ApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub 'prepwisely-${Environment}-api'
+      Description: PrepWisely Backend API
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  ApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - ExamResource
+      - ExamMethod
+    Properties:
+      RestApiId: !Ref ApiGateway
+      StageName: !Ref Environment
+
+  # API Resources
+  ExamResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ParentId: !GetAtt ApiGateway.RootResourceId
+      PathPart: exam
+
+  ExamMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref ApiGateway
+      ResourceId: !Ref ExamResource
+      HttpMethod: ANY
+      AuthorizationType: AWS_IAM
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ExamFunction.Arn}/invocations'
+
+  # Lambda Permissions
+  ExamFunctionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ExamFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub '${ApiGateway}/*/*'
+
+Outputs:
+  ApiGatewayUrl:
+    Description: API Gateway URL
+    Value: !Sub 'https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}'
+    Export:
+      Name: !Sub '${AWS::StackName}-ApiUrl'
+
+  QuestionsTableName:
+    Description: Questions DynamoDB Table Name
+    Value: !Ref QuestionsTable
+    Export:
+      Name: !Sub '${AWS::StackName}-QuestionsTable'
+
+  UserProgressTableName:
+    Description: User Progress DynamoDB Table Name
+    Value: !Ref UserProgressTable
+    Export:
+      Name: !Sub '${AWS::StackName}-UserProgressTable'
+
+  ExamResultsTableName:
+    Description: Exam Results DynamoDB Table Name
+    Value: !Ref ExamResultsTable
+    Export:
+      Name: !Sub '${AWS::StackName}-ExamResultsTable'
+
+  UserBookmarksTableName:
+    Description: User Bookmarks DynamoDB Table Name
+    Value: !Ref UserBookmarksTable
+    Export:
+      Name: !Sub '${AWS::StackName}-UserBookmarksTable'

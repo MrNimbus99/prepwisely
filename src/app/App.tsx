@@ -18,6 +18,7 @@ import RegisterPage from './pages/RegisterPage'
 import EmailVerificationPage from './pages/EmailVerificationPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import DashboardPage from './pages/DashboardPage'
+import ExamPage from './pages/ExamPage'
 
 interface AppProps {}
 
@@ -56,6 +57,8 @@ const App: React.FC<AppProps> = () => {
         return <ForgotPasswordPage onNavigate={handleNavigate} />
       case 'dashboard':
         return <DashboardPage onNavigate={handleNavigate} />
+      case 'exam':
+        return <ExamPage onNavigate={handleNavigate} />
       
       // Placeholder for other pages
       default:
