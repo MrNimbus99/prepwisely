@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'PrepWisely API Gateway and Lambda Functions'
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        USERS_TABLE: !ImportValue PrepWisely-UsersTable
+        QUESTIONS_TABLE: !ImportValue PrepWisely-QuestionsTable
+        PROGRESS_TABLE: !ImportValue PrepWisely-UserProgressTable
+
+Resources:
+  # API Gateway
+  PrepWiselyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'*'"
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !Sub 'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPoolId}'
+
+  # Lambda Functions
+  GetUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/
+      Handler: api-handlers.getUser
+      Role: !ImportValue PrepWisely-LambdaExecutionRole
+      Events:
+        GetUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PrepWiselyApi
+            Path: /users/{userId}
+            Method: GET
+
+  UpdateUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/
+      Handler: api-handlers.updateUser
+      Role: !ImportValue PrepWisely-LambdaExecutionRole
+      Events:
+        UpdateUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PrepWiselyApi
+            Path: /users/{userId}
+            Method: PUT
+
+  GetQuestionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/
+      Handler: api-handlers.getQuestions
+      Role: !ImportValue PrepWisely-LambdaExecutionRole
+      Events:
+        GetQuestions:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PrepWiselyApi
+            Path: /questions/{certId}/{quizNumber}
+            Method: GET
+
+  SaveProgressFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/
+      Handler: api-handlers.saveProgress
+      Role: !ImportValue PrepWisely-LambdaExecutionRole
+      Events:
+        SaveProgress:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PrepWiselyApi
+            Path: /progress/{userId}
+            Method: POST
+
+  GetProgressFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../lambda/
+      Handler: api-handlers.getUserProgress
+      Role: !ImportValue PrepWisely-LambdaExecutionRole
+      Events:
+        GetProgress:
+          Type: Api
+          Properties:
+            RestApiId: !Ref PrepWiselyApi
+            Path: /progress/{userId}
+            Method: GET
+
+Parameters:
+  CognitoUserPoolId:
+    Type: String
+    Description: Cognito User Pool ID
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${PrepWiselyApi}.execute-api.${AWS::Region}.amazonaws.com/prod'
+    Export:
+      Name: PrepWisely-ApiEndpoint

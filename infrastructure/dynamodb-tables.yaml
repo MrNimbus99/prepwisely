@@ -1,0 +1,115 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'PrepWisely DynamoDB Tables'
+
+Resources:
+  # Users Table - Store user subscriptions and owned certifications
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: prepwisely-users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # Questions Table - Store all exam questions
+  QuestionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: prepwisely-questions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: questionId
+          AttributeType: S
+        - AttributeName: certId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: questionId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: certId-index
+          KeySchema:
+            - AttributeName: certId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # User Progress Table - Track quiz completions and scores
+  UserProgressTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: prepwisely-user-progress
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: certQuizId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: certQuizId
+          KeyType: RANGE
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+
+  # Lambda Execution Role
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource:
+                  - !GetAtt UsersTable.Arn
+                  - !GetAtt QuestionsTable.Arn
+                  - !GetAtt UserProgressTable.Arn
+                  - !Sub '${QuestionsTable.Arn}/index/*'
+
+Outputs:
+  UsersTableName:
+    Value: !Ref UsersTable
+    Export:
+      Name: PrepWisely-UsersTable
+  
+  QuestionsTableName:
+    Value: !Ref QuestionsTable
+    Export:
+      Name: PrepWisely-QuestionsTable
+  
+  UserProgressTableName:
+    Value: !Ref UserProgressTable
+    Export:
+      Name: PrepWisely-UserProgressTable
+  
+  LambdaExecutionRoleArn:
+    Value: !GetAtt LambdaExecutionRole.Arn
+    Export:
+      Name: PrepWisely-LambdaExecutionRole

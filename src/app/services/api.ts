@@ -1,116 +1,65 @@
-import { fetchAuthSession } from 'aws-amplify/auth'
-
-const API_BASE_URL = 'https://6f28s2kgi0.execute-api.ap-southeast-2.amazonaws.com/prod'
+import { Auth } from 'aws-amplify'
+import { API_ENDPOINTS } from '../config/api-config'
 
 class ApiService {
-  private async getAuthHeaders(): Promise<Record<string, string>> {
+  private async getAuthToken(): Promise<string> {
     try {
-      const session = await fetchAuthSession()
-      const token = session.tokens?.idToken?.toString()
-      if (token) {
-        return {
+      const session = await Auth.currentSession()
+      return session.getIdToken().getJwtToken()
+    } catch (error) {
+      console.error('Error getting auth token:', error)
+      throw new Error('Not authenticated')
+    }
+  }
+
+  private async request(url: string, options: RequestInit = {}) {
+    try {
+      const token = await this.getAuthToken()
+      
+      const response = await fetch(url, {
+        ...options,
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          ...options.headers
         }
+      })
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`)
       }
+
+      return await response.json()
     } catch (error) {
-      console.error('Auth error:', error)
-    }
-    
-    return {
-      'Content-Type': 'application/json'
+      console.error('API request failed:', error)
+      throw error
     }
   }
 
-  async getQuestions(certification: string = 'SAA-C03', count: number = 20) {
-    try {
-      const headers = await this.getAuthHeaders()
-      const response = await fetch(`${API_BASE_URL}/exam/questions?certification=${certification}&count=${count}`, {
-        method: 'GET',
-        headers
-      })
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      return { questions: data.questions || [], error: null }
-    } catch (error) {
-      console.error('Error fetching questions:', error)
-      return { questions: [], error: error as Error }
-    }
+  async getUser(userId: string) {
+    return this.request(API_ENDPOINTS.getUser(userId))
   }
 
-  async saveExamResult(result: {
-    userId: string
-    certification: string
-    score: number
-    totalQuestions: number
-    correctAnswers: number
-    timeSpent: number
-    answers: number[]
-    questions: any[]
-  }) {
-    try {
-      const headers = await this.getAuthHeaders()
-      const response = await fetch(`${API_BASE_URL}/exam/results`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(result)
-      })
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      return { result: data, error: null }
-    } catch (error) {
-      console.error('Error saving exam result:', error)
-      return { result: null, error: error as Error }
-    }
+  async updateUser(userId: string, data: any) {
+    return this.request(API_ENDPOINTS.updateUser(userId), {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    })
   }
 
-  async toggleBookmark(userId: string, questionId: string) {
-    try {
-      const headers = await this.getAuthHeaders()
-      const response = await fetch(`${API_BASE_URL}/exam/bookmarks`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ userId, questionId })
-      })
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      return { success: true, bookmarked: data.bookmarked, error: null }
-    } catch (error) {
-      console.error('Error toggling bookmark:', error)
-      return { success: false, bookmarked: false, error: error as Error }
-    }
+  async getQuestions(certId: string, quizNumber: number) {
+    return this.request(API_ENDPOINTS.getQuestions(certId, quizNumber))
   }
 
-  async getUserBookmarks(userId: string) {
-    try {
-      const headers = await this.getAuthHeaders()
-      const response = await fetch(`${API_BASE_URL}/exam/bookmarks/${userId}`, {
-        method: 'GET',
-        headers
-      })
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      return { bookmarks: data.bookmarks || [], error: null }
-    } catch (error) {
-      console.error('Error fetching bookmarks:', error)
-      return { bookmarks: [], error: error as Error }
-    }
+  async saveProgress(userId: string, certId: string, quizId: number, score: number, passed: boolean) {
+    return this.request(API_ENDPOINTS.saveProgress(userId), {
+      method: 'POST',
+      body: JSON.stringify({ certId, quizId, score, passed })
+    })
+  }
+
+  async getUserProgress(userId: string, certId?: string) {
+    return this.request(API_ENDPOINTS.getUserProgress(userId, certId))
   }
 }
 
