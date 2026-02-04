@@ -212,7 +212,7 @@ Resources:
       FunctionName: !Ref ExamFunction
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub '${ApiGateway}/*/*'
+      SourceArn: !Sub 'arn:aws:apigateway:${AWS::Region}::/restapis/${ApiGateway}/*/*'
 
 Outputs:
   ApiGatewayUrl:
