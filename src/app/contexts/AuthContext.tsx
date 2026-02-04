@@ -62,6 +62,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (error.name === 'UserNotConfirmedException') {
           return { success: false, error: 'Account not verified. Please register again to complete verification.' }
         }
+        if (error.name === 'UserNotFoundException' || error.message.includes('Incorrect username or password')) {
+          return { success: false, error: 'No account found. Please register first.' }
+        }
         return { success: false, error: error.message }
       }
       await checkAuthState()
