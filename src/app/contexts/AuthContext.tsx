@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await authService.signIn({ email, password })
       if (error) {
         if (error.name === 'UserNotConfirmedException') {
-          return { success: false, error: 'Please verify your email address before signing in.' }
+          return { success: false, error: 'Account not verified. Please register again to complete verification.' }
         }
         return { success: false, error: error.message }
       }
