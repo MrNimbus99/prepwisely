@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
@@ -18,13 +18,82 @@ interface Quiz {
 
 const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completions } = useQuiz()
+  const [certId, setCertId] = useState('cloud-practitioner')
 
-  // Mock data for Cloud Practitioner
+  // Certification data
+  const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
+    'cloud-practitioner': {
+      name: 'AWS Certified Cloud Practitioner',
+      code: 'CLF-C02',
+      gradient: 'from-green-500 to-emerald-600'
+    },
+    'solutions-architect-associate': {
+      name: 'AWS Solutions Architect Associate',
+      code: 'SAA-C03',
+      gradient: 'from-blue-500 to-indigo-600'
+    },
+    'developer-associate': {
+      name: 'AWS Developer Associate',
+      code: 'DVA-C02',
+      gradient: 'from-purple-500 to-pink-600'
+    },
+    'sysops-administrator-associate': {
+      name: 'AWS SysOps Administrator Associate',
+      code: 'SOA-C02',
+      gradient: 'from-orange-500 to-amber-600'
+    },
+    'solutions-architect-professional': {
+      name: 'AWS Solutions Architect Professional',
+      code: 'SAP-C02',
+      gradient: 'from-cyan-500 to-teal-600'
+    },
+    'devops-engineer-professional': {
+      name: 'AWS DevOps Engineer Professional',
+      code: 'DOP-C02',
+      gradient: 'from-rose-500 to-red-600'
+    },
+    'security-specialty': {
+      name: 'AWS Security Specialty',
+      code: 'SCS-C02',
+      gradient: 'from-slate-600 to-gray-700'
+    },
+    'machine-learning-specialty': {
+      name: 'AWS Machine Learning Specialty',
+      code: 'MLS-C01',
+      gradient: 'from-violet-500 to-purple-600'
+    },
+    'database-specialty': {
+      name: 'AWS Database Specialty',
+      code: 'DBS-C01',
+      gradient: 'from-emerald-500 to-green-600'
+    },
+    'advanced-networking-specialty': {
+      name: 'AWS Advanced Networking Specialty',
+      code: 'ANS-C01',
+      gradient: 'from-sky-500 to-blue-600'
+    },
+    'data-analytics-specialty': {
+      name: 'AWS Data Analytics Specialty',
+      code: 'DAS-C01',
+      gradient: 'from-fuchsia-500 to-pink-600'
+    },
+    'sap-on-aws-specialty': {
+      name: 'AWS SAP on AWS Specialty',
+      code: 'PAS-C01',
+      gradient: 'from-lime-500 to-green-600'
+    }
+  }
+
+  useEffect(() => {
+    const storedCertId = sessionStorage.getItem('currentCertId')
+    if (storedCertId && certifications[storedCertId]) {
+      setCertId(storedCertId)
+    }
+  }, [])
+
   const certification = {
-    id: 'cloud-practitioner',
-    name: 'AWS Certified Cloud Practitioner',
-    code: 'CLF-C02',
-    gradient: 'from-green-500 to-emerald-600'
+    id: certId,
+    ...certifications[certId]
   }
 
   const certCompletions = completions[certification.id] || {}

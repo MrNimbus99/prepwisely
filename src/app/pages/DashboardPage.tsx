@@ -22,31 +22,127 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
   const { getProgress } = useQuiz()
 
-  // For now, only Cloud Practitioner is unlocked (free)
-  const certId = 'cloud-practitioner'
-  const totalQuizzes = 30
-  const { completed, percentage } = getProgress(certId, totalQuizzes)
+  // Check if user has access to all certs
+  const hasFullAccess = user?.email === 'althwabtirasool@gmail.com'
 
-  const certifications: CertificationCard[] = [
+  // All certifications with unique colors
+  const allCertifications = [
     {
-      id: certId,
+      id: 'cloud-practitioner',
       name: 'AWS Certified Cloud Practitioner',
       code: 'CLF-C02',
       level: 'Foundational',
-      progress: percentage,
-      totalQuizzes,
-      completedQuizzes: completed,
-      isUnlocked: true,
-      gradient: 'from-green-500 to-emerald-600'
+      gradient: 'from-green-500 to-emerald-600',
+      isUnlocked: true
+    },
+    {
+      id: 'solutions-architect-associate',
+      name: 'AWS Solutions Architect Associate',
+      code: 'SAA-C03',
+      level: 'Associate',
+      gradient: 'from-blue-500 to-indigo-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'developer-associate',
+      name: 'AWS Developer Associate',
+      code: 'DVA-C02',
+      level: 'Associate',
+      gradient: 'from-purple-500 to-pink-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'sysops-administrator-associate',
+      name: 'AWS SysOps Administrator Associate',
+      code: 'SOA-C02',
+      level: 'Associate',
+      gradient: 'from-orange-500 to-amber-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'solutions-architect-professional',
+      name: 'AWS Solutions Architect Professional',
+      code: 'SAP-C02',
+      level: 'Professional',
+      gradient: 'from-cyan-500 to-teal-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'devops-engineer-professional',
+      name: 'AWS DevOps Engineer Professional',
+      code: 'DOP-C02',
+      level: 'Professional',
+      gradient: 'from-rose-500 to-red-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'security-specialty',
+      name: 'AWS Security Specialty',
+      code: 'SCS-C02',
+      level: 'Specialty',
+      gradient: 'from-slate-600 to-gray-700',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'machine-learning-specialty',
+      name: 'AWS Machine Learning Specialty',
+      code: 'MLS-C01',
+      level: 'Specialty',
+      gradient: 'from-violet-500 to-purple-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'database-specialty',
+      name: 'AWS Database Specialty',
+      code: 'DBS-C01',
+      level: 'Specialty',
+      gradient: 'from-emerald-500 to-green-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'advanced-networking-specialty',
+      name: 'AWS Advanced Networking Specialty',
+      code: 'ANS-C01',
+      level: 'Specialty',
+      gradient: 'from-sky-500 to-blue-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'data-analytics-specialty',
+      name: 'AWS Data Analytics Specialty',
+      code: 'DAS-C01',
+      level: 'Specialty',
+      gradient: 'from-fuchsia-500 to-pink-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'sap-on-aws-specialty',
+      name: 'AWS SAP on AWS Specialty',
+      code: 'PAS-C01',
+      level: 'Specialty',
+      gradient: 'from-lime-500 to-green-600',
+      isUnlocked: hasFullAccess
     }
   ]
+
+  const certifications: CertificationCard[] = allCertifications.map(cert => {
+    const { completed, percentage } = getProgress(cert.id, 32)
+    return {
+      ...cert,
+      progress: percentage,
+      totalQuizzes: 32,
+      completedQuizzes: completed
+    }
+  })
 
   const handleSignOut = async () => {
     await signOut()
     onNavigate('landing')
   }
 
-  const handleStartCertification = () => {
+  const handleStartCertification = (certId: string) => {
+    // Store cert ID in sessionStorage
+    sessionStorage.setItem('currentCertId', certId)
     onNavigate('certification-detail')
   }
 
@@ -101,7 +197,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     ? 'border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 cursor-pointer hover:scale-105'
                     : 'border-slate-200 dark:border-slate-700 opacity-60'
                 }`}
-                onClick={() => cert.isUnlocked && handleStartCertification()}
+                onClick={() => cert.isUnlocked && handleStartCertification(cert.id)}
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${cert.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
