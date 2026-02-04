@@ -222,15 +222,15 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               return (
                 <Card 
                   key={index} 
-                  className="border-0 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                  className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105"
                   onClick={action.action}
                 >
                   <CardHeader>
-                    <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4`}>
-                      <Icon className="w-6 h-6" />
+                    <div className={`w-14 h-14 ${action.color} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-7 h-7 text-white" />
                     </div>
-                    <CardTitle className="text-lg">{action.title}</CardTitle>
-                    <CardDescription>{action.description}</CardDescription>
+                    <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">{action.title}</CardTitle>
+                    <CardDescription className="text-slate-700 dark:text-slate-300">{action.description}</CardDescription>
                   </CardHeader>
                 </Card>
               )
@@ -244,16 +244,16 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </h2>
             <div className="space-y-4">
               {popularArticles.map((article, index) => (
-                <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+                <Card key={index} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-lg mb-2">{article.title}</CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-slate-500">
-                        <Badge variant="outline">{article.category}</Badge>
-                        <span>{article.views}</span>
+                      <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</CardTitle>
+                      <div className="flex items-center gap-4 text-sm">
+                        <Badge variant="outline" className="text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600">{article.category}</Badge>
+                        <span className="text-slate-600 dark:text-slate-400">{article.views}</span>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
                   </CardHeader>
                 </Card>
               ))}
@@ -269,22 +269,22 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {categories.map((category) => {
                 const Icon = category.icon
                 return (
-                  <Card key={category.id} className="border-0 shadow-md hover:shadow-lg transition-shadow">
+                  <Card key={category.id} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                          <Icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <Icon className="w-7 h-7 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg">{category.name}</CardTitle>
-                          <CardDescription>{category.description}</CardDescription>
+                          <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">{category.name}</CardTitle>
+                          <CardDescription className="text-slate-700 dark:text-slate-300">{category.description}</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {category.articles.map((article, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                          <li key={index} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
                             <ChevronRight className="w-4 h-4" />
                             {article}
                           </li>
@@ -310,33 +310,33 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </p>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <Card className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle>Email Support</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Email Support</CardTitle>
+                <CardDescription className="text-slate-700 dark:text-slate-300">
                   Get detailed help via email<br />
                   Response within 24 hours
                 </CardDescription>
-                <Button onClick={() => onNavigate('contact-support')} className="mt-4">
+                <Button onClick={() => onNavigate('contact-support')} className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg">
                   Contact Support
                 </Button>
               </CardHeader>
             </Card>
             
-            <Card className="border-0 shadow-md">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <Card className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 shadow-md hover:shadow-xl transition-all duration-300">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <MessageCircle className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle>Live Chat</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Live Chat</CardTitle>
+                <CardDescription className="text-slate-700 dark:text-slate-300">
                   Chat with our team in real-time<br />
                   Available 9 AM - 5 PM EST
                 </CardDescription>
-                <Button variant="outline" className="mt-4" disabled>
+                <Button variant="outline" className="mt-4 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300" disabled>
                   Coming Soon
                 </Button>
               </CardHeader>
