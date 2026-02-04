@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PageName } from './types'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 
 // Import AWS config
 import './config/aws-config'
@@ -20,15 +20,45 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import ExamPage from './pages/ExamPage'
 
-interface AppProps {}
-
-const App: React.FC<AppProps> = () => {
-  const [currentPage, setCurrentPage] = useState<PageName>('landing')
+const AppContent: React.FC = () => {
+  const { user, loading } = useAuth()
+  const [currentPage, setCurrentPage] = useState<PageName>(() => {
+    // Persist current page in sessionStorage
+    const saved = sessionStorage.getItem('currentPage')
+    if (saved && user) {
+      return saved as PageName
+    }
+    return user ? 'dashboard' : 'landing'
+  })
 
   const handleNavigate = (page: PageName) => {
     setCurrentPage(page)
-    // Scroll to top when navigating
+    sessionStorage.setItem('currentPage', page)
     window.scrollTo(0, 0)
+  }
+
+  // Show loading while checking auth state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Redirect authenticated users away from auth pages
+  if (user && ['login', 'register', 'email-verification', 'forgot-password'].includes(currentPage)) {
+    setCurrentPage('dashboard')
+    sessionStorage.setItem('currentPage', 'dashboard')
+  }
+
+  // Redirect unauthenticated users away from protected pages
+  if (!user && ['dashboard', 'exam', 'account'].includes(currentPage)) {
+    setCurrentPage('landing')
+    sessionStorage.setItem('currentPage', 'landing')
   }
 
   const renderPage = () => {
@@ -81,10 +111,14 @@ const App: React.FC<AppProps> = () => {
     }
   }
 
+  return renderPage()
+}
+
+const App: React.FC = () => {
   return (
     <AuthProvider>
       <div className="min-h-screen bg-background">
-        {renderPage()}
+        <AppContent />
       </div>
     </AuthProvider>
   )

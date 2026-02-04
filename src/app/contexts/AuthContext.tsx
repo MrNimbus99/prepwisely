@@ -57,6 +57,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password: string) => {
     try {
+      // Check if user is already signed in
+      const currentUser = await authService.getCurrentUser()
+      if (currentUser.user) {
+        await signOut() // Sign out first
+      }
+      
       const { error } = await authService.signIn({ email, password })
       if (error) {
         if (error.name === 'UserNotConfirmedException') {

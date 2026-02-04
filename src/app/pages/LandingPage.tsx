@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react'
 
 const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { user } = useAuth()
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Navigation */}
@@ -54,18 +56,33 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
 
             <div className="flex items-center space-x-4">
+              {user ? (
+                <>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    Welcome back, {user.name}!
+                  </span>
+                  <Button
+                    variant="outline"
+                    onClick={() => onNavigate('dashboard')}
+                    className="hidden sm:inline-flex bg-white/50 hover:bg-white/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium"
+                  >
+                    Dashboard
+                  </Button>
+                </>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  onClick={() => onNavigate('login')}
+                  className="hidden sm:inline-flex bg-white/50 hover:bg-white/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium"
+                >
+                  Sign In
+                </Button>
+              )}
               <Button 
-                variant="outline" 
-                onClick={() => onNavigate('login')}
-                className="hidden sm:inline-flex bg-white/50 hover:bg-white/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium"
-              >
-                Sign In
-              </Button>
-              <Button 
-                onClick={() => onNavigate('register')}
+                onClick={() => onNavigate(user ? 'dashboard' : 'register')}
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
               >
-                Start Free
+                {user ? 'Go to Dashboard' : 'Start Free'}
               </Button>
             </div>
           </div>
