@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Trophy, LogOut, CheckCircle, Lock, Play } from 'lucide-react'
@@ -19,17 +20,22 @@ interface CertificationCard {
 
 const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
+  const { getProgress } = useQuiz()
 
   // For now, only Cloud Practitioner is unlocked (free)
+  const certId = 'cloud-practitioner'
+  const totalQuizzes = 30
+  const { completed, percentage } = getProgress(certId, totalQuizzes)
+
   const certifications: CertificationCard[] = [
     {
-      id: 'cloud-practitioner',
+      id: certId,
       name: 'AWS Certified Cloud Practitioner',
       code: 'CLF-C02',
       level: 'Foundational',
-      progress: 0,
-      totalQuizzes: 30,
-      completedQuizzes: 0,
+      progress: percentage,
+      totalQuizzes,
+      completedQuizzes: completed,
       isUnlocked: true,
       gradient: 'from-green-500 to-emerald-600'
     }

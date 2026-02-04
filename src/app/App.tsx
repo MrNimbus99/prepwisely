@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { QuizProvider } from './contexts/QuizContext'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 
 // Import AWS config
@@ -78,9 +79,11 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <BrowserRouter>
         <AuthProvider>
-          <div className="min-h-screen bg-background">
-            <AppContent />
-          </div>
+          <QuizProvider>
+            <div className="min-h-screen bg-background">
+              <AppContent />
+            </div>
+          </QuizProvider>
         </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>

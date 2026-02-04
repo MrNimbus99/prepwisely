@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavigationProps } from '../types'
+import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { ArrowLeft, CheckCircle, XCircle, Clock } from 'lucide-react'
@@ -13,9 +14,19 @@ interface Question {
 }
 
 const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { completeQuiz } = useQuiz()
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [timeLeft] = useState(120) // 2 minutes
+  const [quizId, setQuizId] = useState(1)
+  const [certId, setCertId] = useState('cloud-practitioner')
+
+  useEffect(() => {
+    const storedQuizId = sessionStorage.getItem('currentQuizId')
+    const storedCertId = sessionStorage.getItem('currentCertId')
+    if (storedQuizId) setQuizId(parseInt(storedQuizId))
+    if (storedCertId) setCertId(storedCertId)
+  }, [])
 
   // Sample question for Cloud Practitioner
   const question: Question = {
@@ -36,6 +47,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const handleComplete = () => {
+    // Save completion if passed
+    if (passed) {
+      completeQuiz(certId, quizId, score)
+    }
     // Navigate back to certification detail
     onNavigate('certification-detail')
   }
@@ -92,7 +107,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   Question 1 of 1
                 </h2>
                 <div className="text-sm text-slate-600 dark:text-slate-400">
-                  Cloud Practitioner Quiz
+                  Quiz {quizId} - Cloud Practitioner
                 </div>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">

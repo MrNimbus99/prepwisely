@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock } from 'lucide-react'
@@ -15,24 +16,36 @@ interface Quiz {
 }
 
 const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { completions } = useQuiz()
+
   // Mock data for Cloud Practitioner
   const certification = {
+    id: 'cloud-practitioner',
     name: 'AWS Certified Cloud Practitioner',
     code: 'CLF-C02',
     gradient: 'from-green-500 to-emerald-600'
   }
 
-  const quizzes: Quiz[] = Array.from({ length: 30 }, (_, i) => ({
-    id: i + 1,
-    title: `Quiz ${i + 1}`,
-    questions: 1,
-    duration: 2,
-    isCompleted: false,
-    isLocked: false // All quizzes unlocked
-  }))
+  const certCompletions = completions[certification.id] || {}
 
-  const handleStartQuiz = () => {
-    // Navigate to quiz page
+  const quizzes: Quiz[] = Array.from({ length: 30 }, (_, i) => {
+    const quizId = i + 1
+    const completion = certCompletions[quizId]
+    return {
+      id: quizId,
+      title: `Quiz ${quizId}`,
+      questions: 1,
+      duration: 2,
+      isCompleted: completion?.completed || false,
+      score: completion?.score,
+      isLocked: false
+    }
+  })
+
+  const handleStartQuiz = (quizId: number) => {
+    // Store quiz ID in sessionStorage to pass to exam page
+    sessionStorage.setItem('currentQuizId', quizId.toString())
+    sessionStorage.setItem('currentCertId', certification.id)
     onNavigate('exam')
   }
 
@@ -115,7 +128,7 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     ? 'bg-green-50 dark:bg-green-950/20 border-2 border-green-500 hover:shadow-lg'
                     : 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl cursor-pointer hover:scale-105'
                 }`}
-                onClick={() => !quiz.isLocked && handleStartQuiz()}
+                onClick={() => !quiz.isLocked && handleStartQuiz(quiz.id)}
               >
                 <div className="p-6">
                   {/* Status Icon */}
