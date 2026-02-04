@@ -39,6 +39,34 @@ export interface Question {
   certification: string
 }
 
+export interface Certification {
+  id: string
+  name: string
+  code: string
+  level: 'Foundational' | 'Associate' | 'Professional' | 'Specialty'
+  price: number
+  isFree: boolean
+  description: string
+  domains: string[]
+  examDetails: {
+    duration: number
+    questions: number
+    passingScore: number
+  }
+}
+
+export interface PricingPlan {
+  id: string
+  name: string
+  price: number
+  originalPrice?: number
+  type: 'free' | 'individual' | 'bundle' | 'subscription' | 'lifetime'
+  badge?: string
+  features: string[]
+  certifications: string[]
+  popular?: boolean
+}
+
 export interface ExamResult {
   id: string
   userId: string

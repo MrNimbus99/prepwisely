@@ -1,209 +1,66 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { certifications, pricingPlans } from '../data/certifications'
 import { Button } from '../components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { 
-  ArrowLeft, 
-  Clock, 
-  FileText, 
-  Target,
-  Trophy,
-  Star,
-  Users,
-  ArrowRight
-} from 'lucide-react'
+import { CheckCircle, Star, Zap, Shield, TrendingUp, Users } from 'lucide-react'
 
 const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
-  const certifications = {
-    foundational: [
-      {
-        id: 'clf-c02',
-        name: 'AWS Certified Cloud Practitioner',
-        code: 'CLF-C02',
-        description: 'Foundational understanding of AWS Cloud concepts, services, and terminology.',
-        duration: 90,
-        questions: 65,
-        passingScore: 700,
-        difficulty: 'Beginner',
-        popular: true
-      }
-    ],
-    associate: [
-      {
-        id: 'saa-c03',
-        name: 'AWS Certified Solutions Architect',
-        code: 'SAA-C03',
-        description: 'Design and deploy scalable, highly available systems on AWS.',
-        duration: 130,
-        questions: 65,
-        passingScore: 720,
-        difficulty: 'Intermediate',
-        popular: true
-      },
-      {
-        id: 'soa-c02',
-        name: 'AWS Certified SysOps Administrator',
-        code: 'SOA-C02',
-        description: 'Deploy, manage, and operate scalable systems on AWS.',
-        duration: 130,
-        questions: 65,
-        passingScore: 720,
-        difficulty: 'Intermediate'
-      },
-      {
-        id: 'dva-c02',
-        name: 'AWS Certified Developer',
-        code: 'DVA-C02',
-        description: 'Develop and maintain applications on the AWS platform.',
-        duration: 130,
-        questions: 65,
-        passingScore: 720,
-        difficulty: 'Intermediate'
-      }
-    ],
-    professional: [
-      {
-        id: 'sap-c02',
-        name: 'AWS Certified Solutions Architect Professional',
-        code: 'SAP-C02',
-        description: 'Advanced technical skills in designing distributed systems on AWS.',
-        duration: 180,
-        questions: 75,
-        passingScore: 750,
-        difficulty: 'Advanced'
-      },
-      {
-        id: 'dop-c02',
-        name: 'AWS Certified DevOps Engineer Professional',
-        code: 'DOP-C02',
-        description: 'Implement and manage continuous delivery systems on AWS.',
-        duration: 180,
-        questions: 75,
-        passingScore: 750,
-        difficulty: 'Advanced'
-      }
-    ],
-    specialty: [
-      {
-        id: 'ans-c01',
-        name: 'AWS Certified Advanced Networking',
-        code: 'ANS-C01',
-        description: 'Design and implement AWS and hybrid network architectures.',
-        duration: 170,
-        questions: 65,
-        passingScore: 750,
-        difficulty: 'Expert'
-      },
-      {
-        id: 'scs-c02',
-        name: 'AWS Certified Security',
-        code: 'SCS-C02',
-        description: 'Demonstrate expertise in securing AWS workloads.',
-        duration: 170,
-        questions: 65,
-        passingScore: 750,
-        difficulty: 'Expert'
-      }
-    ]
+  const groupedCerts = {
+    Foundational: certifications.filter(cert => cert.level === 'Foundational'),
+    Associate: certifications.filter(cert => cert.level === 'Associate'),
+    Professional: certifications.filter(cert => cert.level === 'Professional'),
+    Specialty: certifications.filter(cert => cert.level === 'Specialty')
   }
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Beginner': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-      case 'Intermediate': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-      case 'Advanced': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
-      case 'Expert': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+  const getDifficultyColor = (level: string) => {
+    switch (level) {
+      case 'Foundational': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+      case 'Associate': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+      case 'Professional': return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+      case 'Specialty': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200'
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
     }
   }
 
-  const CertificationCard = ({ cert }: { cert: any }) => (
-    <Card className="hover:shadow-lg transition-shadow border-0 shadow-md">
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <CardTitle className="text-lg">{cert.name}</CardTitle>
-              {cert.popular && <Badge variant="secondary">Popular</Badge>}
-            </div>
-            <div className="flex items-center gap-2 mb-3">
-              <Badge variant="outline" className="text-xs">{cert.code}</Badge>
-              <Badge className={`text-xs ${getDifficultyColor(cert.difficulty)}`}>
-                {cert.difficulty}
-              </Badge>
-            </div>
-          </div>
-        </div>
-        <CardDescription className="text-sm leading-relaxed">
-          {cert.description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-3 gap-4 mb-6 text-sm">
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-muted-foreground" />
-            <span>{cert.duration} min</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-muted-foreground" />
-            <span>{cert.questions} questions</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Target className="w-4 h-4 text-muted-foreground" />
-            <span>{cert.passingScore}/1000</span>
-          </div>
-        </div>
-        <Button 
-          className="w-full" 
-          onClick={() => onNavigate('exam-path')}
-        >
-          View Exam Path
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
-      </CardContent>
-    </Card>
-  )
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-md dark:bg-slate-950/80 sticky top-0 z-50">
+      {/* Header */}
+      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <button 
+            <div className="flex items-center">
+              <button
                 onClick={() => onNavigate('landing')}
-                className="flex items-center space-x-2"
+                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <Trophy className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  PrepWisely
-                </span>
+                PrepWisely
               </button>
             </div>
-            
-            <div className="hidden md:flex items-center space-x-8">
-              <span className="text-blue-600 font-medium">Certifications</span>
-              <button 
+            <nav className="hidden md:flex space-x-8">
+              <button
+                onClick={() => onNavigate('certifications')}
+                className="text-blue-600 dark:text-blue-400 font-medium"
+              >
+                Certifications
+              </button>
+              <button
                 onClick={() => onNavigate('pricing')}
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
               >
                 Pricing
               </button>
-              <button 
+              <button
                 onClick={() => onNavigate('help')}
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
               >
                 Help
               </button>
-            </div>
-
+            </nav>
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="outline"
                 onClick={() => onNavigate('login')}
                 className="hidden sm:inline-flex"
               >
@@ -215,143 +72,204 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Header */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 mb-8">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => onNavigate('landing')}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Button>
-          </div>
-          
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
-              AWS Certifications
-            </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
-              Choose your certification path and start your journey to AWS expertise. 
-              Each certification includes a structured 30-day learning path with daily practice exams.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-slate-600 dark:text-slate-400">
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>10,000+ students</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-500" />
-                <span>95% pass rate</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Trophy className="w-4 h-4 text-green-500" />
-                <span>All levels covered</span>
-              </div>
+      {/* Hero Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+            AWS Certification
+            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Exam Preparation
+            </span>
+          </h1>
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
+            Master all AWS certifications with our comprehensive 30-day exam paths. 
+            Start with Cloud Practitioner for free, then advance to Associate, Professional, and Specialty levels.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="flex items-center space-x-2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm">
+              <CheckCircle className="w-5 h-5 text-green-500" />
+              <span className="text-sm font-medium">Cloud Practitioner FREE</span>
+            </div>
+            <div className="flex items-center space-x-2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm">
+              <Star className="w-5 h-5 text-yellow-500" />
+              <span className="text-sm font-medium">12 Certifications</span>
+            </div>
+            <div className="flex items-center space-x-2 bg-white dark:bg-slate-800 px-4 py-2 rounded-full shadow-sm">
+              <Zap className="w-5 h-5 text-blue-500" />
+              <span className="text-sm font-medium">30-Day Paths</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Certifications */}
+      {/* Certifications Grid */}
       <section className="pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-          
-          {/* Foundational */}
-          <div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Foundational Level
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                Perfect for beginners with no prior AWS experience
-              </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {Object.entries(groupedCerts).map(([level, certs]) => (
+            <div key={level} className="mb-16">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                  {level} Level
+                </h2>
+                <Badge className={getDifficultyColor(level)}>
+                  {certs.length} Certification{certs.length !== 1 ? 's' : ''}
+                </Badge>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {certs.map((cert) => (
+                  <Card key={cert.id} className="p-6 hover:shadow-lg transition-shadow">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Badge className={getDifficultyColor(cert.level)}>
+                            {cert.level}
+                          </Badge>
+                          {cert.isFree && (
+                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                              FREE
+                            </Badge>
+                          )}
+                        </div>
+                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
+                          {cert.name}
+                        </h3>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
+                          {cert.code}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        {cert.isFree ? (
+                          <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                            FREE
+                          </div>
+                        ) : (
+                          <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                            ${cert.price}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
+                      {cert.description}
+                    </p>
+                    
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-500 dark:text-slate-400">Duration:</span>
+                        <span className="font-medium">{cert.examDetails.duration} minutes</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-500 dark:text-slate-400">Questions:</span>
+                        <span className="font-medium">{cert.examDetails.questions}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-slate-500 dark:text-slate-400">Passing Score:</span>
+                        <span className="font-medium">{cert.examDetails.passingScore}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mb-6">
+                      <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-2">
+                        Exam Domains:
+                      </h4>
+                      <div className="space-y-1">
+                        {cert.domains.slice(0, 3).map((domain, index) => (
+                          <div key={index} className="text-xs text-slate-600 dark:text-slate-400">
+                            • {domain}
+                          </div>
+                        ))}
+                        {cert.domains.length > 3 && (
+                          <div className="text-xs text-slate-500 dark:text-slate-500">
+                            +{cert.domains.length - 3} more domains
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      className="w-full"
+                      onClick={() => onNavigate('exam-path')}
+                    >
+                      {cert.isFree ? 'Start Free Path' : 'View Exam Path'}
+                    </Button>
+                  </Card>
+                ))}
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {certifications.foundational.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} />
-              ))}
-            </div>
-          </div>
-
-          {/* Associate */}
-          <div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Associate Level
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                For professionals with some AWS experience looking to validate their skills
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {certifications.associate.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} />
-              ))}
-            </div>
-          </div>
-
-          {/* Professional */}
-          <div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Professional Level
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                Advanced certifications for experienced AWS practitioners
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {certifications.professional.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} />
-              ))}
-            </div>
-          </div>
-
-          {/* Specialty */}
-          <div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Specialty Level
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                Specialized expertise in specific AWS domains
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {certifications.specialty.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} />
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to start your certification journey?
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Start Your AWS Journey?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Get access to all certifications with our comprehensive study platform.
+            Begin with Cloud Practitioner for free, or choose a plan that fits your goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" onClick={() => onNavigate('register')}>
-              Start Free Trial
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-white text-blue-600 hover:bg-blue-50 border-white"
+              onClick={() => onNavigate('register')}
+            >
+              Start Cloud Practitioner Free
             </Button>
-            <Button size="lg" variant="outline" onClick={() => onNavigate('pricing')} className="border-white text-white hover:bg-white hover:text-blue-600">
-              View Pricing
+            <Button
+              size="lg"
+              className="bg-blue-700 hover:bg-blue-800 text-white"
+              onClick={() => onNavigate('pricing')}
+            >
+              View All Plans
             </Button>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 dark:bg-slate-950 text-slate-300 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="font-semibold text-white mb-4">Product</h3>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('certifications')} className="hover:text-white">Certifications</button></li>
+                <li><button onClick={() => onNavigate('pricing')} className="hover:text-white">Pricing</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">Support</h3>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('help')} className="hover:text-white">Help Center</button></li>
+                <li><button onClick={() => onNavigate('status')} className="hover:text-white">Status</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('terms')} className="hover:text-white">Terms</button></li>
+                <li><button onClick={() => onNavigate('privacy')} className="hover:text-white">Privacy</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-white mb-4">Company</h3>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('accessibility')} className="hover:text-white">Accessibility</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
+            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
