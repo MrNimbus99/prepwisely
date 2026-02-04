@@ -2,10 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'PrepWisely CloudFront Distribution Stack'
 
 Parameters:
-  S3StackName:
+  BucketName:
     Type: String
-    Default: prepwisely-s3-stack
-    Description: Name of the S3 stack to import bucket from
+    Default: prepwisely-app-prod-947977408385
+    Description: S3 bucket name for the website
   
   Environment:
     Type: String
@@ -19,7 +19,7 @@ Resources:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
       OriginAccessControlConfig:
-        Name: !Sub 'PrepWisely-${Environment}-OAC'
+        Name: !Sub 'PrepWisely-${Environment}-OAC-${AWS::AccountId}'
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
@@ -38,8 +38,7 @@ Resources:
         
         Origins:
           - Id: S3Origin
-            DomainName: 
-              Fn::ImportValue: !Sub '${S3StackName}-BucketDomainName'
+            DomainName: !Sub '${BucketName}.s3.ap-southeast-2.amazonaws.com'
             S3OriginConfig:
               OriginAccessIdentity: ''
             OriginAccessControlId: !Ref OriginAccessControl
@@ -62,37 +61,12 @@ Resources:
             ResponseCode: 200
             ResponsePagePath: /index.html
             ErrorCachingMinTTL: 300
-        
-        Tags:
-          - Key: Project
-            Value: PrepWisely
-          - Key: Environment
-            Value: !Ref Environment
-
-  # Update S3 bucket policy to allow CloudFront OAI
-  BucketPolicyUpdate:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: 
-        Fn::ImportValue: !Sub '${S3StackName}-BucketName'
-      PolicyDocument:
-        Statement:
-          - Sid: AllowCloudFrontAccess
-            Effect: Allow
-            Principal:
-              Service: cloudfront.amazonaws.com
-            Action: s3:GetObject
-            Resource: 
-              Fn::Sub:
-                - '${BucketArn}/*'
-                - BucketArn: 
-                    Fn::Sub:
-                      - 'arn:aws:s3:::${BucketName}'
-                      - BucketName:
-                          Fn::ImportValue: !Sub '${S3StackName}-BucketName'
-            Condition:
-              StringEquals:
-                'AWS:SourceArn': !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}'
+      
+      Tags:
+        - Key: Project
+          Value: PrepWisely
+        - Key: Environment
+          Value: !Ref Environment
 
 Outputs:
   DistributionId:

@@ -14,8 +14,7 @@ import {
   Settings,
   Trophy,
   ChevronRight,
-  Mail,
-  Phone
+  Mail
 } from 'lucide-react'
 
 const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {

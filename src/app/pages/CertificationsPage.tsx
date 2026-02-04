@@ -118,7 +118,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
   }
 
-  const CertificationCard = ({ cert, level }: { cert: any, level: string }) => (
+  const CertificationCard = ({ cert }: { cert: any }) => (
     <Card className="hover:shadow-lg transition-shadow border-0 shadow-md">
       <CardHeader>
         <div className="flex items-start justify-between">
@@ -275,7 +275,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.foundational.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} level="foundational" />
+                <CertificationCard key={cert.id} cert={cert} />
               ))}
             </div>
           </div>
@@ -292,7 +292,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.associate.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} level="associate" />
+                <CertificationCard key={cert.id} cert={cert} />
               ))}
             </div>
           </div>
@@ -309,7 +309,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.professional.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} level="professional" />
+                <CertificationCard key={cert.id} cert={cert} />
               ))}
             </div>
           </div>
@@ -326,7 +326,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.specialty.map(cert => (
-                <CertificationCard key={cert.id} cert={cert} level="specialty" />
+                <CertificationCard key={cert.id} cert={cert} />
               ))}
             </div>
           </div>

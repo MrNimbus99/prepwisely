@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { Button } from '../components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { Card, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { 
   ArrowLeft, 
@@ -78,19 +78,6 @@ const StatusPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       description: 'Some users experienced delays in receiving verification emails. Issue resolved.'
     }
   ]
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'operational':
-        return 'text-green-600 dark:text-green-400'
-      case 'degraded':
-        return 'text-yellow-600 dark:text-yellow-400'
-      case 'outage':
-        return 'text-red-600 dark:text-red-400'
-      default:
-        return 'text-slate-600 dark:text-slate-400'
-    }
-  }
 
   const getStatusIcon = (status: string) => {
     switch (status) {

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-southeast-2
   S3_STACK_NAME: prepwisely-s3-stack
   CLOUDFRONT_STACK_NAME: prepwisely-cloudfront-stack
 
@@ -24,25 +24,25 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
         
     - name: Deploy S3 Stack
       run: |
         aws cloudformation deploy \
-          --template-file infrastructure/s3-stack.yaml \
+          --template-file infrastructure/s3-simple.yaml \
           --stack-name ${{ env.S3_STACK_NAME }} \
-          --parameter-overrides Environment=prod \
+          --parameter-overrides BucketName=prepwisely-app Environment=prod \
           --tags Project=PrepWisely Environment=prod \
           --no-fail-on-empty-changeset
           
     - name: Deploy CloudFront Stack
       run: |
         aws cloudformation deploy \
-          --template-file infrastructure/cloudfront-stack.yaml \
+          --template-file infrastructure/cloudfront-simple.yaml \
           --stack-name ${{ env.CLOUDFRONT_STACK_NAME }} \
-          --parameter-overrides S3StackName=${{ env.S3_STACK_NAME }} Environment=prod \
+          --parameter-overrides BucketName=prepwisely-app-prod-947977408385 Environment=prod \
           --tags Project=PrepWisely Environment=prod \
           --no-fail-on-empty-changeset
           
@@ -61,10 +61,6 @@ jobs:
         
         echo "bucket-name=$BUCKET_NAME" >> $GITHUB_OUTPUT
         echo "distribution-id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
-        
-        echo "✅ Infrastructure deployed successfully!"
-        echo "S3 Bucket: $BUCKET_NAME"
-        echo "CloudFront Distribution: $DISTRIBUTION_ID"
 
   build-and-deploy:
     needs: deploy-infrastructure
@@ -89,33 +85,32 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
         
     - name: Deploy to S3
       run: |
-        # Upload static assets with long cache
         aws s3 sync dist/ s3://${{ needs.deploy-infrastructure.outputs.bucket-name }} \
           --delete \
           --cache-control "public, max-age=31536000, immutable" \
-          --exclude "*.html" \
-          --exclude "*.json" \
-          --exclude "*.txt"
+          --exclude "*.html"
         
-        # Upload HTML files with short cache
         aws s3 sync dist/ s3://${{ needs.deploy-infrastructure.outputs.bucket-name }} \
           --cache-control "public, max-age=0, must-revalidate" \
-          --include "*.html" \
-          --include "*.json" \
-          --include "*.txt"
+          --include "*.html"
+          
+    - name: Add bucket policy
+      run: |
+        aws s3api put-bucket-policy \
+          --bucket ${{ needs.deploy-infrastructure.outputs.bucket-name }} \
+          --policy file://bucket-policy.json
           
     - name: Invalidate CloudFront
       run: |
         aws cloudfront create-invalidation \
           --distribution-id ${{ needs.deploy-infrastructure.outputs.distribution-id }} \
-          --paths "/*" \
-          --output table
+          --paths "/*"
           
     - name: Get Website URLs
       run: |
@@ -124,6 +119,5 @@ jobs:
           --query 'Stacks[0].Outputs[?OutputKey==`WebsiteURL`].OutputValue' \
           --output text)
         
-        echo "🚀 Deployment Complete!"
+        echo "🚀 PrepWisely deployed successfully!"
         echo "Website URL: $WEBSITE_URL"
-        echo "::notice title=Deployment Success::PrepWisely is live at $WEBSITE_URL"
