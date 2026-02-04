@@ -374,7 +374,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {associateCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Associate" price={40} originalPrice={50} certs={associateCerts} gradient="from-blue-500 to-indigo-600" />
+              <BundleCard title="Associate" price={40} originalPrice={100} certs={associateCerts} gradient="from-blue-500 to-indigo-600" />
             </div>
           </div>
 
@@ -385,7 +385,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {professionalCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Professional" price={25} originalPrice={30} certs={professionalCerts} gradient="from-rose-500 to-red-600" />
+              <BundleCard title="Professional" price={25} originalPrice={60} certs={professionalCerts} gradient="from-rose-500 to-red-600" />
             </div>
           </div>
 
@@ -396,7 +396,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {specialtyCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Specialty" price={25} originalPrice={30} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" />
+              <BundleCard title="Specialty" price={25} originalPrice={60} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" />
             </div>
           </div>
         </div>
