@@ -13,7 +13,7 @@ Resources:
     Type: AWS::Cognito::UserPool
     Properties:
       UserPoolName: !Sub 'prepwisely-${Environment}-users'
-      AliasAttributes:
+      UsernameAttributes:
         - email
       AutoVerifiedAttributes:
         - email
