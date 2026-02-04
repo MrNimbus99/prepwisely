@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavigationProps } from '../types'
-import { certifications, pricingPlans } from '../data/certifications'
+import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { CheckCircle, Star, Zap, Shield, TrendingUp, Users } from 'lucide-react'
+import { CheckCircle, Star, Zap } from 'lucide-react'
 
 const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const groupedCerts = {

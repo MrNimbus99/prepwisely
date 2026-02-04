@@ -17,6 +17,7 @@ export type PageName =
   | 'contact-support'
   | 'refund-policy'
   | 'account'
+  | 'accessibility'
 
 export interface NavigationProps {
   onNavigate: (page: PageName) => void

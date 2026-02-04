@@ -4,7 +4,7 @@ import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { Check, Star, Crown, Calendar, Infinity } from 'lucide-react'
+import { Check, Crown, Calendar, Infinity } from 'lucide-react'
 
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
