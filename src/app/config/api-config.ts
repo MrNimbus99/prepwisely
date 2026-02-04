@@ -1,6 +1,6 @@
 export const API_CONFIG = {
-  endpoint: process.env.REACT_APP_API_ENDPOINT || 'https://your-api-id.execute-api.us-east-1.amazonaws.com/prod',
-  region: process.env.REACT_APP_AWS_REGION || 'us-east-1'
+  endpoint: 'https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod',
+  region: 'ap-southeast-2'
 }
 
 export const API_ENDPOINTS = {

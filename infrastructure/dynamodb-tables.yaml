@@ -18,6 +18,9 @@ Resources:
         StreamViewType: NEW_AND_OLD_IMAGES
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: Application
+          Value: PrepWisely
 
   # Questions Table - Store all exam questions
   QuestionsTable:
@@ -42,6 +45,9 @@ Resources:
             ProjectionType: ALL
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: Application
+          Value: PrepWisely
 
   # User Progress Table - Track quiz completions and scores
   UserProgressTable:
@@ -61,55 +67,44 @@ Resources:
           KeyType: RANGE
       PointInTimeRecoverySpecification:
         PointInTimeRecoveryEnabled: true
-
-  # Lambda Execution Role
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-      Policies:
-        - PolicyName: DynamoDBAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - dynamodb:GetItem
-                  - dynamodb:PutItem
-                  - dynamodb:UpdateItem
-                  - dynamodb:Query
-                  - dynamodb:Scan
-                Resource:
-                  - !GetAtt UsersTable.Arn
-                  - !GetAtt QuestionsTable.Arn
-                  - !GetAtt UserProgressTable.Arn
-                  - !Sub '${QuestionsTable.Arn}/index/*'
+      Tags:
+        - Key: Application
+          Value: PrepWisely
 
 Outputs:
   UsersTableName:
+    Description: Users table name
     Value: !Ref UsersTable
     Export:
       Name: PrepWisely-UsersTable
   
+  UsersTableArn:
+    Description: Users table ARN
+    Value: !GetAtt UsersTable.Arn
+    Export:
+      Name: PrepWisely-UsersTableArn
+  
   QuestionsTableName:
+    Description: Questions table name
     Value: !Ref QuestionsTable
     Export:
       Name: PrepWisely-QuestionsTable
   
+  QuestionsTableArn:
+    Description: Questions table ARN
+    Value: !GetAtt QuestionsTable.Arn
+    Export:
+      Name: PrepWisely-QuestionsTableArn
+  
   UserProgressTableName:
+    Description: User progress table name
     Value: !Ref UserProgressTable
     Export:
       Name: PrepWisely-UserProgressTable
   
-  LambdaExecutionRoleArn:
-    Value: !GetAtt LambdaExecutionRole.Arn
+  UserProgressTableArn:
+    Description: User progress table ARN
+    Value: !GetAtt UserProgressTable.Arn
     Export:
-      Name: PrepWisely-LambdaExecutionRole
+      Name: PrepWisely-UserProgressTableArn
+

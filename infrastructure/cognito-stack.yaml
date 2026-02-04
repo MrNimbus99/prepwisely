@@ -113,6 +113,12 @@ Outputs:
     Export:
       Name: !Sub '${AWS::StackName}-UserPoolId'
 
+  UserPoolArn:
+    Description: 'Cognito User Pool ARN'
+    Value: !GetAtt UserPool.Arn
+    Export:
+      Name: PrepWisely-UserPoolArn
+
   UserPoolClientId:
     Description: 'Cognito User Pool Client ID'
     Value: !Ref UserPoolClient
