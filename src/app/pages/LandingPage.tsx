@@ -55,13 +55,16 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
             <div className="flex items-center space-x-4">
               <Button 
-                variant="ghost" 
+                variant="outline" 
                 onClick={() => onNavigate('login')}
-                className="hidden sm:inline-flex"
+                className="hidden sm:inline-flex bg-white/50 hover:bg-white/80 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium"
               >
                 Sign In
               </Button>
-              <Button onClick={() => onNavigate('register')}>
+              <Button 
+                onClick={() => onNavigate('register')}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200"
+              >
                 Start Free
               </Button>
             </div>
