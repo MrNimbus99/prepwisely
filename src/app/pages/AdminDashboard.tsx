@@ -107,22 +107,22 @@ const QuestionEditor: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Question Editor</h2>
-        <div className="flex gap-2">
-          <Button variant="outline">Preview</Button>
-          <Button>Save Changes</Button>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Question Editor</h2>
+        <div className="flex gap-3">
+          <Button variant="outline" size="lg">Preview</Button>
+          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600">Save Changes</Button>
         </div>
       </div>
 
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
-        <div className="grid grid-cols-2 gap-4">
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <h3 className="text-xl font-bold mb-6 text-slate-900 dark:text-white">Basic Information</h3>
+        <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Certification</label>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Certification</label>
             <select
               value={certId}
               onChange={(e) => setCertId(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="solutions-architect-associate">Solutions Architect Associate</option>
               <option value="developer-associate">Developer Associate</option>
@@ -130,11 +130,11 @@ const QuestionEditor: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Domain</label>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Domain</label>
             <select
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="design-resilient-architectures">Design Resilient Architectures</option>
               <option value="design-high-performing-architectures">Design High-Performing Architectures</option>
@@ -142,11 +142,11 @@ const QuestionEditor: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Difficulty</label>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Difficulty</label>
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
@@ -154,11 +154,11 @@ const QuestionEditor: React.FC = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Status</label>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Status</label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>
@@ -167,32 +167,32 @@ const QuestionEditor: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6">
-          <label className="block text-sm font-medium mb-2">Question #142</label>
+        <div className="mt-8">
+          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Question #142</label>
           <textarea
-            className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 h-32"
+            className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white h-32 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             placeholder="Enter question text..."
           />
         </div>
 
-        <div className="mt-6 space-y-4">
-          <label className="block text-sm font-medium">Answer Options</label>
+        <div className="mt-8 space-y-4">
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Answer Options</label>
           {['A', 'B', 'C', 'D'].map((option) => (
-            <div key={option} className="flex gap-2">
-              <input type="radio" name="correct" className="mt-1" />
+            <div key={option} className="flex gap-3 items-center">
+              <input type="radio" name="correct" className="w-5 h-5 text-blue-600" />
               <input
                 type="text"
                 placeholder={`Option ${option}`}
-                className="flex-1 px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+                className="flex-1 px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
               />
             </div>
           ))}
         </div>
 
-        <div className="mt-6">
-          <label className="block text-sm font-medium mb-2">Explanation</label>
+        <div className="mt-8">
+          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Explanation</label>
           <textarea
-            className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 h-24"
+            className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white h-24 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             placeholder="Explain the correct answer..."
           />
         </div>
@@ -204,40 +204,55 @@ const QuestionEditor: React.FC = () => {
 const UserManagement: React.FC = () => {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white">User Management</h2>
-      <p className="text-slate-600 dark:text-slate-400">View and manage all platform users</p>
+      <div>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">User Management</h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">View and manage all platform users</p>
+      </div>
 
-      <Card className="p-6">
-        <div className="mb-4">
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <div className="mb-6">
           <input
             type="search"
-            placeholder="Search users..."
-            className="w-full px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
+            placeholder="Search users by email..."
+            className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
           />
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-slate-200 dark:border-slate-700">
+            <thead className="bg-slate-50 dark:bg-slate-900">
               <tr>
-                <th className="text-left py-3 px-4">Email</th>
-                <th className="text-left py-3 px-4">Subscription</th>
-                <th className="text-left py-3 px-4">Status</th>
-                <th className="text-left py-3 px-4">Joined</th>
-                <th className="text-left py-3 px-4">Actions</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Email</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Subscription</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Status</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Joined</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-slate-100 dark:border-slate-800">
-                <td className="py-3 px-4">user@example.com</td>
-                <td className="py-3 px-4">
-                  <Badge>Monthly</Badge>
+              <tr className="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">user@example.com</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Monthly</Badge>
                 </td>
-                <td className="py-3 px-4">
-                  <Badge className="bg-green-100 text-green-800">Active</Badge>
+                <td className="py-4 px-6">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Active</Badge>
                 </td>
-                <td className="py-3 px-4">2026-02-01</td>
-                <td className="py-3 px-4">
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">2026-02-01</td>
+                <td className="py-4 px-6">
+                  <Button size="sm" variant="outline">Manage</Button>
+                </td>
+              </tr>
+              <tr className="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">another@example.com</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">Annual</Badge>
+                </td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Active</Badge>
+                </td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">2026-01-28</td>
+                <td className="py-4 px-6">
                   <Button size="sm" variant="outline">Manage</Button>
                 </td>
               </tr>
@@ -246,21 +261,21 @@ const UserManagement: React.FC = () => {
         </div>
       </Card>
 
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Entitlements & Subscriptions</h3>
-        <p className="text-slate-600 dark:text-slate-400 mb-4">Manage user subscriptions and access rights</p>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">247</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Active Subscriptions</div>
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <h3 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Entitlements & Subscriptions</h3>
+        <p className="text-slate-600 dark:text-slate-400 mb-6">Manage user subscriptions and access rights</p>
+        <div className="grid grid-cols-3 gap-6">
+          <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 rounded-xl shadow-md">
+            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">247</div>
+            <div className="text-sm font-medium text-slate-700 dark:text-slate-300">Active Subscriptions</div>
           </div>
-          <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">89</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Lifetime Access</div>
+          <div className="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 rounded-xl shadow-md">
+            <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">89</div>
+            <div className="text-sm font-medium text-slate-700 dark:text-slate-300">Lifetime Access</div>
           </div>
-          <div className="p-4 bg-orange-50 dark:bg-orange-950 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600">12</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Trial Users</div>
+          <div className="p-6 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900 rounded-xl shadow-md">
+            <div className="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-2">12</div>
+            <div className="text-sm font-medium text-slate-700 dark:text-slate-300">Trial Users</div>
           </div>
         </div>
       </Card>
@@ -271,64 +286,83 @@ const UserManagement: React.FC = () => {
 const BillingManagement: React.FC = () => {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Invoices & Billing History</h2>
+      <div>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Invoices & Billing History</h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">Track revenue and manage billing</p>
+      </div>
 
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="p-4">
-          <div className="text-sm text-slate-600 dark:text-slate-400">Total Revenue</div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">$24,580</div>
-          <div className="text-sm text-green-600">+12% this month</div>
+      <div className="grid grid-cols-4 gap-6">
+        <Card className="p-6 bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg">
+          <div className="text-sm font-medium opacity-90 mb-2">Total Revenue</div>
+          <div className="text-4xl font-bold mb-2">$24,580</div>
+          <div className="text-sm font-medium opacity-90">+12% this month</div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-slate-600 dark:text-slate-400">Monthly Recurring</div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">$4,940</div>
-          <div className="text-sm text-green-600">247 subscribers</div>
+        <Card className="p-6 bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg">
+          <div className="text-sm font-medium opacity-90 mb-2">Monthly Recurring</div>
+          <div className="text-4xl font-bold mb-2">$4,940</div>
+          <div className="text-sm font-medium opacity-90">247 subscribers</div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-slate-600 dark:text-slate-400">Annual Revenue</div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">$8,010</div>
-          <div className="text-sm text-green-600">89 subscribers</div>
+        <Card className="p-6 bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-lg">
+          <div className="text-sm font-medium opacity-90 mb-2">Annual Revenue</div>
+          <div className="text-4xl font-bold mb-2">$8,010</div>
+          <div className="text-sm font-medium opacity-90">89 subscribers</div>
         </Card>
-        <Card className="p-4">
-          <div className="text-sm text-slate-600 dark:text-slate-400">Lifetime Sales</div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">$10,680</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">89 purchases</div>
+        <Card className="p-6 bg-gradient-to-br from-orange-500 to-red-600 text-white shadow-lg">
+          <div className="text-sm font-medium opacity-90 mb-2">Lifetime Sales</div>
+          <div className="text-4xl font-bold mb-2">$10,680</div>
+          <div className="text-sm font-medium opacity-90">89 purchases</div>
         </Card>
       </div>
 
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Recent Invoices</h3>
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <h3 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">Recent Invoices</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-slate-200 dark:border-slate-700">
+            <thead className="bg-slate-50 dark:bg-slate-900">
               <tr>
-                <th className="text-left py-3 px-4">Invoice #</th>
-                <th className="text-left py-3 px-4">Customer</th>
-                <th className="text-left py-3 px-4">Plan</th>
-                <th className="text-left py-3 px-4">Amount</th>
-                <th className="text-left py-3 px-4">Date</th>
-                <th className="text-left py-3 px-4">Status</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Invoice #</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Customer</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Plan</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Amount</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Date</th>
+                <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-slate-100 dark:border-slate-800">
-                <td className="py-3 px-4">#INV-2026-001</td>
-                <td className="py-3 px-4">user@example.com</td>
-                <td className="py-3 px-4">Monthly</td>
-                <td className="py-3 px-4">$20.00</td>
-                <td className="py-3 px-4">2026-02-05</td>
-                <td className="py-3 px-4">
-                  <Badge className="bg-green-100 text-green-800">Paid</Badge>
+              <tr className="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">#INV-2026-001</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">user@example.com</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">Monthly</Badge>
+                </td>
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-semibold">$20.00</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">2026-02-05</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Paid</Badge>
                 </td>
               </tr>
-              <tr className="border-b border-slate-100 dark:border-slate-800">
-                <td className="py-3 px-4">#INV-2026-002</td>
-                <td className="py-3 px-4">another@example.com</td>
-                <td className="py-3 px-4">Annual</td>
-                <td className="py-3 px-4">$90.00</td>
-                <td className="py-3 px-4">2026-02-04</td>
-                <td className="py-3 px-4">
-                  <Badge className="bg-green-100 text-green-800">Paid</Badge>
+              <tr className="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">#INV-2026-002</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">another@example.com</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">Annual</Badge>
+                </td>
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-semibold">$90.00</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">2026-02-04</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Paid</Badge>
+                </td>
+              </tr>
+              <tr className="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">#INV-2026-003</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">lifetime@example.com</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">Lifetime</Badge>
+                </td>
+                <td className="py-4 px-6 text-slate-900 dark:text-white font-semibold">$120.00</td>
+                <td className="py-4 px-6 text-slate-700 dark:text-slate-300">2026-02-03</td>
+                <td className="py-4 px-6">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Paid</Badge>
                 </td>
               </tr>
             </tbody>
