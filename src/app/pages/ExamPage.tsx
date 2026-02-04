@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { PageName } from '../types'
+import { PageName, Question } from '../types'
+import { useAuth } from '../contexts/AuthContext'
+import { apiService } from '../services/api'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -19,17 +21,8 @@ interface ExamPageProps {
   onNavigate: (page: PageName) => void
 }
 
-interface Question {
-  id: string
-  question: string
-  options: string[]
-  correctAnswer: number
-  explanation: string
-  domain: string
-  difficulty: 'Easy' | 'Medium' | 'Hard'
-}
-
 const ExamPage: React.FC<ExamPageProps> = ({ onNavigate }) => {
+  const { user } = useAuth()
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([])
@@ -39,32 +32,39 @@ const ExamPage: React.FC<ExamPageProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true)
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(new Set())
   const [bookmarkedQuestions, setBookmarkedQuestions] = useState<Set<number>>(new Set())
+  const [examStartTime, setExamStartTime] = useState<number>(0)
 
-  // Mock questions for now
+  // Load questions from API
   useEffect(() => {
-    const mockQuestions: Question[] = [
-      {
-        id: '1',
-        question: 'Which AWS service provides a managed NoSQL database?',
-        options: ['Amazon RDS', 'Amazon DynamoDB', 'Amazon Redshift', 'Amazon Aurora'],
-        correctAnswer: 1,
-        explanation: 'Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance.',
-        domain: 'Database',
-        difficulty: 'Easy'
-      },
-      {
-        id: '2', 
-        question: 'What is the maximum size of an S3 object?',
-        options: ['5 GB', '5 TB', '100 GB', '1 TB'],
-        correctAnswer: 1,
-        explanation: 'The maximum size of an S3 object is 5 TB.',
-        domain: 'Storage',
-        difficulty: 'Medium'
+    const loadQuestions = async () => {
+      setLoading(true)
+      const { questions: fetchedQuestions, error } = await apiService.getQuestions('SAA-C03', 20)
+      
+      if (error || fetchedQuestions.length === 0) {
+        // Fallback to mock questions if API fails
+        const mockQuestions: Question[] = [
+          {
+            id: 'q1',
+            question: 'Which AWS service provides a managed NoSQL database?',
+            options: ['Amazon RDS', 'Amazon DynamoDB', 'Amazon Redshift', 'Amazon Aurora'],
+            correctAnswer: 1,
+            explanation: 'Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance.',
+            domain: 'Database',
+            difficulty: 'Easy',
+            certification: 'SAA-C03'
+          }
+        ]
+        setQuestions(mockQuestions)
+        setSelectedAnswers(new Array(mockQuestions.length).fill(-1))
+      } else {
+        setQuestions(fetchedQuestions)
+        setSelectedAnswers(new Array(fetchedQuestions.length).fill(-1))
       }
-    ]
-    setQuestions(mockQuestions)
-    setSelectedAnswers(new Array(mockQuestions.length).fill(-1))
-    setLoading(false)
+      
+      setLoading(false)
+    }
+
+    loadQuestions()
   }, [])
 
   // Timer
@@ -111,19 +111,43 @@ const ExamPage: React.FC<ExamPageProps> = ({ onNavigate }) => {
     setFlaggedQuestions(newFlagged)
   }
 
-  const handleBookmark = () => {
-    const newBookmarked = new Set(bookmarkedQuestions)
-    if (newBookmarked.has(currentQuestion)) {
-      newBookmarked.delete(currentQuestion)
-    } else {
-      newBookmarked.add(currentQuestion)
+  const handleBookmark = async () => {
+    if (!user) return
+    
+    const questionId = questions[currentQuestion].id
+    const { success, bookmarked } = await apiService.toggleBookmark(user.userId, questionId)
+    
+    if (success) {
+      const newBookmarked = new Set(bookmarkedQuestions)
+      if (bookmarked) {
+        newBookmarked.add(currentQuestion)
+      } else {
+        newBookmarked.delete(currentQuestion)
+      }
+      setBookmarkedQuestions(newBookmarked)
     }
-    setBookmarkedQuestions(newBookmarked)
   }
 
-  const handleSubmitExam = () => {
+  const handleSubmitExam = async () => {
+    if (!user) return
+    
+    const timeSpent = examStartTime ? Math.floor((Date.now() - examStartTime) / 1000) : 0
+    const correctAnswers = selectedAnswers.filter((answer, index) => answer === questions[index].correctAnswer).length
+    const score = Math.round((correctAnswers / questions.length) * 100)
+    
+    const examResult = {
+      userId: user.userId,
+      certification: 'SAA-C03',
+      score,
+      totalQuestions: questions.length,
+      correctAnswers,
+      timeSpent,
+      answers: selectedAnswers,
+      questions
+    }
+    
+    await apiService.saveExamResult(examResult)
     setExamCompleted(true)
-    // Calculate score and save results
   }
 
   const calculateScore = () => {
@@ -177,7 +201,10 @@ const ExamPage: React.FC<ExamPageProps> = ({ onNavigate }) => {
 
               <div className="text-center space-y-4">
                 <Button
-                  onClick={() => setExamStarted(true)}
+                  onClick={() => {
+                    setExamStarted(true)
+                    setExamStartTime(Date.now())
+                  }}
                   className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg"
                 >
                   Start Exam

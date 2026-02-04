@@ -148,16 +148,113 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         ZipFile: |
+          const AWS = require('aws-sdk');
+          const dynamodb = new AWS.DynamoDB.DocumentClient();
+          
           exports.handler = async (event) => {
-            return {
-              statusCode: 200,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-                'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
-              },
-              body: JSON.stringify({ message: 'Exam API ready' })
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+              'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
             };
+            
+            if (event.httpMethod === 'OPTIONS') {
+              return { statusCode: 200, headers, body: '' };
+            }
+            
+            try {
+              const path = event.path;
+              const method = event.httpMethod;
+              
+              if (path.includes('/questions') && method === 'GET') {
+                const params = event.queryStringParameters || {};
+                const certification = params.certification || 'SAA-C03';
+                const count = parseInt(params.count) || 20;
+                
+                const result = await dynamodb.scan({
+                  TableName: process.env.QUESTIONS_TABLE,
+                  FilterExpression: 'certification = :cert',
+                  ExpressionAttributeValues: { ':cert': certification },
+                  Limit: count
+                }).promise();
+                
+                return {
+                  statusCode: 200,
+                  headers,
+                  body: JSON.stringify({ questions: result.Items })
+                };
+              }
+              
+              if (path.includes('/results') && method === 'POST') {
+                const body = JSON.parse(event.body);
+                const resultId = `${body.userId}-${Date.now()}`;
+                
+                await dynamodb.put({
+                  TableName: process.env.EXAM_RESULTS_TABLE,
+                  Item: {
+                    resultId,
+                    userId: body.userId,
+                    certification: body.certification,
+                    score: body.score,
+                    totalQuestions: body.totalQuestions,
+                    correctAnswers: body.correctAnswers,
+                    timeSpent: body.timeSpent,
+                    examDate: new Date().toISOString(),
+                    answers: body.answers,
+                    questions: body.questions
+                  }
+                }).promise();
+                
+                return {
+                  statusCode: 200,
+                  headers,
+                  body: JSON.stringify({ success: true, resultId })
+                };
+              }
+              
+              if (path.includes('/bookmarks') && method === 'POST') {
+                const body = JSON.parse(event.body);
+                const { userId, questionId } = body;
+                
+                try {
+                  await dynamodb.delete({
+                    TableName: process.env.USER_BOOKMARKS_TABLE,
+                    Key: { userId, questionId }
+                  }).promise();
+                  
+                  return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ success: true, bookmarked: false })
+                  };
+                } catch (error) {
+                  await dynamodb.put({
+                    TableName: process.env.USER_BOOKMARKS_TABLE,
+                    Item: { userId, questionId, createdAt: new Date().toISOString() }
+                  }).promise();
+                  
+                  return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ success: true, bookmarked: true })
+                  };
+                }
+              }
+              
+              return {
+                statusCode: 404,
+                headers,
+                body: JSON.stringify({ error: 'Not found' })
+              };
+              
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Internal server error' })
+              };
+            }
           };
       Environment:
         Variables:
