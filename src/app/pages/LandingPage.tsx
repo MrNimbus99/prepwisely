@@ -247,43 +247,8 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <CardTitle>Single Certification</CardTitle>
                 <CardDescription>Perfect for focused preparation</CardDescription>
                 <div className="mt-4">
-                  <span className="text-3xl font-bold">$49</span>
-                  <span className="text-slate-500 line-through ml-2">$89</span>
-                  <Badge variant="success" className="ml-2">45% OFF</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    30-day exam path
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    Daily practice exams
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    Analytics & tracking
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" onClick={() => onNavigate('checkout')}>
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* All Associates - Popular */}
-            <Card className="border-2 border-blue-500 relative hover:border-blue-600 transition-colors">
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                Most Popular
-              </Badge>
-              <CardHeader>
-                <CardTitle>All Associates Bundle</CardTitle>
-                <CardDescription>SAA, SOA, DVA certifications</CardDescription>
-                <div className="mt-4">
-                  <span className="text-3xl font-bold">$149</span>
-                  <span className="text-slate-500 line-through ml-2">$299</span>
+                  <span className="text-3xl font-bold">$10</span>
+                  <span className="text-slate-500 line-through ml-2">$20</span>
                   <Badge variant="success" className="ml-2">50% OFF</Badge>
                 </div>
               </CardHeader>
@@ -291,50 +256,85 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    All Associate certifications
+                    30 practice quizzes
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    Advanced analytics
+                    2 final exams
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    Priority support
+                    Analytics & tracking
                   </li>
                 </ul>
-                <Button className="w-full mt-6" onClick={() => onNavigate('checkout')}>
+                <Button className="w-full mt-6" onClick={() => onNavigate('pricing')}>
                   Get Started
                 </Button>
               </CardContent>
             </Card>
 
-            {/* Everything Pass */}
-            <Card className="border-2 hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
+            {/* Monthly - Popular */}
+            <Card className="border-2 border-blue-500 relative hover:border-blue-600 transition-colors">
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                Most Popular
+              </Badge>
               <CardHeader>
-                <CardTitle>Everything Pass</CardTitle>
-                <CardDescription>All current & future certifications</CardDescription>
+                <CardTitle>Monthly Subscription</CardTitle>
+                <CardDescription>All 13 certifications</CardDescription>
                 <div className="mt-4">
-                  <span className="text-3xl font-bold">$299</span>
-                  <span className="text-slate-500 line-through ml-2">$599</span>
-                  <Badge variant="warning" className="ml-2">Founders Deal</Badge>
+                  <span className="text-3xl font-bold">$20</span>
+                  <span className="text-slate-500">/month</span>
+                  <Badge variant="success" className="ml-2">50% OFF</Badge>
                 </div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    All certifications included
+                    All 13 certifications
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
-                    Future certifications free
+                    Cancel anytime
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    All study tools
+                  </li>
+                </ul>
+                <Button className="w-full mt-6" onClick={() => onNavigate('pricing')}>
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Lifetime */}
+            <Card className="border-2 hover:border-purple-200 dark:hover:border-purple-800 transition-colors">
+              <CardHeader>
+                <CardTitle>Lifetime Access</CardTitle>
+                <CardDescription>One-time payment</CardDescription>
+                <div className="mt-4">
+                  <span className="text-3xl font-bold">$120</span>
+                  <span className="text-slate-500 line-through ml-2">$240</span>
+                  <Badge variant="warning" className="ml-2">50% OFF</Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    All 13 certifications
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
                     Lifetime access
                   </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    Future updates
+                  </li>
                 </ul>
-                <Button className="w-full mt-6" onClick={() => onNavigate('checkout')}>
+                <Button className="w-full mt-6" onClick={() => onNavigate('pricing')}>
                   Get Started
                 </Button>
               </CardContent>

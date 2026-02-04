@@ -217,11 +217,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-            AWS Certification
-            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Pricing
-            </span>
+            AWS Certification Pricing
           </h1>
+          <div className="h-2 w-32 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
             Start with Cloud Practitioner for free. Choose individual certifications or subscriptions.
           </p>
@@ -280,9 +278,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Annual</h3>
                 <div className="mb-6">
-                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$180/year</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$480/year</div>
                   <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$90<span className="text-xl text-slate-600 dark:text-slate-400">/yr</span></div>
-                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">Save $150</Badge>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">Save $390</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 text-left">
                   <li className="flex items-center gap-3">

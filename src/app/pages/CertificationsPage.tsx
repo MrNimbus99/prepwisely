@@ -248,16 +248,20 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                                   FREE
                                 </div>
                               ) : (
-                                <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                                  ${cert.price}
+                                <div>
+                                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$20</div>
+                                  <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                                    $10
+                                  </div>
+                                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-bold">50% OFF</Badge>
                                 </div>
                               )}
                             </div>
                             <Button 
                               className={`bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold px-6`}
-                              onClick={() => onNavigate('exam-path')}
+                              onClick={() => onNavigate('pricing')}
                             >
-                              {cert.isFree ? 'Start Free' : 'Start Path'}
+                              {cert.isFree ? 'Start Free' : 'Get Started'}
                             </Button>
                           </div>
                         </div>
