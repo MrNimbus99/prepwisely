@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavigationProps } from '../types'
+import { NavigationProps, PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
@@ -153,9 +153,22 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const handleStartCertification = (certId: string) => {
-    // Store cert ID in sessionStorage
-    sessionStorage.setItem('currentCertId', certId)
-    onNavigate('certification-detail')
+    const pageMap: { [key: string]: PageName } = {
+      'cloud-practitioner': 'cert-cloud-practitioner',
+      'ai-practitioner': 'cert-ai-practitioner',
+      'solutions-architect-associate': 'cert-solutions-architect-associate',
+      'developer-associate': 'cert-developer-associate',
+      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
+      'data-engineer-associate': 'cert-data-engineer-associate',
+      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
+      'solutions-architect-professional': 'cert-solutions-architect-professional',
+      'devops-engineer-professional': 'cert-devops-engineer-professional',
+      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'security-specialty': 'cert-security-specialty',
+      'machine-learning-specialty': 'cert-machine-learning-specialty',
+      'database-specialty': 'cert-database-specialty'
+    }
+    onNavigate(pageMap[certId])
   }
 
   return (

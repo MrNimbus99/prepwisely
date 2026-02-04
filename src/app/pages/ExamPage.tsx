@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { NavigationProps } from '../types'
+import { NavigationProps, PageName } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
@@ -80,7 +80,41 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       completeQuiz(certId, quizId, score)
     }
     // Navigate back to certification detail
-    onNavigate('certification-detail')
+    const pageMap: { [key: string]: PageName } = {
+      'cloud-practitioner': 'cert-cloud-practitioner',
+      'ai-practitioner': 'cert-ai-practitioner',
+      'solutions-architect-associate': 'cert-solutions-architect-associate',
+      'developer-associate': 'cert-developer-associate',
+      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
+      'data-engineer-associate': 'cert-data-engineer-associate',
+      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
+      'solutions-architect-professional': 'cert-solutions-architect-professional',
+      'devops-engineer-professional': 'cert-devops-engineer-professional',
+      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'security-specialty': 'cert-security-specialty',
+      'machine-learning-specialty': 'cert-machine-learning-specialty',
+      'database-specialty': 'cert-database-specialty'
+    }
+    onNavigate(pageMap[certId] || 'dashboard')
+  }
+
+  const handleBackToCert = () => {
+    const pageMap: { [key: string]: PageName } = {
+      'cloud-practitioner': 'cert-cloud-practitioner',
+      'ai-practitioner': 'cert-ai-practitioner',
+      'solutions-architect-associate': 'cert-solutions-architect-associate',
+      'developer-associate': 'cert-developer-associate',
+      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
+      'data-engineer-associate': 'cert-data-engineer-associate',
+      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
+      'solutions-architect-professional': 'cert-solutions-architect-professional',
+      'devops-engineer-professional': 'cert-devops-engineer-professional',
+      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'security-specialty': 'cert-security-specialty',
+      'machine-learning-specialty': 'cert-machine-learning-specialty',
+      'database-specialty': 'cert-database-specialty'
+    }
+    onNavigate(pageMap[certId] || 'dashboard')
   }
 
   const isCorrect = selectedAnswer === question.correctAnswer
@@ -107,7 +141,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <button
-              onClick={() => onNavigate('certification-detail')}
+              onClick={handleBackToCert}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
@@ -121,7 +155,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </span>
                 </div>
               )}
-              <Button variant="outline" onClick={() => onNavigate('certification-detail')}>
+              <Button variant="outline" onClick={handleBackToCert}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Exit
               </Button>
@@ -369,7 +403,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => onNavigate('certification-detail')}
+                    onClick={handleBackToCert}
                     className="px-12 py-6 text-xl font-semibold border-2 hover:scale-105 transition-all duration-300"
                   >
                     Back to Quizzes

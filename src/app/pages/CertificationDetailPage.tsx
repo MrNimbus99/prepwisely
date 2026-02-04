@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
@@ -16,9 +16,8 @@ interface Quiz {
   isFinalExam?: boolean
 }
 
-const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = ({ onNavigate, certId }) => {
   const { completions } = useQuiz()
-  const [certId, setCertId] = useState('cloud-practitioner')
 
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
@@ -93,16 +92,13 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
   }
 
-  useEffect(() => {
-    const storedCertId = sessionStorage.getItem('currentCertId')
-    if (storedCertId && certifications[storedCertId]) {
-      setCertId(storedCertId)
-    }
-  }, [])
-
   const certification = {
     id: certId,
     ...certifications[certId]
+  }
+
+  if (!certification.name) {
+    return <div>Certification not found</div>
   }
 
   const certCompletions = completions[certification.id] || {}
@@ -139,10 +135,14 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   ]
 
   const handleStartQuiz = (quizId: number) => {
-    // Store quiz ID in sessionStorage to pass to exam page
+    // Store quiz and cert ID in sessionStorage
     sessionStorage.setItem('currentQuizId', quizId.toString())
-    sessionStorage.setItem('currentCertId', certification.id)
+    sessionStorage.setItem('currentCertId', certId)
     onNavigate('exam')
+  }
+
+  const handleBackToDashboard = () => {
+    onNavigate('dashboard')
   }
 
   const completedCount = quizzes.filter(q => q.isCompleted).length
@@ -160,12 +160,12 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <button
-              onClick={() => onNavigate('dashboard')}
+              onClick={handleBackToDashboard}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
             </button>
-            <Button variant="outline" onClick={() => onNavigate('dashboard')}>
+            <Button variant="outline" onClick={handleBackToDashboard}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Button>

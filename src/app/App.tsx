@@ -46,8 +46,14 @@ const AppContent: React.FC = () => {
   const navigate = useNavigate()
 
   const handleNavigate = (page: string) => {
-    const route = page === 'landing' ? '/' : `/${page}`
-    navigate(route)
+    // Map cert pages to routes
+    if (page.startsWith('cert-')) {
+      const certId = page.replace('cert-', '')
+      navigate(`/cert/${certId}`)
+    } else {
+      const route = page === 'landing' ? '/' : `/${page}`
+      navigate(route)
+    }
     window.scrollTo(0, 0)
   }
 
@@ -67,7 +73,22 @@ const AppContent: React.FC = () => {
       <Route path="/email-verification" element={<EmailVerificationPage onNavigate={handleNavigate} />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage onNavigate={handleNavigate} />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage onNavigate={handleNavigate} /></ProtectedRoute>} />
-      <Route path="/certification-detail" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} /></ProtectedRoute>} />
+      
+      {/* Certification Routes */}
+      <Route path="/cert/cloud-practitioner" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="cloud-practitioner" /></ProtectedRoute>} />
+      <Route path="/cert/ai-practitioner" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="ai-practitioner" /></ProtectedRoute>} />
+      <Route path="/cert/solutions-architect-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="solutions-architect-associate" /></ProtectedRoute>} />
+      <Route path="/cert/developer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="developer-associate" /></ProtectedRoute>} />
+      <Route path="/cert/sysops-administrator-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="sysops-administrator-associate" /></ProtectedRoute>} />
+      <Route path="/cert/data-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="data-engineer-associate" /></ProtectedRoute>} />
+      <Route path="/cert/machine-learning-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="machine-learning-engineer-associate" /></ProtectedRoute>} />
+      <Route path="/cert/solutions-architect-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="solutions-architect-professional" /></ProtectedRoute>} />
+      <Route path="/cert/devops-engineer-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="devops-engineer-professional" /></ProtectedRoute>} />
+      <Route path="/cert/advanced-networking-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="advanced-networking-professional" /></ProtectedRoute>} />
+      <Route path="/cert/security-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="security-specialty" /></ProtectedRoute>} />
+      <Route path="/cert/machine-learning-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="machine-learning-specialty" /></ProtectedRoute>} />
+      <Route path="/cert/database-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="database-specialty" /></ProtectedRoute>} />
+      
       <Route path="/exam" element={<ProtectedRoute><ExamPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
