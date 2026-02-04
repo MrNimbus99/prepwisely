@@ -126,9 +126,8 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     ? 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
                     : quiz.isCompleted
                     ? 'bg-green-50 dark:bg-green-950/20 border-2 border-green-500 hover:shadow-lg'
-                    : 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl cursor-pointer hover:scale-105'
+                    : 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl'
                 }`}
-                onClick={() => !quiz.isLocked && handleStartQuiz(quiz.id)}
               >
                 <div className="p-6">
                   {/* Status Icon */}
@@ -182,13 +181,15 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           variant="outline"
                           size="sm"
                           className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/20"
+                          onClick={() => handleStartQuiz(quiz.id)}
                         >
-                          Review
+                          Retake Quiz
                         </Button>
                       ) : (
                         <Button
                           size="sm"
                           className={`w-full bg-gradient-to-r ${certification.gradient} text-white font-semibold`}
+                          onClick={() => handleStartQuiz(quiz.id)}
                         >
                           Start Quiz
                         </Button>

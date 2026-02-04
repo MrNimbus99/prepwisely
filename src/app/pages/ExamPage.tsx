@@ -17,16 +17,30 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completeQuiz } = useQuiz()
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
-  const [timeLeft] = useState(120) // 2 minutes
+  const [timeLeft, setTimeLeft] = useState(120) // 2 minutes
   const [quizId, setQuizId] = useState(1)
   const [certId, setCertId] = useState('cloud-practitioner')
+  const [startTime, setStartTime] = useState<number>(Date.now())
+  const [timeTaken, setTimeTaken] = useState(0)
+  const [overtime, setOvertime] = useState(0)
 
   useEffect(() => {
     const storedQuizId = sessionStorage.getItem('currentQuizId')
     const storedCertId = sessionStorage.getItem('currentCertId')
     if (storedQuizId) setQuizId(parseInt(storedQuizId))
     if (storedCertId) setCertId(storedCertId)
+    setStartTime(Date.now())
   }, [])
+
+  // Timer countdown
+  useEffect(() => {
+    if (!showResult && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft(prev => prev - 1)
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [showResult, timeLeft])
 
   // Sample question for Cloud Practitioner
   const question: Question = {
@@ -43,7 +57,21 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const handleSubmit = () => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000)
+    setTimeTaken(elapsed)
+    if (elapsed > 120) {
+      setOvertime(elapsed - 120)
+    }
     setShowResult(true)
+  }
+
+  const handleRetry = () => {
+    setSelectedAnswer(null)
+    setShowResult(false)
+    setTimeLeft(120)
+    setStartTime(Date.now())
+    setTimeTaken(0)
+    setOvertime(0)
   }
 
   const handleComplete = () => {
@@ -63,6 +91,13 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
     return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const formatDuration = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s`
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return secs > 0 ? `${mins}m ${secs}s` : `${mins}m`
   }
 
   return (
@@ -167,7 +202,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           /* Result View */
           <div className="space-y-8">
             {/* Score Card */}
-            <Card className={`relative overflow-hidden p-12 text-center ${
+            <Card className={`relative overflow-hidden p-8 text-center ${
               passed
                 ? 'bg-white dark:bg-slate-900 border-2 border-green-500'
                 : 'bg-white dark:bg-slate-900 border-2 border-red-500'
@@ -178,26 +213,51 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               } opacity-5`} />
               
               <div className="relative">
-                <div className={`w-32 h-32 rounded-full mx-auto mb-8 flex items-center justify-center ${
+                <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center ${
                   passed ? 'bg-gradient-to-br from-green-500 to-emerald-600' : 'bg-gradient-to-br from-red-500 to-orange-600'
                 } shadow-2xl animate-pulse`}>
                   {passed ? (
-                    <CheckCircle className="w-16 h-16 text-white" />
+                    <CheckCircle className="w-12 h-12 text-white" />
                   ) : (
-                    <XCircle className="w-16 h-16 text-white" />
+                    <XCircle className="w-12 h-12 text-white" />
                   )}
                 </div>
-                <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
                   {passed ? 'Congratulations!' : 'Keep Practicing!'}
                 </h2>
                 <div className="mb-6">
-                  <div className="text-6xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent mb-2">
+                  <div className="text-5xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent mb-2">
                     {score}%
                   </div>
-                  <p className="text-lg text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                     Your Score
                   </p>
                 </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                      {formatDuration(timeTaken)}
+                    </div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400">Time Taken</div>
+                  </div>
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
+                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                      {isCorrect ? '1/1' : '0/1'}
+                    </div>
+                    <div className="text-xs text-slate-600 dark:text-slate-400">Correct</div>
+                  </div>
+                </div>
+
+                {overtime > 0 && (
+                  <div className="mb-4 px-4 py-2 bg-orange-100 dark:bg-orange-950/30 rounded-lg inline-block">
+                    <p className="text-sm text-orange-700 dark:text-orange-400">
+                      ⏱️ Went {formatDuration(overtime)} over time
+                    </p>
+                  </div>
+                )}
+
                 <div className={`inline-block px-6 py-3 rounded-full ${
                   passed ? 'bg-green-100 dark:bg-green-950/30' : 'bg-red-100 dark:bg-red-950/30'
                 }`}>
@@ -210,62 +270,55 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
             </Card>
 
-            {/* Answer Review */}
-            <Card className="bg-white dark:bg-slate-900 p-8">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                  Answer Review
-                </h3>
-              </div>
-
-              <div className="space-y-8">
-                {/* Question */}
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center">
-                      <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Q</span>
-                    </div>
-                    <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                      Question
-                    </h4>
+            {/* Answer Review - Only show if wrong */}
+            {!isCorrect && (
+              <Card className="bg-white dark:bg-slate-900 p-8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center">
+                    <XCircle className="w-6 h-6 text-white" />
                   </div>
-                  <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed pl-10">
-                    {question.question}
-                  </p>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    Review Incorrect Answer
+                  </h3>
                 </div>
 
-                {/* Your Answer */}
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      isCorrect ? 'bg-green-500' : 'bg-red-500'
-                    }`}>
-                      {isCorrect ? (
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      ) : (
-                        <XCircle className="w-5 h-5 text-white" />
-                      )}
+                <div className="space-y-8">
+                  {/* Question */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center">
+                        <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Q</span>
+                      </div>
+                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
+                        Question
+                      </h4>
                     </div>
-                    <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                      Your Answer
-                    </h4>
-                  </div>
-                  <div className={`p-5 rounded-xl border-2 ml-10 ${
-                    isCorrect
-                      ? 'bg-green-50 dark:bg-green-950/20 border-green-500'
-                      : 'bg-red-50 dark:bg-red-950/20 border-red-500'
-                  }`}>
-                    <p className="font-semibold text-lg text-slate-900 dark:text-white">
-                      {selectedAnswer !== null ? question.options[selectedAnswer] : 'No answer selected'}
+                    <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed pl-10">
+                      {question.question}
                     </p>
                   </div>
-                </div>
 
-                {/* Correct Answer (if wrong) */}
-                {!isCorrect && (
+                  {/* Your Answer */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                        <XCircle className="w-5 h-5 text-white" />
+                      </div>
+                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
+                        Your Answer
+                      </h4>
+                    </div>
+                    <div className="p-5 rounded-xl border-2 border-red-500 bg-red-50 dark:bg-red-950/20 ml-10">
+                      <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
+                        {selectedAnswer !== null ? question.options[selectedAnswer] : 'No answer selected'}
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">
+                        This answer is incorrect.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Correct Answer */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
@@ -276,47 +329,53 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       </h4>
                     </div>
                     <div className="p-5 rounded-xl border-2 border-green-500 bg-green-50 dark:bg-green-950/20 ml-10">
-                      <p className="font-semibold text-lg text-slate-900 dark:text-white">
+                      <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
                         {question.options[question.correctAnswer]}
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">
+                        {question.explanation}
                       </p>
                     </div>
                   </div>
-                )}
-
-                {/* Explanation */}
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                      <span className="text-sm font-bold text-white">i</span>
-                    </div>
-                    <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                      Explanation
-                    </h4>
-                  </div>
-                  <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-l-4 border-blue-500 ml-10">
-                    <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                      {question.explanation}
-                    </p>
-                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            )}
 
             {/* Action Buttons */}
             <div className="flex gap-4">
-              <Button
-                onClick={handleComplete}
-                className="flex-1 py-6 text-xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-2xl hover:scale-105 transition-all duration-300"
-              >
-                {passed ? '✓ Complete & Continue' : '↻ Try Again'}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => onNavigate('certification-detail')}
-                className="px-12 py-6 text-xl font-semibold border-2 hover:scale-105 transition-all duration-300"
-              >
-                Back to Quizzes
-              </Button>
+              {passed ? (
+                <>
+                  <Button
+                    onClick={handleComplete}
+                    className="flex-1 py-6 text-xl font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  >
+                    ✓ Complete
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={handleRetry}
+                    className="px-12 py-6 text-xl font-semibold border-2 hover:scale-105 transition-all duration-300"
+                  >
+                    Retry
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={handleRetry}
+                    className="flex-1 py-6 text-xl font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  >
+                    ↻ Try Again
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => onNavigate('certification-detail')}
+                    className="px-12 py-6 text-xl font-semibold border-2 hover:scale-105 transition-all duration-300"
+                  >
+                    Back to Quizzes
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         )}
