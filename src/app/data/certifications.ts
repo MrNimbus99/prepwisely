@@ -1,5 +1,6 @@
 // AWS Certifications Data
 export const certifications = [
+  // Foundational
   {
     id: 'cloud-practitioner',
     name: 'AWS Certified Cloud Practitioner',
@@ -15,6 +16,22 @@ export const certifications = [
       passingScore: 700
     }
   },
+  {
+    id: 'ai-practitioner',
+    name: 'AWS Certified AI Practitioner',
+    code: 'AIF-C01',
+    level: 'Foundational' as const,
+    price: 49,
+    isFree: false,
+    description: 'Foundational understanding of AI/ML concepts and AWS AI services',
+    domains: ['AI/ML Fundamentals', 'AWS AI Services', 'Responsible AI', 'AI/ML Security'],
+    examDetails: {
+      duration: 120,
+      questions: 65,
+      passingScore: 700
+    }
+  },
+  // Associate
   {
     id: 'solutions-architect-associate',
     name: 'AWS Certified Solutions Architect - Associate',
@@ -60,6 +77,7 @@ export const certifications = [
       passingScore: 720
     }
   },
+  // Professional
   {
     id: 'solutions-architect-professional',
     name: 'AWS Certified Solutions Architect - Professional',
@@ -90,6 +108,7 @@ export const certifications = [
       passingScore: 750
     }
   },
+  // Specialty
   {
     id: 'security-specialty',
     name: 'AWS Certified Security - Specialty',
