@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import { PageName } from './types'
+import { AuthProvider } from './contexts/AuthContext'
+
+// Import AWS config
+import './config/aws-config'
 
 // Import pages
 import LandingPage from './pages/LandingPage'
@@ -9,6 +13,11 @@ import HelpPage from './pages/HelpPage'
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
 import StatusPage from './pages/StatusPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import EmailVerificationPage from './pages/EmailVerificationPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import DashboardPage from './pages/DashboardPage'
 
 interface AppProps {}
 
@@ -37,6 +46,16 @@ const App: React.FC<AppProps> = () => {
         return <PrivacyPage onNavigate={handleNavigate} />
       case 'status':
         return <StatusPage onNavigate={handleNavigate} />
+      case 'login':
+        return <LoginPage onNavigate={handleNavigate} />
+      case 'register':
+        return <RegisterPage onNavigate={handleNavigate} />
+      case 'email-verification':
+        return <EmailVerificationPage onNavigate={handleNavigate} />
+      case 'forgot-password':
+        return <ForgotPasswordPage onNavigate={handleNavigate} />
+      case 'dashboard':
+        return <DashboardPage onNavigate={handleNavigate} />
       
       // Placeholder for other pages
       default:
@@ -60,9 +79,11 @@ const App: React.FC<AppProps> = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {renderPage()}
-    </div>
+    <AuthProvider>
+      <div className="min-h-screen bg-background">
+        {renderPage()}
+      </div>
+    </AuthProvider>
   )
 }
 
