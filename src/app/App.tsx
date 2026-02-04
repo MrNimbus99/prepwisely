@@ -25,6 +25,7 @@ import DashboardPage from './pages/DashboardPage'
 import CertificationDetailPage from './pages/CertificationDetailPage'
 import ExamPage from './pages/ExamPage'
 import NotFoundPage from './pages/NotFoundPage'
+import CancellationPolicyPage from './pages/CancellationPolicyPage'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth()
@@ -69,6 +70,7 @@ const AppContent: React.FC = () => {
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
       <Route path="/accessibility" element={<AccessibilityPage onNavigate={handleNavigate} />} />
       <Route path="/refund-policy" element={<RefundPolicyPage onNavigate={handleNavigate} />} />
+      <Route path="/cancellation-policy" element={<CancellationPolicyPage onNavigate={handleNavigate} />} />
       <Route path="/login" element={<LoginPage onNavigate={handleNavigate} />} />
       <Route path="/register" element={<RegisterPage onNavigate={handleNavigate} />} />
       <Route path="/email-verification" element={<EmailVerificationPage onNavigate={handleNavigate} />} />

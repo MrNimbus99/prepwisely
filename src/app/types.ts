@@ -29,6 +29,7 @@ export type PageName =
   | 'checkout'
   | 'contact-support'
   | 'refund-policy'
+  | 'cancellation-policy'
   | 'account'
   | 'accessibility'
 
