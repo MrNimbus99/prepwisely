@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Eye, EyeOff, ArrowLeft, AlertCircle, Sparkles } from 'lucide-react'
+import { validateEmail, sanitizeInput, rateLimiter, getErrorMessage } from '../utils/security'
 
 interface LoginPageProps {
   onNavigate: (page: PageName) => void
@@ -18,28 +19,62 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [rateLimitError, setRateLimitError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
+    setRateLimitError('')
 
-    const { success, error: authError } = await signIn(formData.email, formData.password)
-    
-    if (success) {
-      onNavigate('dashboard')
-    } else {
-      setError(authError || 'Sign in failed')
+    // Validate inputs
+    const email = sanitizeInput(formData.email)
+    const password = formData.password
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address')
+      return
     }
-    
-    setLoading(false)
+
+    if (!password) {
+      setError('Password is required')
+      return
+    }
+
+    // Check rate limiting
+    const rateLimitKey = `login_${email}`
+    if (!rateLimiter.canAttempt(rateLimitKey)) {
+      const remainingTime = Math.ceil(rateLimiter.getRemainingTime(rateLimitKey) / 1000 / 60)
+      setRateLimitError(`Too many login attempts. Please try again in ${remainingTime} minutes.`)
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const { success, error: authError } = await signIn(email, password)
+      
+      if (success) {
+        onNavigate('dashboard')
+      } else {
+        setError(getErrorMessage(authError))
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.')
+      console.error('Login error:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: sanitizeInput(value)
     }))
+    // Clear errors when user starts typing
+    if (error) setError('')
+    if (rateLimitError) setRateLimitError('')
   }
 
   return (

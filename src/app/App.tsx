@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PageName } from './types'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { ErrorBoundary } from './components/ui/ErrorBoundary'
 
 // Import AWS config
 import './config/aws-config'
@@ -116,11 +117,13 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-background">
-        <AppContent />
-      </div>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <div className="min-h-screen bg-background">
+          <AppContent />
+        </div>
+      </AuthProvider>
+    </ErrorBoundary>
   )
 }
 
