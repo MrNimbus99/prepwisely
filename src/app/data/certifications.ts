@@ -77,6 +77,36 @@ export const certifications = [
       passingScore: 720
     }
   },
+  {
+    id: 'data-engineer-associate',
+    name: 'AWS Certified Data Engineer - Associate',
+    code: 'DEA-C01',
+    level: 'Associate' as const,
+    price: 49,
+    isFree: false,
+    description: 'Design and implement data pipelines and analytics solutions on AWS',
+    domains: ['Data Ingestion and Transformation', 'Data Store Management', 'Data Operations and Support', 'Data Security and Governance'],
+    examDetails: {
+      duration: 170,
+      questions: 85,
+      passingScore: 720
+    }
+  },
+  {
+    id: 'machine-learning-engineer-associate',
+    name: 'AWS Certified Machine Learning Engineer - Associate',
+    code: 'MLA-C01',
+    level: 'Associate' as const,
+    price: 49,
+    isFree: false,
+    description: 'Design, build, deploy, and maintain ML solutions on AWS',
+    domains: ['Data Preparation for ML', 'ML Model Development', 'Deployment and Orchestration', 'ML Solution Monitoring and Maintenance'],
+    examDetails: {
+      duration: 170,
+      questions: 85,
+      passingScore: 720
+    }
+  },
   // Professional
   {
     id: 'solutions-architect-professional',
@@ -105,6 +135,21 @@ export const certifications = [
     examDetails: {
       duration: 180,
       questions: 75,
+      passingScore: 750
+    }
+  },
+  {
+    id: 'advanced-networking-professional',
+    name: 'AWS Certified Advanced Networking - Professional',
+    code: 'ANP-C02',
+    level: 'Professional' as const,
+    price: 49,
+    isFree: false,
+    description: 'Advanced networking skills for complex AWS architectures',
+    domains: ['Network Design and Implementation', 'Network Security and Compliance', 'Network Troubleshooting', 'Hybrid and Multi-Account Networking'],
+    examDetails: {
+      duration: 170,
+      questions: 65,
       passingScore: 750
     }
   },
@@ -193,6 +238,21 @@ export const certifications = [
     isFree: false,
     description: 'Specialized knowledge in designing, implementing, and operating SAP workloads on AWS',
     domains: ['SAP on AWS Planning and Design', 'SAP on AWS Implementation', 'SAP on AWS Operations', 'SAP on AWS Management and Optimization'],
+    examDetails: {
+      duration: 170,
+      questions: 65,
+      passingScore: 750
+    }
+  },
+  {
+    id: 'sustainability-specialty',
+    name: 'AWS Certified Sustainability - Specialty',
+    code: 'SUS-C01',
+    level: 'Specialty' as const,
+    price: 49,
+    isFree: false,
+    description: 'Specialized knowledge in optimizing AWS workloads for sustainability',
+    domains: ['Sustainable Cloud Architecture', 'Workload Optimization', 'Data and Analytics for Sustainability', 'Sustainable Operations'],
     examDetails: {
       duration: 170,
       questions: 65,

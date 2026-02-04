@@ -23,47 +23,126 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     return { originalPrice, bundlePrice }
   }
 
-  const CertificationCard = ({ cert, showPrice = true }: { cert: typeof certifications[0], showPrice?: boolean }) => (
-    <Card className="p-6 hover:shadow-lg transition-shadow">
-      <div className="flex justify-between items-start mb-4">
-        <div className="flex-1">
-          <h3 className="font-semibold text-lg text-slate-900 dark:text-white mb-2">
-            {cert.name}
-          </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
-            {cert.description}
-          </p>
-          <div className="flex items-center gap-2 mb-3">
-            <Badge variant="outline" className="text-xs">
-              {cert.code}
-            </Badge>
-            <Badge variant="secondary" className="text-xs">
-              {cert.examDetails.duration} min
-            </Badge>
-            <Badge variant="secondary" className="text-xs">
-              {cert.examDetails.questions} questions
-            </Badge>
-          </div>
+  const CertificationCard = ({ cert, showPrice = true }: { cert: typeof certifications[0], showPrice?: boolean }) => {
+    const getLevelColor = (level: string) => {
+      switch (level) {
+        case 'Foundational':
+          return {
+            gradient: 'from-green-500 to-emerald-600',
+            bg: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20',
+            border: 'border-green-200 dark:border-green-800',
+            badge: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+            icon: 'text-green-600 dark:text-green-400'
+          }
+        case 'Associate':
+          return {
+            gradient: 'from-blue-500 to-indigo-600',
+            bg: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20',
+            border: 'border-blue-200 dark:border-blue-800',
+            badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+            icon: 'text-blue-600 dark:text-blue-400'
+          }
+        case 'Professional':
+          return {
+            gradient: 'from-purple-500 to-violet-600',
+            bg: 'bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/20 dark:to-violet-950/20',
+            border: 'border-purple-200 dark:border-purple-800',
+            badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+            icon: 'text-purple-600 dark:text-purple-400'
+          }
+        case 'Specialty':
+          return {
+            gradient: 'from-orange-500 to-red-600',
+            bg: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20',
+            border: 'border-orange-200 dark:border-orange-800',
+            badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+            icon: 'text-orange-600 dark:text-orange-400'
+          }
+        default:
+          return {
+            gradient: 'from-slate-500 to-slate-600',
+            bg: 'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950/20 dark:to-slate-900/20',
+            border: 'border-slate-200 dark:border-slate-800',
+            badge: 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200',
+            icon: 'text-slate-600 dark:text-slate-400'
+          }
+      }
+    }
+
+    const colors = getLevelColor(cert.level)
+
+    return (
+      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-2`}>
+        {/* Gradient overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+        
+        {/* Level badge */}
+        <div className="absolute top-4 right-4">
+          <Badge className={`${colors.badge} font-semibold text-xs px-2 py-1`}>
+            {cert.level}
+          </Badge>
         </div>
-        {showPrice && (
-          <div className="text-right ml-4">
-            {cert.isFree ? (
-              <div className="text-2xl font-bold text-green-600">FREE</div>
-            ) : (
-              <div className="text-2xl font-bold text-slate-900 dark:text-white">${cert.price}</div>
+
+        <div className="relative p-6">
+          {/* Icon */}
+          <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mb-4 shadow-lg`}>
+            <Crown className="w-8 h-8 text-white" />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors">
+                {cert.name}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {cert.description}
+              </p>
+            </div>
+
+            {/* Exam details */}
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className={`text-xs ${colors.icon} border-current`}>
+                {cert.code}
+              </Badge>
+              <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400">
+                {cert.examDetails.duration} min
+              </Badge>
+              <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400">
+                {cert.examDetails.questions} questions
+              </Badge>
+            </div>
+
+            {/* Price */}
+            {showPrice && (
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  {cert.isFree ? (
+                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                      FREE
+                    </div>
+                  ) : (
+                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                      ${cert.price}
+                    </div>
+                  )}
+                </div>
+                <Button 
+                  className={`bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
+                  onClick={() => onNavigate('register')}
+                >
+                  {cert.isFree ? 'Start Free' : 'Get Started'}
+                </Button>
+              </div>
             )}
           </div>
-        )}
-      </div>
-      <Button 
-        className="w-full" 
-        variant={cert.isFree ? "default" : "outline"}
-        onClick={() => onNavigate('register')}
-      >
-        {cert.isFree ? 'Start Free' : 'Get Started'}
-      </Button>
-    </Card>
-  )
+        </div>
+
+        {/* Hover effect border */}
+        <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`} />
+      </Card>
+    )
+  }
 
   const BundleCard = ({ title, certs, level }: { title: string, certs: typeof certifications, level: string }) => {
     const { originalPrice, bundlePrice } = getBundleDiscount(certs)
@@ -71,33 +150,113 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     
     if (paidCerts.length === 0) return null
 
+    const getLevelColor = (level: string) => {
+      switch (level.toLowerCase()) {
+        case 'foundational':
+          return {
+            gradient: 'from-green-500 to-emerald-600',
+            bg: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30',
+            border: 'border-green-300 dark:border-green-700',
+            text: 'text-green-700 dark:text-green-300'
+          }
+        case 'associate':
+          return {
+            gradient: 'from-blue-500 to-indigo-600',
+            bg: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
+            border: 'border-blue-300 dark:border-blue-700',
+            text: 'text-blue-700 dark:text-blue-300'
+          }
+        case 'professional':
+          return {
+            gradient: 'from-purple-500 to-violet-600',
+            bg: 'bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30',
+            border: 'border-purple-300 dark:border-purple-700',
+            text: 'text-purple-700 dark:text-purple-300'
+          }
+        case 'specialty':
+          return {
+            gradient: 'from-orange-500 to-red-600',
+            bg: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/30 dark:to-red-950/30',
+            border: 'border-orange-300 dark:border-orange-700',
+            text: 'text-orange-700 dark:text-orange-300'
+          }
+        default:
+          return {
+            gradient: 'from-slate-500 to-slate-600',
+            bg: 'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950/30 dark:to-slate-900/30',
+            border: 'border-slate-300 dark:border-slate-700',
+            text: 'text-slate-700 dark:text-slate-300'
+          }
+      }
+    }
+
+    const colors = getLevelColor(level)
+
     return (
-      <Card className="p-6 border-2 border-blue-500 bg-blue-50 dark:bg-blue-950/20">
-        <div className="text-center mb-4">
-          <Crown className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-          <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2">
-            {title} Bundle
-          </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-            All {level} certifications together
-          </p>
-          <div className="mb-4">
-            <div className="text-sm text-slate-500 line-through">${originalPrice}</div>
-            <div className="text-3xl font-bold text-blue-600">${bundlePrice}</div>
-            <div className="text-sm text-green-600 font-medium">Save ${originalPrice - bundlePrice}</div>
+      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-3`}>
+        {/* Gradient overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
+        
+        {/* Bundle badge */}
+        <div className="absolute top-4 right-4">
+          <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-xs px-3 py-1 shadow-lg">
+            BUNDLE
+          </Badge>
+        </div>
+
+        <div className="relative p-8 text-center">
+          {/* Icon */}
+          <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
+            <Crown className="w-10 h-10 text-white" />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-bold text-2xl text-slate-900 dark:text-white mb-3">
+                {title} Bundle
+              </h3>
+              <p className={`text-base ${colors.text} font-medium`}>
+                All {level} certifications together
+              </p>
+            </div>
+
+            {/* Pricing */}
+            <div className="space-y-2">
+              <div className="text-lg text-slate-500 dark:text-slate-400 line-through">
+                ${originalPrice}
+              </div>
+              <div className={`text-4xl font-bold bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
+                ${bundlePrice}
+              </div>
+              <div className="text-lg font-semibold text-green-600 dark:text-green-400">
+                Save ${originalPrice - bundlePrice}
+              </div>
+            </div>
+
+            {/* Certifications list */}
+            <div className="space-y-3">
+              {paidCerts.map(cert => (
+                <div key={cert.id} className="flex items-center gap-3 text-left">
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    {cert.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <Button 
+              className={`w-full py-4 text-lg font-bold bg-gradient-to-r ${colors.gradient} hover:shadow-xl transition-all duration-300 text-white`}
+              onClick={() => onNavigate('register')}
+            >
+              Get Bundle
+            </Button>
           </div>
         </div>
-        <ul className="space-y-2 mb-6 text-sm">
-          {paidCerts.map(cert => (
-            <li key={cert.id} className="flex items-center gap-2">
-              <Check className="w-4 h-4 text-green-500" />
-              <span>{cert.name}</span>
-            </li>
-          ))}
-        </ul>
-        <Button className="w-full" onClick={() => onNavigate('register')}>
-          Get Bundle
-        </Button>
+
+        {/* Animated border effect */}
+        <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none`} />
       </Card>
     )
   }

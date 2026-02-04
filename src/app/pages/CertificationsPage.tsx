@@ -118,86 +118,156 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </Badge>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {certs.map((cert) => (
-                  <Card key={cert.id} className="p-6 hover:shadow-lg transition-shadow">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Badge className={getDifficultyColor(cert.level)}>
-                            {cert.level}
-                          </Badge>
-                          {cert.isFree && (
-                            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                              FREE
-                            </Badge>
-                          )}
-                        </div>
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
-                          {cert.name}
-                        </h3>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                          {cert.code}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        {cert.isFree ? (
-                          <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {certs.map((cert) => {
+                  const getLevelColor = (level: string) => {
+                    switch (level) {
+                      case 'Foundational':
+                        return {
+                          gradient: 'from-green-500 to-emerald-600',
+                          bg: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20',
+                          border: 'border-green-200 dark:border-green-800',
+                          badge: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+                          icon: 'text-green-600 dark:text-green-400'
+                        }
+                      case 'Associate':
+                        return {
+                          gradient: 'from-blue-500 to-indigo-600',
+                          bg: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20',
+                          border: 'border-blue-200 dark:border-blue-800',
+                          badge: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+                          icon: 'text-blue-600 dark:text-blue-400'
+                        }
+                      case 'Professional':
+                        return {
+                          gradient: 'from-purple-500 to-violet-600',
+                          bg: 'bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/20 dark:to-violet-950/20',
+                          border: 'border-purple-200 dark:border-purple-800',
+                          badge: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+                          icon: 'text-purple-600 dark:text-purple-400'
+                        }
+                      case 'Specialty':
+                        return {
+                          gradient: 'from-orange-500 to-red-600',
+                          bg: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20',
+                          border: 'border-orange-200 dark:border-orange-800',
+                          badge: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
+                          icon: 'text-orange-600 dark:text-orange-400'
+                        }
+                      default:
+                        return {
+                          gradient: 'from-slate-500 to-slate-600',
+                          bg: 'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950/20 dark:to-slate-900/20',
+                          border: 'border-slate-200 dark:border-slate-800',
+                          badge: 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200',
+                          icon: 'text-slate-600 dark:text-slate-400'
+                        }
+                    }
+                  }
+
+                  const colors = getLevelColor(cert.level)
+
+                  return (
+                    <Card key={cert.id} className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-2`}>
+                      {/* Gradient overlay */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                      
+                      {/* Level and Free badges */}
+                      <div className="absolute top-4 right-4 flex gap-2">
+                        <Badge className={`${colors.badge} font-semibold text-xs px-2 py-1`}>
+                          {cert.level}
+                        </Badge>
+                        {cert.isFree && (
+                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold text-xs px-2 py-1">
                             FREE
-                          </div>
-                        ) : (
-                          <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                            ${cert.price}
-                          </div>
+                          </Badge>
                         )}
                       </div>
-                    </div>
-                    
-                    <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">
-                      {cert.description}
-                    </p>
-                    
-                    <div className="space-y-3 mb-6">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-500 dark:text-slate-400">Duration:</span>
-                        <span className="font-medium">{cert.examDetails.duration} minutes</span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-500 dark:text-slate-400">Questions:</span>
-                        <span className="font-medium">{cert.examDetails.questions}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-slate-500 dark:text-slate-400">Passing Score:</span>
-                        <span className="font-medium">{cert.examDetails.passingScore}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="mb-6">
-                      <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-2">
-                        Exam Domains:
-                      </h4>
-                      <div className="space-y-1">
-                        {cert.domains.slice(0, 3).map((domain, index) => (
-                          <div key={index} className="text-xs text-slate-600 dark:text-slate-400">
-                            • {domain}
+
+                      <div className="relative p-6">
+                        {/* Icon */}
+                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mb-4 shadow-lg`}>
+                          <CheckCircle className="w-8 h-8 text-white" />
+                        </div>
+
+                        {/* Content */}
+                        <div className="space-y-4">
+                          <div>
+                            <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors">
+                              {cert.name}
+                            </h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                              {cert.code}
+                            </p>
+                            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                              {cert.description}
+                            </p>
                           </div>
-                        ))}
-                        {cert.domains.length > 3 && (
-                          <div className="text-xs text-slate-500 dark:text-slate-500">
-                            +{cert.domains.length - 3} more domains
+
+                          {/* Exam details */}
+                          <div className="space-y-2 bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-slate-500 dark:text-slate-400">Duration:</span>
+                              <span className="font-semibold">{cert.examDetails.duration} min</span>
+                            </div>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-slate-500 dark:text-slate-400">Questions:</span>
+                              <span className="font-semibold">{cert.examDetails.questions}</span>
+                            </div>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-slate-500 dark:text-slate-400">Passing Score:</span>
+                              <span className="font-semibold">{cert.examDetails.passingScore}</span>
+                            </div>
                           </div>
-                        )}
+
+                          {/* Domains */}
+                          <div>
+                            <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-2">
+                              Key Domains:
+                            </h4>
+                            <div className="space-y-1">
+                              {cert.domains.slice(0, 3).map((domain, index) => (
+                                <div key={index} className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                  <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${colors.gradient}`} />
+                                  {domain}
+                                </div>
+                              ))}
+                              {cert.domains.length > 3 && (
+                                <div className="text-xs text-slate-500 dark:text-slate-500 italic">
+                                  +{cert.domains.length - 3} more domains
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Price and CTA */}
+                          <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-700">
+                            <div>
+                              {cert.isFree ? (
+                                <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                                  FREE
+                                </div>
+                              ) : (
+                                <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                                  ${cert.price}
+                                </div>
+                              )}
+                            </div>
+                            <Button 
+                              className={`bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold px-6`}
+                              onClick={() => onNavigate('exam-path')}
+                            >
+                              {cert.isFree ? 'Start Free' : 'Start Path'}
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <Button 
-                      className="w-full"
-                      onClick={() => onNavigate('exam-path')}
-                    >
-                      {cert.isFree ? 'Start Free Path' : 'View Exam Path'}
-                    </Button>
-                  </Card>
-                ))}
+
+                      {/* Hover effect border */}
+                      <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`} />
+                    </Card>
+                  )
+                })}
               </div>
             </div>
           ))}
