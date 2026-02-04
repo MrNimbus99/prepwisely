@@ -24,6 +24,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import DashboardPage from './pages/DashboardPage'
 import CertificationDetailPage from './pages/CertificationDetailPage'
 import ExamPage from './pages/ExamPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth()
@@ -90,7 +91,7 @@ const AppContent: React.FC = () => {
       <Route path="/cert/database-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="database-specialty" /></ProtectedRoute>} />
       
       <Route path="/exam" element={<ProtectedRoute><ExamPage onNavigate={handleNavigate} /></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFoundPage onNavigate={handleNavigate} />} />
     </Routes>
   )
 }
