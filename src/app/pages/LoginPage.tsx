@@ -178,7 +178,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
               </Button>
             </form>
 
-            <div className="text-center pt-4">
+            <div className="text-center pt-4 space-y-2">
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 Don't have an account?{' '}
                 <button
@@ -186,6 +186,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                   className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                 >
                   Create one now
+                </button>
+              </p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                Need to verify your email?{' '}
+                <button
+                  onClick={() => onNavigate('email-verification')}
+                  className="font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                >
+                  Verify here
                 </button>
               </p>
             </div>

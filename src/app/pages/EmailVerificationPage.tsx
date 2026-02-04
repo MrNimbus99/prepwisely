@@ -11,12 +11,11 @@ interface EmailVerificationPageProps {
 
 const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ onNavigate }) => {
   const { confirmSignUp, pendingEmail } = useAuth()
+  const [email, setEmail] = useState(pendingEmail || '')
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [resending, setResending] = useState(false)
-
-  const email = pendingEmail || 'user@example.com'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -95,6 +94,23 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ onNavigat
                   <span className="text-sm text-red-700 dark:text-red-300">{error}</span>
                 </div>
               )}
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                  <Mail className="h-4 w-4" />
+                  <span>Email Address</span>
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 backdrop-blur-sm"
+                  placeholder="Enter your email address"
+                />
+              </div>
 
               <div className="space-y-3">
                 <label htmlFor="code" className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center space-x-2">
