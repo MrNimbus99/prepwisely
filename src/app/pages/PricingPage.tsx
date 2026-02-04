@@ -12,17 +12,6 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const professionalCerts = certifications.filter(cert => cert.level === 'Professional')
   const specialtyCerts = certifications.filter(cert => cert.level === 'Specialty')
 
-  const getBundlePrice = (certs: typeof certifications) => {
-    const paidCerts = certs.filter(cert => !cert.isFree)
-    return paidCerts.length * 49
-  }
-
-  const getBundleDiscount = (certs: typeof certifications) => {
-    const originalPrice = getBundlePrice(certs)
-    const bundlePrice = Math.floor(originalPrice * 0.7) // 30% discount
-    return { originalPrice, bundlePrice }
-  }
-
   const CertificationCard = ({ cert, showPrice = true }: { cert: typeof certifications[0], showPrice?: boolean }) => {
     const getLevelColor = (level: string) => {
       switch (level) {
@@ -122,8 +111,12 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       FREE
                     </div>
                   ) : (
-                    <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                      ${cert.price}
+                    <div>
+                      <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$20</div>
+                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                        $10
+                      </div>
+                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-bold">50% OFF</Badge>
                     </div>
                   )}
                 </div>
@@ -135,120 +128,6 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </Button>
               </div>
             )}
-          </div>
-        </div>
-      </Card>
-    )
-  }
-
-  const BundleCard = ({ title, certs, level }: { title: string, certs: typeof certifications, level: string }) => {
-    const { originalPrice, bundlePrice } = getBundleDiscount(certs)
-    const paidCerts = certs.filter(cert => !cert.isFree)
-    
-    if (paidCerts.length === 0) return null
-
-    const getLevelColor = (level: string) => {
-      switch (level.toLowerCase()) {
-        case 'foundational':
-          return {
-            gradient: 'from-green-500 to-emerald-600',
-            bg: 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30',
-            border: 'border-green-300 dark:border-green-700',
-            text: 'text-green-700 dark:text-green-300'
-          }
-        case 'associate':
-          return {
-            gradient: 'from-blue-500 to-indigo-600',
-            bg: 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
-            border: 'border-blue-300 dark:border-blue-700',
-            text: 'text-blue-700 dark:text-blue-300'
-          }
-        case 'professional':
-          return {
-            gradient: 'from-purple-500 to-violet-600',
-            bg: 'bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-950/30 dark:to-violet-950/30',
-            border: 'border-purple-300 dark:border-purple-700',
-            text: 'text-purple-700 dark:text-purple-300'
-          }
-        case 'specialty':
-          return {
-            gradient: 'from-orange-500 to-red-600',
-            bg: 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/30 dark:to-red-950/30',
-            border: 'border-orange-300 dark:border-orange-700',
-            text: 'text-orange-700 dark:text-orange-300'
-          }
-        default:
-          return {
-            gradient: 'from-slate-500 to-slate-600',
-            bg: 'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950/30 dark:to-slate-900/30',
-            border: 'border-slate-300 dark:border-slate-700',
-            text: 'text-slate-700 dark:text-slate-300'
-          }
-      }
-    }
-
-    const colors = getLevelColor(level)
-
-    return (
-      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 bg-white dark:bg-slate-900 ${colors.border} border-3`}>
-        {/* Subtle gradient overlay */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
-        
-        {/* Bundle badge */}
-        <div className="absolute top-4 right-4">
-          <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-xs px-3 py-1 shadow-lg">
-            BUNDLE
-          </Badge>
-        </div>
-
-        <div className="relative p-8 text-center">
-          {/* Icon */}
-          <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mx-auto mb-6 shadow-xl`}>
-            <Crown className="w-10 h-10 text-white" />
-          </div>
-
-          {/* Content */}
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-bold text-2xl text-slate-900 dark:text-white mb-3">
-                {title} Bundle
-              </h3>
-              <p className="text-base text-slate-700 dark:text-slate-300 font-medium">
-                All {level} certifications together
-              </p>
-            </div>
-
-            {/* Pricing */}
-            <div className="space-y-2">
-              <div className="text-lg text-slate-500 dark:text-slate-400 line-through">
-                ${originalPrice}
-              </div>
-              <div className={`text-4xl font-bold bg-gradient-to-r ${colors.gradient} bg-clip-text text-transparent`}>
-                ${bundlePrice}
-              </div>
-              <div className="text-lg font-semibold text-green-600 dark:text-green-400">
-                Save ${originalPrice - bundlePrice}
-              </div>
-            </div>
-
-            {/* Certifications list */}
-            <div className="space-y-3">
-              {paidCerts.map(cert => (
-                <div key={cert.id} className="flex items-center gap-3 text-left">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
-                    {cert.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <Button 
-              className={`w-full py-4 text-lg font-bold bg-gradient-to-r ${colors.gradient} hover:shadow-xl transition-all duration-300 text-white`}
-              onClick={() => onNavigate('register')}
-            >
-              Get Bundle
-            </Button>
           </div>
         </div>
       </Card>
@@ -315,7 +194,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
-            Start with Cloud Practitioner for free. Choose individual certifications or save with bundles.
+            Start with Cloud Practitioner for free. Choose individual certifications or subscriptions.
           </p>
         </div>
       </section>
@@ -326,7 +205,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
             Subscription Plans
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Monthly */}
             <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-orange-500 dark:hover:border-orange-500 p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300" />
@@ -336,14 +215,14 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Monthly</h3>
                 <div className="mb-6">
-                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$39/month</div>
-                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$20<span className="text-xl text-slate-600 dark:text-slate-400">/month</span></div>
-                  <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 font-bold">48% OFF</Badge>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$40/month</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$20<span className="text-xl text-slate-600 dark:text-slate-400">/mo</span></div>
+                  <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 font-bold">50% OFF</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 text-left">
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">Access to all certifications</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">All 13 certifications</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -351,7 +230,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools & analytics</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
                 <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
@@ -362,28 +241,28 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
             {/* Annual */}
             <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-3 border-blue-500 dark:border-blue-500 p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-4 py-1 shadow-lg">
+              <Badge className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-4 py-1.5 shadow-lg whitespace-nowrap">
                 BEST VALUE
               </Badge>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300" />
-              <div className="relative">
+              <div className="relative pt-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <Infinity className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Annual</h3>
                 <div className="mb-6">
-                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$468/year</div>
-                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$180<span className="text-xl text-slate-600 dark:text-slate-400">/year</span></div>
-                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">Save $288</Badge>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$180/year</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$90<span className="text-xl text-slate-600 dark:text-slate-400">/yr</span></div>
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">Save $150</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 text-left">
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">Access to all certifications</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">All 13 certifications</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">Save 2+ months vs monthly</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Save 6+ months</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -395,118 +274,92 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </Button>
               </div>
             </Card>
+
+            {/* Lifetime */}
+            <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-purple-500 dark:border-purple-500 p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 opacity-5 group-hover:opacity-10 transition-opacity duration-300" />
+              <div className="relative">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Crown className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Lifetime</h3>
+                <div className="mb-6">
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$240</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$120</div>
+                  <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 font-bold">50% OFF</Badge>
+                </div>
+                <ul className="space-y-3 mb-8 text-left">
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">All 13 certifications</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Lifetime access</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
+                  </li>
+                </ul>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
+                  Buy Lifetime
+                </Button>
+              </div>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Foundational Certifications */}
+      {/* Individual Certifications */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Foundational Certifications
-            </h2>
-            <div className="text-right">
-              <div className="text-sm text-slate-600 dark:text-slate-400">Bundle Price</div>
-              <div className="text-2xl font-bold text-blue-600">$35</div>
-              <div className="text-sm text-slate-500 line-through">$49</div>
-            </div>
-          </div>
-          <div className="grid lg:grid-cols-3 gap-6">
-            {foundationalCerts.map(cert => (
-              <CertificationCard key={cert.id} cert={cert} />
-            ))}
-            <BundleCard title="Foundational" certs={foundationalCerts} level="foundational" />
-          </div>
-        </div>
-      </section>
-
-      {/* Associate Certifications */}
-      <section className="py-16 bg-white dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Associate Certifications
-            </h2>
-            <div className="text-right">
-              <div className="text-sm text-slate-600 dark:text-slate-400">Bundle Price</div>
-              <div className="text-2xl font-bold text-blue-600">$103</div>
-              <div className="text-sm text-slate-500 line-through">$147</div>
-            </div>
-          </div>
-          <div className="grid lg:grid-cols-3 xl:grid-cols-3 gap-6">
-            {associateCerts.map(cert => (
-              <CertificationCard key={cert.id} cert={cert} />
-            ))}
-            <BundleCard title="Associate" certs={associateCerts} level="associate" />
-          </div>
-        </div>
-      </section>
-
-      {/* Professional Certifications */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Professional Certifications
-            </h2>
-            <div className="text-right">
-              <div className="text-sm text-slate-600 dark:text-slate-400">Bundle Price</div>
-              <div className="text-2xl font-bold text-blue-600">$69</div>
-              <div className="text-sm text-slate-500 line-through">$98</div>
-            </div>
-          </div>
-          <div className="grid lg:grid-cols-3 gap-6">
-            {professionalCerts.map(cert => (
-              <CertificationCard key={cert.id} cert={cert} />
-            ))}
-            <BundleCard title="Professional" certs={professionalCerts} level="professional" />
-          </div>
-        </div>
-      </section>
-
-      {/* Specialty Certifications */}
-      <section className="py-16 bg-white dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-              Specialty Certifications
-            </h2>
-            <div className="text-right">
-              <div className="text-sm text-slate-600 dark:text-slate-400">Bundle Price</div>
-              <div className="text-2xl font-bold text-blue-600">$207</div>
-              <div className="text-sm text-slate-500 line-through">$294</div>
-            </div>
-          </div>
-          <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {specialtyCerts.map(cert => (
-              <CertificationCard key={cert.id} cert={cert} />
-            ))}
-            <div className="lg:col-span-2 xl:col-span-1">
-              <BundleCard title="Specialty" certs={specialtyCerts} level="specialty" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Everything Pass */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <Crown className="w-16 h-16 text-white mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Everything Pass
+          <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-4">
+            Individual Certifications
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Get lifetime access to all current and future AWS certifications
+          <p className="text-center text-slate-600 dark:text-slate-300 mb-12">
+            Purchase individual certifications at $10 each (50% off)
           </p>
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 mb-8">
-            <div className="text-blue-100 text-lg line-through mb-2">$637 individual price</div>
-            <div className="text-5xl font-bold text-white mb-2">$299</div>
-            <div className="text-green-300 font-medium">Save $338 (53% OFF)</div>
+          
+          {/* Foundational */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Foundational</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {foundationalCerts.map(cert => (
+                <CertificationCard key={cert.id} cert={cert} />
+              ))}
+            </div>
           </div>
-          <Button size="lg" variant="secondary" onClick={() => onNavigate('register')}>
-            Get Everything Pass
-          </Button>
+
+          {/* Associate */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Associate</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {associateCerts.map(cert => (
+                <CertificationCard key={cert.id} cert={cert} />
+              ))}
+            </div>
+          </div>
+
+          {/* Professional */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Professional</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {professionalCerts.map(cert => (
+                <CertificationCard key={cert.id} cert={cert} />
+              ))}
+            </div>
+          </div>
+
+          {/* Specialty */}
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Specialty</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {specialtyCerts.map(cert => (
+                <CertificationCard key={cert.id} cert={cert} />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
