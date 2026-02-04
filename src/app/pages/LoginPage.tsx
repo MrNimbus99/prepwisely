@@ -3,7 +3,7 @@ import { PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Eye, EyeOff, ArrowLeft, AlertCircle } from 'lucide-react'
+import { Eye, EyeOff, ArrowLeft, AlertCircle, Sparkles } from 'lucide-react'
 
 interface LoginPageProps {
   onNavigate: (page: PageName) => void
@@ -43,28 +43,36 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-slate-950 dark:via-purple-950/20 dark:to-violet-950/20 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-violet-400/10 to-fuchsia-400/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
       {/* Header */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+      <div className="relative z-10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-white/20 dark:border-slate-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => onNavigate('landing')}
-              className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+              className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all duration-200 hover:scale-105"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to Home</span>
+              <span className="font-medium">Back to Home</span>
             </button>
             
             <div className="flex items-center space-x-4">
               <span className="text-sm text-slate-600 dark:text-slate-400">
-                Don't have an account?
+                New to PrepWisely?
               </span>
               <Button
                 variant="outline"
                 onClick={() => onNavigate('register')}
+                className="bg-white/50 hover:bg-white/80 border-white/30 backdrop-blur-sm"
               >
-                Sign Up
+                Create Account
               </Button>
             </div>
           </div>
@@ -72,26 +80,31 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-            <CardDescription>
-              Sign in to your PrepWisely account
+      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] p-4">
+        <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-white/20 dark:border-slate-800/50 shadow-2xl shadow-purple-500/10">
+          <CardHeader className="text-center pb-8">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/25">
+              <Sparkles className="h-8 w-8 text-white" />
+            </div>
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Welcome Back
+            </CardTitle>
+            <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
+              Continue your AWS certification journey
             </CardDescription>
           </CardHeader>
           
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <CardContent className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
-                <div className="flex items-center space-x-2 p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg">
-                  <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                <div className="flex items-center space-x-3 p-4 bg-red-50/80 dark:bg-red-950/30 border border-red-200/50 dark:border-red-800/50 rounded-xl backdrop-blur-sm">
+                  <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" />
                   <span className="text-sm text-red-700 dark:text-red-300">{error}</span>
                 </div>
               )}
 
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                <label htmlFor="email" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Email Address
                 </label>
                 <input
@@ -101,13 +114,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-200 backdrop-blur-sm"
                   placeholder="Enter your email"
                 />
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                <label htmlFor="password" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                   Password
                 </label>
                 <div className="relative">
@@ -118,24 +131,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 pr-10 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 pr-12 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-200 backdrop-blur-sm"
                     placeholder="Enter your password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="flex items-center space-x-2">
+                <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    className="rounded border-slate-300 dark:border-slate-600 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-slate-300 dark:border-slate-600 text-purple-600 focus:ring-purple-500/50 bg-white/50 dark:bg-slate-800/50"
                   />
                   <span className="text-sm text-slate-600 dark:text-slate-400">Remember me</span>
                 </label>
@@ -143,7 +156,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
                 <button
                   type="button"
                   onClick={() => onNavigate('forgot-password')}
-                  className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
+                  className="text-sm font-medium text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors"
                 >
                   Forgot password?
                 </button>
@@ -151,12 +164,31 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-200 hover:scale-[1.02]"
                 disabled={loading}
               >
-                {loading ? 'Signing In...' : 'Sign In'}
+                {loading ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Signing In...</span>
+                  </div>
+                ) : (
+                  'Sign In'
+                )}
               </Button>
             </form>
+
+            <div className="text-center pt-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                Don't have an account?{' '}
+                <button
+                  onClick={() => onNavigate('register')}
+                  className="font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors"
+                >
+                  Create one now
+                </button>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
