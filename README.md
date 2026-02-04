@@ -40,6 +40,7 @@ A modern, enterprise-grade SaaS platform for AWS certification preparation with 
 
 ## 🏃‍♂️ Quick Start
 
+### Local Development
 ```bash
 # Install dependencies
 npm install
@@ -50,6 +51,20 @@ npm run dev
 # Build for production
 npm run build
 ```
+
+### AWS Deployment
+```bash
+# One-command setup (creates S3 + CloudFront)
+./aws-manager.sh setup
+
+# Deploy to AWS
+./aws-manager.sh deploy
+
+# Check status
+./aws-manager.sh status
+```
+
+See [AWS_DEPLOYMENT_GUIDE.md](./AWS_DEPLOYMENT_GUIDE.md) for detailed deployment instructions.
 
 ## 📁 Project Structure
 

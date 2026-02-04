@@ -1,0 +1,129 @@
+name: Deploy PrepWisely to AWS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  S3_STACK_NAME: prepwisely-s3-stack
+  CLOUDFRONT_STACK_NAME: prepwisely-cloudfront-stack
+
+jobs:
+  deploy-infrastructure:
+    runs-on: ubuntu-latest
+    outputs:
+      bucket-name: ${{ steps.get-outputs.outputs.bucket-name }}
+      distribution-id: ${{ steps.get-outputs.outputs.distribution-id }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Deploy S3 Stack
+      run: |
+        aws cloudformation deploy \
+          --template-file infrastructure/s3-stack.yaml \
+          --stack-name ${{ env.S3_STACK_NAME }} \
+          --parameter-overrides Environment=prod \
+          --tags Project=PrepWisely Environment=prod \
+          --no-fail-on-empty-changeset
+          
+    - name: Deploy CloudFront Stack
+      run: |
+        aws cloudformation deploy \
+          --template-file infrastructure/cloudfront-stack.yaml \
+          --stack-name ${{ env.CLOUDFRONT_STACK_NAME }} \
+          --parameter-overrides S3StackName=${{ env.S3_STACK_NAME }} Environment=prod \
+          --tags Project=PrepWisely Environment=prod \
+          --no-fail-on-empty-changeset
+          
+    - name: Get Stack Outputs
+      id: get-outputs
+      run: |
+        BUCKET_NAME=$(aws cloudformation describe-stacks \
+          --stack-name ${{ env.S3_STACK_NAME }} \
+          --query 'Stacks[0].Outputs[?OutputKey==`BucketName`].OutputValue' \
+          --output text)
+        
+        DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
+          --stack-name ${{ env.CLOUDFRONT_STACK_NAME }} \
+          --query 'Stacks[0].Outputs[?OutputKey==`DistributionId`].OutputValue' \
+          --output text)
+        
+        echo "bucket-name=$BUCKET_NAME" >> $GITHUB_OUTPUT
+        echo "distribution-id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+        
+        echo "✅ Infrastructure deployed successfully!"
+        echo "S3 Bucket: $BUCKET_NAME"
+        echo "CloudFront Distribution: $DISTRIBUTION_ID"
+
+  build-and-deploy:
+    needs: deploy-infrastructure
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Deploy to S3
+      run: |
+        # Upload static assets with long cache
+        aws s3 sync dist/ s3://${{ needs.deploy-infrastructure.outputs.bucket-name }} \
+          --delete \
+          --cache-control "public, max-age=31536000, immutable" \
+          --exclude "*.html" \
+          --exclude "*.json" \
+          --exclude "*.txt"
+        
+        # Upload HTML files with short cache
+        aws s3 sync dist/ s3://${{ needs.deploy-infrastructure.outputs.bucket-name }} \
+          --cache-control "public, max-age=0, must-revalidate" \
+          --include "*.html" \
+          --include "*.json" \
+          --include "*.txt"
+          
+    - name: Invalidate CloudFront
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ needs.deploy-infrastructure.outputs.distribution-id }} \
+          --paths "/*" \
+          --output table
+          
+    - name: Get Website URLs
+      run: |
+        WEBSITE_URL=$(aws cloudformation describe-stacks \
+          --stack-name ${{ env.CLOUDFRONT_STACK_NAME }} \
+          --query 'Stacks[0].Outputs[?OutputKey==`WebsiteURL`].OutputValue' \
+          --output text)
+        
+        echo "🚀 Deployment Complete!"
+        echo "Website URL: $WEBSITE_URL"
+        echo "::notice title=Deployment Success::PrepWisely is live at $WEBSITE_URL"
