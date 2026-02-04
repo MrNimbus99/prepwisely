@@ -22,11 +22,18 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
+    // Foundational (2)
     'cloud-practitioner': {
       name: 'AWS Certified Cloud Practitioner',
       code: 'CLF-C02',
       gradient: 'from-green-500 to-emerald-600'
     },
+    'ai-practitioner': {
+      name: 'AWS Certified AI Practitioner',
+      code: 'AIF-C01',
+      gradient: 'from-violet-500 to-purple-600'
+    },
+    // Associate (5)
     'solutions-architect-associate': {
       name: 'AWS Solutions Architect Associate',
       code: 'SAA-C03',
@@ -42,45 +49,47 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'SOA-C02',
       gradient: 'from-orange-500 to-amber-600'
     },
+    'data-engineer-associate': {
+      name: 'AWS Data Engineer Associate',
+      code: 'DEA-C01',
+      gradient: 'from-cyan-500 to-teal-600'
+    },
+    'machine-learning-engineer-associate': {
+      name: 'AWS Machine Learning Engineer Associate',
+      code: 'MLA-C01',
+      gradient: 'from-fuchsia-500 to-pink-600'
+    },
+    // Professional (3)
     'solutions-architect-professional': {
       name: 'AWS Solutions Architect Professional',
       code: 'SAP-C02',
-      gradient: 'from-cyan-500 to-teal-600'
+      gradient: 'from-rose-500 to-red-600'
     },
     'devops-engineer-professional': {
       name: 'AWS DevOps Engineer Professional',
       code: 'DOP-C02',
-      gradient: 'from-rose-500 to-red-600'
+      gradient: 'from-slate-600 to-gray-700'
     },
+    'advanced-networking-professional': {
+      name: 'AWS Advanced Networking Professional',
+      code: 'ANS-C01',
+      gradient: 'from-sky-500 to-blue-600'
+    },
+    // Specialty (3)
     'security-specialty': {
       name: 'AWS Security Specialty',
       code: 'SCS-C02',
-      gradient: 'from-slate-600 to-gray-700'
+      gradient: 'from-emerald-500 to-green-600'
     },
     'machine-learning-specialty': {
       name: 'AWS Machine Learning Specialty',
       code: 'MLS-C01',
-      gradient: 'from-violet-500 to-purple-600'
+      gradient: 'from-lime-500 to-green-600'
     },
     'database-specialty': {
       name: 'AWS Database Specialty',
       code: 'DBS-C01',
-      gradient: 'from-emerald-500 to-green-600'
-    },
-    'advanced-networking-specialty': {
-      name: 'AWS Advanced Networking Specialty',
-      code: 'ANS-C01',
-      gradient: 'from-sky-500 to-blue-600'
-    },
-    'data-analytics-specialty': {
-      name: 'AWS Data Analytics Specialty',
-      code: 'DAS-C01',
-      gradient: 'from-fuchsia-500 to-pink-600'
-    },
-    'sap-on-aws-specialty': {
-      name: 'AWS SAP on AWS Specialty',
-      code: 'PAS-C01',
-      gradient: 'from-lime-500 to-green-600'
+      gradient: 'from-amber-500 to-yellow-600'
     }
   }
 

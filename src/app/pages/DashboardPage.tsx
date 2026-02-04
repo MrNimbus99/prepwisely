@@ -27,6 +27,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   // All certifications with unique colors
   const allCertifications = [
+    // Foundational (2)
     {
       id: 'cloud-practitioner',
       name: 'AWS Certified Cloud Practitioner',
@@ -35,6 +36,15 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       gradient: 'from-green-500 to-emerald-600',
       isUnlocked: true
     },
+    {
+      id: 'ai-practitioner',
+      name: 'AWS Certified AI Practitioner',
+      code: 'AIF-C01',
+      level: 'Foundational',
+      gradient: 'from-violet-500 to-purple-600',
+      isUnlocked: hasFullAccess
+    },
+    // Associate (5)
     {
       id: 'solutions-architect-associate',
       name: 'AWS Solutions Architect Associate',
@@ -60,11 +70,28 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       isUnlocked: hasFullAccess
     },
     {
+      id: 'data-engineer-associate',
+      name: 'AWS Data Engineer Associate',
+      code: 'DEA-C01',
+      level: 'Associate',
+      gradient: 'from-cyan-500 to-teal-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'machine-learning-engineer-associate',
+      name: 'AWS Machine Learning Engineer Associate',
+      code: 'MLA-C01',
+      level: 'Associate',
+      gradient: 'from-fuchsia-500 to-pink-600',
+      isUnlocked: hasFullAccess
+    },
+    // Professional (3)
+    {
       id: 'solutions-architect-professional',
       name: 'AWS Solutions Architect Professional',
       code: 'SAP-C02',
       level: 'Professional',
-      gradient: 'from-cyan-500 to-teal-600',
+      gradient: 'from-rose-500 to-red-600',
       isUnlocked: hasFullAccess
     },
     {
@@ -72,15 +99,24 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       name: 'AWS DevOps Engineer Professional',
       code: 'DOP-C02',
       level: 'Professional',
-      gradient: 'from-rose-500 to-red-600',
+      gradient: 'from-slate-600 to-gray-700',
       isUnlocked: hasFullAccess
     },
+    {
+      id: 'advanced-networking-professional',
+      name: 'AWS Advanced Networking Professional',
+      code: 'ANS-C01',
+      level: 'Professional',
+      gradient: 'from-sky-500 to-blue-600',
+      isUnlocked: hasFullAccess
+    },
+    // Specialty (3)
     {
       id: 'security-specialty',
       name: 'AWS Security Specialty',
       code: 'SCS-C02',
       level: 'Specialty',
-      gradient: 'from-slate-600 to-gray-700',
+      gradient: 'from-emerald-500 to-green-600',
       isUnlocked: hasFullAccess
     },
     {
@@ -88,7 +124,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       name: 'AWS Machine Learning Specialty',
       code: 'MLS-C01',
       level: 'Specialty',
-      gradient: 'from-violet-500 to-purple-600',
+      gradient: 'from-lime-500 to-green-600',
       isUnlocked: hasFullAccess
     },
     {
@@ -96,31 +132,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       name: 'AWS Database Specialty',
       code: 'DBS-C01',
       level: 'Specialty',
-      gradient: 'from-emerald-500 to-green-600',
-      isUnlocked: hasFullAccess
-    },
-    {
-      id: 'advanced-networking-specialty',
-      name: 'AWS Advanced Networking Specialty',
-      code: 'ANS-C01',
-      level: 'Specialty',
-      gradient: 'from-sky-500 to-blue-600',
-      isUnlocked: hasFullAccess
-    },
-    {
-      id: 'data-analytics-specialty',
-      name: 'AWS Data Analytics Specialty',
-      code: 'DAS-C01',
-      level: 'Specialty',
-      gradient: 'from-fuchsia-500 to-pink-600',
-      isUnlocked: hasFullAccess
-    },
-    {
-      id: 'sap-on-aws-specialty',
-      name: 'AWS SAP on AWS Specialty',
-      code: 'PAS-C01',
-      level: 'Specialty',
-      gradient: 'from-lime-500 to-green-600',
+      gradient: 'from-amber-500 to-yellow-600',
       isUnlocked: hasFullAccess
     }
   ]
