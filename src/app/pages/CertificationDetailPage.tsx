@@ -1,0 +1,201 @@
+import React from 'react'
+import { NavigationProps } from '../types'
+import { Button } from '../components/ui/button'
+import { Card } from '../components/ui/card'
+import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock } from 'lucide-react'
+
+interface Quiz {
+  id: number
+  title: string
+  questions: number
+  duration: number
+  isCompleted: boolean
+  score?: number
+  isLocked: boolean
+}
+
+const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  // Mock data for Cloud Practitioner
+  const certification = {
+    name: 'AWS Certified Cloud Practitioner',
+    code: 'CLF-C02',
+    gradient: 'from-green-500 to-emerald-600'
+  }
+
+  const quizzes: Quiz[] = Array.from({ length: 30 }, (_, i) => ({
+    id: i + 1,
+    title: `Quiz ${i + 1}`,
+    questions: 1,
+    duration: 2,
+    isCompleted: false,
+    isLocked: i > 0 // Only first quiz is unlocked
+  }))
+
+  const handleStartQuiz = () => {
+    // Navigate to quiz page
+    onNavigate('exam')
+  }
+
+  const completedCount = quizzes.filter(q => q.isCompleted).length
+  const progress = (completedCount / quizzes.length) * 100
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+      {/* Header */}
+      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <button
+              onClick={() => onNavigate('dashboard')}
+              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+            >
+              PrepWisely
+            </button>
+            <Button variant="outline" onClick={() => onNavigate('dashboard')}>
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Dashboard
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Certification Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${certification.gradient} flex items-center justify-center shadow-xl`}>
+              <Trophy className="w-10 h-10 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+                {certification.name}
+              </h1>
+              <p className="text-lg text-slate-600 dark:text-slate-400 font-mono">
+                {certification.code}
+              </p>
+            </div>
+          </div>
+
+          {/* Progress Card */}
+          <Card className="bg-white dark:bg-slate-900 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                Overall Progress
+              </h2>
+              <span className="text-2xl font-bold text-slate-900 dark:text-white">
+                {completedCount}/{quizzes.length}
+              </span>
+            </div>
+            <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3">
+              <div
+                className={`h-3 rounded-full bg-gradient-to-r ${certification.gradient} transition-all duration-500`}
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="text-right text-sm text-slate-500 dark:text-slate-400 mt-2">
+              {progress.toFixed(0)}% Complete
+            </div>
+          </Card>
+        </div>
+
+        {/* Quizzes Grid */}
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+            Practice Quizzes
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {quizzes.map((quiz) => (
+              <Card
+                key={quiz.id}
+                className={`group relative overflow-hidden transition-all duration-300 ${
+                  quiz.isLocked
+                    ? 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
+                    : quiz.isCompleted
+                    ? 'bg-green-50 dark:bg-green-950/20 border-2 border-green-500 hover:shadow-lg'
+                    : 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl cursor-pointer hover:scale-105'
+                }`}
+                onClick={() => !quiz.isLocked && handleStartQuiz()}
+              >
+                <div className="p-6">
+                  {/* Status Icon */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      quiz.isLocked
+                        ? 'bg-slate-200 dark:bg-slate-700'
+                        : quiz.isCompleted
+                        ? 'bg-gradient-to-br from-green-500 to-emerald-600'
+                        : 'bg-gradient-to-br from-blue-500 to-indigo-600'
+                    } shadow-lg`}>
+                      {quiz.isLocked ? (
+                        <Lock className="w-6 h-6 text-slate-500" />
+                      ) : quiz.isCompleted ? (
+                        <CheckCircle className="w-6 h-6 text-white" />
+                      ) : (
+                        <Play className="w-6 h-6 text-white" />
+                      )}
+                    </div>
+                    {quiz.isCompleted && quiz.score && (
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                          {quiz.score}%
+                        </div>
+                        <div className="text-xs text-slate-500">Score</div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Quiz Info */}
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">
+                    {quiz.title}
+                  </h3>
+
+                  <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                    <div className="flex items-center gap-2">
+                      <Trophy className="w-4 h-4" />
+                      <span>{quiz.questions} Question{quiz.questions > 1 ? 's' : ''}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      <span>{quiz.duration} min</span>
+                    </div>
+                  </div>
+
+                  {/* Action */}
+                  {!quiz.isLocked && (
+                    <div className="mt-4">
+                      {quiz.isCompleted ? (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/20"
+                        >
+                          Review
+                        </Button>
+                      ) : (
+                        <Button
+                          size="sm"
+                          className={`w-full bg-gradient-to-r ${certification.gradient} text-white font-semibold`}
+                        >
+                          Start Quiz
+                        </Button>
+                      )}
+                    </div>
+                  )}
+
+                  {quiz.isLocked && (
+                    <div className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+                      Complete previous quiz to unlock
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default CertificationDetailPage

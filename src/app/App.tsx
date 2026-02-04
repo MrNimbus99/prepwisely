@@ -21,6 +21,7 @@ import RegisterPage from './pages/RegisterPage'
 import EmailVerificationPage from './pages/EmailVerificationPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import DashboardPage from './pages/DashboardPage'
+import CertificationDetailPage from './pages/CertificationDetailPage'
 import ExamPage from './pages/ExamPage'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -65,6 +66,7 @@ const AppContent: React.FC = () => {
       <Route path="/email-verification" element={<EmailVerificationPage onNavigate={handleNavigate} />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage onNavigate={handleNavigate} />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/certification-detail" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/exam" element={<ProtectedRoute><ExamPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

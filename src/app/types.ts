@@ -11,6 +11,7 @@ export type PageName =
   | 'email-verification'
   | 'forgot-password'
   | 'dashboard'
+  | 'certification-detail'
   | 'exam'
   | 'exam-path'
   | 'checkout'

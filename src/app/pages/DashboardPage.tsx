@@ -1,256 +1,224 @@
 import React from 'react'
-import { PageName } from '../types'
+import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Badge } from '../components/ui/badge'
-import { 
-  Trophy, 
-  BookOpen, 
-  BarChart3, 
-  Calendar,
-  Target,
-  Clock,
-  Star,
-  LogOut,
-  User,
-  Settings
-} from 'lucide-react'
+import { Card } from '../components/ui/card'
+import { Trophy, LogOut, CheckCircle, Lock, Play } from 'lucide-react'
 
-interface DashboardPageProps {
-  onNavigate: (page: PageName) => void
+interface CertificationCard {
+  id: string
+  name: string
+  code: string
+  level: string
+  progress: number
+  totalQuizzes: number
+  completedQuizzes: number
+  isUnlocked: boolean
+  gradient: string
 }
 
-const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
+const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
+
+  // For now, only Cloud Practitioner is unlocked (free)
+  const certifications: CertificationCard[] = [
+    {
+      id: 'cloud-practitioner',
+      name: 'AWS Certified Cloud Practitioner',
+      code: 'CLF-C02',
+      level: 'Foundational',
+      progress: 0,
+      totalQuizzes: 30,
+      completedQuizzes: 0,
+      isUnlocked: true,
+      gradient: 'from-green-500 to-emerald-600'
+    }
+  ]
 
   const handleSignOut = async () => {
     await signOut()
     onNavigate('landing')
   }
 
+  const handleStartCertification = () => {
+    onNavigate('certification-detail')
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800">
+      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Trophy className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                PrepWisely
-              </span>
-            </div>
-            
+          <div className="flex justify-between items-center h-16">
+            <button
+              onClick={() => onNavigate('landing')}
+              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+            >
+              PrepWisely
+            </button>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-slate-600 dark:text-slate-400">
-                Welcome back, {user?.name || 'User'}!
+              <span className="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">
+                {user?.email}
               </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onNavigate('account')}
-              >
-                <User className="h-4 w-4 mr-2" />
-                Account
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleSignOut}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-            Dashboard
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+            Welcome back, {user?.name || 'Student'}!
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
-            Track your AWS certification progress and continue your learning journey
+          <p className="text-xl text-slate-600 dark:text-slate-300">
+            Continue your AWS certification journey
           </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Current Streak</p>
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white">7 days</p>
-                </div>
-                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
-                  <Target className="h-6 w-6 text-orange-600 dark:text-orange-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Certifications Grid */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+            Your Certifications
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certifications.map((cert) => (
+              <Card
+                key={cert.id}
+                className={`group relative overflow-hidden bg-white dark:bg-slate-900 border-2 transition-all duration-300 hover:shadow-2xl ${
+                  cert.isUnlocked
+                    ? 'border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 cursor-pointer hover:scale-105'
+                    : 'border-slate-200 dark:border-slate-700 opacity-60'
+                }`}
+                onClick={() => cert.isUnlocked && handleStartCertification()}
+              >
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${cert.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
 
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Exams Taken</p>
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white">23</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                  <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Average Score</p>
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white">78%</p>
-                </div>
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="h-6 w-6 text-green-600 dark:text-green-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Study Time</p>
-                  <p className="text-2xl font-bold text-slate-900 dark:text-white">2.5h</p>
-                </div>
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Current Certification */}
-          <div className="lg:col-span-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Trophy className="h-5 w-5 text-yellow-600" />
-                  <span>Current Certification Path</span>
-                </CardTitle>
-                <CardDescription>
-                  AWS Solutions Architect Associate (SAA-C03)
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Progress</span>
-                    <Badge variant="secondary">Day 23 of 30</Badge>
+                {/* Lock badge for locked certs */}
+                {!cert.isUnlocked && (
+                  <div className="absolute top-4 right-4">
+                    <div className="w-10 h-10 bg-slate-200 dark:bg-slate-700 rounded-full flex items-center justify-center">
+                      <Lock className="w-5 h-5 text-slate-500" />
+                    </div>
                   </div>
-                  
-                  <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 h-2 rounded-full" style={{ width: '77%' }}></div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-                    <span>77% Complete</span>
-                    <span>7 days remaining</span>
+                )}
+
+                <div className="relative p-6">
+                  {/* Icon */}
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${cert.gradient} flex items-center justify-center mb-4 shadow-lg ${cert.isUnlocked ? 'group-hover:scale-110' : ''} transition-transform duration-300`}>
+                    <Trophy className="w-8 h-8 text-white" />
                   </div>
 
-                  <Button 
-                    className="w-full"
-                    onClick={() => onNavigate('exam')}
-                  >
-                    <BookOpen className="h-4 w-4 mr-2" />
-                    Continue Today's Exam
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  {/* Content */}
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">
+                        {cert.name}
+                      </h3>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 font-mono">
+                        {cert.code}
+                      </p>
+                    </div>
 
-          {/* Quick Actions */}
-          <div>
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  View Analytics
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Review Bookmarks
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Star className="h-4 w-4 mr-2" />
-                  Flagged Questions
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Study Schedule
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-              </CardContent>
-            </Card>
+                    {cert.isUnlocked && (
+                      <>
+                        {/* Progress */}
+                        <div>
+                          <div className="flex items-center justify-between text-sm mb-2">
+                            <span className="text-slate-600 dark:text-slate-400">Progress</span>
+                            <span className="font-semibold text-slate-900 dark:text-white">
+                              {cert.completedQuizzes}/{cert.totalQuizzes} Quizzes
+                            </span>
+                          </div>
+                          <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full bg-gradient-to-r ${cert.gradient} transition-all duration-500`}
+                              style={{ width: `${cert.progress}%` }}
+                            />
+                          </div>
+                          <div className="text-right text-xs text-slate-500 dark:text-slate-400 mt-1">
+                            {cert.progress}% Complete
+                          </div>
+                        </div>
+
+                        {/* CTA Button */}
+                        <Button
+                          className={`w-full bg-gradient-to-r ${cert.gradient} hover:shadow-lg transition-all duration-300 text-white font-semibold`}
+                        >
+                          <Play className="w-4 h-4 mr-2" />
+                          {cert.completedQuizzes === 0 ? 'Start Learning' : 'Continue'}
+                        </Button>
+                      </>
+                    )}
+
+                    {!cert.isUnlocked && (
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onNavigate('pricing')
+                        }}
+                      >
+                        <Lock className="w-4 h-4 mr-2" />
+                        Unlock Now
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            ))}
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="mt-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Your latest exam results and achievements</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
-                      <Trophy className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900 dark:text-white">Daily Exam Completed</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Score: 85% - Great job!</p>
-                    </div>
-                  </div>
-                  <Badge variant="secondary">Today</Badge>
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+            Quick Actions
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('pricing')}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-white" />
                 </div>
-
-                <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                      <Target className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900 dark:text-white">7-Day Streak Achieved</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Keep up the momentum!</p>
-                    </div>
-                  </div>
-                  <Badge variant="secondary">Yesterday</Badge>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Unlock More</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">View pricing plans</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('certifications')}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                  <CheckCircle className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Browse Certs</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">Explore all certifications</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('help')}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-900 dark:text-white">Get Help</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-300">Visit help center</p>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
