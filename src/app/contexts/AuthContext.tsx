@@ -112,6 +112,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { error } = await authService.resetPassword({ email })
       if (error) {
+        if (error.name === 'UserNotFoundException') {
+          return { success: false, error: 'No account found with this email address.' }
+        }
         return { success: false, error: error.message }
       }
       return { success: true }
