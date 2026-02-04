@@ -14,6 +14,8 @@ import HelpPage from './pages/HelpPage'
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
 import FAQPage from './pages/FAQPage'
+import AccessibilityPage from './pages/AccessibilityPage'
+import RefundPolicyPage from './pages/RefundPolicyPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import EmailVerificationPage from './pages/EmailVerificationPage'
@@ -56,6 +58,8 @@ const AppContent: React.FC = () => {
       <Route path="/terms" element={<TermsPage onNavigate={handleNavigate} />} />
       <Route path="/privacy" element={<PrivacyPage onNavigate={handleNavigate} />} />
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
+      <Route path="/accessibility" element={<AccessibilityPage onNavigate={handleNavigate} />} />
+      <Route path="/refund-policy" element={<RefundPolicyPage onNavigate={handleNavigate} />} />
       <Route path="/login" element={<LoginPage onNavigate={handleNavigate} />} />
       <Route path="/register" element={<RegisterPage onNavigate={handleNavigate} />} />
       <Route path="/email-verification" element={<EmailVerificationPage onNavigate={handleNavigate} />} />
