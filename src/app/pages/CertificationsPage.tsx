@@ -315,7 +315,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="font-semibold text-white mb-4">Support</h3>
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => onNavigate('help')} className="hover:text-white">Help Center</button></li>
-                <li><button onClick={() => onNavigate('status')} className="hover:text-white">Status</button></li>
+                <li><button onClick={() => onNavigate('faq')} className="hover:text-white">FAQ</button></li>
               </ul>
             </div>
             <div>

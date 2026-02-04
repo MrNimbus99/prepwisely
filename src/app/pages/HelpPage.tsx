@@ -111,7 +111,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       title: 'System Status',
       description: 'Check if all systems are operational',
       icon: Trophy,
-      action: () => onNavigate('status'),
+      action: () => onNavigate('faq'),
       color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400'
     },
     {

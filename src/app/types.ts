@@ -5,7 +5,7 @@ export type PageName =
   | 'help'
   | 'terms'
   | 'privacy'
-  | 'status'
+  | 'faq'
   | 'login'
   | 'register'
   | 'email-verification'
