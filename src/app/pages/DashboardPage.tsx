@@ -22,6 +22,13 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
   const { getProgress } = useQuiz()
 
+  // Redirect admin to admin portal
+  React.useEffect(() => {
+    if (user?.email === 'admin@prepwisely.com') {
+      onNavigate('admin')
+    }
+  }, [user, onNavigate])
+
   // Check if user has access to all certs
   const hasFullAccess = user?.email === 'althwabtirasool@gmail.com'
 

@@ -30,6 +30,7 @@ export type PageName =
   | 'contact-support'
   | 'refund-policy'
   | 'cancellation-policy'
+  | 'admin'
   | 'account'
   | 'accessibility'
 

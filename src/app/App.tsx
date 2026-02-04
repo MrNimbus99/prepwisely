@@ -26,6 +26,7 @@ import CertificationDetailPage from './pages/CertificationDetailPage'
 import ExamPage from './pages/ExamPage'
 import NotFoundPage from './pages/NotFoundPage'
 import CancellationPolicyPage from './pages/CancellationPolicyPage'
+import AdminDashboard from './pages/AdminDashboard'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth()
@@ -76,6 +77,7 @@ const AppContent: React.FC = () => {
       <Route path="/email-verification" element={<EmailVerificationPage onNavigate={handleNavigate} />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage onNavigate={handleNavigate} />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       
       {/* Certification Routes */}
       <Route path="/cert/cloud-practitioner" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="cloud-practitioner" /></ProtectedRoute>} />
