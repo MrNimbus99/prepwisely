@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavigationProps } from '../types'
+import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react'
 
 const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { user } = useAuth()
   const [searchQuery, setSearchQuery] = useState('')
 
   const categories = [
@@ -159,16 +161,23 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                onClick={() => onNavigate('login')}
-                className="hidden sm:inline-flex"
-              >
-                Sign In
-              </Button>
-              <Button onClick={() => onNavigate('register')}>
-                Start Free
-              </Button>
+              {user ? (
+                <Button onClick={() => onNavigate('dashboard')}>
+                  Dashboard
+                </Button>
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => onNavigate('login')}
+                  >
+                    Sign In
+                  </Button>
+                  <Button onClick={() => onNavigate('register')}>
+                    Start Free
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

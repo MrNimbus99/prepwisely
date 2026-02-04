@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useAuth } from '../contexts/AuthContext'
 import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
@@ -7,6 +8,7 @@ import { Badge } from '../components/ui/badge'
 import { CheckCircle, Star, Zap } from 'lucide-react'
 
 const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { user } = useAuth()
   const groupedCerts = {
     Foundational: certifications.filter(cert => cert.level === 'Foundational'),
     Associate: certifications.filter(cert => cert.level === 'Associate'),
@@ -59,16 +61,23 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </button>
             </nav>
             <div className="flex items-center space-x-4">
-              <Button
-                variant="outline"
-                onClick={() => onNavigate('login')}
-                className="hidden sm:inline-flex"
-              >
-                Sign In
-              </Button>
-              <Button onClick={() => onNavigate('register')}>
-                Start Free
-              </Button>
+              {user ? (
+                <Button onClick={() => onNavigate('dashboard')}>
+                  Dashboard
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    onClick={() => onNavigate('login')}
+                  >
+                    Sign In
+                  </Button>
+                  <Button onClick={() => onNavigate('register')}>
+                    Start Free
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
