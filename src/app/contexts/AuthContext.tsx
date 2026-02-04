@@ -10,6 +10,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   loading: boolean
+  pendingEmail: string | null
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   signUp: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>
   signOut: () => Promise<void>
@@ -31,6 +32,7 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null)
 
   useEffect(() => {
     checkAuthState()
@@ -72,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (error) {
         return { success: false, error: error.message }
       }
+      setPendingEmail(email)
       return { success: true }
     } catch (error) {
       return { success: false, error: 'Sign up failed' }
@@ -126,6 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const value = {
     user,
     loading,
+    pendingEmail,
     signIn,
     signUp,
     signOut,

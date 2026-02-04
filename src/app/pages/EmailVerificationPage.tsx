@@ -10,14 +10,13 @@ interface EmailVerificationPageProps {
 }
 
 const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ onNavigate }) => {
-  const { confirmSignUp } = useAuth()
+  const { confirmSignUp, pendingEmail } = useAuth()
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [resending, setResending] = useState(false)
 
-  // In a real app, you'd get this from state/props
-  const email = 'user@example.com'
+  const email = pendingEmail || 'user@example.com'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
