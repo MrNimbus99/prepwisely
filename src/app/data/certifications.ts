@@ -185,37 +185,7 @@ export const certifications = [
     }
   },
   {
-    id: 'database-specialty',
-    name: 'AWS Certified Database - Specialty',
-    code: 'DBS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in designing and maintaining AWS database solutions',
-    domains: ['Workload-Specific Database Design', 'Deployment and Migration', 'Management and Operations', 'Monitoring and Troubleshooting', 'Database Security'],
-    examDetails: {
-      duration: 180,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'data-analytics-specialty',
-    name: 'AWS Certified Data Analytics - Specialty',
-    code: 'DAS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in using AWS data lakes and analytics services',
-    domains: ['Collection', 'Storage and Data Management', 'Processing', 'Analysis and Visualization', 'Security'],
-    examDetails: {
-      duration: 180,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'network-specialty',
+    id: 'advanced-networking-specialty',
     name: 'AWS Certified Advanced Networking - Specialty',
     code: 'ANS-C01',
     level: 'Specialty' as const,
@@ -223,36 +193,6 @@ export const certifications = [
     isFree: false,
     description: 'Specialized knowledge in designing and implementing AWS and hybrid network architectures',
     domains: ['Network Design', 'Network Implementation', 'Network Management and Operation', 'Network Security, Compliance, and Governance'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'sap-on-aws-specialty',
-    name: 'AWS Certified SAP on AWS - Specialty',
-    code: 'PAS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in designing, implementing, and operating SAP workloads on AWS',
-    domains: ['SAP on AWS Planning and Design', 'SAP on AWS Implementation', 'SAP on AWS Operations', 'SAP on AWS Management and Optimization'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'sustainability-specialty',
-    name: 'AWS Certified Sustainability - Specialty',
-    code: 'SUS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in optimizing AWS workloads for sustainability',
-    domains: ['Sustainable Cloud Architecture', 'Workload Optimization', 'Data and Analytics for Sustainability', 'Sustainable Operations'],
     examDetails: {
       duration: 170,
       questions: 65,

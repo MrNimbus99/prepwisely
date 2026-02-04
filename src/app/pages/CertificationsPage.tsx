@@ -168,9 +168,9 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   const colors = getLevelColor(cert.level)
 
                   return (
-                    <Card key={cert.id} className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-2`}>
-                      {/* Gradient overlay */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                    <Card key={cert.id} className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 bg-white dark:bg-slate-900 ${colors.border} border-2`}>
+                      {/* Subtle gradient overlay */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
                       
                       {/* Level and Free badges */}
                       <div className="absolute top-4 right-4 flex gap-2">
@@ -193,30 +193,30 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         {/* Content */}
                         <div className="space-y-4">
                           <div>
-                            <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors">
+                            <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 transition-colors">
                               {cert.name}
                             </h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 font-mono">
+                            <p className="text-sm text-slate-600 dark:text-slate-400 mb-3 font-mono">
                               {cert.code}
                             </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                               {cert.description}
                             </p>
                           </div>
 
                           {/* Exam details */}
-                          <div className="space-y-2 bg-white/50 dark:bg-slate-800/50 rounded-lg p-3">
+                          <div className="space-y-2 bg-slate-50 dark:bg-slate-800 rounded-lg p-3">
                             <div className="flex items-center justify-between text-sm">
-                              <span className="text-slate-500 dark:text-slate-400">Duration:</span>
-                              <span className="font-semibold">{cert.examDetails.duration} min</span>
+                              <span className="text-slate-600 dark:text-slate-400">Duration:</span>
+                              <span className="font-semibold text-slate-900 dark:text-slate-100">{cert.examDetails.duration} min</span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
-                              <span className="text-slate-500 dark:text-slate-400">Questions:</span>
-                              <span className="font-semibold">{cert.examDetails.questions}</span>
+                              <span className="text-slate-600 dark:text-slate-400">Questions:</span>
+                              <span className="font-semibold text-slate-900 dark:text-slate-100">{cert.examDetails.questions}</span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
-                              <span className="text-slate-500 dark:text-slate-400">Passing Score:</span>
-                              <span className="font-semibold">{cert.examDetails.passingScore}</span>
+                              <span className="text-slate-600 dark:text-slate-400">Passing Score:</span>
+                              <span className="font-semibold text-slate-900 dark:text-slate-100">{cert.examDetails.passingScore}</span>
                             </div>
                           </div>
 
@@ -227,13 +227,13 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                             </h4>
                             <div className="space-y-1">
                               {cert.domains.slice(0, 3).map((domain, index) => (
-                                <div key={index} className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                <div key={index} className="text-xs text-slate-700 dark:text-slate-300 flex items-center gap-2">
                                   <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${colors.gradient}`} />
                                   {domain}
                                 </div>
                               ))}
                               {cert.domains.length > 3 && (
-                                <div className="text-xs text-slate-500 dark:text-slate-500 italic">
+                                <div className="text-xs text-slate-500 dark:text-slate-400 italic">
                                   +{cert.domains.length - 3} more domains
                                 </div>
                               )}
@@ -262,9 +262,6 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           </div>
                         </div>
                       </div>
-
-                      {/* Hover effect border */}
-                      <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`} />
                     </Card>
                   )
                 })}

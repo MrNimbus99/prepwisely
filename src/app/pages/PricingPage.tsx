@@ -72,9 +72,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     const colors = getLevelColor(cert.level)
 
     return (
-      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-2`}>
-        {/* Gradient overlay */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 bg-white dark:bg-slate-900 ${colors.border} border-2`}>
+        {/* Subtle gradient overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
         
         {/* Level badge */}
         <div className="absolute top-4 right-4">
@@ -92,23 +92,23 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           {/* Content */}
           <div className="space-y-4">
             <div>
-              <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors">
+              <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 transition-colors">
                 {cert.name}
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                 {cert.description}
               </p>
             </div>
 
             {/* Exam details */}
             <div className="flex flex-wrap gap-2">
-              <Badge variant="outline" className={`text-xs ${colors.icon} border-current`}>
+              <Badge variant="outline" className={`text-xs ${colors.icon} border-current font-medium`}>
                 {cert.code}
               </Badge>
-              <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400">
+              <Badge variant="outline" className="text-xs text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600">
                 {cert.examDetails.duration} min
               </Badge>
-              <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400">
+              <Badge variant="outline" className="text-xs text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600">
                 {cert.examDetails.questions} questions
               </Badge>
             </div>
@@ -137,9 +137,6 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             )}
           </div>
         </div>
-
-        {/* Hover effect border */}
-        <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`} />
       </Card>
     )
   }
@@ -193,8 +190,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     const colors = getLevelColor(level)
 
     return (
-      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 ${colors.bg} ${colors.border} border-3`}>
-        {/* Gradient overlay */}
+      <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105 bg-white dark:bg-slate-900 ${colors.border} border-3`}>
+        {/* Subtle gradient overlay */}
         <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
         
         {/* Bundle badge */}
@@ -216,7 +213,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="font-bold text-2xl text-slate-900 dark:text-white mb-3">
                 {title} Bundle
               </h3>
-              <p className={`text-base ${colors.text} font-medium`}>
+              <p className="text-base text-slate-700 dark:text-slate-300 font-medium">
                 All {level} certifications together
               </p>
             </div>
@@ -239,7 +236,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {paidCerts.map(cert => (
                 <div key={cert.id} className="flex items-center gap-3 text-left">
                   <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <span className="text-sm font-medium text-slate-800 dark:text-slate-200">
                     {cert.name}
                   </span>
                 </div>
@@ -254,9 +251,6 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </Button>
           </div>
         </div>
-
-        {/* Animated border effect */}
-        <div className={`absolute inset-0 rounded-lg bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none`} />
       </Card>
     )
   }
@@ -430,7 +424,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <div className="text-sm text-slate-500 line-through">$147</div>
             </div>
           </div>
-          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="grid lg:grid-cols-3 xl:grid-cols-3 gap-6">
             {associateCerts.map(cert => (
               <CertificationCard key={cert.id} cert={cert} />
             ))}
