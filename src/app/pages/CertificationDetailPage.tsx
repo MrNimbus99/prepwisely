@@ -13,6 +13,7 @@ interface Quiz {
   isCompleted: boolean
   score?: number
   isLocked: boolean
+  isFinalExam?: boolean
 }
 
 const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
@@ -28,19 +29,36 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const certCompletions = completions[certification.id] || {}
 
-  const quizzes: Quiz[] = Array.from({ length: 30 }, (_, i) => {
-    const quizId = i + 1
-    const completion = certCompletions[quizId]
-    return {
-      id: quizId,
-      title: `Quiz ${quizId}`,
-      questions: 1,
-      duration: 2,
-      isCompleted: completion?.completed || false,
-      score: completion?.score,
-      isLocked: false
-    }
-  })
+  const quizzes: Quiz[] = [
+    ...Array.from({ length: 30 }, (_, i) => {
+      const quizId = i + 1
+      const completion = certCompletions[quizId]
+      return {
+        id: quizId,
+        title: `Quiz ${quizId}`,
+        questions: 1,
+        duration: 2,
+        isCompleted: completion?.completed || false,
+        score: completion?.score,
+        isLocked: false
+      }
+    }),
+    // Final Exams
+    ...Array.from({ length: 2 }, (_, i) => {
+      const quizId = 31 + i
+      const completion = certCompletions[quizId]
+      return {
+        id: quizId,
+        title: `Final Exam ${i + 1}`,
+        questions: 1,
+        duration: 2,
+        isCompleted: completion?.completed || false,
+        score: completion?.score,
+        isLocked: false,
+        isFinalExam: true
+      }
+    })
+  ]
 
   const handleStartQuiz = (quizId: number) => {
     // Store quiz ID in sessionStorage to pass to exam page
@@ -51,6 +69,11 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const completedCount = quizzes.filter(q => q.isCompleted).length
   const progress = (completedCount / quizzes.length) * 100
+
+  const getQuizGradient = (quiz: Quiz) => {
+    if (quiz.isFinalExam) return 'from-red-500 to-rose-600'
+    return certification.gradient
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
@@ -125,7 +148,11 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   quiz.isLocked
                     ? 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
                     : quiz.isCompleted
-                    ? 'bg-green-50 dark:bg-green-950/20 border-2 border-green-500 hover:shadow-lg'
+                    ? quiz.isFinalExam
+                      ? 'bg-red-50 dark:bg-red-950/20 border-2 border-red-500 hover:shadow-lg'
+                      : 'bg-green-50 dark:bg-green-950/20 border-2 border-green-500 hover:shadow-lg'
+                    : quiz.isFinalExam
+                    ? 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-red-500 dark:hover:border-red-500 hover:shadow-xl'
                     : 'bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl'
                 }`}
               >
@@ -135,9 +162,7 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                       quiz.isLocked
                         ? 'bg-slate-200 dark:bg-slate-700'
-                        : quiz.isCompleted
-                        ? 'bg-gradient-to-br from-green-500 to-emerald-600'
-                        : 'bg-gradient-to-br from-blue-500 to-indigo-600'
+                        : `bg-gradient-to-br ${getQuizGradient(quiz)}`
                     } shadow-lg`}>
                       {quiz.isLocked ? (
                         <Lock className="w-6 h-6 text-slate-500" />
@@ -180,7 +205,11 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="w-full border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/20"
+                          className={`w-full ${
+                            quiz.isFinalExam
+                              ? 'border-red-500 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20'
+                              : 'border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/20'
+                          }`}
                           onClick={() => handleStartQuiz(quiz.id)}
                         >
                           Retake Quiz
@@ -188,7 +217,7 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       ) : (
                         <Button
                           size="sm"
-                          className={`w-full bg-gradient-to-r ${certification.gradient} text-white font-semibold`}
+                          className={`w-full bg-gradient-to-r ${getQuizGradient(quiz)} text-white font-semibold`}
                           onClick={() => handleStartQuiz(quiz.id)}
                         >
                           Start Quiz
