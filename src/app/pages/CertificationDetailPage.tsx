@@ -28,7 +28,7 @@ const CertificationDetailPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     questions: 1,
     duration: 2,
     isCompleted: false,
-    isLocked: i > 0 // Only first quiz is unlocked
+    isLocked: false // All quizzes unlocked
   }))
 
   const handleStartQuiz = () => {

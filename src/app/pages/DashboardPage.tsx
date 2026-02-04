@@ -74,7 +74,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         {/* Welcome Section */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
-            Welcome back, {user?.name || 'Student'}!
+            Welcome back, {user?.name?.split('@')[0] || 'Student'}!
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300">
             Continue your AWS certification journey
@@ -183,38 +183,38 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             Quick Actions
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('pricing')}>
+            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('pricing')}>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Trophy className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Unlock More</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">View pricing plans</p>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Unlock More</h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">View pricing plans</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('certifications')}>
+            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('certifications')}>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <CheckCircle className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Browse Certs</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">Explore all certifications</p>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Browse Certs</h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">Explore all certifications</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('help')}>
+            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('help')}>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                  <Trophy className="w-6 h-6 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Trophy className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 dark:text-white">Get Help</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">Visit help center</p>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Get Help</h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">Visit help center</p>
                 </div>
               </div>
             </Card>
