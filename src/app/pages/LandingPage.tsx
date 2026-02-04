@@ -394,6 +394,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <li><button onClick={() => onNavigate('terms')} className="hover:text-white transition-colors">Terms</button></li>
                 <li><button onClick={() => onNavigate('privacy')} className="hover:text-white transition-colors">Privacy</button></li>
                 <li><button onClick={() => onNavigate('refund-policy')} className="hover:text-white transition-colors">Refund Policy</button></li>
+                <li><button onClick={() => onNavigate('cancellation-policy')} className="hover:text-white transition-colors">Cancellation Policy</button></li>
               </ul>
             </div>
           </div>

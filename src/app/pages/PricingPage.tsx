@@ -425,6 +425,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => onNavigate('terms')} className="hover:text-white">Terms</button></li>
                 <li><button onClick={() => onNavigate('privacy')} className="hover:text-white">Privacy</button></li>
+                <li><button onClick={() => onNavigate('refund-policy')} className="hover:text-white">Refund Policy</button></li>
+                <li><button onClick={() => onNavigate('cancellation-policy')} className="hover:text-white">Cancellation</button></li>
               </ul>
             </div>
             <div>
