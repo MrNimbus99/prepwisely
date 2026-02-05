@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from '../../components/ui/button'
 import { Card } from '../../components/ui/card'
-import { Badge } from '../../components/ui/badge'
 import { CERTIFICATIONS, QUIZ_TYPES } from '../../data/certifications'
 
 const ViewQuestions: React.FC = () => {
@@ -15,7 +14,7 @@ const ViewQuestions: React.FC = () => {
   const fetchQuestions = async () => {
     setLoading(true)
     try {
-      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}/all`)
       const data = await response.json()
       setQuestions(Array.isArray(data) ? data : [])
     } catch (error) {
@@ -29,6 +28,24 @@ const ViewQuestions: React.FC = () => {
     fetchQuestions()
   }, [certId, quizId])
 
+  const handleStatusChange = async (questionId: string, newStatus: string) => {
+    try {
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/manage/${questionId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      })
+      
+      if (response.ok) {
+        fetchQuestions()
+      } else {
+        alert('Failed to update status')
+      }
+    } catch (error) {
+      alert('Error updating status')
+    }
+  }
+
   const handleDelete = async (questionId: string) => {
     if (questions.length <= 1) {
       alert('Cannot delete the last question. Each quiz must have at least 1 question.')
@@ -40,7 +57,7 @@ const ViewQuestions: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${questionId}`, {
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/manage/${questionId}`, {
         method: 'DELETE'
       })
       
@@ -82,7 +99,7 @@ const ViewQuestions: React.FC = () => {
   const updateQuestionOrder = async (orderedQuestions: any[]) => {
     try {
       await Promise.all(orderedQuestions.map((q, idx) => 
-        fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${q.questionId}/order`, {
+        fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/manage/${q.questionId}/order`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ order: idx })
@@ -144,9 +161,21 @@ const ViewQuestions: React.FC = () => {
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">#{idx + 1}</span>
-                      <Badge className={q.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'}>
-                        {q.status}
-                      </Badge>
+                      <select
+                        value={q.status}
+                        onChange={(e) => handleStatusChange(q.questionId, e.target.value)}
+                        className={`px-3 py-1 rounded-lg border-2 font-medium text-sm ${
+                          q.status === 'active' 
+                            ? 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900 dark:text-green-200 dark:border-green-700' 
+                            : q.status === 'draft'
+                            ? 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-200 dark:border-yellow-700'
+                            : 'bg-gray-100 text-gray-800 border-gray-300 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700'
+                        }`}
+                      >
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                      </select>
                     </div>
                     <div className="flex gap-2">
                       <Button

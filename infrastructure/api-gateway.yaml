@@ -216,6 +216,117 @@ Resources:
             }
           };
 
+  UpdateQuestionFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-UpdateQuestion
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const { questionId } = event.pathParameters;
+              const data = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+              
+              await docClient.send(new UpdateCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                Key: { questionId },
+                UpdateExpression: 'SET #status = :status',
+                ExpressionAttributeNames: {
+                  '#status': 'status'
+                },
+                ExpressionAttributeValues: {
+                  ':status': data.status
+                }
+              }));
+              
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true })
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Failed to update question' })
+              };
+            }
+          };
+
+  GetAllQuestionsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-GetAllQuestions
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, QueryCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const { certId, quizId } = event.pathParameters;
+              const result = await docClient.send(new QueryCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                IndexName: 'certId-quizId-index',
+                KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
+                ExpressionAttributeValues: {
+                  ':certId': certId,
+                  ':quizId': quizId
+                }
+              }));
+              
+              const items = result.Items || [];
+              items.sort((a, b) => (a.order || 0) - (b.order || 0));
+              
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify(items)
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Failed to get questions' })
+              };
+            }
+          };
+
   DeleteQuestionFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -577,6 +688,34 @@ Resources:
       ParentId: !Ref QuestionsQuizResource
       PathPart: 'count'
 
+  QuestionsAllResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionsQuizResource
+      PathPart: 'all'
+
+  QuestionsManageResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionsResource
+      PathPart: 'manage'
+
+  QuestionIdResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionsManageResource
+      PathPart: '{questionId}'
+
+  QuestionOrderResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionIdResource
+      PathPart: 'order'
+
   # GET /questions/{certId}/{quizId}
   GetQuestionsMethod:
     Type: AWS::ApiGateway::Method
@@ -715,6 +854,115 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
 
+  # GET /questions/{certId}/{quizId}/all (admin - all statuses)
+  GetAllQuestionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionsAllResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllQuestionsFunction.Arn}/invocations'
+
+  GetAllQuestionsPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref GetAllQuestionsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
+  # PUT /questions/{questionId}
+  UpdateQuestionMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionIdResource
+      HttpMethod: PUT
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateQuestionFunction.Arn}/invocations'
+
+  # OPTIONS /questions/{questionId} (CORS)
+  UpdateQuestionOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionIdResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'PUT,DELETE,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
+  UpdateQuestionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref UpdateQuestionFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
+  # DELETE /questions/manage/{questionId}
+  DeleteQuestionMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionIdResource
+      HttpMethod: DELETE
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteQuestionFunction.Arn}/invocations'
+
+  DeleteQuestionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref DeleteQuestionFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
+  # PUT /questions/manage/{questionId}/order
+  UpdateQuestionOrderMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionOrderResource
+      HttpMethod: PUT
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateQuestionOrderFunction.Arn}/invocations'
+
+  UpdateQuestionOrderPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref UpdateQuestionOrderFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
   # API Deployment
   ApiDeployment:
     Type: AWS::ApiGateway::Deployment
@@ -723,6 +971,11 @@ Resources:
       - GetQuestionsOptionsMethod
       - GetQuestionCountMethod
       - GetQuestionCountOptionsMethod
+      - GetAllQuestionsMethod
+      - UpdateQuestionMethod
+      - UpdateQuestionOptionsMethod
+      - DeleteQuestionMethod
+      - UpdateQuestionOrderMethod
       - PostQuestionsMethod
       - PostQuestionsOptionsMethod
     Properties:
