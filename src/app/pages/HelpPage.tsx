@@ -240,16 +240,16 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </h2>
             <div className="space-y-4">
               {popularArticles.map((article, index) => (
-                <Card key={index} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <Card key={index} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</CardTitle>
                       <div className="flex items-center gap-4 text-sm">
-                        <Badge variant="outline" className="text-slate-600 dark:text-slate-200 border-slate-300 dark:border-slate-600">{article.category}</Badge>
-                        <span className="text-slate-500 dark:text-slate-300">{article.views}</span>
+                        <Badge variant="outline" className="text-slate-700 dark:text-slate-100 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">{article.category}</Badge>
+                        <span className="text-slate-600 dark:text-slate-200 font-medium">{article.views}</span>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                    <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
                   </CardHeader>
                 </Card>
               ))}
@@ -265,24 +265,24 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {categories.map((category) => {
                 const Icon = category.icon
                 return (
-                  <Card key={category.id} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300">
+                  <Card key={category.id} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]">
                     <CardHeader>
                       <div className="flex items-center gap-4 mb-4">
                         <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                           <Icon className="w-7 h-7 text-white" />
                         </div>
                         <div>
-                          <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">{category.name}</CardTitle>
-                          <CardDescription className="text-slate-600 dark:text-slate-200">{category.description}</CardDescription>
+                          <CardTitle className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{category.name}</CardTitle>
+                          <CardDescription className="text-slate-700 dark:text-slate-100">{category.description}</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {category.articles.map((article, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
-                            <ChevronRight className="w-4 h-4" />
-                            {article}
+                          <li key={index} className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors group/item">
+                            <ChevronRight className="w-4 h-4 group-hover/item:translate-x-1 transition-transform" />
+                            <span className="font-medium">{article}</span>
                           </li>
                         ))}
                       </ul>
@@ -301,7 +301,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
             Still need help?
           </h2>
-          <p className="text-slate-700 dark:text-slate-200 mb-8">
+          <p className="text-slate-800 dark:text-slate-100 mb-8">
             Can't find what you're looking for? Our support team is here to help.
           </p>
           
@@ -312,7 +312,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <Mail className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Email Support</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-200">
+                <CardDescription className="text-slate-700 dark:text-slate-100">
                   Get detailed help via email<br />
                   Response within 24 hours
                 </CardDescription>
@@ -328,7 +328,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Live Chat</CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-200">
+                <CardDescription className="text-slate-700 dark:text-slate-100">
                   Chat with our team in real-time<br />
                   Available 9 AM - 5 PM EST
                 </CardDescription>

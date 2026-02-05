@@ -209,14 +209,14 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </Badge>
             </Card>
 
-            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 p-6">
+            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-700 p-6">
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
                 Before you contact us
               </h3>
-              <p className="text-sm text-slate-700 dark:text-slate-200 mb-3">
+              <p className="text-sm text-slate-800 dark:text-slate-100 mb-3">
                 Check our FAQ page for quick answers to common questions.
               </p>
-              <Button variant="outline" onClick={() => onNavigate('faq')} className="w-full text-sm">
+              <Button variant="outline" onClick={() => onNavigate('faq')} className="w-full text-sm border-2 hover:bg-blue-50 dark:hover:bg-blue-900/30">
                 View FAQ
               </Button>
             </Card>

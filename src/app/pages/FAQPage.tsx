@@ -166,14 +166,14 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         ))}
 
         {/* Contact Section */}
-        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 p-6 sm:p-8 text-center mt-8 sm:mt-12">
+        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-700 p-6 sm:p-8 text-center mt-8 sm:mt-12">
           <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Still have questions?
           </h3>
-          <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 mb-4 sm:mb-6">
+          <p className="text-sm sm:text-base text-slate-800 dark:text-slate-100 mb-4 sm:mb-6">
             Can't find the answer you're looking for? Our support team is here to help.
           </p>
-          <Button onClick={() => onNavigate('contact-support')} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg">
+          <Button onClick={() => onNavigate('contact-support')} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg text-base px-8 py-6">
             Contact Support
           </Button>
         </Card>
