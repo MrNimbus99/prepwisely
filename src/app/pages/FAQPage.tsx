@@ -117,7 +117,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300">
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200">
             Find answers to common questions about PrepWisely
           </p>
         </div>
@@ -153,7 +153,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     </button>
                     {isOpen && (
                       <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed">
                           {faq.a}
                         </p>
                       </div>
@@ -170,7 +170,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Still have questions?
           </h3>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-4 sm:mb-6">
+          <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 mb-4 sm:mb-6">
             Can't find the answer you're looking for? Our support team is here to help.
           </p>
           <Button onClick={() => onNavigate('contact-support')} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg">

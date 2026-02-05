@@ -190,7 +190,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
               Help Center
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
+            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-200 mb-8">
               Find answers to common questions and get the help you need
             </p>
 
@@ -226,7 +226,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">{action.title}</CardTitle>
-                    <CardDescription className="text-slate-700 dark:text-slate-300">{action.description}</CardDescription>
+                    <CardDescription className="text-slate-600 dark:text-slate-200">{action.description}</CardDescription>
                   </CardHeader>
                 </Card>
               )
@@ -245,8 +245,8 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <div className="flex-1">
                       <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</CardTitle>
                       <div className="flex items-center gap-4 text-sm">
-                        <Badge variant="outline" className="text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600">{article.category}</Badge>
-                        <span className="text-slate-600 dark:text-slate-400">{article.views}</span>
+                        <Badge variant="outline" className="text-slate-600 dark:text-slate-200 border-slate-300 dark:border-slate-600">{article.category}</Badge>
+                        <span className="text-slate-500 dark:text-slate-300">{article.views}</span>
                       </div>
                     </div>
                     <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
@@ -273,14 +273,14 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         </div>
                         <div>
                           <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">{category.name}</CardTitle>
-                          <CardDescription className="text-slate-700 dark:text-slate-300">{category.description}</CardDescription>
+                          <CardDescription className="text-slate-600 dark:text-slate-200">{category.description}</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
                         {category.articles.map((article, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
+                          <li key={index} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors">
                             <ChevronRight className="w-4 h-4" />
                             {article}
                           </li>
@@ -301,7 +301,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
             Still need help?
           </h2>
-          <p className="text-slate-600 dark:text-slate-300 mb-8">
+          <p className="text-slate-700 dark:text-slate-200 mb-8">
             Can't find what you're looking for? Our support team is here to help.
           </p>
           
@@ -312,7 +312,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <Mail className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Email Support</CardTitle>
-                <CardDescription className="text-slate-700 dark:text-slate-300">
+                <CardDescription className="text-slate-600 dark:text-slate-200">
                   Get detailed help via email<br />
                   Response within 24 hours
                 </CardDescription>
@@ -328,7 +328,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Live Chat</CardTitle>
-                <CardDescription className="text-slate-700 dark:text-slate-300">
+                <CardDescription className="text-slate-600 dark:text-slate-200">
                   Chat with our team in real-time<br />
                   Available 9 AM - 5 PM EST
                 </CardDescription>

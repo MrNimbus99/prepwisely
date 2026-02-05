@@ -81,7 +81,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Contact Support
           </h1>
-          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300">
+          <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200">
             We're here to help! Send us a message and we'll respond within 24 hours.
           </p>
         </div>
@@ -186,7 +186,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 Email Support
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
+              <p className="text-sm text-slate-700 dark:text-slate-200 mb-3">
                 Get detailed help via email
               </p>
               <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
@@ -201,7 +201,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                 Live Chat
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
+              <p className="text-sm text-slate-700 dark:text-slate-200 mb-3">
                 Chat with our team in real-time
               </p>
               <Badge className="bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
@@ -213,7 +213,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
                 Before you contact us
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
+              <p className="text-sm text-slate-700 dark:text-slate-200 mb-3">
                 Check our FAQ page for quick answers to common questions.
               </p>
               <Button variant="outline" onClick={() => onNavigate('faq')} className="w-full text-sm">
