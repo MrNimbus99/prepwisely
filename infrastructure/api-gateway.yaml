@@ -273,7 +273,8 @@ Resources:
                 values[':explanation'] = data.explanation;
               }
               if (data.domain !== undefined) {
-                updates.push('domain = :domain');
+                updates.push('#domain = :domain');
+                names['#domain'] = 'domain';
                 values[':domain'] = data.domain;
               }
               
