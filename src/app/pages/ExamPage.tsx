@@ -157,6 +157,11 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const handleBackToCert = () => {
+    if (!showResult) {
+      if (!window.confirm('Are you sure you want to exit? Your progress will be lost.')) {
+        return
+      }
+    }
     const pageMap: { [key: string]: PageName } = {
       'cloud-practitioner': 'cert-cloud-practitioner',
       'ai-practitioner': 'cert-ai-practitioner',
