@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -8,6 +9,14 @@ import { ArrowLeft, Mail, MessageCircle, CheckCircle, HelpCircle, Menu, X } from
 
 const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
+  
+  useSEO({
+    title: 'Contact Support - Get Help with AWS Certification Prep | NestedCerts',
+    description: 'Need help with your AWS certification exam preparation? Contact our support team for assistance with practice tests, study materials, account issues, and more.',
+    keywords: 'contact support, AWS certification help, exam prep support, customer service, technical support',
+    canonical: 'https://nestedcerts.com/contact-support'
+  })
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: user?.name || '',
