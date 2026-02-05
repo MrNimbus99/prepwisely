@@ -175,27 +175,27 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             <button
               onClick={() => onNavigate('landing')}
-              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+              className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
             </button>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 hidden sm:inline truncate max-w-[150px] sm:max-w-none">
                 {user?.email}
               </span>
               {user?.email === 'admin@prepwisely.com' && (
-                <Button variant="outline" onClick={() => onNavigate('admin')}>
-                  <Shield className="w-4 h-4 mr-2" />
-                  Admin View
+                <Button variant="outline" onClick={() => onNavigate('admin')} className="text-xs sm:text-sm px-2 sm:px-4">
+                  <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Admin</span>
                 </Button>
               )}
-              <Button variant="outline" onClick={handleSignOut}>
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
+              <Button variant="outline" onClick={handleSignOut} className="text-xs sm:text-sm px-2 sm:px-4">
+                <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sign Out</span>
               </Button>
             </div>
           </div>
@@ -203,23 +203,23 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
         {/* Welcome Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+        <div className="mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-2">
             Welcome back, {user?.name?.split('@')[0] || 'Student'}!
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300">
+          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300">
             Continue your AWS certification journey
           </p>
         </div>
 
         {/* Certifications Grid */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+        <div className="mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">
             Your Certifications
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {certifications.map((cert) => (
               <Card
                 key={cert.id}
@@ -242,19 +242,19 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </div>
                 )}
 
-                <div className="relative p-6">
+                <div className="relative p-4 sm:p-6">
                   {/* Icon */}
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${cert.gradient} flex items-center justify-center mb-4 shadow-lg ${cert.isUnlocked ? 'group-hover:scale-110' : ''} transition-transform duration-300`}>
-                    <Trophy className="w-8 h-8 text-white" />
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${cert.gradient} flex items-center justify-center mb-3 sm:mb-4 shadow-lg ${cert.isUnlocked ? 'group-hover:scale-110' : ''} transition-transform duration-300`}>
+                    <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
 
                   {/* Content */}
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     <div>
-                      <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">
+                      <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-1">
                         {cert.name}
                       </h3>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 font-mono">
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-mono">
                         {cert.code}
                       </p>
                     </div>
@@ -312,42 +312,42 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
         {/* Quick Actions */}
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">
             Quick Actions
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('pricing')}>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Trophy className="w-7 h-7 text-white" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <Card className="group p-4 sm:p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('pricing')}>
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Unlock More</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300">View pricing plans</p>
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-0.5 sm:mb-1">Unlock More</h3>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">View pricing plans</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('certifications')}>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <CheckCircle className="w-7 h-7 text-white" />
+            <Card className="group p-4 sm:p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('certifications')}>
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <CheckCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Browse Certs</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300">Explore all certifications</p>
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-0.5 sm:mb-1">Browse Certs</h3>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">Explore all certifications</p>
                 </div>
               </div>
             </Card>
 
-            <Card className="group p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('help')}>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Trophy className="w-7 h-7 text-white" />
+            <Card className="group p-4 sm:p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('help')}>
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">Get Help</h3>
-                  <p className="text-sm text-slate-700 dark:text-slate-300">Visit help center</p>
+                  <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-0.5 sm:mb-1">Get Help</h3>
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">Visit help center</p>
                 </div>
               </div>
             </Card>
