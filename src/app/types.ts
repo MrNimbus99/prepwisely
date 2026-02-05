@@ -31,6 +31,10 @@ export type PageName =
   | 'refund-policy'
   | 'cancellation-policy'
   | 'admin'
+  | 'admin-questions'
+  | 'admin-view-questions'
+  | 'admin-users'
+  | 'admin-billing'
   | 'account'
   | 'accessibility'
 

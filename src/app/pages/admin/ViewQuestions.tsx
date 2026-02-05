@@ -1,0 +1,209 @@
+import React, { useState, useEffect } from 'react'
+import { Button } from '../../components/ui/button'
+import { Card } from '../../components/ui/card'
+import { Badge } from '../../components/ui/badge'
+import { CERTIFICATIONS, QUIZ_TYPES } from '../../data/certifications'
+
+const ViewQuestions: React.FC = () => {
+  const [certId, setCertId] = useState('solutions-architect-associate')
+  const [quizId, setQuizId] = useState('quiz-1')
+  const [questions, setQuestions] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+
+  const selectedCert = CERTIFICATIONS[certId as keyof typeof CERTIFICATIONS]
+
+  const fetchQuestions = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+      const data = await response.json()
+      setQuestions(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error('Failed to fetch questions:', error)
+      setQuestions([])
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchQuestions()
+  }, [certId, quizId])
+
+  const handleDelete = async (questionId: string) => {
+    if (questions.length <= 1) {
+      alert('Cannot delete the last question. Each quiz must have at least 1 question.')
+      return
+    }
+
+    if (!confirm('Are you sure you want to delete this question?')) {
+      return
+    }
+
+    try {
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${questionId}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        alert('Question deleted successfully!')
+        fetchQuestions()
+      } else {
+        alert('Failed to delete question')
+      }
+    } catch (error) {
+      alert('Error deleting question')
+    }
+  }
+
+  const handleMoveUp = async (index: number) => {
+    if (index === 0) return
+    
+    const newQuestions = [...questions]
+    const temp = newQuestions[index]
+    newQuestions[index] = newQuestions[index - 1]
+    newQuestions[index - 1] = temp
+    
+    setQuestions(newQuestions)
+    await updateQuestionOrder(newQuestions)
+  }
+
+  const handleMoveDown = async (index: number) => {
+    if (index === questions.length - 1) return
+    
+    const newQuestions = [...questions]
+    const temp = newQuestions[index]
+    newQuestions[index] = newQuestions[index + 1]
+    newQuestions[index + 1] = temp
+    
+    setQuestions(newQuestions)
+    await updateQuestionOrder(newQuestions)
+  }
+
+  const updateQuestionOrder = async (orderedQuestions: any[]) => {
+    try {
+      await Promise.all(orderedQuestions.map((q, idx) => 
+        fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${q.questionId}/order`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ order: idx })
+        })
+      ))
+    } catch (error) {
+      console.error('Failed to update order:', error)
+    }
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">View Questions for Quiz</h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">Browse and manage all questions for a specific quiz</p>
+      </div>
+
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Certification</label>
+            <select
+              value={certId}
+              onChange={(e) => setCertId(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+            >
+              {Object.entries(CERTIFICATIONS).map(([key, cert]) => (
+                <option key={key} value={key}>{cert.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Quiz</label>
+            <select
+              value={quizId}
+              onChange={(e) => setQuizId(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+            >
+              {QUIZ_TYPES.map((quiz) => (
+                <option key={quiz.value} value={quiz.value}>{quiz.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
+          <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">
+            {questions.length} Questions in {selectedCert?.name} - {quizId.replace('-', ' ').toUpperCase()}
+          </h3>
+
+          {loading ? (
+            <p className="text-slate-600 dark:text-slate-400">Loading questions...</p>
+          ) : questions.length === 0 ? (
+            <p className="text-slate-600 dark:text-slate-400">No questions found for this quiz.</p>
+          ) : (
+            <div className="space-y-4">
+              {questions.map((q, idx) => (
+                <Card key={q.questionId} className="p-6 bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">#{idx + 1}</span>
+                      <Badge className={q.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'}>
+                        {q.status}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleMoveUp(idx)}
+                        disabled={idx === 0}
+                        className="disabled:opacity-30"
+                      >
+                        ↑
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleMoveDown(idx)}
+                        disabled={idx === questions.length - 1}
+                        className="disabled:opacity-30"
+                      >
+                        ↓
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDelete(q.questionId)}
+                        disabled={questions.length <= 1}
+                        className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 disabled:opacity-30"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                  <p className="text-slate-900 dark:text-white font-medium mb-3">{q.questionText}</p>
+                  <div className="space-y-2 mb-3">
+                    {q.options?.map((opt: string, i: number) => (
+                      <div key={i} className={`px-3 py-2 rounded ${i === q.correctAnswer ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                        <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
+                        {i === q.correctAnswer && <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">✓ Correct</span>}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-sm text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700 pt-3">
+                    <span className="font-medium">Domain:</span> {q.domain}
+                  </div>
+                  {q.explanation && (
+                    <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                      <span className="font-semibold text-blue-900 dark:text-blue-300">Explanation:</span>
+                      <p className="text-slate-700 dark:text-slate-300 mt-1">{q.explanation}</p>
+                    </div>
+                  )}
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </Card>
+    </div>
+  )
+}
+
+export default ViewQuestions
