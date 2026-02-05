@@ -245,17 +245,58 @@ Resources:
               const { questionId } = event.pathParameters;
               const data = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
               
-              await docClient.send(new UpdateCommand({
+              // Build update expression dynamically based on provided fields
+              const updates = [];
+              const names = {};
+              const values = {};
+              
+              if (data.status !== undefined) {
+                updates.push('#status = :status');
+                names['#status'] = 'status';
+                values[':status'] = data.status;
+              }
+              if (data.questionText !== undefined) {
+                updates.push('questionText = :questionText');
+                values[':questionText'] = data.questionText;
+              }
+              if (data.options !== undefined) {
+                updates.push('#options = :options');
+                names['#options'] = 'options';
+                values[':options'] = data.options;
+              }
+              if (data.correctAnswer !== undefined) {
+                updates.push('correctAnswer = :correctAnswer');
+                values[':correctAnswer'] = data.correctAnswer;
+              }
+              if (data.explanation !== undefined) {
+                updates.push('explanation = :explanation');
+                values[':explanation'] = data.explanation;
+              }
+              if (data.domain !== undefined) {
+                updates.push('domain = :domain');
+                values[':domain'] = data.domain;
+              }
+              
+              if (updates.length === 0) {
+                return {
+                  statusCode: 400,
+                  headers,
+                  body: JSON.stringify({ error: 'No fields to update' })
+                };
+              }
+              
+              const params = {
                 TableName: process.env.QUESTIONS_TABLE,
                 Key: { questionId },
-                UpdateExpression: 'SET #status = :status',
-                ExpressionAttributeNames: {
-                  '#status': 'status'
-                },
-                ExpressionAttributeValues: {
-                  ':status': data.status
-                }
-              }));
+                UpdateExpression: 'SET ' + updates.join(', ')
+              };
+              
+              if (Object.keys(names).length > 0) {
+                params.ExpressionAttributeNames = names;
+              }
+              params.ExpressionAttributeValues = values;
+              
+              await docClient.send(new UpdateCommand(params));
               
               return {
                 statusCode: 200,

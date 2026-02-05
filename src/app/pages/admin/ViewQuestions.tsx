@@ -8,6 +8,8 @@ const ViewQuestions: React.FC = () => {
   const [quizId, setQuizId] = useState('quiz-1')
   const [questions, setQuestions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState<any>({})
 
   const selectedCert = CERTIFICATIONS[certId as keyof typeof CERTIFICATIONS]
 
@@ -44,6 +46,42 @@ const ViewQuestions: React.FC = () => {
     } catch (error) {
       alert('Error updating status')
     }
+  }
+
+  const handleEdit = (question: any) => {
+    setEditingId(question.questionId)
+    setEditForm({
+      questionText: question.questionText,
+      options: [...question.options],
+      correctAnswer: question.correctAnswer,
+      explanation: question.explanation,
+      domain: question.domain
+    })
+  }
+
+  const handleSaveEdit = async (questionId: string) => {
+    try {
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/manage/${questionId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editForm)
+      })
+      
+      if (response.ok) {
+        setEditingId(null)
+        setEditForm({})
+        fetchQuestions()
+      } else {
+        alert('Failed to update question')
+      }
+    } catch (error) {
+      alert('Error updating question')
+    }
+  }
+
+  const handleCancelEdit = () => {
+    setEditingId(null)
+    setEditForm({})
   }
 
   const handleDelete = async (questionId: string) => {
@@ -178,52 +216,142 @@ const ViewQuestions: React.FC = () => {
                       </select>
                     </div>
                     <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleMoveUp(idx)}
-                        disabled={idx === 0}
-                        className="disabled:opacity-30"
-                      >
-                        ↑
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleMoveDown(idx)}
-                        disabled={idx === questions.length - 1}
-                        className="disabled:opacity-30"
-                      >
-                        ↓
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDelete(q.questionId)}
-                        disabled={questions.length <= 1}
-                        className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 disabled:opacity-30"
-                      >
-                        Delete
-                      </Button>
+                      {editingId === q.questionId ? (
+                        <>
+                          <Button
+                            size="sm"
+                            onClick={() => handleSaveEdit(q.questionId)}
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={handleCancelEdit}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleEdit(q)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleMoveUp(idx)}
+                            disabled={idx === 0}
+                            className="disabled:opacity-30"
+                          >
+                            ↑
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleMoveDown(idx)}
+                            disabled={idx === questions.length - 1}
+                            className="disabled:opacity-30"
+                          >
+                            ↓
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleDelete(q.questionId)}
+                            disabled={questions.length <= 1}
+                            className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 disabled:opacity-30"
+                          >
+                            Delete
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </div>
-                  <p className="text-slate-900 dark:text-white font-medium mb-3">{q.questionText}</p>
-                  <div className="space-y-2 mb-3">
-                    {q.options?.map((opt: string, i: number) => (
-                      <div key={i} className={`px-3 py-2 rounded ${i === q.correctAnswer ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
-                        <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
-                        {i === q.correctAnswer && <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">✓ Correct</span>}
+                  
+                  {editingId === q.questionId ? (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-semibold mb-2">Question Text</label>
+                        <textarea
+                          value={editForm.questionText}
+                          onChange={(e) => setEditForm({...editForm, questionText: e.target.value})}
+                          className="w-full px-4 py-2 border-2 rounded-lg"
+                          rows={3}
+                        />
                       </div>
-                    ))}
-                  </div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700 pt-3">
-                    <span className="font-medium">Domain:</span> {q.domain}
-                  </div>
-                  {q.explanation && (
-                    <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
-                      <span className="font-semibold text-blue-900 dark:text-blue-300">Explanation:</span>
-                      <p className="text-slate-700 dark:text-slate-300 mt-1">{q.explanation}</p>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2">Options (select correct answer)</label>
+                        {editForm.options?.map((opt: string, i: number) => (
+                          <div key={i} className="flex gap-2 mb-2">
+                            <input
+                              type="radio"
+                              name="correctAnswer"
+                              checked={editForm.correctAnswer === i}
+                              onChange={() => setEditForm({...editForm, correctAnswer: i})}
+                              className="mt-1"
+                            />
+                            <input
+                              type="text"
+                              value={opt}
+                              onChange={(e) => {
+                                const newOptions = [...editForm.options]
+                                newOptions[i] = e.target.value
+                                setEditForm({...editForm, options: newOptions})
+                              }}
+                              className="flex-1 px-4 py-2 border-2 rounded-lg"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2">Domain</label>
+                        <select
+                          value={editForm.domain}
+                          onChange={(e) => setEditForm({...editForm, domain: e.target.value})}
+                          className="w-full px-4 py-2 border-2 rounded-lg"
+                        >
+                          {selectedCert?.domains.map((domain: string) => (
+                            <option key={domain} value={domain}>{domain}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold mb-2">Explanation</label>
+                        <textarea
+                          value={editForm.explanation}
+                          onChange={(e) => setEditForm({...editForm, explanation: e.target.value})}
+                          className="w-full px-4 py-2 border-2 rounded-lg"
+                          rows={3}
+                        />
+                      </div>
                     </div>
+                  ) : (
+                    <>
+                      <p className="text-slate-900 dark:text-white font-medium mb-3">{q.questionText}</p>
+                      <div className="space-y-2 mb-3">
+                        {q.options?.map((opt: string, i: number) => (
+                          <div key={i} className={`px-3 py-2 rounded ${i === q.correctAnswer ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                            <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
+                            {i === q.correctAnswer && <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">✓ Correct</span>}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-sm text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700 pt-3">
+                        <span className="font-medium">Domain:</span> {q.domain}
+                      </div>
+                      {q.explanation && (
+                        <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+                          <span className="font-semibold text-blue-900 dark:text-blue-300">Explanation:</span>
+                          <p className="text-slate-700 dark:text-slate-300 mt-1">{q.explanation}</p>
+                        </div>
+                      )}
+                    </>
                   )}
                 </Card>
               ))}
