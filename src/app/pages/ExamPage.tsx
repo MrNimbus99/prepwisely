@@ -76,7 +76,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   // Load saved answer when changing questions
   useEffect(() => {
     setSelectedAnswer(answers[currentQuestionIndex] || null)
-  }, [currentQuestionIndex, answers])
+  }, [currentQuestionIndex])
 
   // Timer countdown
   useEffect(() => {
