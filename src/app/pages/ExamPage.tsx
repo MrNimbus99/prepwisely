@@ -28,6 +28,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [timeTaken, setTimeTaken] = useState(0)
   const [overtime, setOvertime] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [showExitModal, setShowExitModal] = useState(false)
 
   useEffect(() => {
     const storedQuizId = sessionStorage.getItem('currentQuizId')
@@ -158,10 +159,29 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const handleBackToCert = () => {
     if (!showResult) {
-      if (!window.confirm('Are you sure you want to exit? Your progress will be lost.')) {
-        return
-      }
+      setShowExitModal(true)
+      return
     }
+    const pageMap: { [key: string]: PageName } = {
+      'cloud-practitioner': 'cert-cloud-practitioner',
+      'ai-practitioner': 'cert-ai-practitioner',
+      'solutions-architect-associate': 'cert-solutions-architect-associate',
+      'developer-associate': 'cert-developer-associate',
+      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
+      'data-engineer-associate': 'cert-data-engineer-associate',
+      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
+      'solutions-architect-professional': 'cert-solutions-architect-professional',
+      'devops-engineer-professional': 'cert-devops-engineer-professional',
+      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'security-specialty': 'cert-security-specialty',
+      'machine-learning-specialty': 'cert-machine-learning-specialty',
+      'database-specialty': 'cert-database-specialty'
+    }
+    onNavigate(pageMap[certId] || 'dashboard')
+  }
+
+  const confirmExit = () => {
+    setShowExitModal(false)
     const pageMap: { [key: string]: PageName } = {
       'cloud-practitioner': 'cert-cloud-practitioner',
       'ai-practitioner': 'cert-ai-practitioner',
@@ -487,6 +507,40 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
         )}
       </div>
+
+      {/* Exit Confirmation Modal */}
+      {showExitModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-8 transform animate-in">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <XCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+                Exit Quiz?
+              </h3>
+              <p className="text-slate-600 dark:text-slate-400">
+                Are you sure you want to exit? Your progress will be lost and you'll need to start over.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowExitModal(false)}
+                className="flex-1 py-3 text-base font-semibold"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={confirmExit}
+                className="flex-1 py-3 text-base font-semibold bg-red-600 hover:bg-red-700 text-white"
+              >
+                Exit Quiz
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
