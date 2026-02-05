@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { Trophy, LogOut, CheckCircle, Lock, Play } from 'lucide-react'
+import { Trophy, LogOut, CheckCircle, Lock, Play, Shield } from 'lucide-react'
 
 interface CertificationCard {
   id: string
@@ -22,15 +22,8 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
   const { getProgress } = useQuiz()
 
-  // Redirect admin to admin portal
-  React.useEffect(() => {
-    if (user?.email === 'admin@prepwisely.com') {
-      onNavigate('admin')
-    }
-  }, [user, onNavigate])
-
-  // Check if user has access to all certs
-  const hasFullAccess = user?.email === 'althwabtirasool@gmail.com'
+  // Check if user has access to all certs (admin and owner)
+  const hasFullAccess = user?.email === 'althwabtirasool@gmail.com' || user?.email === 'admin@prepwisely.com'
 
   // All certifications with unique colors
   const allCertifications = [
@@ -194,6 +187,12 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <span className="text-sm text-slate-600 dark:text-slate-300 hidden sm:inline">
                 {user?.email}
               </span>
+              {user?.email === 'admin@prepwisely.com' && (
+                <Button variant="outline" onClick={() => onNavigate('admin')}>
+                  <Shield className="w-4 h-4 mr-2" />
+                  Admin View
+                </Button>
+              )}
               <Button variant="outline" onClick={handleSignOut}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
