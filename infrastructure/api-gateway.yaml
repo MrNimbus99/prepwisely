@@ -543,8 +543,83 @@ Resources:
             }
           };
 
-  # API Resources and Methods would go here
-  # For brevity, using inline Lambda code
+  # API Gateway Resources
+  QuestionsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !GetAtt PrepWiselyApi.RootResourceId
+      PathPart: questions
+
+  QuestionsCertResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionsResource
+      PathPart: '{certId}'
+
+  QuestionsQuizResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ParentId: !Ref QuestionsCertResource
+      PathPart: '{quizId}'
+
+  # GET /questions/{certId}/{quizId}
+  GetQuestionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionsQuizResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetQuestionsFunction.Arn}/invocations'
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+
+  GetQuestionsPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref GetQuestionsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
+  # POST /questions
+  PostQuestionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      ResourceId: !Ref QuestionsResource
+      HttpMethod: POST
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateQuestionFunction.Arn}/invocations'
+
+  CreateQuestionPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref CreateQuestionFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${PrepWiselyApi}/*/*'
+
+  # API Deployment
+  ApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - GetQuestionsMethod
+      - PostQuestionsMethod
+    Properties:
+      RestApiId: !Ref PrepWiselyApi
+      StageName: prod
 
 Outputs:
   ApiEndpoint:
