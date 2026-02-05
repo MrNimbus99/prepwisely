@@ -12,13 +12,13 @@ echo "🔧 Setting cache headers for SEO files..."
 aws s3 cp s3://$BUCKET/robots.txt s3://$BUCKET/robots.txt \
   --metadata-directive REPLACE \
   --content-type "text/plain" \
-  --cache-control "public, max-age=3600" \
+  --cache-control "public, max-age=300" \
   --region $REGION
 
 aws s3 cp s3://$BUCKET/sitemap.xml s3://$BUCKET/sitemap.xml \
   --metadata-directive REPLACE \
   --content-type "application/xml" \
-  --cache-control "public, max-age=3600" \
+  --cache-control "public, max-age=300" \
   --region $REGION
 
 echo "♻️  Invalidating CloudFront cache..."

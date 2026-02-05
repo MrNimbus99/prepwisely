@@ -25,6 +25,39 @@ Resources:
         SigningProtocol: sigv4
         Description: !Sub 'PrepWisely ${Environment} Origin Access Control'
 
+  # Cache Policy for SEO files (robots.txt, sitemap.xml)
+  SEOFilesCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Name: !Sub 'PrepWisely-${Environment}-SEO-Files'
+        Comment: 'Cache policy for robots.txt and sitemap.xml with 5 min TTL'
+        DefaultTTL: 300
+        MaxTTL: 300
+        MinTTL: 300
+        ParametersInCacheKeyAndForwardedToOrigin:
+          EnableAcceptEncodingGzip: true
+          EnableAcceptEncodingBrotli: true
+          QueryStringsConfig:
+            QueryStringBehavior: none
+          HeadersConfig:
+            HeaderBehavior: none
+          CookiesConfig:
+            CookieBehavior: none
+
+  # Response Headers Policy for SEO files
+  SEOFilesResponseHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub 'PrepWisely-${Environment}-SEO-Headers'
+        Comment: 'Response headers for SEO files with short cache'
+        CustomHeadersConfig:
+          Items:
+            - Header: Cache-Control
+              Value: 'public, max-age=300'
+              Override: true
+
   # CloudFront Distribution
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
@@ -44,6 +77,25 @@ Resources:
               OriginAccessIdentity: ''
             OriginAccessControlId: !Ref OriginAccessControl
         
+        # Cache behaviors for SEO files
+        CacheBehaviors:
+          - PathPattern: /robots.txt
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: false
+            CachePolicyId: !Ref SEOFilesCachePolicy
+            ResponseHeadersPolicyId: !Ref SEOFilesResponseHeadersPolicy
+          - PathPattern: /sitemap.xml
+            TargetOriginId: S3Origin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            Compress: false
+            CachePolicyId: !Ref SEOFilesCachePolicy
+            ResponseHeadersPolicyId: !Ref SEOFilesResponseHeadersPolicy
+        
         DefaultCacheBehavior:
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
@@ -62,12 +114,12 @@ Resources:
             ResponseCode: 200
             ResponsePagePath: /index.html
             ErrorCachingMinTTL: 300
-        
-        Tags:
-          - Key: Project
-            Value: PrepWisely
-          - Key: Environment
-            Value: !Ref Environment
+      
+      Tags:
+        - Key: Project
+          Value: PrepWisely
+        - Key: Environment
+          Value: !Ref Environment
 
   # Update S3 bucket policy to allow CloudFront OAI
   BucketPolicyUpdate:
