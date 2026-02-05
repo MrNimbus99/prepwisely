@@ -1,11 +1,19 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { ArrowLeft, Calendar, CheckCircle, Trophy } from 'lucide-react'
 
 const Article30DayPath: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: '30-Day AWS Certification Study Path - Structured Learning Plan | NestedCerts',
+    description: 'Follow our proven 30-day study path to pass your AWS certification exam. Get a structured daily schedule with practice tests, study materials, and progress tracking.',
+    keywords: '30-day study plan, AWS certification path, structured learning, daily schedule, exam preparation',
+    canonical: 'https://nestedcerts.com/article-30day'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">

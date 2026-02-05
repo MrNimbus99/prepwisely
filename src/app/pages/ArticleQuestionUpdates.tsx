@@ -1,11 +1,19 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { ArrowLeft, RefreshCw, CheckCircle, Calendar, Bell } from 'lucide-react'
 
 const ArticleQuestionUpdates: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Question Updates & Content Refresh Schedule | NestedCerts',
+    description: 'Learn how often we update AWS certification practice questions. Discover our content refresh schedule, quality assurance process, and how we keep questions aligned with current exams.',
+    keywords: 'question updates, content refresh, practice test updates, exam alignment, quality assurance',
+    canonical: 'https://nestedcerts.com/article-updates'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">

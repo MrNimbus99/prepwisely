@@ -1,11 +1,19 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { ArrowLeft, DollarSign, TrendingUp, Mail } from 'lucide-react'
 
 const ArticleUpgradePricing: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'How to Upgrade Your Plan - Pricing & Subscription Guide | NestedCerts',
+    description: 'Learn how to upgrade your NestedCerts subscription plan. Compare features, pricing tiers, and get step-by-step instructions for upgrading your AWS exam prep account.',
+    keywords: 'upgrade plan, pricing tiers, subscription upgrade, account upgrade, premium features',
+    canonical: 'https://nestedcerts.com/article-upgrade'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">

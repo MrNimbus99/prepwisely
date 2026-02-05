@@ -1,11 +1,19 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { ArrowLeft, CheckCircle, Calendar, DollarSign } from 'lucide-react'
 
 const ArticleCancelSubscription: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'How to Cancel Your Subscription - Account Management Guide | NestedCerts',
+    description: 'Step-by-step guide to cancel your NestedCerts subscription. Learn about cancellation policies, refunds, data retention, and how to pause or downgrade your account instead.',
+    keywords: 'cancel subscription, account cancellation, refund policy, pause subscription, downgrade account',
+    canonical: 'https://nestedcerts.com/article-cancel'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
