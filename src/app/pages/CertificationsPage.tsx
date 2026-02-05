@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
@@ -8,6 +9,13 @@ import { Badge } from '../components/ui/badge'
 import { CheckCircle, Star, Zap } from 'lucide-react'
 
 const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'AWS Certifications - All Exams & Practice Tests | NestedCerts',
+    description: 'Prepare for all AWS certifications including Solutions Architect, Developer, SysOps Administrator, DevOps Engineer, Security, and specialty certifications. Comprehensive practice tests and study materials for Associate and Professional levels.',
+    keywords: 'AWS certifications, AWS Solutions Architect Associate, AWS Solutions Architect Professional, AWS Developer Associate, AWS SysOps Administrator, AWS DevOps Engineer, AWS Security Specialty, AWS certification list',
+    canonical: 'https://nestedcerts.com/certifications'
+  })
+  
   const { user } = useAuth()
   const groupedCerts = {
     Foundational: certifications.filter(cert => cert.level === 'Foundational'),

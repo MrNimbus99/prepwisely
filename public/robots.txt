@@ -1,4 +1,24 @@
+# Allow all search engines
 User-agent: *
 Allow: /
 
+# Disallow admin and private areas (when added)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*.json$
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://nestedcerts.com/sitemap.xml
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

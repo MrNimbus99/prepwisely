@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
@@ -8,6 +9,13 @@ import { Badge } from '../components/ui/badge'
 import { Check, Crown, Calendar, Infinity } from 'lucide-react'
 
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Pricing Plans - AWS Certification Exam Prep | NestedCerts',
+    description: 'Choose the perfect plan for your AWS certification journey. Free trial available. Flexible pricing for individuals and teams. Access practice tests, analytics, and study materials for all AWS certifications.',
+    keywords: 'AWS certification pricing, AWS exam prep cost, AWS practice test subscription, AWS certification plans, affordable AWS training',
+    canonical: 'https://nestedcerts.com/pricing'
+  })
+  
   const { user } = useAuth()
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
   const associateCerts = certifications.filter(cert => cert.level === 'Associate')

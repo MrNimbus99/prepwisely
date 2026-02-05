@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavigationProps, PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -128,6 +129,13 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       color: 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-400'
     }
   ]
+
+  useSEO({
+    title: 'Help Center - AWS Certification Exam Prep Support | NestedCerts',
+    description: 'Get help with NestedCerts AWS certification exam prep platform. Find answers to common questions, tutorials, guides, and contact our support team for assistance.',
+    keywords: 'AWS certification help, exam prep support, AWS practice test help, study guide assistance, certification FAQ',
+    canonical: 'https://nestedcerts.com/help'
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
