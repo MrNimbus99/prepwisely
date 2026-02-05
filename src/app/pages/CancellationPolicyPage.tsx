@@ -10,7 +10,7 @@ const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <button onClick={() => onNavigate('landing')} className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              PrepWisely
+              NestedCerts
             </button>
             <Button variant="outline" onClick={() => onNavigate('landing')}>
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -68,7 +68,7 @@ const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
       <footer className="bg-slate-900 dark:bg-slate-950 text-slate-300 py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-          <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+          <p>&copy; 2026 NestedCerts. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -230,7 +230,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={handleBackToCert}
               className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             <div className="flex items-center gap-2 sm:gap-4">
               {!showResult && (

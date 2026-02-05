@@ -13,8 +13,8 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       category: 'General',
       questions: [
         {
-          q: 'What is PrepWisely?',
-          a: 'PrepWisely is a comprehensive AWS certification preparation platform offering daily practice exams, 30-day structured learning paths, and detailed analytics to help you pass your AWS certification exams.'
+          q: 'What is NestedCerts?',
+          a: 'NestedCerts is a comprehensive AWS certification preparation platform offering daily practice exams, 30-day structured learning paths, and detailed analytics to help you pass your AWS certification exams.'
         },
         {
           q: 'How does the 30-day learning path work?',
@@ -76,8 +76,8 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           a: 'Click "Forgot Password" on the login page, enter your email, and you\'ll receive a password reset link. Follow the link to create a new password.'
         },
         {
-          q: 'Can I use PrepWisely on mobile devices?',
-          a: 'Yes! PrepWisely is fully responsive and works on all devices - desktop, tablet, and mobile phones. Study anywhere, anytime.'
+          q: 'Can I use NestedCerts on mobile devices?',
+          a: 'Yes! NestedCerts is fully responsive and works on all devices - desktop, tablet, and mobile phones. Study anywhere, anytime.'
         },
         {
           q: 'How do I track my progress?',
@@ -101,7 +101,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
@@ -131,7 +131,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             Frequently Asked Questions
           </h1>
           <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200">
-            Find answers to common questions about PrepWisely
+            Find answers to common questions about NestedCerts
           </p>
         </div>
 
@@ -226,7 +226,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="border-t border-slate-200 dark:border-slate-800 pt-8 text-center text-slate-600 dark:text-slate-400">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>

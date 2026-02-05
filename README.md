@@ -1,4 +1,4 @@
-# PrepWisely - AWS Certification Exam Prep Platform
+# NestedCerts - AWS Certification Exam Prep Platform
 
 A modern, enterprise-grade SaaS platform for AWS certification preparation with daily practice exams, comprehensive analytics, and structured 30-day learning paths.
 

@@ -15,7 +15,7 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             <div className="flex items-center space-x-4">
               <Button variant="outline" onClick={() => onNavigate('login')} className="hidden sm:inline-flex">
@@ -55,7 +55,7 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 30-Day Money-Back Guarantee
               </h2>
               <p className="text-xl text-slate-700 dark:text-slate-300 leading-relaxed">
-                We stand behind the quality of PrepWisely. If you're not completely satisfied with your purchase, we'll refund your money—no questions asked.
+                We stand behind the quality of NestedCerts. If you're not completely satisfied with your purchase, we'll refund your money—no questions asked.
               </p>
             </div>
           </Card>
@@ -221,7 +221,7 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>

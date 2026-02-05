@@ -181,7 +181,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             <div className="flex items-center space-x-2 sm:space-x-4">
               <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 hidden sm:inline truncate max-w-[150px] sm:max-w-none">

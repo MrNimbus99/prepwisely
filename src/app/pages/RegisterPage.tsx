@@ -112,7 +112,7 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
               <UserPlus className="h-8 w-8 text-white" />
             </div>
             <CardTitle className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Join PrepWisely
+              Join NestedCerts
             </CardTitle>
             <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
               Start your AWS certification journey today

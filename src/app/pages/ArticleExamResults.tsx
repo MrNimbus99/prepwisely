@@ -12,7 +12,7 @@ const ArticleExamResults: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
             <button onClick={() => onNavigate('landing')} className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              PrepWisely
+              NestedCerts
             </button>
             <div className="hidden md:flex items-center space-x-8">
               <button onClick={() => onNavigate('certifications')} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">Certifications</button>

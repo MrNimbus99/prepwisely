@@ -65,7 +65,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
@@ -271,7 +271,7 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="border-t border-slate-200 dark:border-slate-800 pt-8 text-center text-slate-600 dark:text-slate-400">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>

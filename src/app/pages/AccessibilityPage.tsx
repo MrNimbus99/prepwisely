@@ -15,7 +15,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             <div className="flex items-center space-x-4">
               <Button variant="outline" onClick={() => onNavigate('login')} className="hidden sm:inline-flex">
@@ -37,7 +37,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             Accessibility Statement
           </h1>
           <p className="text-xl text-purple-100">
-            PrepWisely is committed to ensuring digital accessibility for everyone
+            NestedCerts is committed to ensuring digital accessibility for everyone
           </p>
         </div>
       </section>
@@ -126,7 +126,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Browser Compatibility
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-3">
-                    PrepWisely is designed to work with the following browsers and assistive technologies:
+                    NestedCerts is designed to work with the following browsers and assistive technologies:
                   </p>
                   <ul className="list-disc list-inside space-y-2 text-slate-700 dark:text-slate-300">
                     <li>Chrome, Firefox, Safari, Edge (latest versions)</li>
@@ -141,7 +141,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Feedback & Assistance
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
-                    We welcome your feedback on the accessibility of PrepWisely. If you encounter any accessibility barriers, please let us know:
+                    We welcome your feedback on the accessibility of NestedCerts. If you encounter any accessibility barriers, please let us know:
                   </p>
                   <ul className="space-y-2 text-slate-700 dark:text-slate-300">
                     <li><strong>Email:</strong> <a href="mailto:accessibility@prepwisely.com" className="text-purple-600 dark:text-purple-400 hover:underline">accessibility@prepwisely.com</a></li>
@@ -154,7 +154,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Ongoing Improvements
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    We are continuously working to improve the accessibility of PrepWisely. Our development team regularly audits the platform and implements improvements based on user feedback and the latest accessibility guidelines.
+                    We are continuously working to improve the accessibility of NestedCerts. Our development team regularly audits the platform and implements improvements based on user feedback and the latest accessibility guidelines.
                   </p>
                 </div>
               </div>
@@ -196,7 +196,7 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>

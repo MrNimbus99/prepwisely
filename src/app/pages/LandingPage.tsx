@@ -30,7 +30,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                PrepWisely
+                NestedCerts
               </span>
             </div>
             
@@ -305,8 +305,8 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <CardTitle>Lifetime Access</CardTitle>
                 <CardDescription>One-time payment</CardDescription>
                 <div className="mt-4">
-                  <span className="text-3xl font-bold">$120</span>
-                  <span className="text-slate-500 line-through ml-2">$240</span>
+                  <span className="text-3xl font-bold">$100</span>
+                  <span className="text-slate-500 line-through ml-2">$200</span>
                   <Badge variant="warning" className="ml-2">50% OFF</Badge>
                 </div>
               </CardHeader>
@@ -347,7 +347,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             Ready to ace your AWS certification?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join thousands of successful candidates who've used PrepWisely to pass their exams.
+            Join thousands of successful candidates who've used NestedCerts to pass their exams.
           </p>
           <Button size="lg" variant="secondary" onClick={() => onNavigate('register')} className="text-lg px-8 py-3">
             Start Your Free Trial
@@ -365,7 +365,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                   <Trophy className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold text-white">PrepWisely</span>
+                <span className="text-xl font-bold text-white">NestedCerts</span>
               </div>
               <p className="text-sm">
                 The most effective way to prepare for AWS certifications with daily practice and comprehensive analytics.
@@ -402,7 +402,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
           
           <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>

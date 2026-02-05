@@ -1,4 +1,4 @@
-# PrepWisely - Complete Repository Audit
+# NestedCerts - Complete Repository Audit
 **Date**: February 5, 2026  
 **Status**: Phase 4 In Progress
 
@@ -49,17 +49,17 @@
 6. ✅ prepwisely-api - API Gateway
 
 **Lambda Functions (11):**
-1. ✅ PrepWisely-GetQuestions - Fetch questions by cert/quiz
-2. ✅ PrepWisely-GetAllQuestions - Admin: get all questions
-3. ✅ PrepWisely-CreateQuestion - Admin: create question
-4. ✅ PrepWisely-UpdateQuestion - Admin: update question
-5. ✅ PrepWisely-DeleteQuestion - Admin: delete question
-6. ✅ PrepWisely-UpdateQuestionOrder - Admin: reorder questions
-7. ✅ PrepWisely-GetQuestionCount - Get question counts
-8. ✅ PrepWisely-GetProgress - Fetch user progress
-9. ✅ PrepWisely-SaveProgress - Save exam results
-10. ✅ PrepWisely-GetUser - Get user details
-11. ✅ PrepWisely-UpdateUser - Update user profile
+1. ✅ NestedCerts-GetQuestions - Fetch questions by cert/quiz
+2. ✅ NestedCerts-GetAllQuestions - Admin: get all questions
+3. ✅ NestedCerts-CreateQuestion - Admin: create question
+4. ✅ NestedCerts-UpdateQuestion - Admin: update question
+5. ✅ NestedCerts-DeleteQuestion - Admin: delete question
+6. ✅ NestedCerts-UpdateQuestionOrder - Admin: reorder questions
+7. ✅ NestedCerts-GetQuestionCount - Get question counts
+8. ✅ NestedCerts-GetProgress - Fetch user progress
+9. ✅ NestedCerts-SaveProgress - Save exam results
+10. ✅ NestedCerts-GetUser - Get user details
+11. ✅ NestedCerts-UpdateUser - Update user profile
 
 **DynamoDB Tables (7):**
 1. ✅ prepwisely-questions - Question bank

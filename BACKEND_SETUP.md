@@ -1,4 +1,4 @@
-# PrepWisely Backend Setup
+# NestedCerts Backend Setup
 
 ## DynamoDB Tables
 

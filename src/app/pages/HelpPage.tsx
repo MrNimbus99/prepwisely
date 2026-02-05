@@ -26,7 +26,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       id: 'getting-started',
       name: 'Getting Started',
       icon: BookOpen,
-      description: 'Learn the basics of using PrepWisely',
+      description: 'Learn the basics of using NestedCerts',
       articles: [
         'How to create your account',
         'Taking your first practice exam',
@@ -144,7 +144,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <Trophy className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  PrepWisely
+                  NestedCerts
                 </span>
               </button>
             </div>

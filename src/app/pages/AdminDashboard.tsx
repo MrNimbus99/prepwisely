@@ -38,7 +38,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-4">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                PrepWisely Admin
+                NestedCerts Admin
               </h1>
               <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Admin</Badge>
             </div>

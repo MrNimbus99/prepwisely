@@ -100,7 +100,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
             
             <div className="flex items-center space-x-4">
               <span className="text-sm text-slate-600 dark:text-slate-400">
-                New to PrepWisely?
+                New to NestedCerts?
               </span>
               <Button
                 variant="outline"

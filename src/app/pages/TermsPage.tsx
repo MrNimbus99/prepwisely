@@ -15,7 +15,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('landing')}
               className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
-              PrepWisely
+              NestedCerts
             </button>
             <div className="flex items-center space-x-4">
               <Button variant="outline" onClick={() => onNavigate('login')} className="hidden sm:inline-flex">
@@ -54,7 +54,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Acceptance of Terms
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    By accessing and using PrepWisely ("Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use our Service.
+                    By accessing and using NestedCerts ("Service"), you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use our Service.
                   </p>
                 </div>
 
@@ -64,7 +64,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Description of Service
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    PrepWisely provides AWS certification exam preparation services including practice exams, study materials, analytics, and structured learning paths. We offer both free and paid tiers of service.
+                    NestedCerts provides AWS certification exam preparation services including practice exams, study materials, analytics, and structured learning paths. We offer both free and paid tiers of service.
                   </p>
                 </div>
 
@@ -111,7 +111,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Intellectual Property
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    The Service and its original content, features, and functionality are owned by PrepWisely and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+                    The Service and its original content, features, and functionality are owned by NestedCerts and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
                   </p>
                 </div>
 
@@ -149,7 +149,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Limitation of Liability
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    In no event shall PrepWisely, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or other intangible losses.
+                    In no event shall NestedCerts, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or other intangible losses.
                   </p>
                 </div>
 
@@ -214,7 +214,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
           <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
           </div>
         </div>
       </footer>
