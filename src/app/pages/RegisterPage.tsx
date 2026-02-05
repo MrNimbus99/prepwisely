@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Eye, EyeOff, ArrowLeft, AlertCircle, Check, X, UserPlus, Shield } from 'lucide-react'
@@ -11,6 +12,13 @@ interface RegisterPageProps {
 
 const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigate }) => {
   const { signUp } = useAuth()
+  
+  useSEO({
+    title: 'Create Account - NestedCerts',
+    description: 'Create your NestedCerts account',
+    noindex: true
+  })
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',

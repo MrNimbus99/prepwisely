@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -7,6 +8,13 @@ import { ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react'
 
 const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
+  
+  useSEO({
+    title: 'Frequently Asked Questions (FAQ) - NestedCerts',
+    description: 'Find answers to common questions about NestedCerts AWS certification exam prep platform, pricing, features, and study materials.',
+    keywords: 'AWS certification FAQ, exam prep questions, NestedCerts help, AWS study guide FAQ',
+    canonical: 'https://nestedcerts.com/faq'
+  })
 
   const faqs = [
     {
