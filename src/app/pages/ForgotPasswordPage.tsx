@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { ArrowLeft, AlertCircle, Mail, CheckCircle, Send, Clock } from 'lucide-react'
@@ -11,6 +12,13 @@ interface ForgotPasswordPageProps {
 
 const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) => {
   const { resetPassword } = useAuth()
+  
+  useSEO({
+    title: 'Reset Password - NestedCerts',
+    description: 'Reset your password',
+    noindex: true
+  })
+  
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { ArrowLeft, AlertCircle, Mail, RefreshCw, Smartphone, Shield } from 'lucide-react'
@@ -11,6 +12,13 @@ interface EmailVerificationPageProps {
 
 const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ onNavigate }) => {
   const { confirmSignUp, pendingEmail } = useAuth()
+  
+  useSEO({
+    title: 'Verify Email - NestedCerts',
+    description: 'Verify your email address',
+    noindex: true
+  })
+  
   const [email, setEmail] = useState(pendingEmail || '')
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
