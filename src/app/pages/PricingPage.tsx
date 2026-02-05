@@ -287,8 +287,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Annual</h3>
                 <div className="mb-6">
-                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$180/year</div>
-                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$90<span className="text-xl text-slate-600 dark:text-slate-400">/yr</span></div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$140/year</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$70<span className="text-xl text-slate-600 dark:text-slate-400">/yr</span></div>
                   <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold">50% OFF</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 text-left">
@@ -320,8 +320,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Lifetime</h3>
                 <div className="mb-6">
-                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$240</div>
-                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$120</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$200</div>
+                  <div className="text-5xl font-bold text-slate-900 dark:text-white mb-2">$100</div>
                   <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 font-bold">50% OFF</Badge>
                 </div>
                 <ul className="space-y-3 mb-8 text-left">
