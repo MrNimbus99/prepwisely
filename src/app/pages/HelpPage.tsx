@@ -305,39 +305,39 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-10 sm:py-16 bg-white/50 dark:bg-slate-900/50">
+      <section className="py-10 sm:py-16 bg-gradient-to-br from-blue-500 to-indigo-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+          <h2 className="text-3xl font-bold text-white mb-4">
             Still need help?
           </h2>
-          <p className="text-slate-800 dark:text-slate-100 mb-8">
+          <p className="text-white/90 text-lg mb-8">
             Can't find what you're looking for? Our support team is here to help.
           </p>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <Card className="group bg-white dark:bg-slate-800 border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+              <CardHeader className="text-center p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <Mail className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Email Support</CardTitle>
-                <CardDescription className="text-slate-700 dark:text-slate-100">
+                <CardDescription className="text-slate-700 dark:text-slate-300 text-base">
                   Get detailed help via email<br />
                   Response within 24 hours
                 </CardDescription>
-                <Button onClick={() => onNavigate('contact-support')} className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg">
+                <Button onClick={() => onNavigate('contact-support')} className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg text-base px-6 py-3">
                   Contact Support
                 </Button>
               </CardHeader>
             </Card>
             
-            <Card className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 shadow-md hover:shadow-xl transition-all duration-300">
-              <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <Card className="group bg-white dark:bg-slate-800 border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+              <CardHeader className="text-center p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <CardTitle className="text-xl font-bold text-slate-900 dark:text-white mb-2">Live Chat</CardTitle>
-                <CardDescription className="text-slate-700 dark:text-slate-100">
+                <CardDescription className="text-slate-700 dark:text-slate-300 text-base">
                   Chat with our team in real-time<br />
                   Available 9 AM - 5 PM EST
                 </CardDescription>

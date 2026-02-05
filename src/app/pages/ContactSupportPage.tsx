@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { ArrowLeft, Mail, MessageCircle, CheckCircle } from 'lucide-react'
+import { ArrowLeft, Mail, MessageCircle, CheckCircle, HelpCircle } from 'lucide-react'
 
 const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
@@ -270,14 +270,24 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </Badge>
             </Card>
 
-            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-2 border-blue-200 dark:border-blue-700 p-6">
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                Before you contact us
-              </h3>
-              <p className="text-sm text-slate-800 dark:text-slate-100 mb-3">
-                Check our FAQ page for quick answers to common questions.
-              </p>
-              <Button variant="outline" onClick={() => onNavigate('faq')} className="w-full text-sm border-2 hover:bg-blue-50 dark:hover:bg-blue-900/30">
+            <Card className="bg-gradient-to-br from-blue-500 to-indigo-600 p-6 border-0 shadow-xl">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <HelpCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-2">
+                    Before you contact us
+                  </h3>
+                  <p className="text-sm text-white/90 leading-relaxed">
+                    Check our FAQ page for quick answers to common questions.
+                  </p>
+                </div>
+              </div>
+              <Button 
+                onClick={() => onNavigate('faq')} 
+                className="w-full bg-white text-blue-600 hover:bg-blue-50 font-semibold shadow-md"
+              >
                 View FAQ
               </Button>
             </Card>
