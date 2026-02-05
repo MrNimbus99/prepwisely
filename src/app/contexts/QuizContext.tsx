@@ -30,6 +30,7 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/progress/${user.email}`)
         if (response.ok) {
           const data = await response.json()
+          console.log('Loaded progress:', data)
           setCompletions(data.completions || {})
         }
       } catch (error) {
@@ -48,15 +49,17 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     }
     setCompletions(newCompletions)
+    console.log('Saving progress:', newCompletions)
 
     // Save to backend
     if (user?.email) {
       try {
-        await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/progress/${user.email}`, {
+        const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/progress/${user.email}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ completions: newCompletions })
         })
+        console.log('Save response:', response.status)
       } catch (error) {
         console.error('Failed to save progress:', error)
       }
