@@ -142,8 +142,8 @@ const QuestionEditor: React.FC = () => {
 
         <div className="mt-8 space-y-4">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Answer Options</label>
-          {['A', 'B', 'C', 'D'].map((option, idx) => (
-            <div key={option} className="flex gap-3 items-center">
+          {options.map((option, idx) => (
+            <div key={idx} className="flex gap-3 items-center">
               <input
                 type="radio"
                 name="correct"
@@ -153,17 +153,43 @@ const QuestionEditor: React.FC = () => {
               />
               <input
                 type="text"
-                value={options[idx]}
+                value={option}
                 onChange={(e) => {
                   const newOptions = [...options]
                   newOptions[idx] = e.target.value
                   setOptions(newOptions)
                 }}
-                placeholder={`Option ${option}`}
+                placeholder={`Option ${String.fromCharCode(65 + idx)}`}
                 className="flex-1 px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
               />
+              {options.length > 2 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    const newOptions = options.filter((_, i) => i !== idx)
+                    setOptions(newOptions)
+                    if (correctAnswer === idx) {
+                      setCorrectAnswer(0)
+                    } else if (correctAnswer > idx) {
+                      setCorrectAnswer(correctAnswer - 1)
+                    }
+                  }}
+                  className="text-red-600"
+                >
+                  ✕
+                </Button>
+              )}
             </div>
           ))}
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setOptions([...options, ''])}
+            className="mt-2"
+          >
+            + Add Option
+          </Button>
         </div>
 
         <div className="mt-8">

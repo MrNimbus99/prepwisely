@@ -306,8 +306,36 @@ const ViewQuestions: React.FC = () => {
                               }}
                               className="flex-1 px-4 py-2 border-2 rounded-lg"
                             />
+                            {editForm.options.length > 2 && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  const newOptions = editForm.options.filter((_: any, idx: number) => idx !== i)
+                                  const newCorrect = editForm.correctAnswer === i 
+                                    ? 0 
+                                    : editForm.correctAnswer > i 
+                                      ? editForm.correctAnswer - 1 
+                                      : editForm.correctAnswer
+                                  setEditForm({...editForm, options: newOptions, correctAnswer: newCorrect})
+                                }}
+                                className="text-red-600"
+                              >
+                                ✕
+                              </Button>
+                            )}
                           </div>
                         ))}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditForm({...editForm, options: [...editForm.options, '']})
+                          }}
+                          className="mt-2"
+                        >
+                          + Add Option
+                        </Button>
                       </div>
                       <div>
                         <label className="block text-sm font-semibold mb-2">Domain</label>
