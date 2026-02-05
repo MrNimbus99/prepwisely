@@ -15,6 +15,7 @@ import HelpPage from './pages/HelpPage'
 import TermsPage from './pages/TermsPage'
 import PrivacyPage from './pages/PrivacyPage'
 import FAQPage from './pages/FAQPage'
+import ContactSupportPage from './pages/ContactSupportPage'
 import AccessibilityPage from './pages/AccessibilityPage'
 import RefundPolicyPage from './pages/RefundPolicyPage'
 import LoginPage from './pages/LoginPage'
@@ -66,6 +67,8 @@ const AppContent: React.FC = () => {
       <Route path="/certifications" element={<CertificationsPage onNavigate={handleNavigate} />} />
       <Route path="/pricing" element={<PricingPage onNavigate={handleNavigate} />} />
       <Route path="/help" element={<HelpPage onNavigate={handleNavigate} />} />
+      <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
+      <Route path="/contact-support" element={<ContactSupportPage onNavigate={handleNavigate} />} />
       <Route path="/terms" element={<TermsPage onNavigate={handleNavigate} />} />
       <Route path="/privacy" element={<PrivacyPage onNavigate={handleNavigate} />} />
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />

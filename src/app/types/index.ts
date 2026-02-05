@@ -5,6 +5,7 @@ export type PageName =
   | 'exam-path'
   | 'pricing'
   | 'help'
+  | 'faq'
   | 'terms'
   | 'privacy'
   | 'cookies'

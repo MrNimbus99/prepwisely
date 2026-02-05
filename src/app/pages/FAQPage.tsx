@@ -2,245 +2,182 @@ import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { ChevronDown, ChevronUp, MessageCircle, BookOpen, CreditCard, Shield } from 'lucide-react'
-
-interface FAQ {
-  question: string
-  answer: string
-  category: string
-}
+import { Badge } from '../components/ui/badge'
+import { ChevronDown, ChevronUp, ArrowLeft } from 'lucide-react'
 
 const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
 
-  const faqs: FAQ[] = [
+  const faqs = [
     {
-      category: 'Getting Started',
-      question: 'Is Cloud Practitioner really free?',
-      answer: 'Yes! AWS Certified Cloud Practitioner is completely free with full access to the 30-day exam path, daily practice exams, and all study tools. No credit card required to get started.'
+      category: 'General',
+      questions: [
+        {
+          q: 'What is PrepWisely?',
+          a: 'PrepWisely is a comprehensive AWS certification preparation platform offering daily practice exams, 30-day structured learning paths, and detailed analytics to help you pass your AWS certification exams.'
+        },
+        {
+          q: 'How does the 30-day learning path work?',
+          a: 'Each certification has a structured 30-day learning path with daily 20-question practice exams. Complete one exam per day to systematically cover all exam domains and build your knowledge progressively.'
+        },
+        {
+          q: 'Are the practice questions similar to real AWS exams?',
+          a: 'Yes! Our questions are carefully crafted to match the format, difficulty, and content of actual AWS certification exams. We regularly update our question bank based on the latest AWS exam blueprints.'
+        }
+      ]
     },
     {
-      category: 'Getting Started',
-      question: 'How does the 30-day exam path work?',
-      answer: 'Each certification has a structured 30-day learning path with daily practice exams. You\'ll get 20 questions per day covering all exam domains, with detailed explanations and progress tracking.'
+      category: 'Pricing & Billing',
+      questions: [
+        {
+          q: 'What is the upgrade pricing system?',
+          a: 'Start with any certification for $10. When you upgrade to unlock more certifications, you only pay the difference. For example, if you upgrade from a single cert ($10) to the Associate bundle ($40), you only pay $30.'
+        },
+        {
+          q: 'Can I cancel my subscription anytime?',
+          a: 'Yes! You can cancel your subscription at any time from your account settings. You\'ll retain access until the end of your current billing period.'
+        },
+        {
+          q: 'Do you offer refunds?',
+          a: 'Yes, we offer a 7-day money-back guarantee. If you\'re not satisfied within the first 7 days, contact support for a full refund.'
+        },
+        {
+          q: 'What payment methods do you accept?',
+          a: 'We accept all major credit cards (Visa, Mastercard, American Express) and debit cards through our secure payment processor Stripe.'
+        }
+      ]
     },
     {
-      category: 'Pricing',
-      question: 'What\'s the difference between individual and subscription?',
-      answer: 'Individual purchases ($49) give you lifetime access to one specific certification. Subscription ($20/month) gives you access to all certifications as long as you\'re subscribed. Choose based on your learning goals.'
+      category: 'Practice Exams',
+      questions: [
+        {
+          q: 'How many questions are in each practice exam?',
+          a: 'Daily practice exams contain 20 questions. Full practice exams (available for each certification) contain 65 questions, matching the actual AWS exam format.'
+        },
+        {
+          q: 'Can I retake practice exams?',
+          a: 'Yes! You can retake any practice exam as many times as you want. Each attempt helps reinforce your knowledge and track your progress.'
+        },
+        {
+          q: 'How is my score calculated?',
+          a: 'Your score is calculated as a percentage of correct answers. AWS exams typically require 70-75% to pass, but we recommend aiming for 82%+ on our practice exams to ensure you\'re well-prepared.'
+        },
+        {
+          q: 'Do you provide explanations for answers?',
+          a: 'Yes! Every question includes a detailed explanation of the correct answer, helping you understand the concepts and learn from your mistakes.'
+        }
+      ]
     },
     {
-      category: 'Pricing',
-      question: 'Can I upgrade my plan later?',
-      answer: 'Absolutely! You can upgrade from individual certifications to bundles or the Everything Pass anytime. You\'ll only pay the difference between what you\'ve paid and the new plan price.'
-    },
-    {
-      category: 'Pricing',
-      question: 'Do you offer refunds?',
-      answer: 'Yes! We offer a 30-day money-back guarantee on all purchases. If you\'re not satisfied with PrepWisely, contact support for a full refund within 30 days of purchase.'
-    },
-    {
-      category: 'Study Features',
-      question: 'Can I bookmark questions for later review?',
-      answer: 'Yes! You can bookmark any question during practice exams. All bookmarked questions are saved in your review queue for easy access and focused study sessions.'
-    },
-    {
-      category: 'Study Features',
-      question: 'How are questions organized?',
-      answer: 'Questions are organized by exam domains and difficulty levels. You\'ll see a mix of easy, medium, and hard questions that mirror the actual AWS certification exams.'
-    },
-    {
-      category: 'Study Features',
-      question: 'Do you provide explanations for answers?',
-      answer: 'Yes! Every question includes detailed explanations for both correct and incorrect answers, helping you understand the concepts and learn from mistakes.'
-    },
-    {
-      category: 'Account',
-      question: 'Can I use PrepWisely on multiple devices?',
-      answer: 'Yes! Your account works on all devices - desktop, tablet, and mobile. Your progress syncs automatically across all devices.'
-    },
-    {
-      category: 'Account',
-      question: 'How do I cancel my subscription?',
-      answer: 'You can cancel your subscription anytime from your account settings. You\'ll keep access until the end of your current billing period, and you won\'t be charged again.'
-    },
-    {
-      category: 'Exams',
-      question: 'Are these real AWS exam questions?',
-      answer: 'Our questions are carefully crafted to match the style, difficulty, and topics of actual AWS certification exams. They\'re based on official AWS exam guides and best practices.'
-    },
-    {
-      category: 'Exams',
-      question: 'How many questions are in each practice exam?',
-      answer: 'Daily practice exams contain 20 questions. You can also take full-length practice exams that match the actual exam format (65-75 questions depending on the certification).'
+      category: 'Account & Technical',
+      questions: [
+        {
+          q: 'How do I reset my password?',
+          a: 'Click "Forgot Password" on the login page, enter your email, and you\'ll receive a password reset link. Follow the link to create a new password.'
+        },
+        {
+          q: 'Can I use PrepWisely on mobile devices?',
+          a: 'Yes! PrepWisely is fully responsive and works on all devices - desktop, tablet, and mobile phones. Study anywhere, anytime.'
+        },
+        {
+          q: 'How do I track my progress?',
+          a: 'Your dashboard shows your progress for each certification, including completed quizzes, scores, and overall completion percentage. You can also view detailed analytics for each exam attempt.'
+        },
+        {
+          q: 'What if I encounter a technical issue?',
+          a: 'Contact our support team through the Help Center. We typically respond within 24 hours and will work to resolve any issues quickly.'
+        }
+      ]
     }
   ]
-
-  const categories = ['Getting Started', 'Pricing', 'Study Features', 'Account', 'Exams']
-
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'Getting Started': return <BookOpen className="w-5 h-5" />
-      case 'Pricing': return <CreditCard className="w-5 h-5" />
-      case 'Study Features': return <MessageCircle className="w-5 h-5" />
-      case 'Account': return <Shield className="w-5 h-5" />
-      default: return <BookOpen className="w-5 h-5" />
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             <button
-              onClick={() => onNavigate('landing')}
-              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+              onClick={() => onNavigate('help')}
+              className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
             </button>
-            <nav className="hidden md:flex space-x-8">
-              <button onClick={() => onNavigate('certifications')} className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-                Certifications
-              </button>
-              <button onClick={() => onNavigate('pricing')} className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-                Pricing
-              </button>
-              <button onClick={() => onNavigate('help')} className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
-                Help
-              </button>
-            </nav>
-            <div className="flex items-center space-x-4">
-              <Button variant="outline" onClick={() => onNavigate('login')} className="hidden sm:inline-flex">
-                Sign In
-              </Button>
-              <Button onClick={() => onNavigate('register')}>Start Free</Button>
-            </div>
+            <Button variant="outline" onClick={() => onNavigate('help')} className="text-sm sm:text-base px-3 sm:px-4">
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Back to Help</span>
+            </Button>
           </div>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+      {/* Content */}
+      <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Frequently Asked Questions
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300">
+          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300">
             Find answers to common questions about PrepWisely
           </p>
         </div>
-      </section>
 
-      {/* FAQs by Category */}
-      <section className="pb-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {categories.map((category) => {
-            const categoryFaqs = faqs.filter(faq => faq.category === category)
-            if (categoryFaqs.length === 0) return null
+        {faqs.map((section, sectionIndex) => (
+          <div key={sectionIndex} className="mb-8 sm:mb-12">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+              <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                {section.category}
+              </Badge>
+            </h2>
+            <div className="space-y-3 sm:space-y-4">
+              {section.questions.map((faq, index) => {
+                const globalIndex = sectionIndex * 100 + index
+                const isOpen = openIndex === globalIndex
+                return (
+                  <Card
+                    key={index}
+                    className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 overflow-hidden"
+                  >
+                    <button
+                      onClick={() => setOpenIndex(isOpen ? null : globalIndex)}
+                      className="w-full p-4 sm:p-6 text-left flex items-start justify-between gap-4"
+                    >
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex-1">
+                        {faq.q}
+                      </h3>
+                      {isOpen ? (
+                        <ChevronUp className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" />
+                      )}
+                    </button>
+                    {isOpen && (
+                      <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {faq.a}
+                        </p>
+                      </div>
+                    )}
+                  </Card>
+                )
+              })}
+            </div>
+          </div>
+        ))}
 
-            return (
-              <div key={category} className="mb-12">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white">
-                    {getCategoryIcon(category)}
-                  </div>
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{category}</h2>
-                </div>
-
-                <div className="space-y-4">
-                  {categoryFaqs.map((faq) => {
-                    const globalIndex = faqs.indexOf(faq)
-                    const isOpen = openIndex === globalIndex
-
-                    return (
-                      <Card
-                        key={globalIndex}
-                        className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-300 overflow-hidden"
-                      >
-                        <button
-                          onClick={() => setOpenIndex(isOpen ? null : globalIndex)}
-                          className="w-full p-6 text-left flex items-center justify-between"
-                        >
-                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white pr-4">
-                            {faq.question}
-                          </h3>
-                          {isOpen ? (
-                            <ChevronUp className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                          ) : (
-                            <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
-                          )}
-                        </button>
-                        {isOpen && (
-                          <div className="px-6 pb-6">
-                            <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                              {faq.answer}
-                            </p>
-                          </div>
-                        )}
-                      </Card>
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
+        {/* Contact Section */}
+        <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-2 border-blue-200 dark:border-blue-800 p-6 sm:p-8 text-center mt-8 sm:mt-12">
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
             Still have questions?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Our support team is here to help you succeed
+          </h3>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-4 sm:mb-6">
+            Can't find the answer you're looking for? Our support team is here to help.
           </p>
-          <Button size="lg" variant="secondary" onClick={() => onNavigate('help')}>
+          <Button onClick={() => onNavigate('contact-support')} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg">
             Contact Support
           </Button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-900 dark:bg-slate-950 text-slate-300 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold text-white mb-4">Product</h3>
-              <ul className="space-y-2 text-sm">
-                <li><button onClick={() => onNavigate('certifications')} className="hover:text-white">Certifications</button></li>
-                <li><button onClick={() => onNavigate('pricing')} className="hover:text-white">Pricing</button></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-white mb-4">Support</h3>
-              <ul className="space-y-2 text-sm">
-                <li><button onClick={() => onNavigate('help')} className="hover:text-white">Help Center</button></li>
-                <li><button onClick={() => onNavigate('faq')} className="hover:text-white">FAQ</button></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-white mb-4">Legal</h3>
-              <ul className="space-y-2 text-sm">
-                <li><button onClick={() => onNavigate('terms')} className="hover:text-white">Terms</button></li>
-                <li><button onClick={() => onNavigate('privacy')} className="hover:text-white">Privacy</button></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-white mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><button onClick={() => onNavigate('accessibility')} className="hover:text-white">Accessibility</button></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+        </Card>
+      </div>
     </div>
   )
 }
