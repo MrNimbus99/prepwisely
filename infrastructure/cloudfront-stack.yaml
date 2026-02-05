@@ -68,6 +68,13 @@ Resources:
         Enabled: true
         HttpVersion: http2
         PriceClass: PriceClass_100
+        Aliases:
+          - nestedcerts.com
+          - www.nestedcerts.com
+        ViewerCertificate:
+          AcmCertificateArn: arn:aws:acm:us-east-1:947977408385:certificate/62e6da44-50f1-476b-87d4-969fc375de4d
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
         
         Origins:
           - Id: S3Origin
