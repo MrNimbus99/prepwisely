@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NavigationProps } from '../types'
+import { NavigationProps, PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
@@ -76,27 +76,32 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     {
       title: 'How does the 30-day learning path work?',
       category: 'Getting Started',
-      views: '2.1k views'
+      views: '2.1k views',
+      page: 'article-30day' as PageName
     },
     {
       title: 'What is the upgrade pricing system?',
       category: 'Billing',
-      views: '1.8k views'
+      views: '1.8k views',
+      page: 'article-upgrade' as PageName
     },
     {
       title: 'How to interpret my exam results?',
       category: 'Practice Exams',
-      views: '1.5k views'
+      views: '1.5k views',
+      page: 'article-results' as PageName
     },
     {
       title: 'Can I cancel my subscription anytime?',
       category: 'Billing',
-      views: '1.2k views'
+      views: '1.2k views',
+      page: 'article-cancel' as PageName
     },
     {
       title: 'How often are questions updated?',
       category: 'Practice Exams',
-      views: '980 views'
+      views: '980 views',
+      page: 'article-updates' as PageName
     }
   ]
 
@@ -240,7 +245,11 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </h2>
             <div className="space-y-4">
               {popularArticles.map((article, index) => (
-                <Card key={index} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]">
+                <Card 
+                  key={index} 
+                  onClick={() => onNavigate(article.page)}
+                  className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]"
+                >
                   <CardHeader className="flex flex-row items-center justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</CardTitle>
