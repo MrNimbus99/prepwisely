@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: SNS Topic and Lambda for Contact Form
+
+Resources:
+  ContactFormTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: nestedcerts-contact-form
+      DisplayName: NestedCerts Contact Form
+      Subscription:
+        - Endpoint: rasool.mahdi.althwabti@gmail.com
+          Protocol: email
+
+  ContactFormLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: SNSPublishPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: !Ref ContactFormTopic
+
+  ContactFormFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: NestedCerts-ContactForm
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt ContactFormLambdaRole.Arn
+      Environment:
+        Variables:
+          SNS_TOPIC_ARN: !Ref ContactFormTopic
+      Code:
+        ZipFile: |
+          const { SNSClient, PublishCommand } = require('@aws-sdk/client-sns');
+          const sns = new SNSClient();
+          exports.handler = async (event) => {
+            const headers = {'Access-Control-Allow-Origin': '*','Access-Control-Allow-Headers': 'Content-Type','Access-Control-Allow-Methods': 'POST, OPTIONS'};
+            if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+            try {
+              const body = JSON.parse(event.body);
+              const { name, email, category, subject, message } = body;
+              const emailMessage = `New Contact Form\n\nFrom: ${name}\nEmail: ${email}\nCategory: ${category}\nSubject: ${subject}\n\nMessage:\n${message}\n\nTime: ${new Date().toISOString()}`;
+              await sns.send(new PublishCommand({TopicArn: process.env.SNS_TOPIC_ARN,Subject: `[NestedCerts] ${subject}`,Message: emailMessage}));
+              return {statusCode: 200,headers,body: JSON.stringify({ success: true })};
+            } catch (error) {
+              return {statusCode: 500,headers,body: JSON.stringify({ success: false })};
+            }
+          };
+
+Outputs:
+  TopicArn:
+    Value: !Ref ContactFormTopic
+  FunctionArn:
+    Value: !GetAtt ContactFormFunction.Arn
