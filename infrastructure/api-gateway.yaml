@@ -613,8 +613,11 @@ Resources:
             Fn::ImportValue: PrepWisely-UserProgressTable
       Code:
         ZipFile: |
-          const AWS = require('aws-sdk');
-          const dynamodb = new AWS.DynamoDB.DocumentClient();
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, PutCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
           
           exports.handler = async (event) => {
             const headers = {
@@ -627,14 +630,14 @@ Resources:
               const userId = event.pathParameters.userId;
               const { completions } = JSON.parse(event.body);
               
-              await dynamodb.put({
+              await docClient.send(new PutCommand({
                 TableName: process.env.PROGRESS_TABLE,
                 Item: {
                   userId,
                   completions,
                   updatedAt: new Date().toISOString()
                 }
-              }).promise();
+              }));
               
               return {
                 statusCode: 200,
@@ -665,8 +668,11 @@ Resources:
             Fn::ImportValue: PrepWisely-UserProgressTable
       Code:
         ZipFile: |
-          const AWS = require('aws-sdk');
-          const dynamodb = new AWS.DynamoDB.DocumentClient();
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, GetCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
           
           exports.handler = async (event) => {
             const headers = {
@@ -678,10 +684,10 @@ Resources:
             try {
               const userId = event.pathParameters.userId;
               
-              const result = await dynamodb.get({
+              const result = await docClient.send(new GetCommand({
                 TableName: process.env.PROGRESS_TABLE,
                 Key: { userId }
-              }).promise();
+              }));
               
               return {
                 statusCode: 200,
