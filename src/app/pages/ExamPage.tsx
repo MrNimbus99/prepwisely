@@ -21,7 +21,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [answers, setAnswers] = useState<(number | null)[]>([])
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(120) // 2 minutes
+  const [timeLeft, setTimeLeft] = useState(0) // Will be set based on question count
   const [quizId, setQuizId] = useState('quiz-1')
   const [certId, setCertId] = useState('cloud-practitioner')
   const [startTime, setStartTime] = useState<number>(Date.now())
@@ -68,6 +68,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     if (questions.length > 0) {
       setAnswers(new Array(questions.length).fill(null))
       setSelectedAnswer(null)
+      // Set timer: 1 minute per question (60 seconds * question count)
+      setTimeLeft(questions.length * 60)
     }
   }, [questions])
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
@@ -18,6 +18,8 @@ interface Quiz {
 
 const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = ({ onNavigate, certId }) => {
   const { completions } = useQuiz()
+  const [quizCounts, setQuizCounts] = useState<{ [key: string]: number }>({})
+  const [loading, setLoading] = useState(true)
 
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
@@ -103,15 +105,52 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
   const certCompletions = completions[certification.id] || {}
 
+  // Fetch question counts for all quizzes
+  useEffect(() => {
+    const fetchQuestionCounts = async () => {
+      setLoading(true)
+      const counts: { [key: string]: number } = {}
+      
+      // Fetch counts for quizzes 1-30
+      for (let i = 1; i <= 30; i++) {
+        try {
+          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/quiz-${i}`)
+          const data = await response.json()
+          counts[`quiz-${i}`] = Array.isArray(data) ? data.length : 0
+        } catch (error) {
+          counts[`quiz-${i}`] = 0
+        }
+      }
+      
+      // Fetch counts for final exams 1-2
+      for (let i = 1; i <= 2; i++) {
+        try {
+          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/exam-${i}`)
+          const data = await response.json()
+          counts[`exam-${i}`] = Array.isArray(data) ? data.length : 0
+        } catch (error) {
+          counts[`exam-${i}`] = 0
+        }
+      }
+      
+      setQuizCounts(counts)
+      setLoading(false)
+    }
+    
+    fetchQuestionCounts()
+  }, [certId])
+
   const quizzes: Quiz[] = [
     ...Array.from({ length: 30 }, (_, i) => {
       const quizId = i + 1
+      const quizKey = `quiz-${quizId}`
+      const questionCount = quizCounts[quizKey] || 0
       const completion = certCompletions[quizId]
       return {
         id: quizId,
         title: `Quiz ${quizId}`,
-        questions: 1,
-        duration: 2,
+        questions: questionCount,
+        duration: questionCount, // 1 minute per question
         isCompleted: completion?.completed || false,
         score: completion?.score,
         isLocked: false
@@ -120,12 +159,14 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     // Final Exams
     ...Array.from({ length: 2 }, (_, i) => {
       const quizId = 31 + i
+      const quizKey = `exam-${i + 1}`
+      const questionCount = quizCounts[quizKey] || 0
       const completion = certCompletions[quizId]
       return {
         id: quizId,
         title: `Final Exam ${i + 1}`,
-        questions: 1,
-        duration: 2,
+        questions: questionCount,
+        duration: questionCount, // 1 minute per question
         isCompleted: completion?.completed || false,
         score: completion?.score,
         isLocked: false,
@@ -218,6 +259,11 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
             Practice Quizzes
           </h2>
+          {loading ? (
+            <div className="text-center py-12 text-slate-600 dark:text-slate-400">
+              Loading quizzes...
+            </div>
+          ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {quizzes.map((quiz) => (
               <Card
@@ -313,6 +359,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               </Card>
             ))}
           </div>
+          )}
         </div>
       </div>
     </div>
