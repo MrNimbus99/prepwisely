@@ -17,7 +17,8 @@ interface Question {
 const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completeQuiz } = useQuiz()
   const [questions, setQuestions] = useState<Question[]>([])
-  const [currentQuestionIndex] = useState(0)
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [answers, setAnswers] = useState<(number | null)[]>([])
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [timeLeft, setTimeLeft] = useState(120) // 2 minutes
@@ -62,6 +63,19 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
   }, [certId, quizId])
 
+  // Initialize answers array when questions load
+  useEffect(() => {
+    if (questions.length > 0) {
+      setAnswers(new Array(questions.length).fill(null))
+      setSelectedAnswer(null)
+    }
+  }, [questions])
+
+  // Load saved answer when changing questions
+  useEffect(() => {
+    setSelectedAnswer(answers[currentQuestionIndex] || null)
+  }, [currentQuestionIndex, answers])
+
   // Timer countdown
   useEffect(() => {
     if (!showResult && timeLeft > 0) {
@@ -74,6 +88,25 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const question = questions[currentQuestionIndex]
 
+  const handleAnswerSelect = (answerIndex: number) => {
+    setSelectedAnswer(answerIndex)
+    const newAnswers = [...answers]
+    newAnswers[currentQuestionIndex] = answerIndex
+    setAnswers(newAnswers)
+  }
+
+  const handleNext = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(prev => prev + 1)
+    }
+  }
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1)
+    }
+  }
+
   const handleSubmit = () => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000)
     setTimeTaken(elapsed)
@@ -84,7 +117,9 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const handleRetry = () => {
+    setAnswers(new Array(questions.length).fill(null))
     setSelectedAnswer(null)
+    setCurrentQuestionIndex(0)
     setShowResult(false)
     setTimeLeft(120)
     setStartTime(Date.now())
@@ -138,8 +173,11 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     onNavigate(pageMap[certId] || 'dashboard')
   }
   
-  const isCorrect = question && selectedAnswer !== null ? selectedAnswer === question.correctAnswer : false
-  const score = isCorrect ? 100 : 0
+  // Calculate score based on all answers
+  const correctCount = answers.filter((answer, idx) => 
+    answer !== null && questions[idx] && answer === questions[idx].correctAnswer
+  ).length
+  const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0
   const passed = score >= 82
 
   const formatTime = (seconds: number) => {
@@ -228,7 +266,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
-                    onClick={() => setSelectedAnswer(index)}
+                    onClick={() => handleAnswerSelect(index)}
                     className={`w-full text-left p-6 rounded-xl border-2 transition-all duration-300 ${
                       selectedAnswer === index
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20 shadow-lg scale-105'
@@ -253,15 +291,31 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 ))}
               </div>
 
-              {/* Submit Button */}
-              <div className="mt-8">
+              {/* Navigation Buttons */}
+              <div className="mt-8 flex gap-4">
                 <Button
-                  onClick={handleSubmit}
-                  disabled={selectedAnswer === null}
-                  className="w-full py-4 text-lg font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-xl transition-all duration-300"
+                  onClick={handlePrevious}
+                  disabled={currentQuestionIndex === 0}
+                  variant="outline"
+                  className="flex-1 py-4 text-lg font-semibold disabled:opacity-30"
                 >
-                  Submit Answer
+                  ← Previous
                 </Button>
+                {currentQuestionIndex < questions.length - 1 ? (
+                  <Button
+                    onClick={handleNext}
+                    className="flex-1 py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300"
+                  >
+                    Next →
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleSubmit}
+                    className="flex-1 py-4 text-lg font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-xl transition-all duration-300"
+                  >
+                    Submit Exam
+                  </Button>
+                )}
               </div>
             </Card>
           </div>
@@ -311,7 +365,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </div>
                   <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-lg">
                     <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                      {isCorrect ? '1/1' : '0/1'}
+                      {correctCount}/{questions.length}
                     </div>
                     <div className="text-xs text-slate-600 dark:text-slate-400">Correct</div>
                   </div>
@@ -337,76 +391,55 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
             </Card>
 
-            {/* Answer Review - Only show if wrong */}
-            {!isCorrect && (
-              <Card className="bg-white dark:bg-slate-900 p-8">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center">
-                    <XCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                    Review Incorrect Answer
-                  </h3>
-                </div>
-
-                <div className="space-y-8">
-                  {/* Question */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center">
-                        <span className="text-sm font-bold text-slate-700 dark:text-slate-300">Q</span>
+            {/* Answer Review */}
+            <Card className="bg-white dark:bg-slate-900 p-8">
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+                Review Your Answers
+              </h3>
+              <div className="space-y-6">
+                {questions.map((q, idx) => {
+                  const userAnswer = answers[idx]
+                  const isCorrect = userAnswer === q.correctAnswer
+                  return (
+                    <div key={q.questionId} className={`p-6 rounded-xl border-2 ${
+                      isCorrect 
+                        ? 'border-green-500 bg-green-50 dark:bg-green-950/20' 
+                        : 'border-red-500 bg-red-50 dark:bg-red-950/20'
+                    }`}>
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          isCorrect ? 'bg-green-500' : 'bg-red-500'
+                        }`}>
+                          {isCorrect ? (
+                            <CheckCircle className="w-5 h-5 text-white" />
+                          ) : (
+                            <XCircle className="w-5 h-5 text-white" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-bold text-slate-900 dark:text-white mb-2">
+                            Question {idx + 1}: {q.questionText}
+                          </p>
+                          <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            Your answer: <span className="font-semibold">{userAnswer !== null ? q.options[userAnswer] : 'Not answered'}</span>
+                          </p>
+                          {!isCorrect && (
+                            <p className="text-sm text-green-700 dark:text-green-400">
+                              Correct answer: <span className="font-semibold">{q.options[q.correctAnswer]}</span>
+                            </p>
+                          )}
+                          {q.explanation && (
+                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-2 italic">
+                              {q.explanation}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                        Question
-                      </h4>
                     </div>
-                    <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed pl-10">
-                      {question?.questionText}
-                    </p>
-                  </div>
-
-                  {/* Your Answer */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-                        <XCircle className="w-5 h-5 text-white" />
-                      </div>
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                        Your Answer
-                      </h4>
-                    </div>
-                    <div className="p-5 rounded-xl border-2 border-red-500 bg-red-50 dark:bg-red-950/20 ml-10">
-                      <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
-                        {selectedAnswer !== null ? question?.options[selectedAnswer] : 'No answer selected'}
-                      </p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">
-                        This answer is incorrect.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Correct Answer */}
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      </div>
-                      <h4 className="font-bold text-lg text-slate-900 dark:text-white">
-                        Correct Answer
-                      </h4>
-                    </div>
-                    <div className="p-5 rounded-xl border-2 border-green-500 bg-green-50 dark:bg-green-950/20 ml-10">
-                      <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
-                        {question?.options[question.correctAnswer]}
-                      </p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">
-                        {question?.explanation}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            )}
+                  )
+                })}
+              </div>
+            </Card>
 
             {/* Action Buttons */}
             <div className="flex gap-4">
