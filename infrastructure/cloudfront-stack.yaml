@@ -45,6 +45,32 @@ Resources:
           CookiesConfig:
             CookieBehavior: none
 
+  # Security Headers Policy for all responses
+  SecurityHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: !Sub 'PrepWisely-${Environment}-Security-Headers'
+        Comment: 'Security headers for all responses'
+        SecurityHeadersConfig:
+          StrictTransportSecurity:
+            AccessControlMaxAgeSec: 63072000
+            IncludeSubdomains: true
+            Preload: true
+            Override: true
+          ContentTypeOptions:
+            Override: true
+          FrameOptions:
+            FrameOption: DENY
+            Override: true
+          XSSProtection:
+            ModeBlock: true
+            Protection: true
+            Override: true
+          ReferrerPolicy:
+            ReferrerPolicy: 'strict-origin-when-cross-origin'
+            Override: true
+
   # Response Headers Policy for SEO files
   SEOFilesResponseHeadersPolicy:
     Type: AWS::CloudFront::ResponseHeadersPolicy
@@ -111,6 +137,7 @@ Resources:
           Compress: true
           CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # Managed-CachingOptimized
           OriginRequestPolicyId: 88a5eaf4-2fd4-4709-b370-b4c650ea3fcf # Managed-CORS-S3Origin
+          ResponseHeadersPolicyId: !Ref SecurityHeadersPolicy
         
         CustomErrorResponses:
           - ErrorCode: 404
