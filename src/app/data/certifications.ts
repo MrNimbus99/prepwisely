@@ -146,7 +146,7 @@ export const certifications = [
     description: 'Foundational understanding of AWS Cloud',
     examDetails: { questions: 65, duration: 90, passingScore: 700 },
     domains: ['Cloud Concepts', 'Security and Compliance', 'Technology', 'Billing and Pricing'],
-    isFree: false
+    isFree: true
   },
   { 
     id: 'ai-practitioner', 
