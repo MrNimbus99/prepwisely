@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { useSEO } from '../hooks/useSEO'
@@ -15,11 +15,14 @@ import {
   BarChart3,
   BookOpen,
   Clock,
-  Target
+  Target,
+  Menu,
+  X
 } from 'lucide-react'
 
 const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   useSEO({
     title: 'NestedCerts - AWS Certification Exam Prep | Practice Tests & Study Platform',
@@ -65,6 +68,12 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 text-slate-600 dark:text-slate-300"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
               {user ? (
                 <Button onClick={() => onNavigate('dashboard')} className="text-sm sm:text-base px-3 sm:px-4">
                   Dashboard
@@ -86,8 +95,27 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               )}
             </div>
           </div>
+          
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-slate-200 dark:border-slate-700">
+              <div className="flex flex-col space-y-3">
+                <button onClick={() => { onNavigate('certifications'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                  Certifications
+                </button>
+                <button onClick={() => { onNavigate('pricing'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                  Pricing
+                </button>
+                <button onClick={() => { onNavigate('help'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                  Help
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
+
+      {/* Hero Section */}
 
       {/* Hero Section */}
       <section className="relative py-12 sm:py-20 lg:py-32">
