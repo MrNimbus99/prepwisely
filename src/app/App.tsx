@@ -81,7 +81,6 @@ const AppContent: React.FC = () => {
       <Route path="/article-updates" element={<ArticleQuestionUpdates onNavigate={handleNavigate} />} />
       <Route path="/terms" element={<TermsPage onNavigate={handleNavigate} />} />
       <Route path="/privacy" element={<PrivacyPage onNavigate={handleNavigate} />} />
-      <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
       <Route path="/accessibility" element={<AccessibilityPage onNavigate={handleNavigate} />} />
       <Route path="/refund-policy" element={<RefundPolicyPage onNavigate={handleNavigate} />} />
       <Route path="/cancellation-policy" element={<CancellationPolicyPage onNavigate={handleNavigate} />} />
