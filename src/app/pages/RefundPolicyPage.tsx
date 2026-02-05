@@ -1,10 +1,18 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { DollarSign, CheckCircle, Clock, Mail, AlertCircle } from 'lucide-react'
 
 const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Refund Policy - Money-Back Guarantee Terms | NestedCerts',
+    description: 'Understand our refund policy for NestedCerts subscriptions. Learn about eligibility, refund timelines, money-back guarantee, and how to request a refund for your purchase.',
+    keywords: 'refund policy, money-back guarantee, refund request, payment refund, subscription refund',
+    canonical: 'https://nestedcerts.com/refund-policy'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}

@@ -1,10 +1,18 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Shield, Lock, Eye, Database } from 'lucide-react'
 
 const PrivacyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Privacy Policy - Data Protection & Security | NestedCerts',
+    description: 'Learn how NestedCerts protects your privacy and personal data. Read our privacy policy covering data collection, usage, storage, security measures, and your privacy rights.',
+    keywords: 'privacy policy, data protection, personal information, data security, privacy rights',
+    canonical: 'https://nestedcerts.com/privacy'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}

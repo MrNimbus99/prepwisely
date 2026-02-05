@@ -1,9 +1,17 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 
 const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Cancellation Policy - Subscription Terms | NestedCerts',
+    description: 'Review our cancellation policy for NestedCerts subscriptions. Learn about cancellation procedures, notice periods, billing cycles, and what happens to your data after cancellation.',
+    keywords: 'cancellation policy, subscription cancellation, cancel membership, billing terms, account termination',
+    canonical: 'https://nestedcerts.com/cancellation-policy'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">

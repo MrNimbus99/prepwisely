@@ -1,10 +1,18 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Eye, Keyboard, Volume2, Smartphone, Monitor, Heart } from 'lucide-react'
 
 const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Accessibility Statement - Inclusive Design Commitment | NestedCerts',
+    description: 'Our commitment to accessibility for all users. Learn about NestedCerts accessibility features, WCAG compliance, assistive technology support, and how to request accommodations.',
+    keywords: 'accessibility statement, WCAG compliance, assistive technology, inclusive design, accessibility features',
+    canonical: 'https://nestedcerts.com/accessibility'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}

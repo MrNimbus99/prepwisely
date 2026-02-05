@@ -1,10 +1,18 @@
 import React from 'react'
 import { NavigationProps } from '../types'
+import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { FileText, Scale } from 'lucide-react'
 
 const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  useSEO({
+    title: 'Terms of Service - Legal Agreement | NestedCerts',
+    description: 'Read our Terms of Service for using NestedCerts AWS certification exam prep platform. Learn about user rights, responsibilities, account usage, and service terms.',
+    keywords: 'terms of service, user agreement, legal terms, service agreement, terms and conditions',
+    canonical: 'https://nestedcerts.com/terms'
+  })
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}
