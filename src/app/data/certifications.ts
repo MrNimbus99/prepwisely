@@ -1,4 +1,25 @@
 export const CERTIFICATIONS = {
+  // Foundational (2)
+  'cloud-practitioner': {
+    name: 'AWS Cloud Practitioner',
+    domains: [
+      'Cloud Concepts',
+      'Security and Compliance',
+      'Technology',
+      'Billing and Pricing'
+    ]
+  },
+  'ai-practitioner': {
+    name: 'AWS AI Practitioner',
+    domains: [
+      'Fundamentals of AI and ML',
+      'Fundamentals of Generative AI',
+      'Applications of Foundation Models',
+      'Guidelines for Responsible AI',
+      'Security, Compliance, and Governance for AI Solutions'
+    ]
+  },
+  // Associate (5)
   'solutions-architect-associate': {
     name: 'Solutions Architect Associate',
     domains: [
@@ -28,6 +49,25 @@ export const CERTIFICATIONS = {
       'Cost and Performance Optimization'
     ]
   },
+  'data-engineer-associate': {
+    name: 'Data Engineer Associate',
+    domains: [
+      'Data Ingestion and Transformation',
+      'Data Store Management',
+      'Data Operations and Support',
+      'Data Security and Governance'
+    ]
+  },
+  'machine-learning-engineer-associate': {
+    name: 'Machine Learning Engineer Associate',
+    domains: [
+      'Data Preparation for ML',
+      'ML Model Development',
+      'Deployment and Orchestration of ML Workflows',
+      'ML Solution Monitoring, Maintenance, and Security'
+    ]
+  },
+  // Professional (3)
   'solutions-architect-professional': {
     name: 'Solutions Architect Professional',
     domains: [
@@ -48,6 +88,16 @@ export const CERTIFICATIONS = {
       'High Availability, Fault Tolerance, and Disaster Recovery'
     ]
   },
+  'advanced-networking-professional': {
+    name: 'Advanced Networking Professional',
+    domains: [
+      'Network Design',
+      'Network Implementation',
+      'Network Management and Operation',
+      'Network Security, Compliance, and Governance'
+    ]
+  },
+  // Specialty (3)
   'security-specialty': {
     name: 'Security Specialty',
     domains: [
@@ -87,9 +137,10 @@ export const QUIZ_TYPES = [
 
 // Legacy export for compatibility
 export const certifications = [
+  // Foundational (2)
   { 
     id: 'cloud-practitioner', 
-    name: 'Cloud Practitioner', 
+    name: 'AWS Cloud Practitioner', 
     level: 'Foundational', 
     code: 'CLF-C02',
     description: 'Foundational understanding of AWS Cloud',
@@ -97,6 +148,17 @@ export const certifications = [
     domains: ['Cloud Concepts', 'Security and Compliance', 'Technology', 'Billing and Pricing'],
     isFree: false
   },
+  { 
+    id: 'ai-practitioner', 
+    name: 'AWS AI Practitioner', 
+    level: 'Foundational', 
+    code: 'AIF-C01',
+    description: 'Foundational understanding of AI and ML on AWS',
+    examDetails: { questions: 65, duration: 90, passingScore: 700 },
+    domains: ['Fundamentals of AI and ML', 'Fundamentals of Generative AI', 'Applications of Foundation Models', 'Guidelines for Responsible AI'],
+    isFree: false
+  },
+  // Associate (5)
   { 
     id: 'solutions-architect-associate', 
     name: 'Solutions Architect Associate', 
@@ -128,6 +190,27 @@ export const certifications = [
     isFree: false
   },
   { 
+    id: 'data-engineer-associate', 
+    name: 'Data Engineer Associate', 
+    level: 'Associate', 
+    code: 'DEA-C01',
+    description: 'Design and maintain data solutions on AWS',
+    examDetails: { questions: 65, duration: 130, passingScore: 720 },
+    domains: ['Data Ingestion and Transformation', 'Data Store Management', 'Data Operations and Support', 'Data Security and Governance'],
+    isFree: false
+  },
+  { 
+    id: 'machine-learning-engineer-associate', 
+    name: 'Machine Learning Engineer Associate', 
+    level: 'Associate', 
+    code: 'MLA-C01',
+    description: 'Build and deploy ML solutions on AWS',
+    examDetails: { questions: 65, duration: 130, passingScore: 720 },
+    domains: ['Data Preparation for ML', 'ML Model Development', 'Deployment and Orchestration of ML Workflows', 'ML Solution Monitoring, Maintenance, and Security'],
+    isFree: false
+  },
+  // Professional (3)
+  { 
     id: 'solutions-architect-professional', 
     name: 'Solutions Architect Professional', 
     level: 'Professional', 
@@ -147,6 +230,17 @@ export const certifications = [
     domains: ['SDLC Automation', 'Configuration Management and IaC', 'Monitoring and Logging', 'Policies and Standards Automation', 'Incident and Event Response', 'High Availability, Fault Tolerance, and Disaster Recovery'],
     isFree: false
   },
+  { 
+    id: 'advanced-networking-professional', 
+    name: 'Advanced Networking Professional', 
+    level: 'Professional', 
+    code: 'ANS-C01',
+    description: 'Design and implement AWS and hybrid network architectures',
+    examDetails: { questions: 65, duration: 170, passingScore: 750 },
+    domains: ['Network Design', 'Network Implementation', 'Network Management and Operation', 'Network Security, Compliance, and Governance'],
+    isFree: false
+  },
+  // Specialty (3)
   { 
     id: 'security-specialty', 
     name: 'Security Specialty', 
