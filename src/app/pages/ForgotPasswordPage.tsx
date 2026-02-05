@@ -48,7 +48,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
 
         {/* Header */}
         <div className="relative z-10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-white/20 dark:border-slate-800/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 sm:px-8">
             <div className="flex items-center justify-between h-16">
               <button
                 onClick={() => onNavigate('login')}
@@ -64,11 +64,11 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
         {/* Success Content */}
         <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] p-4">
           <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-white/20 dark:border-slate-800/50 shadow-2xl shadow-green-500/10">
-            <CardHeader className="text-center pb-8">
+            <CardHeader className="text-center pb-6 sm:pb-8">
               <div className="mx-auto w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/25">
                 <CheckCircle className="h-8 w-8 text-white" />
               </div>
-              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+              <CardTitle className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                 Email Sent!
               </CardTitle>
               <CardDescription className="text-slate-600 dark:text-slate-400 text-base">
@@ -128,7 +128,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
 
       {/* Header */}
       <div className="relative z-10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-white/20 dark:border-slate-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 sm:px-8">
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => onNavigate('login')}
@@ -144,11 +144,11 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({ onNavigate }) =
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-4rem)] p-4">
         <Card className="w-full max-w-md bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-white/20 dark:border-slate-800/50 shadow-2xl shadow-orange-500/10">
-          <CardHeader className="text-center pb-8">
+          <CardHeader className="text-center pb-6 sm:pb-8">
             <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/25">
               <Send className="h-8 w-8 text-white" />
             </div>
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+            <CardTitle className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
               Reset Password
             </CardTitle>
             <CardDescription className="text-slate-600 dark:text-slate-400 text-base">

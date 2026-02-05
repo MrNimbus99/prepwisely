@@ -25,7 +25,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{title} Bundle</h3>
         <div className="mb-4">
           <div className="text-sm text-slate-500 dark:text-slate-400 line-through">${originalPrice}</div>
-          <div className="text-4xl font-bold text-slate-900 dark:text-white">${price}</div>
+          <div className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white">${price}</div>
           <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 font-bold mt-2">Save ${originalPrice - price}</Badge>
         </div>
         <div className="space-y-2 mb-6 text-left">
@@ -223,9 +223,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
             AWS Certification Pricing
           </h1>
           <div className="h-2 w-32 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto mb-6 rounded-full"></div>
@@ -236,9 +236,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </section>
 
       {/* Subscription Plans */}
-      <section className="py-16 bg-white dark:bg-slate-900">
+      <section className="py-10 sm:py-16 bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
+          <h2 className="text-xl sm:text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
             Subscription Plans
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -348,9 +348,9 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </section>
 
       {/* Individual Certifications */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-white mb-4">
+          <h2 className="text-xl sm:text-3xl font-bold text-center text-slate-900 dark:text-white mb-4">
             Individual Certifications
           </h2>
           <p className="text-center text-slate-600 dark:text-slate-300 mb-12">

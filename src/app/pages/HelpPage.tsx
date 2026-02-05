@@ -184,10 +184,10 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </nav>
 
       {/* Header */}
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-6">
               Help Center
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
@@ -212,7 +212,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       {/* Quick Actions */}
       <section className="pb-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-6 mb-10 sm:mb-16">
             {quickActions.map((action, index) => {
               const Icon = action.icon
               return (
@@ -234,7 +234,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
 
           {/* Popular Articles */}
-          <div className="mb-16">
+          <div className="mb-10 sm:mb-16">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">
               Popular Articles
             </h2>
@@ -296,7 +296,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-white/50 dark:bg-slate-900/50">
+      <section className="py-10 sm:py-16 bg-white/50 dark:bg-slate-900/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
             Still need help?

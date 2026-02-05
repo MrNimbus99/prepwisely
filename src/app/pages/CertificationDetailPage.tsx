@@ -198,11 +198,11 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       {/* Header */}
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8">
           <div className="flex justify-between items-center h-16">
             <button
               onClick={handleBackToDashboard}
-              className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+              className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
             </button>
@@ -215,15 +215,15 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       </header>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-6 sm:py-12">
         {/* Certification Header */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <div className="flex items-center gap-4 mb-6">
             <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${certification.gradient} flex items-center justify-center shadow-xl`}>
               <Trophy className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                 {certification.name}
               </h1>
               <p className="text-lg text-slate-600 dark:text-slate-400 font-mono">
@@ -238,7 +238,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                 Overall Progress
               </h2>
-              <span className="text-2xl font-bold text-slate-900 dark:text-white">
+              <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                 {completedCount}/{quizzes.length}
               </span>
             </div>
@@ -256,11 +256,11 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
         {/* Quizzes Grid */}
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-6">
             Practice Quizzes
           </h2>
           {loading ? (
-            <div className="text-center py-12 text-slate-600 dark:text-slate-400">
+            <div className="text-center py-6 sm:py-12 text-slate-600 dark:text-slate-400">
               Loading quizzes...
             </div>
           ) : (
@@ -298,7 +298,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                     </div>
                     {quiz.isCompleted && quiz.score && (
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                           {quiz.score}%
                         </div>
                         <div className="text-xs text-slate-500">Score</div>
