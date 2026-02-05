@@ -16,9 +16,32 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setLoading(true)
+    
+    // Client-side validation
+    if (formData.name.length < 2 || formData.name.length > 100) {
+      setError('Name must be between 2 and 100 characters')
+      setLoading(false)
+      return
+    }
+    
+    if (formData.subject.length < 5 || formData.subject.length > 200) {
+      setError('Subject must be between 5 and 200 characters')
+      setLoading(false)
+      return
+    }
+    
+    if (formData.message.length < 10 || formData.message.length > 5000) {
+      setError('Message must be between 10 and 5000 characters')
+      setLoading(false)
+      return
+    }
     
     try {
       const response = await fetch('https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/contact', {
@@ -37,11 +60,13 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           onNavigate('help')
         }, 3000)
       } else {
-        alert('Failed to send message. Please try again.')
+        setError(result.error || 'Failed to send message. Please try again.')
+        setLoading(false)
       }
     } catch (error) {
       console.error('Error sending message:', error)
-      alert('Failed to send message. Please try again.')
+      setError('Failed to send message. Please try again.')
+      setLoading(false)
     }
   }
 
@@ -121,6 +146,11 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <Card className="bg-white dark:bg-slate-900 p-6 sm:p-8">
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <p className="text-red-800 dark:text-red-200 text-sm">{error}</p>
+                </div>
+              )}
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
@@ -201,8 +231,8 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg text-base sm:text-lg py-5 sm:py-6">
-                  Send Message
+                <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-lg text-base sm:text-lg py-5 sm:py-6">
+                  {loading ? 'Sending...' : 'Send Message'}
                 </Button>
               </form>
             </Card>
