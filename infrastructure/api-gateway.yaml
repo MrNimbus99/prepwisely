@@ -187,20 +187,19 @@ Resources:
                 TableName: process.env.QUESTIONS_TABLE,
                 IndexName: 'certId-quizId-index',
                 KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
-                FilterExpression: '#status = :status',
-                ExpressionAttributeNames: {
-                  '#status': 'status'
-                },
                 ExpressionAttributeValues: {
                   ':certId': certId,
-                  ':quizId': quizId,
-                  ':status': 'active'
+                  ':quizId': quizId
                 }
               }));
+              
+              const items = result.Items || [];
+              items.sort((a, b) => (a.order || 0) - (b.order || 0));
+              
               return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify(result.Items || [])
+                body: JSON.stringify(items)
               };
             } catch (error) {
               console.error('Error:', error);
@@ -208,6 +207,110 @@ Resources:
                 statusCode: 500,
                 headers,
                 body: JSON.stringify({ error: 'Failed to get questions' })
+              };
+            }
+          };
+
+  DeleteQuestionFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-DeleteQuestion
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const { questionId } = event.pathParameters;
+              
+              await docClient.send(new DeleteCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                Key: { questionId }
+              }));
+              
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true })
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Failed to delete question' })
+              };
+            }
+          };
+
+  UpdateQuestionOrderFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-UpdateQuestionOrder
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const { questionId } = event.pathParameters;
+              const data = typeof event.body === 'string' ? JSON.parse(event.body) : event;
+              
+              await docClient.send(new UpdateCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                Key: { questionId },
+                UpdateExpression: 'SET #order = :order',
+                ExpressionAttributeNames: {
+                  '#order': 'order'
+                },
+                ExpressionAttributeValues: {
+                  ':order': data.order
+                }
+              }));
+              
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true })
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Failed to update order' })
               };
             }
           };
@@ -227,7 +330,7 @@ Resources:
       Code:
         ZipFile: |
           const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-          const { DynamoDBDocumentClient, PutCommand } = require('@aws-sdk/lib-dynamodb');
+          const { DynamoDBDocumentClient, PutCommand, QueryCommand } = require('@aws-sdk/lib-dynamodb');
           const { randomUUID } = require('crypto');
           
           const client = new DynamoDBClient({});
@@ -242,6 +345,18 @@ Resources:
               const data = typeof event.body === 'string' ? JSON.parse(event.body) : event;
               const questionId = randomUUID();
               
+              const existingQuestions = await docClient.send(new QueryCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                IndexName: 'certId-quizId-index',
+                KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
+                ExpressionAttributeValues: {
+                  ':certId': data.certId,
+                  ':quizId': data.quizId
+                }
+              }));
+              
+              const nextOrder = (existingQuestions.Items || []).length;
+              
               await docClient.send(new PutCommand({
                 TableName: process.env.QUESTIONS_TABLE,
                 Item: {
@@ -254,6 +369,7 @@ Resources:
                   options: data.options,
                   correctAnswer: data.correctAnswer,
                   explanation: data.explanation,
+                  order: nextOrder,
                   createdAt: data.createdAt
                 }
               }));
