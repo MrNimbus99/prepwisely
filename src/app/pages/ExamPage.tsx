@@ -129,8 +129,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
     onNavigate(pageMap[certId] || 'dashboard')
   }
-
-  const isCorrect = selectedAnswer === question.correctAnswer
+  
+  const isCorrect = question && selectedAnswer !== null ? selectedAnswer === question.correctAnswer : false
   const score = isCorrect ? 100 : 0
   const passed = score >= 82
 
