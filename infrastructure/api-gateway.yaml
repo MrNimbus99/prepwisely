@@ -187,9 +187,14 @@ Resources:
                 TableName: process.env.QUESTIONS_TABLE,
                 IndexName: 'certId-quizId-index',
                 KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
+                FilterExpression: '#status = :status',
+                ExpressionAttributeNames: {
+                  '#status': 'status'
+                },
                 ExpressionAttributeValues: {
                   ':certId': certId,
-                  ':quizId': quizId
+                  ':quizId': quizId,
+                  ':status': 'active'
                 }
               }));
               
