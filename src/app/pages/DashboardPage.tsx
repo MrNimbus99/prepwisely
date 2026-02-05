@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavigationProps, PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { Trophy, LogOut, CheckCircle, Lock, Play, Shield } from 'lucide-react'
+import { Trophy, LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard } from 'lucide-react'
 
 interface CertificationCard {
   id: string
@@ -21,6 +21,7 @@ interface CertificationCard {
 const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
   const { getProgress } = useQuiz()
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   // Check if user has access to all certs (admin and owner)
   const hasFullAccess = user?.email === 'althwabtirasool@gmail.com' || user?.email === 'admin@prepwisely.com'
@@ -183,10 +184,15 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             >
               NestedCerts
             </button>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 hidden sm:inline truncate max-w-[150px] sm:max-w-none">
-                {user?.email}
-              </span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => onNavigate('pricing')} 
+                className="text-xs sm:text-sm px-2 sm:px-4"
+              >
+                <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Pricing</span>
+              </Button>
               {user?.email === 'admin@prepwisely.com' && (
                 <Button variant="outline" onClick={() => onNavigate('admin')} className="text-xs sm:text-sm px-2 sm:px-4">
                   <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
@@ -197,6 +203,60 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
                 <span className="hidden sm:inline">Sign Out</span>
               </Button>
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                >
+                  {userMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+                
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2">
+                    <div className="px-4 py-2 border-b border-slate-200 dark:border-slate-700">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Signed in as</p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{user?.email}</p>
+                    </div>
+                    <button
+                      onClick={() => { setUserMenuOpen(false); onNavigate('dashboard'); }}
+                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                    >
+                      <User className="w-4 h-4" />
+                      Dashboard
+                    </button>
+                    <button
+                      onClick={() => { setUserMenuOpen(false); onNavigate('pricing'); }}
+                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                    >
+                      <CreditCard className="w-4 h-4" />
+                      Pricing & Plans
+                    </button>
+                    <button
+                      onClick={() => { setUserMenuOpen(false); /* Add settings page */ }}
+                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                    >
+                      <Settings className="w-4 h-4" />
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => { setUserMenuOpen(false); onNavigate('help'); }}
+                      className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-2"
+                    >
+                      <HelpCircle className="w-4 h-4" />
+                      Help Center
+                    </button>
+                    <div className="border-t border-slate-200 dark:border-slate-700 mt-2 pt-2">
+                      <button
+                        onClick={() => { setUserMenuOpen(false); handleSignOut(); }}
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
