@@ -121,31 +121,6 @@ Resources:
         - Key: Environment
           Value: !Ref Environment
 
-  # Update S3 bucket policy to allow CloudFront OAI
-  BucketPolicyUpdate:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: 
-        Fn::ImportValue: !Sub '${S3StackName}-BucketName'
-      PolicyDocument:
-        Statement:
-          - Sid: AllowCloudFrontAccess
-            Effect: Allow
-            Principal:
-              Service: cloudfront.amazonaws.com
-            Action: s3:GetObject
-            Resource: 
-              Fn::Sub:
-                - '${BucketArn}/*'
-                - BucketArn: 
-                    Fn::Sub:
-                      - 'arn:aws:s3:::${BucketName}'
-                      - BucketName:
-                          Fn::ImportValue: !Sub '${S3StackName}-BucketName'
-            Condition:
-              StringEquals:
-                'AWS:SourceArn': !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}'
-
 Outputs:
   DistributionId:
     Description: 'CloudFront Distribution ID'
