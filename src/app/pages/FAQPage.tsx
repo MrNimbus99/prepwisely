@@ -98,11 +98,24 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
             <button
-              onClick={() => onNavigate('help')}
+              onClick={() => onNavigate('landing')}
               className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
             >
               PrepWisely
             </button>
+            
+            <div className="hidden md:flex items-center space-x-8">
+              <button onClick={() => onNavigate('certifications')} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
+                Certifications
+              </button>
+              <button onClick={() => onNavigate('pricing')} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
+                Pricing
+              </button>
+              <button onClick={() => onNavigate('help')} className="text-blue-600 font-medium">
+                Help
+              </button>
+            </div>
+
             <Button variant="outline" onClick={() => onNavigate('help')} className="text-sm sm:text-base px-3 sm:px-4">
               <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
               <span className="hidden sm:inline">Back to Help</span>
@@ -178,6 +191,45 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </Button>
         </Card>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li><button onClick={() => onNavigate('certifications')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Certifications</button></li>
+                <li><button onClick={() => onNavigate('pricing')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Pricing</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-4">Support</h3>
+              <ul className="space-y-2">
+                <li><button onClick={() => onNavigate('help')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Help Center</button></li>
+                <li><button onClick={() => onNavigate('faq')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">FAQ</button></li>
+                <li><button onClick={() => onNavigate('contact-support')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Contact</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><button onClick={() => onNavigate('terms')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Terms</button></li>
+                <li><button onClick={() => onNavigate('privacy')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">Privacy</button></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-slate-900 dark:text-white mb-4">Company</h3>
+              <ul className="space-y-2">
+                <li><button onClick={() => onNavigate('landing')} className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400">About</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-8 text-center text-slate-600 dark:text-slate-400">
+            <p>&copy; 2026 PrepWisely. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
