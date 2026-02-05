@@ -161,7 +161,7 @@ Resources:
     Properties:
       FunctionName: PrepWisely-GetQuestions
       Runtime: nodejs18.x
-      Handler: index.getQuestions
+      Handler: index.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Timeout: 30
       Environment:
@@ -170,26 +170,33 @@ Resources:
             Fn::ImportValue: PrepWisely-QuestionsTable
       Code:
         ZipFile: |
-          const AWS = require('aws-sdk');
-          const dynamodb = new AWS.DynamoDB.DocumentClient();
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, QueryCommand } = require('@aws-sdk/lib-dynamodb');
           
-          exports.getQuestions = async (event) => {
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
             const headers = {
               'Access-Control-Allow-Origin': '*',
               'Content-Type': 'application/json'
             };
             try {
-              const { certId, quizNumber } = event.pathParameters;
-              const result = await dynamodb.query({
+              const { certId, quizId } = event.pathParameters;
+              const result = await docClient.send(new QueryCommand({
                 TableName: process.env.QUESTIONS_TABLE,
-                IndexName: 'certId-index',
-                KeyConditionExpression: 'certId = :certId',
-                FilterExpression: 'quizNumber = :quizNumber',
+                IndexName: 'certId-quizId-index',
+                KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
+                FilterExpression: '#status = :status',
+                ExpressionAttributeNames: {
+                  '#status': 'status'
+                },
                 ExpressionAttributeValues: {
                   ':certId': certId,
-                  ':quizNumber': parseInt(quizNumber)
+                  ':quizId': quizId,
+                  ':status': 'active'
                 }
-              }).promise();
+              }));
               return {
                 statusCode: 200,
                 headers,
@@ -201,6 +208,119 @@ Resources:
                 statusCode: 500,
                 headers,
                 body: JSON.stringify({ error: 'Failed to get questions' })
+              };
+            }
+          };
+
+  CreateQuestionFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-CreateQuestion
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, PutCommand } = require('@aws-sdk/lib-dynamodb');
+          const { randomUUID } = require('crypto');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const data = typeof event.body === 'string' ? JSON.parse(event.body) : event;
+              const questionId = randomUUID();
+              
+              await docClient.send(new PutCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                Item: {
+                  questionId,
+                  certId: data.certId,
+                  quizId: data.quizId,
+                  domain: data.domain,
+                  status: data.status,
+                  questionText: data.questionText,
+                  options: data.options,
+                  correctAnswer: data.correctAnswer,
+                  explanation: data.explanation,
+                  createdAt: data.createdAt
+                }
+              }));
+              
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, questionId })
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ error: 'Failed to create question' })
+              };
+            }
+          };
+
+  GetQuestionCountFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: PrepWisely-GetQuestionCount
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          QUESTIONS_TABLE:
+            Fn::ImportValue: PrepWisely-QuestionsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+          const { DynamoDBDocumentClient, QueryCommand } = require('@aws-sdk/lib-dynamodb');
+          
+          const client = new DynamoDBClient({});
+          const docClient = DynamoDBDocumentClient.from(client);
+          
+          exports.handler = async (event) => {
+            const headers = {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json'
+            };
+            try {
+              const { certId, quizId } = event.pathParameters;
+              const result = await docClient.send(new QueryCommand({
+                TableName: process.env.QUESTIONS_TABLE,
+                IndexName: 'certId-quizId-index',
+                KeyConditionExpression: 'certId = :certId AND quizId = :quizId',
+                Select: 'COUNT',
+                ExpressionAttributeValues: {
+                  ':certId': certId,
+                  ':quizId': quizId
+                }
+              }));
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ count: result.Count || 0 })
+              };
+            } catch (error) {
+              console.error('Error:', error);
+              return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ count: 0 })
               };
             }
           };

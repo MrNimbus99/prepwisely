@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { FileEdit, Users, CreditCard, LogOut } from 'lucide-react'
+import { FileEdit, Users, CreditCard, LogOut, Eye, List } from 'lucide-react'
+import { CERTIFICATIONS, QUIZ_TYPES } from '../data/certifications'
 
 const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
-  const [activeTab, setActiveTab] = useState<'questions' | 'users' | 'billing'>('questions')
+  const [activeTab, setActiveTab] = useState<'questions' | 'users' | 'billing' | 'view-questions'>('questions')
 
   const handleSignOut = async () => {
     await signOut()
@@ -39,10 +40,16 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               </h1>
               <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Admin</Badge>
             </div>
-            <Button variant="outline" onClick={handleSignOut}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => onNavigate('dashboard')}>
+                <Eye className="w-4 h-4 mr-2" />
+                Student View
+              </Button>
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -61,6 +68,17 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
             >
               <FileEdit className="w-5 h-5 inline mr-2" />
               Question Editor
+            </button>
+            <button
+              onClick={() => setActiveTab('view-questions')}
+              className={`py-4 px-2 border-b-2 font-medium transition-colors ${
+                activeTab === 'view-questions'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <List className="w-5 h-5 inline mr-2" />
+              View Questions
             </button>
             <button
               onClick={() => setActiveTab('users')}
@@ -91,6 +109,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'questions' && <QuestionEditor />}
+        {activeTab === 'view-questions' && <ViewQuestions />}
         {activeTab === 'users' && <UserManagement />}
         {activeTab === 'billing' && <BillingManagement />}
       </main>
@@ -100,17 +119,79 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
 
 const QuestionEditor: React.FC = () => {
   const [certId, setCertId] = useState('solutions-architect-associate')
-  const [domain, setDomain] = useState('design-resilient-architectures')
-  const [difficulty, setDifficulty] = useState('easy')
+  const [domain, setDomain] = useState('')
+  const [quizId, setQuizId] = useState('quiz-1')
   const [status, setStatus] = useState('draft')
+  const [questionText, setQuestionText] = useState('')
+  const [options, setOptions] = useState(['', '', '', ''])
+  const [correctAnswer, setCorrectAnswer] = useState(0)
+  const [explanation, setExplanation] = useState('')
+  const [questionCount, setQuestionCount] = useState(0)
+
+  const selectedCert = CERTIFICATIONS[certId as keyof typeof CERTIFICATIONS]
+  const domains = selectedCert?.domains || []
+
+  useEffect(() => {
+    if (domains.length > 0 && !domain) {
+      setDomain(domains[0])
+    }
+  }, [certId, domains, domain])
+
+  useEffect(() => {
+    // Fetch question count for selected quiz
+    fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}/count`)
+      .then(res => res.json())
+      .then(data => setQuestionCount(data.count || 0))
+      .catch(() => setQuestionCount(0))
+  }, [certId, quizId])
+
+  const handleSave = async () => {
+    const question = {
+      certId,
+      quizId,
+      domain,
+      status,
+      questionText,
+      options,
+      correctAnswer,
+      explanation,
+      createdAt: new Date().toISOString()
+    }
+
+    try {
+      const response = await fetch('https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(question)
+      })
+      
+      if (response.ok) {
+        alert('Question saved successfully!')
+        // Reset form
+        setQuestionText('')
+        setOptions(['', '', '', ''])
+        setCorrectAnswer(0)
+        setExplanation('')
+        setQuestionCount(prev => prev + 1)
+      }
+    } catch (error) {
+      alert('Failed to save question')
+    }
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Question Editor</h2>
+        <div>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Question Editor</h2>
+          <p className="text-slate-600 dark:text-slate-400 mt-1">
+            {questionCount} questions in {selectedCert?.name} - {quizId.replace('-', ' ').toUpperCase()}
+          </p>
+        </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="lg">Preview</Button>
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600">Save Changes</Button>
+          <Button size="lg" onClick={handleSave} className="bg-gradient-to-r from-blue-600 to-indigo-600">
+            Save Question
+          </Button>
         </div>
       </div>
 
@@ -124,9 +205,9 @@ const QuestionEditor: React.FC = () => {
               onChange={(e) => setCertId(e.target.value)}
               className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
-              <option value="solutions-architect-associate">Solutions Architect Associate</option>
-              <option value="developer-associate">Developer Associate</option>
-              <option value="sysops-administrator-associate">SysOps Administrator Associate</option>
+              {Object.entries(CERTIFICATIONS).map(([key, cert]) => (
+                <option key={key} value={key}>{cert.name}</option>
+              ))}
             </select>
           </div>
           <div>
@@ -136,21 +217,21 @@ const QuestionEditor: React.FC = () => {
               onChange={(e) => setDomain(e.target.value)}
               className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
-              <option value="design-resilient-architectures">Design Resilient Architectures</option>
-              <option value="design-high-performing-architectures">Design High-Performing Architectures</option>
-              <option value="design-secure-applications">Design Secure Applications</option>
+              {domains.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Difficulty</label>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Quiz</label>
             <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
+              value={quizId}
+              onChange={(e) => setQuizId(e.target.value)}
               className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              {QUIZ_TYPES.map((quiz) => (
+                <option key={quiz.value} value={quiz.value}>{quiz.label}</option>
+              ))}
             </select>
           </div>
           <div>
@@ -161,15 +242,17 @@ const QuestionEditor: React.FC = () => {
               className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             >
               <option value="draft">Draft</option>
-              <option value="published">Published</option>
+              <option value="active">Active</option>
               <option value="archived">Archived</option>
             </select>
           </div>
         </div>
 
         <div className="mt-8">
-          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Question #142</label>
+          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Question Text</label>
           <textarea
+            value={questionText}
+            onChange={(e) => setQuestionText(e.target.value)}
             className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white h-32 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             placeholder="Enter question text..."
           />
@@ -177,11 +260,23 @@ const QuestionEditor: React.FC = () => {
 
         <div className="mt-8 space-y-4">
           <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Answer Options</label>
-          {['A', 'B', 'C', 'D'].map((option) => (
+          {['A', 'B', 'C', 'D'].map((option, idx) => (
             <div key={option} className="flex gap-3 items-center">
-              <input type="radio" name="correct" className="w-5 h-5 text-blue-600" />
+              <input
+                type="radio"
+                name="correct"
+                checked={correctAnswer === idx}
+                onChange={() => setCorrectAnswer(idx)}
+                className="w-5 h-5 text-blue-600"
+              />
               <input
                 type="text"
+                value={options[idx]}
+                onChange={(e) => {
+                  const newOptions = [...options]
+                  newOptions[idx] = e.target.value
+                  setOptions(newOptions)
+                }}
                 placeholder={`Option ${option}`}
                 className="flex-1 px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
               />
@@ -192,9 +287,101 @@ const QuestionEditor: React.FC = () => {
         <div className="mt-8">
           <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Explanation</label>
           <textarea
+            value={explanation}
+            onChange={(e) => setExplanation(e.target.value)}
             className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white h-24 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             placeholder="Explain the correct answer..."
           />
+        </div>
+      </Card>
+    </div>
+  )
+}
+
+const ViewQuestions: React.FC = () => {
+  const [certId, setCertId] = useState('solutions-architect-associate')
+  const [quizId, setQuizId] = useState('quiz-1')
+  const [questions, setQuestions] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+
+  const selectedCert = CERTIFICATIONS[certId as keyof typeof CERTIFICATIONS]
+
+  useEffect(() => {
+    setLoading(true)
+    fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+      .then(res => res.json())
+      .then(data => {
+        setQuestions(Array.isArray(data) ? data : [])
+        setLoading(false)
+      })
+      .catch(() => {
+        setQuestions([])
+        setLoading(false)
+      })
+  }, [certId, quizId])
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">View Questions for Quiz</h2>
+        <p className="text-lg text-slate-600 dark:text-slate-400">Browse all questions for a specific quiz</p>
+      </div>
+
+      <Card className="p-8 bg-white dark:bg-slate-800 shadow-lg">
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Certification</label>
+            <select
+              value={certId}
+              onChange={(e) => setCertId(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+            >
+              {Object.entries(CERTIFICATIONS).map(([key, cert]) => (
+                <option key={key} value={key}>{cert.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Quiz</label>
+            <select
+              value={quizId}
+              onChange={(e) => setQuizId(e.target.value)}
+              className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+            >
+              {QUIZ_TYPES.map((quiz) => (
+                <option key={quiz.value} value={quiz.value}>{quiz.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="border-t border-slate-200 dark:border-slate-700 pt-6">
+          <h3 className="text-xl font-bold mb-4 text-slate-900 dark:text-white">
+            {questions.length} Questions in {selectedCert?.name} - {quizId.replace('-', ' ').toUpperCase()}
+          </h3>
+
+          {loading ? (
+            <p className="text-slate-600 dark:text-slate-400">Loading questions...</p>
+          ) : questions.length === 0 ? (
+            <p className="text-slate-600 dark:text-slate-400">No questions found for this quiz.</p>
+          ) : (
+            <div className="space-y-4">
+              {questions.map((q, idx) => (
+                <Card key={idx} className="p-6 bg-slate-50 dark:bg-slate-900">
+                  <div className="flex justify-between items-start mb-3">
+                    <h4 className="font-semibold text-slate-900 dark:text-white">Question {idx + 1}</h4>
+                    <Badge className={q.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-800'}>
+                      {q.status}
+                    </Badge>
+                  </div>
+                  <p className="text-slate-700 dark:text-slate-300 mb-3">{q.questionText}</p>
+                  <div className="text-sm text-slate-600 dark:text-slate-400">
+                    <span className="font-medium">Domain:</span> {q.domain}
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </Card>
     </div>

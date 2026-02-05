@@ -33,6 +33,8 @@ Resources:
           AttributeType: S
         - AttributeName: certId
           AttributeType: S
+        - AttributeName: quizId
+          AttributeType: S
       KeySchema:
         - AttributeName: questionId
           KeyType: HASH
@@ -41,6 +43,14 @@ Resources:
           KeySchema:
             - AttributeName: certId
               KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: certId-quizId-index
+          KeySchema:
+            - AttributeName: certId
+              KeyType: HASH
+            - AttributeName: quizId
+              KeyType: RANGE
           Projection:
             ProjectionType: ALL
       PointInTimeRecoverySpecification:

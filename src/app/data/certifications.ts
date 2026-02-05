@@ -1,291 +1,180 @@
-// AWS Certifications Data
-export const certifications = [
-  // Foundational
-  {
-    id: 'cloud-practitioner',
-    name: 'AWS Certified Cloud Practitioner',
-    code: 'CLF-C02',
-    level: 'Foundational' as const,
-    price: 0,
-    isFree: true,
-    description: 'Foundational understanding of AWS Cloud concepts, services, and terminology',
-    domains: ['Cloud Concepts', 'Security & Compliance', 'Technology', 'Billing & Pricing'],
-    examDetails: {
-      duration: 90,
-      questions: 65,
-      passingScore: 700
-    }
+export const CERTIFICATIONS = {
+  'solutions-architect-associate': {
+    name: 'Solutions Architect Associate',
+    domains: [
+      'Design Resilient Architectures',
+      'Design High-Performing Architectures',
+      'Design Secure Applications and Architectures',
+      'Design Cost-Optimized Architectures'
+    ]
   },
-  {
-    id: 'ai-practitioner',
-    name: 'AWS Certified AI Practitioner',
-    code: 'AIF-C01',
-    level: 'Foundational' as const,
-    price: 49,
-    isFree: false,
-    description: 'Foundational understanding of AI/ML concepts and AWS AI services',
-    domains: ['AI/ML Fundamentals', 'AWS AI Services', 'Responsible AI', 'AI/ML Security'],
-    examDetails: {
-      duration: 120,
-      questions: 65,
-      passingScore: 700
-    }
+  'developer-associate': {
+    name: 'Developer Associate',
+    domains: [
+      'Development with AWS Services',
+      'Security',
+      'Deployment',
+      'Troubleshooting and Optimization'
+    ]
   },
-  // Associate
-  {
-    id: 'solutions-architect-associate',
-    name: 'AWS Certified Solutions Architect - Associate',
-    code: 'SAA-C03',
-    level: 'Associate' as const,
-    price: 49,
-    isFree: false,
-    description: 'Design and deploy scalable, highly available systems on AWS',
-    domains: ['Design Secure Architectures', 'Design Resilient Architectures', 'Design High-Performing Architectures', 'Design Cost-Optimized Architectures'],
-    examDetails: {
-      duration: 130,
-      questions: 65,
-      passingScore: 720
-    }
+  'sysops-administrator-associate': {
+    name: 'SysOps Administrator Associate',
+    domains: [
+      'Monitoring, Logging, and Remediation',
+      'Reliability and Business Continuity',
+      'Deployment, Provisioning, and Automation',
+      'Security and Compliance',
+      'Networking and Content Delivery',
+      'Cost and Performance Optimization'
+    ]
   },
-  {
-    id: 'developer-associate',
-    name: 'AWS Certified Developer - Associate',
-    code: 'DVA-C02',
-    level: 'Associate' as const,
-    price: 49,
-    isFree: false,
-    description: 'Develop and maintain applications on the AWS platform',
-    domains: ['Development with AWS Services', 'Security', 'Deployment', 'Troubleshooting & Optimization'],
-    examDetails: {
-      duration: 130,
-      questions: 65,
-      passingScore: 720
-    }
+  'solutions-architect-professional': {
+    name: 'Solutions Architect Professional',
+    domains: [
+      'Design Solutions for Organizational Complexity',
+      'Design for New Solutions',
+      'Continuous Improvement for Existing Solutions',
+      'Accelerate Workload Migration and Modernization'
+    ]
   },
-  {
-    id: 'sysops-administrator-associate',
-    name: 'AWS Certified SysOps Administrator - Associate',
-    code: 'SOA-C02',
-    level: 'Associate' as const,
-    price: 49,
-    isFree: false,
-    description: 'Deploy, manage, and operate scalable systems on AWS',
-    domains: ['Monitoring & Reporting', 'High Availability', 'Deployment & Provisioning', 'Storage & Data Management', 'Security & Compliance', 'Networking', 'Automation & Optimization'],
-    examDetails: {
-      duration: 130,
-      questions: 65,
-      passingScore: 720
-    }
+  'devops-engineer-professional': {
+    name: 'DevOps Engineer Professional',
+    domains: [
+      'SDLC Automation',
+      'Configuration Management and IaC',
+      'Monitoring and Logging',
+      'Policies and Standards Automation',
+      'Incident and Event Response',
+      'High Availability, Fault Tolerance, and Disaster Recovery'
+    ]
   },
-  {
-    id: 'data-engineer-associate',
-    name: 'AWS Certified Data Engineer - Associate',
-    code: 'DEA-C01',
-    level: 'Associate' as const,
-    price: 49,
-    isFree: false,
-    description: 'Design and implement data pipelines and analytics solutions on AWS',
-    domains: ['Data Ingestion and Transformation', 'Data Store Management', 'Data Operations and Support', 'Data Security and Governance'],
-    examDetails: {
-      duration: 170,
-      questions: 85,
-      passingScore: 720
-    }
+  'security-specialty': {
+    name: 'Security Specialty',
+    domains: [
+      'Incident Response',
+      'Logging and Monitoring',
+      'Infrastructure Security',
+      'Identity and Access Management',
+      'Data Protection'
+    ]
   },
-  {
-    id: 'machine-learning-engineer-associate',
-    name: 'AWS Certified Machine Learning Engineer - Associate',
-    code: 'MLA-C01',
-    level: 'Associate' as const,
-    price: 49,
-    isFree: false,
-    description: 'Design, build, deploy, and maintain ML solutions on AWS',
-    domains: ['Data Preparation for ML', 'ML Model Development', 'Deployment and Orchestration', 'ML Solution Monitoring and Maintenance'],
-    examDetails: {
-      duration: 170,
-      questions: 85,
-      passingScore: 720
-    }
+  'machine-learning-specialty': {
+    name: 'Machine Learning Specialty',
+    domains: [
+      'Data Engineering',
+      'Exploratory Data Analysis',
+      'Modeling',
+      'Machine Learning Implementation and Operations'
+    ]
   },
-  // Professional
-  {
-    id: 'solutions-architect-professional',
-    name: 'AWS Certified Solutions Architect - Professional',
-    code: 'SAP-C02',
-    level: 'Professional' as const,
-    price: 49,
-    isFree: false,
-    description: 'Advanced technical skills in designing distributed systems on AWS',
-    domains: ['Design Solutions for Organizational Complexity', 'Design for New Solutions', 'Continuous Improvement for Existing Solutions', 'Accelerate Workload Migration and Modernization'],
-    examDetails: {
-      duration: 180,
-      questions: 75,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'devops-engineer-professional',
-    name: 'AWS Certified DevOps Engineer - Professional',
-    code: 'DOP-C02',
-    level: 'Professional' as const,
-    price: 49,
-    isFree: false,
-    description: 'Provision, operate, and manage distributed application systems on AWS',
-    domains: ['SDLC Automation', 'Configuration Management and IaC', 'Resilient Cloud Solutions', 'Monitoring and Logging', 'Incident and Event Response', 'Security and Compliance'],
-    examDetails: {
-      duration: 180,
-      questions: 75,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'advanced-networking-professional',
-    name: 'AWS Certified Advanced Networking - Professional',
-    code: 'ANP-C02',
-    level: 'Professional' as const,
-    price: 49,
-    isFree: false,
-    description: 'Advanced networking skills for complex AWS architectures',
-    domains: ['Network Design and Implementation', 'Network Security and Compliance', 'Network Troubleshooting', 'Hybrid and Multi-Account Networking'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  // Specialty
-  {
-    id: 'security-specialty',
-    name: 'AWS Certified Security - Specialty',
-    code: 'SCS-C02',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in securing AWS workloads',
-    domains: ['Threat Detection and Incident Response', 'Security Logging and Monitoring', 'Infrastructure Security', 'Identity and Access Management', 'Data Protection in Transit and at Rest', 'Management and Security Governance'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'machine-learning-specialty',
-    name: 'AWS Certified Machine Learning - Specialty',
-    code: 'MLS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in building, training, tuning, and deploying ML models on AWS',
-    domains: ['Data Engineering', 'Exploratory Data Analysis', 'Modeling', 'Machine Learning Implementation and Operations'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
-  },
-  {
-    id: 'advanced-networking-specialty',
-    name: 'AWS Certified Advanced Networking - Specialty',
-    code: 'ANS-C01',
-    level: 'Specialty' as const,
-    price: 49,
-    isFree: false,
-    description: 'Specialized knowledge in designing and implementing AWS and hybrid network architectures',
-    domains: ['Network Design', 'Network Implementation', 'Network Management and Operation', 'Network Security, Compliance, and Governance'],
-    examDetails: {
-      duration: 170,
-      questions: 65,
-      passingScore: 750
-    }
+  'database-specialty': {
+    name: 'Database Specialty',
+    domains: [
+      'Workload-Specific Database Design',
+      'Deployment and Migration',
+      'Management and Operations',
+      'Monitoring and Troubleshooting',
+      'Database Security'
+    ]
   }
+}
+
+export const QUIZ_TYPES = [
+  ...Array.from({ length: 30 }, (_, i) => ({ value: `quiz-${i + 1}`, label: `Quiz ${i + 1}` })),
+  { value: 'exam-1', label: 'Practice Exam 1' },
+  { value: 'exam-2', label: 'Practice Exam 2' }
 ]
 
-// Pricing Plans
-export const pricingPlans = [
-  {
-    id: 'free',
-    name: 'Cloud Practitioner',
-    price: 0,
-    type: 'free' as const,
-    badge: 'FREE',
-    features: [
-      'AWS Cloud Practitioner certification prep',
-      'Full 30-day exam path',
-      'Daily 20-question exams',
-      'Results & review with explanations',
-      'Basic analytics',
-      'Bookmarks & review queue'
-    ],
-    certifications: ['cloud-practitioner']
+// Legacy export for compatibility
+export const certifications = [
+  { 
+    id: 'cloud-practitioner', 
+    name: 'Cloud Practitioner', 
+    level: 'Foundational', 
+    code: 'CLF-C02',
+    description: 'Foundational understanding of AWS Cloud',
+    examDetails: { questions: 65, duration: 90, passingScore: 700 },
+    domains: ['Cloud Concepts', 'Security and Compliance', 'Technology', 'Billing and Pricing'],
+    isFree: false
   },
-  {
-    id: 'individual',
-    name: 'Single Certification',
-    price: 49,
-    originalPrice: 89,
-    type: 'individual' as const,
-    badge: '45% OFF',
-    features: [
-      'Full 30-day exam path for 1 certification',
-      'Daily 20-question exams',
-      'Results & review with explanations',
-      'Domain/pillar analytics',
-      'Bookmarks + review queue',
-      'Flagged questions system'
-    ],
-    certifications: ['any-single-cert']
+  { 
+    id: 'solutions-architect-associate', 
+    name: 'Solutions Architect Associate', 
+    level: 'Associate', 
+    code: 'SAA-C03',
+    description: 'Design and deploy scalable systems on AWS',
+    examDetails: { questions: 65, duration: 130, passingScore: 720 },
+    domains: ['Design Resilient Architectures', 'Design High-Performing Architectures', 'Design Secure Applications and Architectures', 'Design Cost-Optimized Architectures'],
+    isFree: false
   },
-  {
-    id: 'associates-bundle',
-    name: 'All Associates Bundle',
-    price: 149,
-    originalPrice: 299,
-    type: 'bundle' as const,
-    badge: 'BEST VALUE',
-    popular: true,
-    features: [
-      'All Associate certifications (SAA, DVA, SOA)',
-      'All 30-day paths + cross-cert tracking',
-      'Advanced analytics + weak-area drills',
-      'Priority content updates',
-      'Priority support',
-      'Study streak tracking'
-    ],
-    certifications: ['solutions-architect-associate', 'developer-associate', 'sysops-administrator-associate']
+  { 
+    id: 'developer-associate', 
+    name: 'Developer Associate', 
+    level: 'Associate', 
+    code: 'DVA-C02',
+    description: 'Develop and maintain AWS applications',
+    examDetails: { questions: 65, duration: 130, passingScore: 720 },
+    domains: ['Development with AWS Services', 'Security', 'Deployment', 'Troubleshooting and Optimization'],
+    isFree: false
   },
-  {
-    id: 'everything-pass',
-    name: 'Everything Pass',
-    price: 299,
-    originalPrice: 599,
-    type: 'lifetime' as const,
-    badge: 'FOUNDERS DEAL',
-    features: [
-      'ALL certifications (current + future)',
-      'All Associate, Professional & Specialty certs',
-      'All analytics & study tools',
-      'Lifetime access to all content',
-      'Priority support',
-      'Early access to new features'
-    ],
-    certifications: ['all']
+  { 
+    id: 'sysops-administrator-associate', 
+    name: 'SysOps Administrator Associate', 
+    level: 'Associate', 
+    code: 'SOA-C02',
+    description: 'Deploy, manage, and operate AWS systems',
+    examDetails: { questions: 65, duration: 130, passingScore: 720 },
+    domains: ['Monitoring, Logging, and Remediation', 'Reliability and Business Continuity', 'Deployment, Provisioning, and Automation', 'Security and Compliance', 'Networking and Content Delivery', 'Cost and Performance Optimization'],
+    isFree: false
   },
-  {
-    id: 'subscription',
-    name: 'All-Access Subscription',
-    price: 20,
-    originalPrice: 39,
-    type: 'subscription' as const,
-    badge: 'LAUNCH DEAL',
-    features: [
-      'Access to all certifications',
-      'Cancel anytime',
-      'All study tools & analytics',
-      'Priority support',
-      'Flexible monthly billing',
-      'New certifications included'
-    ],
-    certifications: ['all']
+  { 
+    id: 'solutions-architect-professional', 
+    name: 'Solutions Architect Professional', 
+    level: 'Professional', 
+    code: 'SAP-C02',
+    description: 'Advanced AWS architecture design',
+    examDetails: { questions: 75, duration: 180, passingScore: 750 },
+    domains: ['Design Solutions for Organizational Complexity', 'Design for New Solutions', 'Continuous Improvement for Existing Solutions', 'Accelerate Workload Migration and Modernization'],
+    isFree: false
+  },
+  { 
+    id: 'devops-engineer-professional', 
+    name: 'DevOps Engineer Professional', 
+    level: 'Professional', 
+    code: 'DOP-C02',
+    description: 'Automate and optimize AWS operations',
+    examDetails: { questions: 75, duration: 180, passingScore: 750 },
+    domains: ['SDLC Automation', 'Configuration Management and IaC', 'Monitoring and Logging', 'Policies and Standards Automation', 'Incident and Event Response', 'High Availability, Fault Tolerance, and Disaster Recovery'],
+    isFree: false
+  },
+  { 
+    id: 'security-specialty', 
+    name: 'Security Specialty', 
+    level: 'Specialty', 
+    code: 'SCS-C02',
+    description: 'Secure AWS workloads and applications',
+    examDetails: { questions: 65, duration: 170, passingScore: 750 },
+    domains: ['Incident Response', 'Logging and Monitoring', 'Infrastructure Security', 'Identity and Access Management', 'Data Protection'],
+    isFree: false
+  },
+  { 
+    id: 'machine-learning-specialty', 
+    name: 'Machine Learning Specialty', 
+    level: 'Specialty', 
+    code: 'MLS-C01',
+    description: 'Build, train, and deploy ML models on AWS',
+    examDetails: { questions: 65, duration: 170, passingScore: 750 },
+    domains: ['Data Engineering', 'Exploratory Data Analysis', 'Modeling', 'Machine Learning Implementation and Operations'],
+    isFree: false
+  },
+  { 
+    id: 'database-specialty', 
+    name: 'Database Specialty', 
+    level: 'Specialty', 
+    code: 'DBS-C01',
+    description: 'Design and maintain AWS database solutions',
+    examDetails: { questions: 65, duration: 180, passingScore: 750 },
+    domains: ['Workload-Specific Database Design', 'Deployment and Migration', 'Management and Operations', 'Monitoring and Troubleshooting', 'Database Security'],
+    isFree: false
   }
 ]
