@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { useAuth } from './AuthContext'
 
 interface QuizCompletion {
   [certId: string]: {
@@ -19,15 +20,47 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined)
 
 export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [completions, setCompletions] = useState<QuizCompletion>({})
+  const { user } = useAuth()
 
-  const completeQuiz = (certId: string, quizId: number, score: number) => {
-    setCompletions(prev => ({
-      ...prev,
+  // Load completions from backend on mount
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (!user?.email) return
+      try {
+        const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/progress/${user.email}`)
+        if (response.ok) {
+          const data = await response.json()
+          setCompletions(data.completions || {})
+        }
+      } catch (error) {
+        console.error('Failed to load progress:', error)
+      }
+    }
+    loadProgress()
+  }, [user?.email])
+
+  const completeQuiz = async (certId: string, quizId: number, score: number) => {
+    const newCompletions = {
+      ...completions,
       [certId]: {
-        ...prev[certId],
+        ...completions[certId],
         [quizId]: { completed: true, score }
       }
-    }))
+    }
+    setCompletions(newCompletions)
+
+    // Save to backend
+    if (user?.email) {
+      try {
+        await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/progress/${user.email}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ completions: newCompletions })
+        })
+      } catch (error) {
+        console.error('Failed to save progress:', error)
+      }
+    }
   }
 
   const getProgress = (certId: string, totalQuizzes: number) => {

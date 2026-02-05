@@ -604,7 +604,7 @@ Resources:
     Properties:
       FunctionName: PrepWisely-SaveProgress
       Runtime: nodejs18.x
-      Handler: index.saveProgress
+      Handler: index.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Timeout: 30
       Environment:
@@ -616,26 +616,24 @@ Resources:
           const AWS = require('aws-sdk');
           const dynamodb = new AWS.DynamoDB.DocumentClient();
           
-          exports.saveProgress = async (event) => {
+          exports.handler = async (event) => {
             const headers = {
               'Access-Control-Allow-Origin': '*',
               'Content-Type': 'application/json'
             };
             try {
               const userId = event.pathParameters.userId;
-              const { certId, quizId, score, passed } = JSON.parse(event.body);
+              const { completions } = JSON.parse(event.body);
+              
               await dynamodb.put({
                 TableName: process.env.PROGRESS_TABLE,
                 Item: {
                   userId,
-                  certQuizId: `${certId}#${quizId}`,
-                  certId,
-                  quizId,
-                  score,
-                  passed,
-                  completedAt: new Date().toISOString()
+                  completions,
+                  updatedAt: new Date().toISOString()
                 }
               }).promise();
+              
               return {
                 statusCode: 200,
                 headers,
@@ -656,7 +654,7 @@ Resources:
     Properties:
       FunctionName: PrepWisely-GetProgress
       Runtime: nodejs18.x
-      Handler: index.getProgress
+      Handler: index.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Timeout: 30
       Environment:
@@ -668,28 +666,23 @@ Resources:
           const AWS = require('aws-sdk');
           const dynamodb = new AWS.DynamoDB.DocumentClient();
           
-          exports.getProgress = async (event) => {
+          exports.handler = async (event) => {
             const headers = {
               'Access-Control-Allow-Origin': '*',
               'Content-Type': 'application/json'
             };
             try {
               const userId = event.pathParameters.userId;
-              const certId = event.queryStringParameters?.certId;
-              const params = {
+              
+              const result = await dynamodb.get({
                 TableName: process.env.PROGRESS_TABLE,
-                KeyConditionExpression: 'userId = :userId',
-                ExpressionAttributeValues: { ':userId': userId }
-              };
-              if (certId) {
-                params.KeyConditionExpression += ' AND begins_with(certQuizId, :certId)';
-                params.ExpressionAttributeValues[':certId'] = certId;
-              }
-              const result = await dynamodb.query(params).promise();
+                Key: { userId }
+              }).promise();
+              
               return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify(result.Items || [])
+                body: JSON.stringify(result.Item || { completions: {} })
               };
             } catch (error) {
               console.error('Error:', error);
