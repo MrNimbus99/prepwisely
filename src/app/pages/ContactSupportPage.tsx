@@ -4,10 +4,11 @@ import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { ArrowLeft, Mail, MessageCircle, CheckCircle, HelpCircle } from 'lucide-react'
+import { ArrowLeft, Mail, MessageCircle, CheckCircle, HelpCircle, Menu, X } from 'lucide-react'
 
 const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -123,11 +124,36 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </button>
             </div>
 
-            <Button variant="outline" onClick={() => onNavigate('help')} className="text-sm sm:text-base px-3 sm:px-4">
-              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
-              <span className="hidden sm:inline">Back to Help</span>
-            </Button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 text-slate-600 dark:text-slate-300"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+              <Button variant="outline" onClick={() => onNavigate('help')} className="text-sm sm:text-base px-3 sm:px-4">
+                <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Back to Help</span>
+              </Button>
+            </div>
           </div>
+          
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-slate-200 dark:border-slate-700">
+              <div className="flex flex-col space-y-3">
+                <button onClick={() => { onNavigate('certifications'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                  Certifications
+                </button>
+                <button onClick={() => { onNavigate('pricing'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                  Pricing
+                </button>
+                <button onClick={() => { onNavigate('help'); setMobileMenuOpen(false); }} className="text-left px-4 py-2 text-blue-600 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors">
+                  Help
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
