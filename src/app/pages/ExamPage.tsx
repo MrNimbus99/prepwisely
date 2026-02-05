@@ -6,31 +6,53 @@ import { Card } from '../components/ui/card'
 import { ArrowLeft, CheckCircle, XCircle, Clock } from 'lucide-react'
 
 interface Question {
-  id: number
-  question: string
+  questionId: string
+  questionText: string
   options: string[]
   correctAnswer: number
   explanation: string
+  domain: string
 }
 
 const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completeQuiz } = useQuiz()
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [currentQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [timeLeft, setTimeLeft] = useState(120) // 2 minutes
-  const [quizId, setQuizId] = useState(1)
+  const [quizId, setQuizId] = useState('quiz-1')
   const [certId, setCertId] = useState('cloud-practitioner')
   const [startTime, setStartTime] = useState<number>(Date.now())
   const [timeTaken, setTimeTaken] = useState(0)
   const [overtime, setOvertime] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const storedQuizId = sessionStorage.getItem('currentQuizId')
     const storedCertId = sessionStorage.getItem('currentCertId')
-    if (storedQuizId) setQuizId(parseInt(storedQuizId))
+    if (storedQuizId) setQuizId(storedQuizId)
     if (storedCertId) setCertId(storedCertId)
     setStartTime(Date.now())
   }, [])
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+        const data = await response.json()
+        setQuestions(Array.isArray(data) ? data : [])
+      } catch (error) {
+        console.error('Failed to fetch questions:', error)
+        setQuestions([])
+      }
+      setLoading(false)
+    }
+    if (certId && quizId) {
+      fetchQuestions()
+    }
+  }, [certId, quizId])
 
   // Timer countdown
   useEffect(() => {
@@ -42,19 +64,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
   }, [showResult, timeLeft])
 
-  // Sample question for Cloud Practitioner
-  const question: Question = {
-    id: 1,
-    question: 'What is the AWS service that provides scalable compute capacity in the cloud?',
-    options: [
-      'Amazon S3',
-      'Amazon EC2',
-      'Amazon RDS',
-      'Amazon VPC'
-    ],
-    correctAnswer: 1,
-    explanation: 'Amazon EC2 (Elastic Compute Cloud) provides scalable compute capacity in the cloud. It allows you to launch virtual servers and scale capacity up or down based on your needs.'
-  }
+  const question = questions[currentQuestionIndex]
 
   const handleSubmit = () => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000)
@@ -77,7 +87,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const handleComplete = () => {
     // Save completion if passed
     if (passed) {
-      completeQuiz(certId, quizId, score)
+      const quizNumber = quizId.startsWith('quiz-') 
+        ? parseInt(quizId.replace('quiz-', ''))
+        : parseInt(quizId.replace('exam-', '')) + 30
+      completeQuiz(certId, quizNumber, score)
     }
     // Navigate back to certification detail
     const pageMap: { [key: string]: PageName } = {
@@ -166,33 +179,45 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {!showResult ? (
+        {loading ? (
+          <Card className="bg-white dark:bg-slate-900 p-8 text-center">
+            <p className="text-slate-600 dark:text-slate-400">Loading questions...</p>
+          </Card>
+        ) : questions.length === 0 ? (
+          <Card className="bg-white dark:bg-slate-900 p-8 text-center">
+            <p className="text-slate-600 dark:text-slate-400">No questions available for this quiz.</p>
+            <Button onClick={handleBackToCert} className="mt-4">Back to Certification</Button>
+          </Card>
+        ) : !showResult ? (
           /* Question View */
           <div className="space-y-8">
             {/* Question Header */}
             <Card className="bg-white dark:bg-slate-900 p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                  Question 1 of 1
+                  Question {currentQuestionIndex + 1} of {questions.length}
                 </h2>
                 <div className="text-sm text-slate-600 dark:text-slate-400">
-                  Quiz {quizId} - Cloud Practitioner
+                  {quizId.replace('-', ' ').toUpperCase()} - {certId}
                 </div>
               </div>
               <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                <div className="h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 w-full" />
+                <div 
+                  className="h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all" 
+                  style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                />
               </div>
             </Card>
 
             {/* Question */}
             <Card className="bg-white dark:bg-slate-900 p-8">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 leading-relaxed">
-                {question.question}
+                {question?.questionText}
               </h3>
 
               {/* Options */}
               <div className="space-y-4">
-                {question.options.map((option, index) => (
+                {question?.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedAnswer(index)}
@@ -328,7 +353,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       </h4>
                     </div>
                     <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed pl-10">
-                      {question.question}
+                      {question?.questionText}
                     </p>
                   </div>
 
@@ -344,7 +369,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     </div>
                     <div className="p-5 rounded-xl border-2 border-red-500 bg-red-50 dark:bg-red-950/20 ml-10">
                       <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
-                        {selectedAnswer !== null ? question.options[selectedAnswer] : 'No answer selected'}
+                        {selectedAnswer !== null ? question?.options[selectedAnswer] : 'No answer selected'}
                       </p>
                       <p className="text-sm text-slate-600 dark:text-slate-400">
                         This answer is incorrect.
@@ -364,10 +389,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     </div>
                     <div className="p-5 rounded-xl border-2 border-green-500 bg-green-50 dark:bg-green-950/20 ml-10">
                       <p className="font-semibold text-lg text-slate-900 dark:text-white mb-3">
-                        {question.options[question.correctAnswer]}
+                        {question?.options[question.correctAnswer]}
                       </p>
                       <p className="text-sm text-slate-600 dark:text-slate-400">
-                        {question.explanation}
+                        {question?.explanation}
                       </p>
                     </div>
                   </div>
