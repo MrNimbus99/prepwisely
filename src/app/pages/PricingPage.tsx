@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
-import { useAuth } from '../contexts/AuthContext'
 import { useSEO } from '../hooks/useSEO'
+import { Header } from '../components/layout/Header'
 import { certifications } from '../data/certifications'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
@@ -16,7 +16,6 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     canonical: 'https://nestedcerts.com/pricing'
   })
   
-  const { user } = useAuth()
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
   const associateCerts = certifications.filter(cert => cert.level === 'Associate')
   const professionalCerts = certifications.filter(cert => cert.level === 'Professional')
@@ -175,60 +174,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
-      {/* Header */}
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <button
-                onClick={() => onNavigate('landing')}
-                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
-              >
-                NestedCerts
-              </button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <button
-                onClick={() => onNavigate('certifications')}
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-              >
-                Certifications
-              </button>
-              <button
-                onClick={() => onNavigate('pricing')}
-                className="text-blue-600 dark:text-blue-400 font-medium"
-              >
-                Pricing
-              </button>
-              <button
-                onClick={() => onNavigate('help')}
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-              >
-                Help
-              </button>
-            </nav>
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <Button onClick={() => onNavigate('dashboard')}>
-                  Dashboard
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outline"
-                    onClick={() => onNavigate('login')}
-                  >
-                    Sign In
-                  </Button>
-                  <Button onClick={() => onNavigate('register')}>
-                    Start Free
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header onNavigate={onNavigate} />
 
       {/* Hero Section */}
       <section className="py-10 sm:py-16">

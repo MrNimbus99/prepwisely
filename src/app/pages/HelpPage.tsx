@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavigationProps, PageName } from '../types'
-import { useAuth } from '../contexts/AuthContext'
 import { useSEO } from '../hooks/useSEO'
+import { Header } from '../components/layout/Header'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -19,7 +19,6 @@ import {
 } from 'lucide-react'
 
 const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
-  const { user } = useAuth()
   const [searchQuery, setSearchQuery] = useState('')
 
   const categories = [
@@ -139,62 +138,7 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
-      {/* Navigation */}
-      <nav className="border-b bg-white/80 backdrop-blur-md dark:bg-slate-950/80 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => onNavigate('landing')}
-                className="flex items-center space-x-2"
-              >
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <Trophy className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  NestedCerts
-                </span>
-              </button>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-8">
-              <button 
-                onClick={() => onNavigate('certifications')}
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
-              >
-                Certifications
-              </button>
-              <button 
-                onClick={() => onNavigate('pricing')}
-                className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
-              >
-                Pricing
-              </button>
-              <span className="text-blue-600 font-medium">Help</span>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <Button onClick={() => onNavigate('dashboard')}>
-                  Dashboard
-                </Button>
-              ) : (
-                <>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => onNavigate('login')}
-                  >
-                    Sign In
-                  </Button>
-                  <Button onClick={() => onNavigate('register')}>
-                    Start Free
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header onNavigate={onNavigate} />
 
       {/* Header */}
       <section className="py-10 sm:py-16">
