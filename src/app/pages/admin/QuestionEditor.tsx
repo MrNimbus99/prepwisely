@@ -10,7 +10,8 @@ const QuestionEditor: React.FC = () => {
   const [status, setStatus] = useState('draft')
   const [questionText, setQuestionText] = useState('')
   const [options, setOptions] = useState(['', '', '', ''])
-  const [correctAnswer, setCorrectAnswer] = useState(0)
+  const [correctAnswer, setCorrectAnswer] = useState<number | number[]>(0)
+  const [isMultipleCorrect, setIsMultipleCorrect] = useState(false)
   const [explanation, setExplanation] = useState('')
   const [questionCount, setQuestionCount] = useState(0)
 
@@ -38,7 +39,7 @@ const QuestionEditor: React.FC = () => {
       status,
       questionText,
       options,
-      correctAnswer,
+      correctAnswer: isMultipleCorrect ? correctAnswer : (Array.isArray(correctAnswer) ? correctAnswer[0] : correctAnswer),
       explanation,
       createdAt: new Date().toISOString()
     }
@@ -55,12 +56,34 @@ const QuestionEditor: React.FC = () => {
         setQuestionText('')
         setOptions(['', '', '', ''])
         setCorrectAnswer(0)
+        setIsMultipleCorrect(false)
         setExplanation('')
         setQuestionCount(prev => prev + 1)
       }
     } catch (error) {
       alert('Failed to save question')
     }
+  }
+
+  const handleCorrectAnswerToggle = (idx: number) => {
+    if (isMultipleCorrect) {
+      const current = Array.isArray(correctAnswer) ? correctAnswer : []
+      if (current.includes(idx)) {
+        const newAnswer = current.filter(i => i !== idx)
+        setCorrectAnswer(newAnswer.length > 0 ? newAnswer : [])
+      } else {
+        setCorrectAnswer([...current, idx].sort())
+      }
+    } else {
+      setCorrectAnswer(idx)
+    }
+  }
+
+  const isCorrectSelected = (idx: number): boolean => {
+    if (Array.isArray(correctAnswer)) {
+      return correctAnswer.includes(idx)
+    }
+    return correctAnswer === idx
   }
 
   return (
@@ -141,14 +164,28 @@ const QuestionEditor: React.FC = () => {
         </div>
 
         <div className="mt-8 space-y-4">
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Answer Options</label>
+          <div className="flex justify-between items-center">
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Answer Options</label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={isMultipleCorrect}
+                onChange={(e) => {
+                  setIsMultipleCorrect(e.target.checked)
+                  setCorrectAnswer(e.target.checked ? [] : 0)
+                }}
+                className="w-4 h-4 text-blue-600"
+              />
+              <span className="text-slate-700 dark:text-slate-300">Multiple correct answers</span>
+            </label>
+          </div>
           {options.map((option, idx) => (
             <div key={idx} className="flex gap-3 items-center">
               <input
-                type="radio"
+                type={isMultipleCorrect ? "checkbox" : "radio"}
                 name="correct"
-                checked={correctAnswer === idx}
-                onChange={() => setCorrectAnswer(idx)}
+                checked={isCorrectSelected(idx)}
+                onChange={() => handleCorrectAnswerToggle(idx)}
                 className="w-5 h-5 text-blue-600"
               />
               <input
@@ -169,7 +206,10 @@ const QuestionEditor: React.FC = () => {
                   onClick={() => {
                     const newOptions = options.filter((_, i) => i !== idx)
                     setOptions(newOptions)
-                    if (correctAnswer === idx) {
+                    if (Array.isArray(correctAnswer)) {
+                      const newCorrect = correctAnswer.filter(i => i !== idx).map(i => i > idx ? i - 1 : i)
+                      setCorrectAnswer(newCorrect)
+                    } else if (correctAnswer === idx) {
                       setCorrectAnswer(0)
                     } else if (correctAnswer > idx) {
                       setCorrectAnswer(correctAnswer - 1)

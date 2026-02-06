@@ -54,6 +54,7 @@ const ViewQuestions: React.FC = () => {
       questionText: question.questionText,
       options: [...question.options],
       correctAnswer: question.correctAnswer,
+      isMultipleCorrect: Array.isArray(question.correctAnswer),
       explanation: question.explanation,
       domain: question.domain
     })
@@ -286,14 +287,43 @@ const ViewQuestions: React.FC = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold mb-2">Options (select correct answer)</label>
+                        <label className="block text-sm font-semibold mb-2">
+                          Options 
+                          <label className="ml-4 inline-flex items-center gap-2 text-sm font-normal">
+                            <input
+                              type="checkbox"
+                              checked={editForm.isMultipleCorrect || false}
+                              onChange={(e) => setEditForm({
+                                ...editForm, 
+                                isMultipleCorrect: e.target.checked,
+                                correctAnswer: e.target.checked ? [] : 0
+                              })}
+                              className="w-4 h-4"
+                            />
+                            Multiple correct
+                          </label>
+                        </label>
                         {editForm.options?.map((opt: string, i: number) => (
                           <div key={i} className="flex gap-2 mb-2">
                             <input
-                              type="radio"
+                              type={editForm.isMultipleCorrect ? "checkbox" : "radio"}
                               name="correctAnswer"
-                              checked={editForm.correctAnswer === i}
-                              onChange={() => setEditForm({...editForm, correctAnswer: i})}
+                              checked={
+                                Array.isArray(editForm.correctAnswer) 
+                                  ? editForm.correctAnswer.includes(i)
+                                  : editForm.correctAnswer === i
+                              }
+                              onChange={() => {
+                                if (editForm.isMultipleCorrect) {
+                                  const current = Array.isArray(editForm.correctAnswer) ? editForm.correctAnswer : []
+                                  const newCorrect = current.includes(i)
+                                    ? current.filter((idx: number) => idx !== i)
+                                    : [...current, i].sort()
+                                  setEditForm({...editForm, correctAnswer: newCorrect})
+                                } else {
+                                  setEditForm({...editForm, correctAnswer: i})
+                                }
+                              }}
                               className="mt-1"
                             />
                             <input
@@ -312,11 +342,12 @@ const ViewQuestions: React.FC = () => {
                                 variant="outline"
                                 onClick={() => {
                                   const newOptions = editForm.options.filter((_: any, idx: number) => idx !== i)
-                                  const newCorrect = editForm.correctAnswer === i 
-                                    ? 0 
-                                    : editForm.correctAnswer > i 
-                                      ? editForm.correctAnswer - 1 
-                                      : editForm.correctAnswer
+                                  let newCorrect
+                                  if (Array.isArray(editForm.correctAnswer)) {
+                                    newCorrect = editForm.correctAnswer.filter((idx: number) => idx !== i).map((idx: number) => idx > i ? idx - 1 : idx)
+                                  } else {
+                                    newCorrect = editForm.correctAnswer === i ? 0 : editForm.correctAnswer > i ? editForm.correctAnswer - 1 : editForm.correctAnswer
+                                  }
                                   setEditForm({...editForm, options: newOptions, correctAnswer: newCorrect})
                                 }}
                                 className="text-red-600"
@@ -361,14 +392,24 @@ const ViewQuestions: React.FC = () => {
                     </div>
                   ) : (
                     <>
-                      <p className="text-slate-900 dark:text-white font-medium mb-3">{q.questionText}</p>
+                      <p className="text-slate-900 dark:text-white font-medium mb-3">
+                        {q.questionText}
+                        {Array.isArray(q.correctAnswer) && (
+                          <span className="ml-2 text-sm text-blue-600 dark:text-blue-400">(Multiple answers)</span>
+                        )}
+                      </p>
                       <div className="space-y-2 mb-3">
-                        {q.options?.map((opt: string, i: number) => (
-                          <div key={i} className={`px-3 py-2 rounded ${i === q.correctAnswer ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
-                            <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
-                            {i === q.correctAnswer && <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">✓ Correct</span>}
-                          </div>
-                        ))}
+                        {q.options?.map((opt: string, i: number) => {
+                          const isCorrect = Array.isArray(q.correctAnswer) 
+                            ? q.correctAnswer.includes(i)
+                            : i === q.correctAnswer
+                          return (
+                            <div key={i} className={`px-3 py-2 rounded ${isCorrect ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                              <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
+                              {isCorrect && <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">✓ Correct</span>}
+                            </div>
+                          )
+                        })}
                       </div>
                       <div className="text-sm text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-700 pt-3">
                         <span className="font-medium">Domain:</span> {q.domain}
