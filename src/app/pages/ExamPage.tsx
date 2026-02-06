@@ -510,9 +510,9 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                             </p>
                           )}
                           {q.explanation && (
-                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 italic break-words">
+                            <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 italic break-words whitespace-pre-line">
                               {q.explanation}
-                            </p>
+                            </div>
                           )}
                         </div>
                       </div>
