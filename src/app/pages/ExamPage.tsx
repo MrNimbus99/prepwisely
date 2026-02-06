@@ -245,9 +245,9 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950 overflow-hidden">
       {/* Header */}
-      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-50 flex-shrink-0">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
             <button
@@ -275,7 +275,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </header>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 h-full">
         {loading ? (
           <Card className="bg-white dark:bg-slate-900 p-6 sm:p-8 text-center">
             <p className="text-slate-600 dark:text-slate-400">Loading questions...</p>
@@ -287,11 +288,11 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </Card>
         ) : !showResult ? (
           /* Question View */
-          <div className="space-y-4 sm:space-y-8">
+          <div className="h-full flex flex-col gap-3 sm:gap-4">
             {/* Question Header */}
-            <Card className="bg-white dark:bg-slate-900 p-4 sm:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-4 flex-shrink-0">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                   Question {currentQuestionIndex + 1} of {questions.length}
                 </h2>
                 <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
@@ -307,25 +308,25 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </Card>
 
             {/* Question */}
-            <Card className="bg-white dark:bg-slate-900 p-4 sm:p-8">
-              <div className="mb-4">
-                <h3 className="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
+            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-6 flex-1 flex flex-col overflow-hidden">
+              <div className="mb-3 flex-shrink-0">
+                <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white mb-2 leading-snug">
                   {question?.questionText}
                 </h3>
                 {isMultiSelect && (
-                  <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                  <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium">
                     Select all that apply
                   </p>
                 )}
               </div>
 
               {/* Options */}
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-2 sm:space-y-3 flex-1 overflow-y-auto mb-3">
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
-                    className={`w-full text-left p-4 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
+                    className={`w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 ${
                       isOptionSelected(index)
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20 shadow-lg scale-[1.02] sm:scale-105'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md'
@@ -353,7 +354,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           )}
                         </div>
                       )}
-                      <span className="text-base sm:text-lg text-slate-900 dark:text-white font-medium break-words">
+                      <span className="text-sm sm:text-base text-slate-900 dark:text-white font-medium break-words">
                         {option}
                       </span>
                     </div>
@@ -362,26 +363,26 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="mt-6 sm:mt-8 flex gap-3 sm:gap-4">
+              <div className="flex gap-2 sm:gap-3 flex-shrink-0">
                 <Button
                   onClick={handlePrevious}
                   disabled={currentQuestionIndex === 0}
                   variant="outline"
-                  className="flex-1 py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-30"
+                  className="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold disabled:opacity-30"
                 >
                   ← Previous
                 </Button>
                 {currentQuestionIndex < questions.length - 1 ? (
                   <Button
                     onClick={handleNext}
-                    className="flex-1 py-3 sm:py-4 text-base sm:text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300"
+                    className="flex-1 py-2 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-blue-500 to-indigo-600"
                   >
                     Next →
                   </Button>
                 ) : (
                   <Button
                     onClick={handleSubmit}
-                    className="flex-1 py-3 sm:py-4 text-base sm:text-lg font-bold bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-xl transition-all duration-300"
+                    className="flex-1 py-2 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-green-500 to-emerald-600"
                   >
                     Submit
                   </Button>
@@ -560,6 +561,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Exit Confirmation Modal */}
