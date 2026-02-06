@@ -308,33 +308,33 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </Card>
 
             {/* Question */}
-            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-6 flex-1 flex flex-col overflow-hidden">
-              <div className="mb-3 flex-shrink-0">
-                <h3 className="text-base sm:text-xl font-bold text-slate-900 dark:text-white mb-2 leading-snug">
+            <Card className="bg-white dark:bg-slate-900 p-2 sm:p-4 flex-1 flex flex-col min-h-0">
+              <div className="mb-2 flex-shrink-0">
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-1 leading-tight line-clamp-3">
                   {question?.questionText}
                 </h3>
                 {isMultiSelect && (
-                  <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium">
+                  <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
                     Select all that apply
                   </p>
                 )}
               </div>
 
               {/* Options */}
-              <div className="space-y-2 sm:space-y-3 flex-1 overflow-y-auto mb-3">
+              <div className="space-y-1.5 sm:space-y-2 flex-1 min-h-0 overflow-y-auto mb-2">
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
-                    className={`w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 ${
+                    className={`w-full text-left p-2 sm:p-3 rounded-lg border-2 transition-all ${
                       isOptionSelected(index)
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20 shadow-lg scale-[1.02] sm:scale-105'
-                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20'
+                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
                   >
-                    <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       {isMultiSelect ? (
-                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 ${
+                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 ${
                           isOptionSelected(index)
                             ? 'border-blue-500 bg-blue-500'
                             : 'border-slate-300 dark:border-slate-600'
@@ -344,17 +344,17 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           )}
                         </div>
                       ) : (
-                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 ${
+                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                           isOptionSelected(index)
                             ? 'border-blue-500 bg-blue-500'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
+                            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
                           )}
                         </div>
                       )}
-                      <span className="text-sm sm:text-base text-slate-900 dark:text-white font-medium break-words">
+                      <span className="text-xs sm:text-sm text-slate-900 dark:text-white font-medium line-clamp-2">
                         {option}
                       </span>
                     </div>
