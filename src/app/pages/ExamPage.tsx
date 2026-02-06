@@ -4,22 +4,24 @@ import { useQuiz } from '../contexts/QuizContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { ArrowLeft, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { isMultipleCorrect, checkAnswer, formatCorrectAnswer } from '../utils/questionHelpers'
 
 interface Question {
   questionId: string
   questionText: string
   options: string[]
-  correctAnswer: number
+  correctAnswer: number | number[]
   explanation: string
   domain: string
+  multipleCorrect?: boolean
 }
 
 const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completeQuiz } = useQuiz()
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [answers, setAnswers] = useState<(number | null)[]>([])
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
+  const [answers, setAnswers] = useState<(number | number[] | null)[]>([])
+  const [selectedAnswer, setSelectedAnswer] = useState<number | number[] | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [timeLeft, setTimeLeft] = useState(0) // Will be set based on question count
   const [quizId, setQuizId] = useState('quiz-1')
@@ -90,12 +92,34 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }, [showResult, timeLeft])
 
   const question = questions[currentQuestionIndex]
+  const isMultiSelect = question && isMultipleCorrect(question.correctAnswer)
 
   const handleAnswerSelect = (answerIndex: number) => {
-    setSelectedAnswer(answerIndex)
-    const newAnswers = [...answers]
-    newAnswers[currentQuestionIndex] = answerIndex
-    setAnswers(newAnswers)
+    if (isMultiSelect) {
+      // Multiple selection mode
+      const currentSelected = Array.isArray(selectedAnswer) ? selectedAnswer : []
+      const newSelected = currentSelected.includes(answerIndex)
+        ? currentSelected.filter(idx => idx !== answerIndex)
+        : [...currentSelected, answerIndex]
+      
+      setSelectedAnswer(newSelected.length > 0 ? newSelected : null)
+      const newAnswers = [...answers]
+      newAnswers[currentQuestionIndex] = newSelected.length > 0 ? newSelected : null
+      setAnswers(newAnswers)
+    } else {
+      // Single selection mode
+      setSelectedAnswer(answerIndex)
+      const newAnswers = [...answers]
+      newAnswers[currentQuestionIndex] = answerIndex
+      setAnswers(newAnswers)
+    }
+  }
+
+  const isOptionSelected = (index: number): boolean => {
+    if (Array.isArray(selectedAnswer)) {
+      return selectedAnswer.includes(index)
+    }
+    return selectedAnswer === index
   }
 
   const handleNext = () => {
@@ -202,7 +226,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   
   // Calculate score based on all answers
   const correctCount = answers.filter((answer, idx) => 
-    answer !== null && questions[idx] && answer === questions[idx].correctAnswer
+    answer !== null && questions[idx] && checkAnswer(answer, questions[idx].correctAnswer)
   ).length
   const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0
   const passed = score >= 82
@@ -284,9 +308,16 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
             {/* Question */}
             <Card className="bg-white dark:bg-slate-900 p-4 sm:p-8">
-              <h3 className="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 leading-relaxed">
-                {question?.questionText}
-              </h3>
+              <div className="mb-4">
+                <h3 className="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 leading-relaxed">
+                  {question?.questionText}
+                </h3>
+                {isMultiSelect && (
+                  <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                    Select all that apply
+                  </p>
+                )}
+              </div>
 
               {/* Options */}
               <div className="space-y-3 sm:space-y-4">
@@ -295,21 +326,33 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
                     className={`w-full text-left p-4 sm:p-6 rounded-xl border-2 transition-all duration-300 ${
-                      selectedAnswer === index
+                      isOptionSelected(index)
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20 shadow-lg scale-[1.02] sm:scale-105'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md'
                     }`}
                   >
                     <div className="flex items-start sm:items-center gap-3 sm:gap-4">
-                      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 ${
-                        selectedAnswer === index
-                          ? 'border-blue-500 bg-blue-500'
-                          : 'border-slate-300 dark:border-slate-600'
-                      }`}>
-                        {selectedAnswer === index && (
-                          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
-                        )}
-                      </div>
+                      {isMultiSelect ? (
+                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-md border-2 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 ${
+                          isOptionSelected(index)
+                            ? 'border-blue-500 bg-blue-500'
+                            : 'border-slate-300 dark:border-slate-600'
+                        }`}>
+                          {isOptionSelected(index) && (
+                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                          )}
+                        </div>
+                      ) : (
+                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 ${
+                          isOptionSelected(index)
+                            ? 'border-blue-500 bg-blue-500'
+                            : 'border-slate-300 dark:border-slate-600'
+                        }`}>
+                          {isOptionSelected(index) && (
+                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
+                          )}
+                        </div>
+                      )}
                       <span className="text-base sm:text-lg text-slate-900 dark:text-white font-medium break-words">
                         {option}
                       </span>
@@ -426,7 +469,17 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <div className="space-y-4 sm:space-y-6">
                 {questions.map((q, idx) => {
                   const userAnswer = answers[idx]
-                  const isCorrect = userAnswer === q.correctAnswer
+                  const isCorrect = checkAnswer(userAnswer, q.correctAnswer)
+                  const isMulti = isMultipleCorrect(q.correctAnswer)
+                  
+                  const formatUserAnswer = () => {
+                    if (userAnswer === null) return 'Not answered'
+                    if (Array.isArray(userAnswer)) {
+                      return userAnswer.map(i => q.options[i]).join(', ')
+                    }
+                    return q.options[userAnswer as number]
+                  }
+                  
                   return (
                     <div key={q.questionId} className={`p-4 sm:p-6 rounded-xl border-2 ${
                       isCorrect 
@@ -446,13 +499,14 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         <div className="flex-1 min-w-0">
                           <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 break-words">
                             Question {idx + 1}: {q.questionText}
+                            {isMulti && <span className="ml-2 text-xs text-blue-600 dark:text-blue-400">(Multiple answers)</span>}
                           </p>
                           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-2 break-words">
-                            Your answer: <span className="font-semibold">{userAnswer !== null ? q.options[userAnswer] : 'Not answered'}</span>
+                            Your answer: <span className="font-semibold">{formatUserAnswer()}</span>
                           </p>
                           {!isCorrect && (
                             <p className="text-xs sm:text-sm text-green-700 dark:text-green-400 break-words">
-                              Correct answer: <span className="font-semibold">{q.options[q.correctAnswer]}</span>
+                              Correct answer: <span className="font-semibold">{formatCorrectAnswer(q.correctAnswer, q.options)}</span>
                             </p>
                           )}
                           {q.explanation && (

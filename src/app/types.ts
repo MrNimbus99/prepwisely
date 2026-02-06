@@ -48,11 +48,12 @@ export interface Question {
   id: string
   question: string
   options: string[]
-  correctAnswer: number
+  correctAnswer: number | number[]
   explanation: string
   domain: string
   difficulty: 'Easy' | 'Medium' | 'Hard'
   certification: string
+  multipleCorrect?: boolean
 }
 
 export interface Certification {
@@ -92,7 +93,7 @@ export interface ExamResult {
   correctAnswers: number
   timeSpent: number
   examDate: string
-  answers: number[]
+  answers: (number | number[])[]
   questions: Question[]
 }
 
