@@ -13,10 +13,10 @@ const DeveloperAssociateArticle: React.FC<NavigationProps> = ({ onNavigate }) =>
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Development with AWS Services',
-        'Security',
-        'Deployment',
-        'Troubleshooting and Optimization'
+        'Development with AWS Services (32%)',
+        'Security (26%)',
+        'Deployment (24%)',
+        'Troubleshooting and Optimization (18%)'
       ]}
     />
   )

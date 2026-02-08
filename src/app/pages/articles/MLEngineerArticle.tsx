@@ -13,10 +13,10 @@ const MLEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Data Preparation for ML',
-        'ML Model Development',
-        'Deployment and Orchestration of ML Workflows',
-        'ML Solution Monitoring, Maintenance, and Security'
+        'Data Preparation for ML (28%)',
+        'ML Model Development (26%)',
+        'Deployment and Orchestration of ML Workflows (22%)',
+        'ML Solution Monitoring, Maintenance, and Security (24%)'
       ]}
     />
   )

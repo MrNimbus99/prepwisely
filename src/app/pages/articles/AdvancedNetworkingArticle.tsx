@@ -13,10 +13,10 @@ const AdvancedNetworkingArticle: React.FC<NavigationProps> = ({ onNavigate }) =>
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Network Design',
-        'Network Implementation',
-        'Network Management and Operation',
-        'Network Security, Compliance, and Governance'
+        'Network Design (30%)',
+        'Network Implementation (26%)',
+        'Network Management and Operation (20%)',
+        'Network Security, Compliance, and Governance (24%)'
       ]}
     />
   )

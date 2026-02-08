@@ -13,10 +13,10 @@ const SolutionsArchitectProfessionalArticle: React.FC<NavigationProps> = ({ onNa
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Design Solutions for Organizational Complexity',
-        'Design for New Solutions',
-        'Continuous Improvement for Existing Solutions',
-        'Accelerate Workload Migration and Modernization'
+        'Design Solutions for Organizational Complexity (26%)',
+        'Design for New Solutions (29%)',
+        'Continuous Improvement for Existing Solutions (25%)',
+        'Accelerate Workload Migration and Modernization (20%)'
       ]}
     />
   )

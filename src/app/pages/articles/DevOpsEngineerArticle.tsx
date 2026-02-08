@@ -13,12 +13,12 @@ const DevOpsEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'SDLC Automation',
-        'Configuration Management and IaC',
-        'Monitoring and Logging',
-        'Policies and Standards Automation',
-        'Incident and Event Response',
-        'High Availability, Fault Tolerance, and Disaster Recovery'
+        'SDLC Automation (22%)',
+        'Configuration Management and IaC (17%)',
+        'Resilient Cloud Solutions (15%)',
+        'Monitoring and Logging (15%)',
+        'Incident and Event Response (14%)',
+        'Security and Compliance (17%)'
       ]}
     />
   )

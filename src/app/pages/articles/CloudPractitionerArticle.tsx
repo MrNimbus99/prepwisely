@@ -13,10 +13,10 @@ const CloudPractitionerArticle: React.FC<NavigationProps> = ({ onNavigate }) => 
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Cloud Concepts',
-        'Security and Compliance',
-        'Technology',
-        'Billing and Pricing'
+        'Cloud Concepts (24%)',
+        'Security and Compliance (30%)',
+        'Cloud Technology and Services (34%)',
+        'Billing, Pricing, and Support (12%)'
       ]}
     />
   )

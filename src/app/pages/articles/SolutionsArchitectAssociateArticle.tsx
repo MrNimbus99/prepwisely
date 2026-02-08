@@ -13,10 +13,10 @@ const SolutionsArchitectAssociateArticle: React.FC<NavigationProps> = ({ onNavig
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Design Secure Architectures',
-        'Design Resilient Architectures',
-        'Design High-Performing Architectures',
-        'Design Cost-Optimized Architectures'
+        'Design Secure Architectures (30%)',
+        'Design Resilient Architectures (26%)',
+        'Design High-Performing Architectures (24%)',
+        'Design Cost-Optimized Architectures (20%)'
       ]}
     />
   )

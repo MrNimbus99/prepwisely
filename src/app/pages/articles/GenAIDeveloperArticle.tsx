@@ -13,10 +13,11 @@ const GenAIDeveloperArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Generative AI Fundamentals',
-        'Foundation Models',
-        'Application Development',
-        'Security and Governance'
+        'Foundation Model Integration, Data Management, and Compliance (31%)',
+        'Implementation and Integration (26%)',
+        'AI Safety, Security, and Governance (20%)',
+        'Operational Efficiency and Optimization (12%)',
+        'Testing, Validation, and Troubleshooting (11%)'
       ]}
     />
   )

@@ -13,10 +13,10 @@ const DataEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Data Ingestion and Transformation',
-        'Data Store Management',
-        'Data Operations and Support',
-        'Data Security and Governance'
+        'Data Ingestion and Transformation (34%)',
+        'Data Store Management (26%)',
+        'Data Operations and Support (22%)',
+        'Data Security and Governance (18%)'
       ]}
     />
   )

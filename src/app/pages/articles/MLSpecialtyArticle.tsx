@@ -13,10 +13,10 @@ const MLSpecialtyArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
       quizCount={30}
       questionsPerQuiz={20}
       domains={[
-        'Data Engineering',
-        'Exploratory Data Analysis',
-        'Modeling',
-        'Machine Learning Implementation and Operations'
+        'Data Engineering (20%)',
+        'Exploratory Data Analysis (24%)',
+        'Modeling (36%)',
+        'Machine Learning Implementation and Operations (20%)'
       ]}
     />
   )
