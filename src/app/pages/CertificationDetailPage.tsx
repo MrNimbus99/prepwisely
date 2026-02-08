@@ -91,11 +91,6 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       name: 'AWS Certified Machine Learning – Specialty',
       code: 'MLS-C01',
       gradient: 'from-lime-500 to-green-600'
-    },
-    'database-specialty': {
-      name: 'AWS Database Specialty',
-      code: 'DBS-C01',
-      gradient: 'from-amber-500 to-yellow-600'
     }
   }
 

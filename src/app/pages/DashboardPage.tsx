@@ -135,14 +135,6 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       level: 'Specialty',
       gradient: 'from-lime-500 to-green-600',
       isUnlocked: hasFullAccess
-    },
-    {
-      id: 'database-specialty',
-      name: 'AWS Database Specialty',
-      code: 'DBS-C01',
-      level: 'Specialty',
-      gradient: 'from-amber-500 to-yellow-600',
-      isUnlocked: hasFullAccess
     }
   ]
 
@@ -174,8 +166,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'devops-engineer-professional': 'cert-devops-engineer-professional',
       'advanced-networking-specialty': 'cert-advanced-networking-professional',
       'security-specialty': 'cert-security-specialty',
-      'machine-learning-specialty': 'cert-machine-learning-specialty',
-      'database-specialty': 'cert-database-specialty'
+      'machine-learning-specialty': 'cert-machine-learning-specialty'
     }
     onNavigate(pageMap[certId])
   }

@@ -116,16 +116,6 @@ export const CERTIFICATIONS = {
       'Machine Learning Implementation and Operations'
     ]
   },
-  'database-specialty': {
-    name: 'AWS Certified Database - Specialty',
-    domains: [
-      'Workload-Specific Database Design',
-      'Deployment and Migration',
-      'Management and Operations',
-      'Monitoring and Troubleshooting',
-      'Database Security'
-    ]
-  },
   'generative-ai-developer-professional': {
     name: 'AWS Certified Generative AI Developer – Professional',
     domains: [
@@ -277,16 +267,6 @@ export const certifications = [
     description: 'Build, train, and deploy ML models on AWS',
     examDetails: { questions: 65, duration: 170, passingScore: 750 },
     domains: ['Data Engineering', 'Exploratory Data Analysis', 'Modeling', 'Machine Learning Implementation and Operations'],
-    isFree: false
-  },
-  { 
-    id: 'database-specialty', 
-    name: 'AWS Certified Database - Specialty', 
-    level: 'Specialty', 
-    code: 'DBS-C01',
-    description: 'Design and maintain AWS database solutions',
-    examDetails: { questions: 65, duration: 180, passingScore: 750 },
-    domains: ['Workload-Specific Database Design', 'Deployment and Migration', 'Management and Operations', 'Monitoring and Troubleshooting', 'Database Security'],
     isFree: false
   }
 ]
