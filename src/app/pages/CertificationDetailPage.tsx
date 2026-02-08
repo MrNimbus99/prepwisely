@@ -24,6 +24,49 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'quizzes' | 'flagged'>('quizzes')
 
+  // Quiz metadata for Cloud Practitioner
+  const clfQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Cloud Concepts", task: "Task 1.1: AWS Cloud benefits" },
+    2: { domain: "Cloud Concepts", task: "Task 1.2: Well-Architected pillars" },
+    3: { domain: "Cloud Concepts", task: "Task 1.3: CAF + migration strategies" },
+    4: { domain: "Cloud Concepts", task: "Task 1.4: Cloud economics" },
+    5: { domain: "Cloud Concepts", task: "Domain 1 Review" },
+    6: { domain: "Security & Compliance", task: "Task 2.1: Shared responsibility" },
+    7: { domain: "Security & Compliance", task: "Task 2.2: Compliance & governance" },
+    8: { domain: "Security & Compliance", task: "Task 2.3: IAM & access management" },
+    9: { domain: "Security & Compliance", task: "Task 2.4: Security services" },
+    10: { domain: "Security & Compliance", task: "Domain 2 Review" },
+    11: { domain: "Technology & Services", task: "Task 3.1: Deployment methods" },
+    12: { domain: "Technology & Services", task: "Task 3.2: Global infrastructure" },
+    13: { domain: "Technology & Services", task: "Task 3.3: Compute services" },
+    14: { domain: "Technology & Services", task: "Task 3.4: Database services" },
+    15: { domain: "Technology & Services", task: "Task 3.5: Network services" },
+    16: { domain: "Technology & Services", task: "Task 3.6: Storage services" },
+    17: { domain: "Technology & Services", task: "Task 3.7: AI/ML & analytics" },
+    18: { domain: "Technology & Services", task: "Task 3.8: Integration services" },
+    19: { domain: "Technology & Services", task: "Domain 3 Review" },
+    20: { domain: "Billing & Pricing", task: "Task 4.1: Pricing models" },
+    21: { domain: "Billing & Pricing", task: "Task 4.2: Cost management tools" },
+    22: { domain: "Billing & Pricing", task: "Task 4.3: Support resources" },
+    23: { domain: "Mixed Review", task: "Billing + Architecture" },
+    24: { domain: "Mixed Review", task: "Security + Operations" },
+    25: { domain: "Mixed Review", task: "Migration + Global infra" },
+    26: { domain: "Mixed Review", task: "App building capstone" },
+    27: { domain: "Mixed Review", task: "Observability capstone" },
+    28: { domain: "Mixed Review", task: "Domains 1–2 Review" },
+    29: { domain: "Mixed Review", task: "Domains 3–4 Review" },
+    30: { domain: "Mixed Review", task: "Final Review (Domains 1–4)" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  const getQuizMetadata = (quizId: number) => {
+    if (certId === 'cloud-practitioner') {
+      return clfQuizMetadata[quizId] || { domain: "", task: "" }
+    }
+    return { domain: "", task: "" }
+  }
+
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
     // Foundational (2)
@@ -344,9 +387,21 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                   </div>
 
                   {/* Quiz Info */}
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                     {quiz.title}
                   </h3>
+
+                  {/* Domain and Task */}
+                  {getQuizMetadata(quiz.id).domain && (
+                    <div className="mb-3 space-y-1">
+                      <div className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                        {getQuizMetadata(quiz.id).domain}
+                      </div>
+                      <div className="text-xs text-slate-600 dark:text-slate-400">
+                        {getQuizMetadata(quiz.id).task}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
                     <div className="flex items-center gap-2">
