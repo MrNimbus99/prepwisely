@@ -34,6 +34,7 @@ export const FlaggedQuestionsProvider: React.FC<{ children: ReactNode }> = ({ ch
         }
       } catch (error) {
         console.error('Failed to load flagged questions:', error)
+        // Silently fail - don't break the app
       }
     }
     loadFlagged()
@@ -49,6 +50,7 @@ export const FlaggedQuestionsProvider: React.FC<{ children: ReactNode }> = ({ ch
       })
     } catch (error) {
       console.error('Failed to save flagged questions:', error)
+      // Silently fail - don't break the app
     }
   }
 

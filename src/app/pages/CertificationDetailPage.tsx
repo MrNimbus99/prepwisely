@@ -179,9 +179,9 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
   ]
 
   const handleStartQuiz = (quizId: number) => {
-    // Store quiz and cert ID in sessionStorage
+    // Store quiz and cert code (not slug) in sessionStorage
     sessionStorage.setItem('currentQuizId', quizId.toString())
-    sessionStorage.setItem('currentCertId', certId)
+    sessionStorage.setItem('currentCertId', certifications[certId].code)
     onNavigate('exam')
   }
 
