@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
+import { useFlaggedQuestions } from '../contexts/FlaggedQuestionsContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock } from 'lucide-react'
+import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X } from 'lucide-react'
 
 interface Quiz {
   id: number
@@ -18,8 +19,10 @@ interface Quiz {
 
 const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = ({ onNavigate, certId }) => {
   const { completions } = useQuiz()
+  const { getFlaggedByCert, removeFlagged } = useFlaggedQuestions()
   const [quizCounts, setQuizCounts] = useState<{ [key: string]: number }>({})
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'quizzes' | 'flagged'>('quizzes')
 
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
@@ -256,15 +259,49 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
         {/* Quizzes Grid */}
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-6">
-            Practice Quizzes
-          </h2>
-          {loading ? (
-            <div className="text-center py-6 sm:py-12 text-slate-600 dark:text-slate-400">
-              Loading quizzes...
-            </div>
-          ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {/* Tabs */}
+          <div className="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700">
+            <button
+              onClick={() => setActiveTab('quizzes')}
+              className={`pb-3 px-2 font-bold text-lg sm:text-xl transition-colors relative ${
+                activeTab === 'quizzes'
+                  ? 'text-slate-900 dark:text-white'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              Practice Quizzes
+              {activeTab === 'quizzes' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab('flagged')}
+              className={`pb-3 px-2 font-bold text-lg sm:text-xl transition-colors relative flex items-center gap-2 ${
+                activeTab === 'flagged'
+                  ? 'text-slate-900 dark:text-white'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              <Flag className="w-5 h-5" />
+              Flagged Questions
+              {getFlaggedByCert(certId).length > 0 && (
+                <span className="bg-yellow-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                  {getFlaggedByCert(certId).length}
+                </span>
+              )}
+              {activeTab === 'flagged' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+              )}
+            </button>
+          </div>
+
+          {activeTab === 'quizzes' ? (
+            loading ? (
+              <div className="text-center py-6 sm:py-12 text-slate-600 dark:text-slate-400">
+                Loading quizzes...
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {quizzes.map((quiz) => (
               <Card
                 key={quiz.id}
@@ -359,6 +396,49 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               </Card>
             ))}
           </div>
+            )
+          ) : (
+            /* Flagged Questions View */
+            <div>
+              {getFlaggedByCert(certId).length === 0 ? (
+                <Card className="bg-white dark:bg-slate-900 p-8 text-center">
+                  <Flag className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                    No Flagged Questions
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Flag questions during practice to review them later
+                  </p>
+                </Card>
+              ) : (
+                <div className="space-y-4">
+                  {getFlaggedByCert(certId).map((flagged) => (
+                    <Card key={flagged.questionId} className="bg-white dark:bg-slate-900 p-4 hover:shadow-lg transition-shadow">
+                      <div className="flex items-start gap-3">
+                        <Flag className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-1" fill="currentColor" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm sm:text-base text-slate-900 dark:text-white mb-2">
+                            {flagged.questionText}
+                          </p>
+                          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                            <span className="font-mono">{flagged.quizId.toUpperCase()}</span>
+                            <span>•</span>
+                            <span>{new Date(flagged.flaggedAt).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeFlagged(flagged.questionId)}
+                          className="flex-shrink-0 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                          title="Remove flag"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>

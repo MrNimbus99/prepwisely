@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { QuizProvider } from './contexts/QuizContext'
+import { FlaggedQuestionsProvider } from './contexts/FlaggedQuestionsContext'
 import { ErrorBoundary } from './components/ui/ErrorBoundary'
 
 // Import AWS config
@@ -150,9 +151,11 @@ const App: React.FC = () => {
       <BrowserRouter>
         <AuthProvider>
           <QuizProvider>
-            <div className="min-h-screen bg-background">
-              <AppContent />
-            </div>
+            <FlaggedQuestionsProvider>
+              <div className="min-h-screen bg-background">
+                <AppContent />
+              </div>
+            </FlaggedQuestionsProvider>
           </QuizProvider>
         </AuthProvider>
       </BrowserRouter>

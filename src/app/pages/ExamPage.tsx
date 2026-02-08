@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { NavigationProps, PageName } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
+import { useFlaggedQuestions } from '../contexts/FlaggedQuestionsContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { ArrowLeft, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { ArrowLeft, CheckCircle, XCircle, Clock, Flag } from 'lucide-react'
 import { isMultipleCorrect, checkAnswer, formatCorrectAnswer } from '../utils/questionHelpers'
 
 interface Question {
@@ -18,6 +19,7 @@ interface Question {
 
 const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { completeQuiz } = useQuiz()
+  const { toggleFlag, isFlagged } = useFlaggedQuestions()
   const [questions, setQuestions] = useState<Question[]>([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<(number | number[] | null)[]>([])
@@ -310,9 +312,22 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             {/* Question */}
             <Card className="bg-white dark:bg-slate-900 p-2 sm:p-4 flex-1 flex flex-col min-h-0">
               <div className="mb-2 flex-shrink-0">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-1 leading-tight line-clamp-3">
-                  {question?.questionText}
-                </h3>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight line-clamp-3 flex-1">
+                    {question?.questionText}
+                  </h3>
+                  <button
+                    onClick={() => toggleFlag(certId, quizId, question?.questionId || '', question?.questionText || '')}
+                    className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
+                      isFlagged(question?.questionId || '')
+                        ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-400'
+                    }`}
+                    title={isFlagged(question?.questionId || '') ? 'Unflag question' : 'Flag question for review'}
+                  >
+                    <Flag className="w-4 h-4" fill={isFlagged(question?.questionId || '') ? 'currentColor' : 'none'} />
+                  </button>
+                </div>
                 {isMultiSelect && (
                   <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
                     Select all that apply
