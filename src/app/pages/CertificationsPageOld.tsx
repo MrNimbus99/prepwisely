@@ -42,9 +42,9 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         popular: true
       },
       {
-        id: 'soa-c02',
-        name: 'AWS Certified SysOps Administrator',
-        code: 'SOA-C02',
+        id: 'soa-c03',
+        name: 'AWS Certified CloudOps Engineer – Associate',
+        code: 'SOA-C03',
         description: 'Deploy, manage, and operate scalable systems on AWS.',
         duration: 130,
         questions: 65,

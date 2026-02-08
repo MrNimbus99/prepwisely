@@ -26,8 +26,8 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   
   useSEO({
     title: 'NestedCerts - AWS Certification Exam Prep | Practice Tests & Study Platform',
-    description: 'Ace your AWS certification exams with NestedCerts. Get daily practice tests, detailed analytics, 30-day study plans, and expert-crafted questions for Solutions Architect, Developer, SysOps, and all AWS certifications. Start your free trial today!',
-    keywords: 'AWS certification, AWS exam prep, AWS practice tests, AWS Solutions Architect, AWS Developer Associate, AWS SysOps Administrator, AWS practice questions, cloud certification, AWS training, AWS study guide',
+    description: 'Ace your AWS certification exams with NestedCerts. Get daily practice tests, detailed analytics, 30-day study plans, and expert-crafted questions for Solutions Architect, Developer, CloudOps Engineer, and all AWS certifications. Start your free trial today!',
+    keywords: 'AWS certification, AWS exam prep, AWS practice tests, AWS Solutions Architect, AWS Developer Associate, AWS CloudOps Engineer, AWS practice questions, cloud certification, AWS training, AWS study guide',
     canonical: 'https://nestedcerts.com/'
   })
   

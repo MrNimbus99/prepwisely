@@ -12,7 +12,7 @@ interface SEOProps {
 export const useSEO = ({
   title = 'NestedCerts - AWS Certification Exam Prep | Practice Tests & Study Platform',
   description = 'Ace your AWS certification exams with NestedCerts. Get daily practice tests, detailed analytics, 30-day study plans, and expert-crafted questions for all AWS certifications.',
-  keywords = 'AWS certification, AWS exam prep, AWS practice tests, AWS Solutions Architect, AWS Developer Associate, AWS SysOps Administrator',
+  keywords = 'AWS certification, AWS exam prep, AWS practice tests, AWS Solutions Architect, AWS Developer Associate, AWS CloudOps Engineer',
   canonical = 'https://nestedcerts.com/',
   ogImage = 'https://nestedcerts.com/og-image.jpg',
   noindex = false

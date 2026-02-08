@@ -192,17 +192,17 @@ export const certifications = [
   },
   { 
     id: 'sysops-administrator-associate', 
-    name: 'AWS Certified SysOps Administrator - Associate', 
+    name: 'AWS Certified CloudOps Engineer – Associate', 
     level: 'Associate', 
-    code: 'SOA-C02',
+    code: 'SOA-C03',
     description: 'Deploy, manage, and operate AWS systems',
     examDetails: { questions: 65, duration: 130, passingScore: 720 },
-    domains: ['Monitoring, Logging, and Remediation', 'Reliability and Business Continuity', 'Deployment, Provisioning, and Automation', 'Security and Compliance', 'Networking and Content Delivery', 'Cost and Performance Optimization'],
+    domains: ['Monitoring, Logging, and Remediation', 'Reliability and Business Continuity', 'Deployment, Provisioning, and Automation', 'Security and Compliance', 'Networking and Content Delivery'],
     isFree: false
   },
   { 
     id: 'data-engineer-associate', 
-    name: 'AWS Certified Data Engineer - Associate', 
+    name: 'AWS Certified Data Engineer – Associate', 
     level: 'Associate', 
     code: 'DEA-C01',
     description: 'Design and maintain data solutions on AWS',
@@ -212,7 +212,7 @@ export const certifications = [
   },
   { 
     id: 'machine-learning-engineer-associate', 
-    name: 'AWS Certified Machine Learning Engineer - Associate', 
+    name: 'AWS Certified Machine Learning Engineer – Associate', 
     level: 'Associate', 
     code: 'MLA-C01',
     description: 'Build and deploy ML solutions on AWS',
@@ -223,7 +223,7 @@ export const certifications = [
   // Professional (3)
   { 
     id: 'solutions-architect-professional', 
-    name: 'AWS Certified Solutions Architect - Professional', 
+    name: 'AWS Certified Solutions Architect – Professional', 
     level: 'Professional', 
     code: 'SAP-C02',
     description: 'Advanced AWS architecture design',
@@ -233,7 +233,7 @@ export const certifications = [
   },
   { 
     id: 'devops-engineer-professional', 
-    name: 'AWS Certified DevOps Engineer - Professional', 
+    name: 'AWS Certified DevOps Engineer – Professional', 
     level: 'Professional', 
     code: 'DOP-C02',
     description: 'Automate and optimize AWS operations',
@@ -243,7 +243,7 @@ export const certifications = [
   },
   { 
     id: 'generative-ai-developer-professional', 
-    name: 'AWS Certified Generative AI Developer - Professional', 
+    name: 'AWS Certified Generative AI Developer – Professional', 
     level: 'Professional', 
     code: 'AIP-C01',
     description: 'Build and deploy generative AI applications on AWS',

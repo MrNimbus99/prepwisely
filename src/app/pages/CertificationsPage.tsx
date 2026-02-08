@@ -11,8 +11,8 @@ import { CheckCircle, Star, Zap } from 'lucide-react'
 const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   useSEO({
     title: 'AWS Certifications - All Exams & Practice Tests | NestedCerts',
-    description: 'Prepare for all AWS certifications including Solutions Architect, Developer, SysOps Administrator, DevOps Engineer, Security, and specialty certifications. Comprehensive practice tests and study materials for Associate and Professional levels.',
-    keywords: 'AWS certifications, AWS Solutions Architect Associate, AWS Solutions Architect Professional, AWS Developer Associate, AWS SysOps Administrator, AWS DevOps Engineer, AWS Security Specialty, AWS certification list',
+    description: 'Prepare for all AWS certifications including Solutions Architect, Developer, CloudOps Engineer, DevOps Engineer, Security, and specialty certifications. Comprehensive practice tests and study materials for Associate and Professional levels.',
+    keywords: 'AWS certifications, AWS Solutions Architect Associate, AWS Solutions Architect Professional, AWS Developer Associate, AWS CloudOps Engineer, AWS DevOps Engineer, AWS Security Specialty, AWS certification list',
     canonical: 'https://nestedcerts.com/certifications'
   })
   
