@@ -164,7 +164,8 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',
       'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-specialty': 'cert-advanced-networking-professional',
+      'generative-ai-developer-professional': 'cert-generative-ai-developer-professional',
+      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
       'security-specialty': 'cert-security-specialty',
       'machine-learning-specialty': 'cert-machine-learning-specialty'
     }

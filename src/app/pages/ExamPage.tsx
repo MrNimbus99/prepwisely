@@ -173,7 +173,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',
       'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
       'security-specialty': 'cert-security-specialty',
       'machine-learning-specialty': 'cert-machine-learning-specialty',
       'database-specialty': 'cert-database-specialty'
@@ -196,7 +196,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',
       'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
       'security-specialty': 'cert-security-specialty',
       'machine-learning-specialty': 'cert-machine-learning-specialty',
       'database-specialty': 'cert-database-specialty'
@@ -216,7 +216,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',
       'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
       'security-specialty': 'cert-security-specialty',
       'machine-learning-specialty': 'cert-machine-learning-specialty',
       'database-specialty': 'cert-database-specialty'
