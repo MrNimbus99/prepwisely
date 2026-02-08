@@ -142,11 +142,7 @@ const ArticlesPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     {article.title}
                   </h3>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                      <TrendingUp className="w-4 h-4" />
-                      <span className="font-medium">{article.views} views</span>
-                    </div>
+                  <div className="flex items-center justify-end text-sm">
                     <span className="text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-1 transition-transform">
                       Read →
                     </span>
