@@ -413,15 +413,46 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               ) : (
                 <div className="space-y-4">
                   {getFlaggedByCert(certification.code).map((flagged) => (
-                    <Card key={flagged.questionId} className="bg-white dark:bg-slate-900 p-4 hover:shadow-lg transition-shadow">
+                    <Card key={flagged.questionId} className="bg-white dark:bg-slate-900 p-4 sm:p-6 hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-3">
                         <Flag className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-1" fill="currentColor" />
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm sm:text-base text-slate-900 dark:text-white mb-2">
+                          <p className="text-sm sm:text-base text-slate-900 dark:text-white mb-4 font-medium">
                             {flagged.questionText}
                           </p>
+                          
+                          {/* Answer Options */}
+                          <div className="space-y-2 mb-4">
+                            {flagged.options.map((option, idx) => {
+                              const isCorrect = option === flagged.correctAnswer
+                              return (
+                                <div
+                                  key={idx}
+                                  className={`p-3 rounded-lg border-2 transition-colors ${
+                                    isCorrect
+                                      ? 'bg-green-50 dark:bg-green-950/20 border-green-500 dark:border-green-600'
+                                      : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700'
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-2">
+                                    <span className={`font-bold flex-shrink-0 ${
+                                      isCorrect ? 'text-green-700 dark:text-green-400' : 'text-slate-600 dark:text-slate-400'
+                                    }`}>
+                                      {String.fromCharCode(65 + idx)}.
+                                    </span>
+                                    <span className={`text-sm ${
+                                      isCorrect ? 'text-green-900 dark:text-green-100 font-medium' : 'text-slate-700 dark:text-slate-300'
+                                    }`}>
+                                      {option}
+                                    </span>
+                                  </div>
+                                </div>
+                              )
+                            })}
+                          </div>
+                          
                           <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-                            <span className="font-mono">{flagged.quizId.toUpperCase()}</span>
+                            <span className="font-mono">Quiz {flagged.quizId}</span>
                             <span>•</span>
                             <span>{new Date(flagged.flaggedAt).toLocaleDateString()}</span>
                           </div>

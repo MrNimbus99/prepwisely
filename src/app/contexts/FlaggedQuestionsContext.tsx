@@ -6,12 +6,14 @@ interface FlaggedQuestion {
   certId: string
   quizId: string
   questionText: string
+  options: string[]
+  correctAnswer: string
   flaggedAt: number
 }
 
 interface FlaggedQuestionsContextType {
   flaggedQuestions: FlaggedQuestion[]
-  toggleFlag: (certId: string, quizId: string, questionId: string, questionText: string) => void
+  toggleFlag: (certId: string, quizId: string, questionId: string, questionText: string, options: string[], correctAnswer: string) => void
   isFlagged: (questionId: string) => boolean
   getFlaggedByCert: (certId: string) => FlaggedQuestion[]
   removeFlagged: (questionId: string) => void
@@ -54,14 +56,14 @@ export const FlaggedQuestionsProvider: React.FC<{ children: ReactNode }> = ({ ch
     }
   }
 
-  const toggleFlag = (certId: string, quizId: string, questionId: string, questionText: string) => {
+  const toggleFlag = (certId: string, quizId: string, questionId: string, questionText: string, options: string[], correctAnswer: string) => {
     const existing = flaggedQuestions.find(q => q.questionId === questionId)
     let newFlagged: FlaggedQuestion[]
     
     if (existing) {
       newFlagged = flaggedQuestions.filter(q => q.questionId !== questionId)
     } else {
-      newFlagged = [...flaggedQuestions, { questionId, certId, quizId, questionText, flaggedAt: Date.now() }]
+      newFlagged = [...flaggedQuestions, { questionId, certId, quizId, questionText, options, correctAnswer, flaggedAt: Date.now() }]
     }
     
     setFlaggedQuestions(newFlagged)

@@ -312,7 +312,12 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     {question?.questionText}
                   </h3>
                   <button
-                    onClick={() => toggleFlag(certId, quizId, question?.questionId || '', question?.questionText || '')}
+                    onClick={() => {
+                      const correctAnswerText = Array.isArray(question?.correctAnswer) 
+                        ? question?.options[question.correctAnswer[0]] || ''
+                        : question?.options[question?.correctAnswer as number] || ''
+                      toggleFlag(certId, quizId, question?.questionId || '', question?.questionText || '', question?.options || [], correctAnswerText)
+                    }}
                     className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
                       isFlagged(question?.questionId || '')
                         ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
