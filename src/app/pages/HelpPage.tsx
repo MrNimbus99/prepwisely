@@ -87,10 +87,10 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400'
     },
     {
-      title: 'Feature Requests',
-      description: 'Suggest new features or improvements',
+      title: 'Browse Articles',
+      description: 'Read helpful guides and tips',
       icon: HelpCircle,
-      action: () => onNavigate('contact-support'),
+      action: () => onNavigate('articles'),
       color: 'bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-400'
     }
   ]
