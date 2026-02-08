@@ -14,6 +14,7 @@ interface CertificationArticleProps extends NavigationProps {
   quizCount: number
   questionsPerQuiz: number
   domains: string[]
+  domainTasks?: { domain: string; tasks: string[] }[]
 }
 
 const CertificationArticle: React.FC<CertificationArticleProps> = ({
@@ -24,7 +25,8 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
   level,
   quizCount,
   questionsPerQuiz,
-  domains
+  domains,
+  domainTasks
 }) => {
   useSEO({
     title: `${certName} (${certCode}) - 30-Day Learning Path | NestedCerts`,
@@ -123,6 +125,28 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
                 ))}
               </div>
             </div>
+
+            {/* Domain Tasks */}
+            {domainTasks && domainTasks.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">What You'll Learn by Domain</h2>
+                <div className="space-y-4">
+                  {domainTasks.map((dt, idx) => (
+                    <Card key={idx} className="p-5 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-3">{dt.domain}</h3>
+                      <ul className="space-y-2">
+                        {dt.tasks.map((task, taskIdx) => (
+                          <li key={taskIdx} className="flex gap-2 text-sm text-slate-700 dark:text-slate-300">
+                            <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
+                            <span>{task}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* How It Works */}
             <div>
