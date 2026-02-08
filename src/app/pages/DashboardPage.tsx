@@ -15,6 +15,7 @@ interface CertificationCard {
   progress: number
   totalQuizzes: number
   completedQuizzes: number
+  completedExams: number
   isUnlocked: boolean
   gradient: string
 }
@@ -141,11 +142,14 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const certifications: CertificationCard[] = allCertifications.map(cert => {
     const { completed, percentage } = getProgress(cert.id, 32)
+    const completedQuizzes = Math.min(completed, 30)
+    const completedExams = Math.max(0, completed - 30)
     return {
       ...cert,
       progress: percentage,
       totalQuizzes: 32,
-      completedQuizzes: completed
+      completedQuizzes: completedQuizzes,
+      completedExams: completedExams
     }
   })
 
@@ -356,7 +360,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           <div className="flex items-center justify-between text-sm mb-2">
                             <span className="text-slate-600 dark:text-slate-400">Progress</span>
                             <span className="font-semibold text-slate-900 dark:text-white">
-                              {cert.completedQuizzes}/30 Quizzes • 2 Exams
+                              {cert.completedQuizzes}/30 Quizzes • {cert.completedExams}/2 Exams
                             </span>
                           </div>
                           <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
