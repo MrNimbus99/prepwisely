@@ -75,68 +75,110 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
             </div>
           </Card>
 
-          <div className="prose prose-slate dark:prose-invert max-w-none">
-            <h2>How the 30-Day Learning Path Works</h2>
-            <p>
-              Our structured learning path for the {certName} is designed to help you master all exam domains through {quizCount} carefully crafted quizzes, each containing {questionsPerQuiz} questions.
-            </p>
-
-            <h3>Quiz Structure</h3>
-            <ul>
-              <li><strong>{questionsPerQuiz} questions per quiz</strong> - 15 single-answer + 5 multiple-response questions</li>
-              <li><strong>Domain-focused approach</strong> - Quizzes 1-19 focus on specific exam domains and tasks</li>
-              <li><strong>Service-category quizzes</strong> - Quizzes 20-28 group questions by AWS service categories</li>
-              <li><strong>Mixed reviews</strong> - Quizzes 29-30 provide comprehensive final reviews</li>
-            </ul>
-
-            <h3>Exam Domains Covered</h3>
-            <div className="not-prose grid gap-3 my-6">
-              {domains.map((domain, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span className="text-slate-900 dark:text-white font-medium">{domain}</span>
+          <div className="space-y-8">
+            {/* What You'll Get */}
+            <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-2 border-blue-200 dark:border-blue-800">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">What You'll Get</h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">600 Practice Questions</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">15 single-answer + 5 multiple-choice per quiz</div>
+                  </div>
                 </div>
-              ))}
+                <div className="flex gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Detailed Explanations</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Learn why each answer is right or wrong</div>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Real Exam Scenarios</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Questions mirror actual AWS exam style</div>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Progress Tracking</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Monitor your improvement over time</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Exam Domains */}
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Exam Domains Covered</h2>
+              <div className="grid gap-3">
+                {domains.map((domain, index) => (
+                  <div key={index} className="flex items-start gap-3 p-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-lg hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-slate-900 dark:text-white font-medium">{domain}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <h3>Question Quality Standards</h3>
-            <ul>
-              <li><strong>Original content</strong> - All questions are uniquely written, not copied from dumps or other sources</li>
-              <li><strong>Scenario-based</strong> - Real-world situations that mirror actual exam questions</li>
-              <li><strong>Detailed explanations</strong> - Every answer includes comprehensive explanations of why it's correct and why other options are wrong</li>
-              <li><strong>No duplicates</strong> - Each question has a unique ID and concept, tracked in our global ledger</li>
-            </ul>
+            {/* How It Works */}
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">How the 30-Day Path Works</h2>
+              <div className="grid md:grid-cols-3 gap-4">
+                <Card className="p-5 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">Phase 1</div>
+                  <div className="font-semibold text-slate-900 dark:text-white mb-2">Domain Mastery</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300">Quizzes 1-19 focus on specific exam domains and tasks</div>
+                </Card>
+                <Card className="p-5 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+                  <div className="text-3xl font-bold text-green-600 mb-2">Phase 2</div>
+                  <div className="font-semibold text-slate-900 dark:text-white mb-2">Service Deep-Dive</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300">Quizzes 20-28 group by AWS service categories</div>
+                </Card>
+                <Card className="p-5 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+                  <div className="text-3xl font-bold text-purple-600 mb-2">Phase 3</div>
+                  <div className="font-semibold text-slate-900 dark:text-white mb-2">Final Review</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300">Quizzes 29-30 mix all domains for exam simulation</div>
+                </Card>
+              </div>
+            </div>
 
-            <h3>Learning Phases</h3>
-            
-            <h4>Phase A: Task-Focused Learning (Quizzes 1-19)</h4>
-            <p>
-              Work through each exam domain systematically, with dedicated quizzes for specific tasks followed by domain review quizzes.
-            </p>
-
-            <h4>Phase B: Service-Category Mastery (Quizzes 20-28)</h4>
-            <p>
-              Focus on AWS services grouped by category (Machine Learning, Security, Analytics, Database, etc.) to reinforce service-specific knowledge.
-            </p>
-
-            <h4>Phase C: Final Mixed Reviews (Quizzes 29-30)</h4>
-            <p>
-              Comprehensive review quizzes that mix questions across all domains to simulate the actual exam experience.
-            </p>
-
-            <h3>Study Recommendations</h3>
-            <ul>
-              <li><strong>One quiz per day</strong> - Complete one quiz daily to finish the path in 30 days</li>
-              <li><strong>Review explanations</strong> - Read all explanations, even for questions you answered correctly</li>
-              <li><strong>Track your progress</strong> - Monitor your scores to identify weak areas</li>
-              <li><strong>Revisit difficult topics</strong> - Return to quizzes where you scored below 70%</li>
-              <li><strong>Take practice exams</strong> - Complete full-length practice exams after finishing all 30 quizzes</li>
-            </ul>
-
-            <h3>Ready to Start?</h3>
-            <p>
-              Begin your {certName} preparation journey today with our comprehensive 30-day learning path.
-            </p>
+            {/* Study Tips */}
+            <Card className="p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Study Tips for Success</h2>
+              <div className="space-y-3">
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    <span className="text-blue-600 dark:text-blue-400 font-bold">1</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Take one quiz daily</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Consistent practice builds retention</div>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
+                    <span className="text-green-600 dark:text-green-400 font-bold">2</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Read all explanations</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Even for questions you got right</div>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center flex-shrink-0">
+                    <span className="text-purple-600 dark:text-purple-400 font-bold">3</span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-slate-900 dark:text-white">Review weak areas</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Retake quizzes where you scored below 70%</div>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </div>
 
           <div className="mt-8 flex gap-4">
