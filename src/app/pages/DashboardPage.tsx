@@ -356,7 +356,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           <div className="flex items-center justify-between text-sm mb-2">
                             <span className="text-slate-600 dark:text-slate-400">Progress</span>
                             <span className="font-semibold text-slate-900 dark:text-white">
-                              {cert.completedQuizzes}/{cert.totalQuizzes} Quizzes
+                              {cert.completedQuizzes}/30 Quizzes • 2 Exams
                             </span>
                           </div>
                           <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
