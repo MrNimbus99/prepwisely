@@ -10,7 +10,7 @@ const ArticlesPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const categories = [
-    { name: 'Getting Started', icon: Sparkles, color: 'blue', count: 2 },
+    { name: 'Getting Started', icon: Sparkles, color: 'blue', count: 3 },
     { name: 'Foundational', icon: BookOpen, color: 'green', count: 2 },
     { name: 'Associate', icon: Award, color: 'purple', count: 5 },
     { name: 'Professional', icon: TrendingUp, color: 'orange', count: 3 },
@@ -21,6 +21,7 @@ const ArticlesPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const articles = [
     { title: 'How does the 30-day learning path work?', category: 'Getting Started', views: '2.1k', readTime: '3 min', page: 'article-30day' as PageName },
+    { title: 'How to use flagged questions for better study', category: 'Getting Started', views: 'New', readTime: '3 min', page: 'article-flagged' as PageName },
     { title: 'What is the upgrade pricing system?', category: 'Billing', views: '1.8k', readTime: '2 min', page: 'article-upgrade' as PageName },
     { title: 'How to interpret my exam results?', category: 'Practice Exams', views: '1.5k', readTime: '4 min', page: 'article-results' as PageName },
     { title: 'Can I cancel my subscription anytime?', category: 'Billing', views: '1.2k', readTime: '2 min', page: 'article-cancel' as PageName },

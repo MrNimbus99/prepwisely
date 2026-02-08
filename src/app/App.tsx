@@ -22,6 +22,7 @@ import ArticleUpgradePricing from './pages/ArticleUpgradePricing'
 import ArticleExamResults from './pages/ArticleExamResults'
 import ArticleCancelSubscription from './pages/ArticleCancelSubscription'
 import ArticleQuestionUpdates from './pages/ArticleQuestionUpdates'
+import ArticleFlaggedQuestions from './pages/ArticleFlaggedQuestions'
 import AccessibilityPage from './pages/AccessibilityPage'
 import RefundPolicyPage from './pages/RefundPolicyPage'
 import LoginPage from './pages/LoginPage'
@@ -108,6 +109,7 @@ const AppContent: React.FC = () => {
       <Route path="/article-results" element={<ArticleExamResults onNavigate={handleNavigate} />} />
       <Route path="/article-cancel" element={<ArticleCancelSubscription onNavigate={handleNavigate} />} />
       <Route path="/article-updates" element={<ArticleQuestionUpdates onNavigate={handleNavigate} />} />
+      <Route path="/article-flagged" element={<ArticleFlaggedQuestions onNavigate={handleNavigate} />} />
       <Route path="/terms" element={<TermsPage onNavigate={handleNavigate} />} />
       <Route path="/privacy" element={<PrivacyPage onNavigate={handleNavigate} />} />
       <Route path="/accessibility" element={<AccessibilityPage onNavigate={handleNavigate} />} />

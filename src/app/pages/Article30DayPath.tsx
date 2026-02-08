@@ -109,10 +109,30 @@ const Article30DayPath: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <span className="text-blue-600 dark:text-blue-400 font-bold">5</span>
                 </div>
                 <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Flag Questions for Review</h3>
+                  <p className="text-slate-800 dark:text-slate-100">Mark challenging questions with the flag button to review later. Access all your flagged questions in the "Flagged Questions" tab.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-shrink-0 w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                  <span className="text-blue-600 dark:text-blue-400 font-bold">6</span>
+                </div>
+                <div>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Take Full Practice Exams</h3>
                   <p className="text-slate-800 dark:text-slate-100">After completing the 30-day path, take full-length 65-question practice exams to simulate the real exam experience.</p>
                 </div>
               </div>
+            </div>
+
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-8">Flagged Questions Feature</h2>
+            <p className="text-slate-800 dark:text-slate-100 mb-4 leading-relaxed">
+              While studying, you can flag any question that you find challenging or want to review later. Simply click the flag icon next to the question text. All your flagged questions are saved and can be accessed from the "Flagged Questions" tab on your certification page.
+            </p>
+            <div className="bg-yellow-50 dark:bg-yellow-950/20 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-8">
+              <p className="text-slate-800 dark:text-slate-100">
+                <strong>💡 Study Tip:</strong> Flag questions you get wrong or find confusing. Review your flagged questions before taking the final practice exams to reinforce weak areas.
+              </p>
             </div>
 
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-8">Key Benefits</h2>
