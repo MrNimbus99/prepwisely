@@ -1,7 +1,7 @@
 export const CERTIFICATIONS = {
   // Foundational (2)
   'cloud-practitioner': {
-    name: 'AWS Cloud Practitioner',
+    name: 'AWS Certified Cloud Practitioner',
     domains: [
       'Cloud Concepts',
       'Security and Compliance',
@@ -10,7 +10,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'ai-practitioner': {
-    name: 'AWS AI Practitioner',
+    name: 'AWS Certified AI Practitioner',
     domains: [
       'Fundamentals of AI and ML',
       'Fundamentals of Generative AI',
@@ -21,7 +21,7 @@ export const CERTIFICATIONS = {
   },
   // Associate (5)
   'solutions-architect-associate': {
-    name: 'Solutions Architect Associate',
+    name: 'AWS Certified Solutions Architect - Associate',
     domains: [
       'Design Resilient Architectures',
       'Design High-Performing Architectures',
@@ -30,7 +30,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'developer-associate': {
-    name: 'Developer Associate',
+    name: 'AWS Certified Developer - Associate',
     domains: [
       'Development with AWS Services',
       'Security',
@@ -39,7 +39,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'sysops-administrator-associate': {
-    name: 'SysOps Administrator Associate',
+    name: 'AWS Certified SysOps Administrator - Associate',
     domains: [
       'Monitoring, Logging, and Remediation',
       'Reliability and Business Continuity',
@@ -50,7 +50,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'data-engineer-associate': {
-    name: 'Data Engineer Associate',
+    name: 'AWS Certified Data Engineer - Associate',
     domains: [
       'Data Ingestion and Transformation',
       'Data Store Management',
@@ -59,7 +59,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'machine-learning-engineer-associate': {
-    name: 'Machine Learning Engineer Associate',
+    name: 'AWS Certified Machine Learning Engineer - Associate',
     domains: [
       'Data Preparation for ML',
       'ML Model Development',
@@ -69,7 +69,7 @@ export const CERTIFICATIONS = {
   },
   // Professional (3)
   'solutions-architect-professional': {
-    name: 'Solutions Architect Professional',
+    name: 'AWS Certified Solutions Architect - Professional',
     domains: [
       'Design Solutions for Organizational Complexity',
       'Design for New Solutions',
@@ -78,7 +78,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'devops-engineer-professional': {
-    name: 'DevOps Engineer Professional',
+    name: 'AWS Certified DevOps Engineer - Professional',
     domains: [
       'SDLC Automation',
       'Configuration Management and IaC',
@@ -89,7 +89,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'advanced-networking-professional': {
-    name: 'Advanced Networking Professional',
+    name: 'AWS Certified Advanced Networking - Specialty',
     domains: [
       'Network Design',
       'Network Implementation',
@@ -99,7 +99,7 @@ export const CERTIFICATIONS = {
   },
   // Specialty (3)
   'security-specialty': {
-    name: 'Security Specialty',
+    name: 'AWS Certified Security - Specialty',
     domains: [
       'Incident Response',
       'Logging and Monitoring',
@@ -109,7 +109,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'machine-learning-specialty': {
-    name: 'Machine Learning Specialty',
+    name: 'AWS Certified Machine Learning - Specialty',
     domains: [
       'Data Engineering',
       'Exploratory Data Analysis',
@@ -118,13 +118,22 @@ export const CERTIFICATIONS = {
     ]
   },
   'database-specialty': {
-    name: 'Database Specialty',
+    name: 'AWS Certified Database - Specialty',
     domains: [
       'Workload-Specific Database Design',
       'Deployment and Migration',
       'Management and Operations',
       'Monitoring and Troubleshooting',
       'Database Security'
+    ]
+  },
+  'generative-ai-developer-professional': {
+    name: 'AWS Certified Generative AI Developer - Professional',
+    domains: [
+      'Generative AI Fundamentals',
+      'Foundation Models',
+      'Application Development',
+      'Security and Governance'
     ]
   }
 }
@@ -140,7 +149,7 @@ export const certifications = [
   // Foundational (2)
   { 
     id: 'cloud-practitioner', 
-    name: 'AWS Cloud Practitioner', 
+    name: 'AWS Certified Cloud Practitioner', 
     level: 'Foundational', 
     code: 'CLF-C02',
     description: 'Foundational understanding of AWS Cloud',
@@ -150,7 +159,7 @@ export const certifications = [
   },
   { 
     id: 'ai-practitioner', 
-    name: 'AWS AI Practitioner', 
+    name: 'AWS Certified AI Practitioner', 
     level: 'Foundational', 
     code: 'AIF-C01',
     description: 'Foundational understanding of AI and ML on AWS',
@@ -161,7 +170,7 @@ export const certifications = [
   // Associate (5)
   { 
     id: 'solutions-architect-associate', 
-    name: 'Solutions Architect Associate', 
+    name: 'AWS Certified Solutions Architect - Associate', 
     level: 'Associate', 
     code: 'SAA-C03',
     description: 'Design and deploy scalable systems on AWS',
@@ -171,7 +180,7 @@ export const certifications = [
   },
   { 
     id: 'developer-associate', 
-    name: 'Developer Associate', 
+    name: 'AWS Certified Developer - Associate', 
     level: 'Associate', 
     code: 'DVA-C02',
     description: 'Develop and maintain AWS applications',
@@ -181,7 +190,7 @@ export const certifications = [
   },
   { 
     id: 'sysops-administrator-associate', 
-    name: 'SysOps Administrator Associate', 
+    name: 'AWS Certified SysOps Administrator - Associate', 
     level: 'Associate', 
     code: 'SOA-C02',
     description: 'Deploy, manage, and operate AWS systems',
@@ -191,7 +200,7 @@ export const certifications = [
   },
   { 
     id: 'data-engineer-associate', 
-    name: 'Data Engineer Associate', 
+    name: 'AWS Certified Data Engineer - Associate', 
     level: 'Associate', 
     code: 'DEA-C01',
     description: 'Design and maintain data solutions on AWS',
@@ -201,7 +210,7 @@ export const certifications = [
   },
   { 
     id: 'machine-learning-engineer-associate', 
-    name: 'Machine Learning Engineer Associate', 
+    name: 'AWS Certified Machine Learning Engineer - Associate', 
     level: 'Associate', 
     code: 'MLA-C01',
     description: 'Build and deploy ML solutions on AWS',
@@ -212,7 +221,7 @@ export const certifications = [
   // Professional (3)
   { 
     id: 'solutions-architect-professional', 
-    name: 'Solutions Architect Professional', 
+    name: 'AWS Certified Solutions Architect - Professional', 
     level: 'Professional', 
     code: 'SAP-C02',
     description: 'Advanced AWS architecture design',
@@ -222,7 +231,7 @@ export const certifications = [
   },
   { 
     id: 'devops-engineer-professional', 
-    name: 'DevOps Engineer Professional', 
+    name: 'AWS Certified DevOps Engineer - Professional', 
     level: 'Professional', 
     code: 'DOP-C02',
     description: 'Automate and optimize AWS operations',
@@ -231,9 +240,19 @@ export const certifications = [
     isFree: false
   },
   { 
-    id: 'advanced-networking-professional', 
-    name: 'Advanced Networking Professional', 
+    id: 'generative-ai-developer-professional', 
+    name: 'AWS Certified Generative AI Developer - Professional', 
     level: 'Professional', 
+    code: 'AIP-C01',
+    description: 'Build and deploy generative AI applications on AWS',
+    examDetails: { questions: 75, duration: 180, passingScore: 750 },
+    domains: ['Generative AI Fundamentals', 'Foundation Models', 'Application Development', 'Security and Governance'],
+    isFree: false
+  },
+  { 
+    id: 'advanced-networking-professional', 
+    name: 'AWS Certified Advanced Networking - Specialty', 
+    level: 'Specialty', 
     code: 'ANS-C01',
     description: 'Design and implement AWS and hybrid network architectures',
     examDetails: { questions: 65, duration: 170, passingScore: 750 },
@@ -243,7 +262,7 @@ export const certifications = [
   // Specialty (3)
   { 
     id: 'security-specialty', 
-    name: 'Security Specialty', 
+    name: 'AWS Certified Security - Specialty', 
     level: 'Specialty', 
     code: 'SCS-C02',
     description: 'Secure AWS workloads and applications',
@@ -253,7 +272,7 @@ export const certifications = [
   },
   { 
     id: 'machine-learning-specialty', 
-    name: 'Machine Learning Specialty', 
+    name: 'AWS Certified Machine Learning - Specialty', 
     level: 'Specialty', 
     code: 'MLS-C01',
     description: 'Build, train, and deploy ML models on AWS',
@@ -263,7 +282,7 @@ export const certifications = [
   },
   { 
     id: 'database-specialty', 
-    name: 'Database Specialty', 
+    name: 'AWS Certified Database - Specialty', 
     level: 'Specialty', 
     code: 'DBS-C01',
     description: 'Design and maintain AWS database solutions',
