@@ -3,6 +3,7 @@ import { NavigationProps } from '../types'
 import { useSEO } from '../hooks/useSEO'
 import { Header } from '../components/layout/Header'
 import { certifications } from '../data/certifications'
+import { getBadgeUrl } from '../data/certBadges'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -148,9 +149,21 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       </div>
 
                       <div className="relative p-6">
-                        {/* Icon */}
-                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mb-4 shadow-lg`}>
-                          <CheckCircle className="w-8 h-8 text-white" />
+                        {/* Badge Image */}
+                        <div className="w-20 h-20 mb-4">
+                          <img 
+                            src={getBadgeUrl(cert.code)} 
+                            alt={`${cert.name} badge`}
+                            className="w-full h-full object-contain drop-shadow-lg"
+                            onError={(e) => {
+                              // Fallback to icon if image fails
+                              e.currentTarget.style.display = 'none'
+                              e.currentTarget.nextElementSibling?.classList.remove('hidden')
+                            }}
+                          />
+                          <div className={`hidden w-20 h-20 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-lg`}>
+                            <CheckCircle className="w-10 h-10 text-white" />
+                          </div>
                         </div>
 
                         {/* Content */}
