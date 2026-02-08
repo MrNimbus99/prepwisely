@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NavigationProps, PageName } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { useQuiz } from '../contexts/QuizContext'
+import { getBadgeUrl } from '../data/certBadges'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Trophy, LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard, MapPin, Phone, Package, History } from 'lucide-react'
@@ -329,9 +330,13 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 )}
 
                 <div className="relative p-4 sm:p-6">
-                  {/* Icon */}
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${cert.gradient} flex items-center justify-center mb-3 sm:mb-4 shadow-lg ${cert.isUnlocked ? 'group-hover:scale-110' : ''} transition-transform duration-300`}>
-                    <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  {/* Badge Image */}
+                  <div className={`mb-3 sm:mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-16 h-16 sm:w-20 sm:h-20' : 'w-12 h-12 sm:w-16 sm:h-16'}`}>
+                    <img 
+                      src={getBadgeUrl(cert.code)} 
+                      alt={`${cert.name} badge`}
+                      className={`w-full h-full object-contain drop-shadow-lg ${cert.isUnlocked ? 'group-hover:scale-110' : ''} transition-transform duration-300`}
+                    />
                   </div>
 
                   {/* Content */}
