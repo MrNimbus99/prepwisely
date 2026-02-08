@@ -39,12 +39,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     const storedCertId = sessionStorage.getItem('currentCertId')
     
     if (storedQuizId) {
-      const quizNumber = parseInt(storedQuizId)
-      // Convert number to API format: 1-30 = quiz-1 to quiz-30, 31-32 = exam-1 to exam-2
-      const apiQuizId = quizNumber <= 30 
-        ? `quiz-${quizNumber}` 
-        : `exam-${quizNumber - 30}`
-      setQuizId(apiQuizId)
+      // Use the quiz number directly (1-32)
+      setQuizId(storedQuizId)
     }
     if (storedCertId) setCertId(storedCertId)
     setStartTime(Date.now())
