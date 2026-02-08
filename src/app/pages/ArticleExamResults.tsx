@@ -50,9 +50,9 @@ const ArticleExamResults: React.FC<NavigationProps> = ({ onNavigate }) => {
               <Card className="bg-green-50 dark:bg-green-950/30 p-6 border-2 border-green-200 dark:border-green-700">
                 <div className="flex items-center gap-3 mb-3">
                   <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">Pass (82%+)</h3>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white">Pass (75%+)</h3>
                 </div>
-                <p className="text-slate-800 dark:text-slate-100">Excellent! You're ready for the real exam. Scoring 82%+ on our practice exams indicates strong preparation.</p>
+                <p className="text-slate-800 dark:text-slate-100">Excellent! You're ready for the real exam. Scoring 75%+ on our practice exams indicates strong preparation.</p>
               </Card>
 
               <Card className="bg-yellow-50 dark:bg-yellow-950/30 p-6 border-2 border-yellow-200 dark:border-yellow-700">
@@ -85,7 +85,7 @@ const ArticleExamResults: React.FC<NavigationProps> = ({ onNavigate }) => {
             <div className="space-y-4 mb-8">
               <div className="border-l-4 border-blue-500 pl-4">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Overall Score</h3>
-                <p className="text-slate-800 dark:text-slate-100">Percentage of questions answered correctly. AWS exams typically require 70-75% to pass, but we recommend 82%+ on practice exams.</p>
+                <p className="text-slate-800 dark:text-slate-100">Percentage of questions answered correctly. AWS exams typically require 70-75% to pass, and we recommend aiming for 75%+ on our practice exams to ensure you're well-prepared.</p>
               </div>
 
               <div className="border-l-4 border-purple-500 pl-4">
@@ -107,7 +107,7 @@ const ArticleExamResults: React.FC<NavigationProps> = ({ onNavigate }) => {
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-8">What to Do Next</h2>
             <ol className="space-y-3 list-decimal list-inside text-slate-800 dark:text-slate-100 mb-8">
               <li className="leading-relaxed"><strong>Review all explanations</strong> - Read explanations for both correct and incorrect answers</li>
-              <li className="leading-relaxed"><strong>Focus on weak domains</strong> - Spend extra time studying areas where you scored below 70%</li>
+              <li className="leading-relaxed"><strong>Focus on weak domains</strong> - Spend extra time studying areas where you scored below 75%</li>
               <li className="leading-relaxed"><strong>Retake the exam</strong> - Practice makes perfect. Retake exams to reinforce learning</li>
               <li className="leading-relaxed"><strong>Track your progress</strong> - Monitor score improvements over time on your dashboard</li>
             </ol>

@@ -174,7 +174,7 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
                   </div>
                   <div>
                     <div className="font-semibold text-slate-900 dark:text-white">Review weak areas</div>
-                    <div className="text-sm text-slate-600 dark:text-slate-300">Retake quizzes where you scored below 70%</div>
+                    <div className="text-sm text-slate-600 dark:text-slate-300">Retake quizzes where you scored below 75%</div>
                   </div>
                 </div>
               </div>

@@ -229,7 +229,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     answer !== null && questions[idx] && checkAnswer(answer, questions[idx].correctAnswer)
   ).length
   const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0
-  const passed = score >= 82
+  const passed = score >= 75
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -456,7 +456,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <p className={`text-xs sm:text-base font-semibold ${
                     passed ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400'
                   }`}>
-                    {passed ? '✓ Passed - You need 82% or higher' : '✗ Failed - You need 82% or higher to pass'}
+                    {passed ? '✓ Passed - You need 75% or higher' : '✗ Failed - You need 75% or higher to pass'}
                   </p>
                 </div>
               </div>
