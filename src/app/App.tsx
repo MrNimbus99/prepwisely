@@ -33,6 +33,19 @@ import ExamPage from './pages/ExamPage'
 import NotFoundPage from './pages/NotFoundPage'
 import CancellationPolicyPage from './pages/CancellationPolicyPage'
 import ArticlesPage from './pages/ArticlesPage'
+import AIPractitionerArticle from './pages/articles/AIPractitionerArticle'
+import CloudPractitionerArticle from './pages/articles/CloudPractitionerArticle'
+import SolutionsArchitectAssociateArticle from './pages/articles/SolutionsArchitectAssociateArticle'
+import DeveloperAssociateArticle from './pages/articles/DeveloperAssociateArticle'
+import SysOpsAdministratorArticle from './pages/articles/SysOpsAdministratorArticle'
+import DataEngineerArticle from './pages/articles/DataEngineerArticle'
+import MLEngineerArticle from './pages/articles/MLEngineerArticle'
+import SolutionsArchitectProfessionalArticle from './pages/articles/SolutionsArchitectProfessionalArticle'
+import DevOpsEngineerArticle from './pages/articles/DevOpsEngineerArticle'
+import GenAIDeveloperArticle from './pages/articles/GenAIDeveloperArticle'
+import SecuritySpecialtyArticle from './pages/articles/SecuritySpecialtyArticle'
+import MLSpecialtyArticle from './pages/articles/MLSpecialtyArticle'
+import AdvancedNetworkingArticle from './pages/articles/AdvancedNetworkingArticle'
 import AdminDashboard from './pages/AdminDashboard'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -74,6 +87,19 @@ const AppContent: React.FC = () => {
       <Route path="/pricing" element={<PricingPage onNavigate={handleNavigate} />} />
       <Route path="/help" element={<HelpPage onNavigate={handleNavigate} />} />
       <Route path="/articles" element={<ArticlesPage onNavigate={handleNavigate} />} />
+      <Route path="/article-ai-practitioner" element={<AIPractitionerArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-cloud-practitioner" element={<CloudPractitionerArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-solutions-architect-associate" element={<SolutionsArchitectAssociateArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-developer-associate" element={<DeveloperAssociateArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-sysops-administrator" element={<SysOpsAdministratorArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-data-engineer" element={<DataEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-ml-engineer" element={<MLEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-solutions-architect-professional" element={<SolutionsArchitectProfessionalArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-devops-engineer" element={<DevOpsEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-genai-developer" element={<GenAIDeveloperArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-security-specialty" element={<SecuritySpecialtyArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-ml-specialty" element={<MLSpecialtyArticle onNavigate={handleNavigate} />} />
+      <Route path="/article-advanced-networking" element={<AdvancedNetworkingArticle onNavigate={handleNavigate} />} />
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
       <Route path="/contact-support" element={<ContactSupportPage onNavigate={handleNavigate} />} />
       <Route path="/article-30day" element={<Article30DayPath onNavigate={handleNavigate} />} />

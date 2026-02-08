@@ -10,36 +10,19 @@ const ArticlesPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const popularArticles = [
-    {
-      title: 'How does the 30-day learning path work?',
-      category: 'Getting Started',
-      views: '2.1k views',
-      page: 'article-30day' as PageName
-    },
-    {
-      title: 'What is the upgrade pricing system?',
-      category: 'Billing',
-      views: '1.8k views',
-      page: 'article-upgrade' as PageName
-    },
-    {
-      title: 'How to interpret my exam results?',
-      category: 'Practice Exams',
-      views: '1.5k views',
-      page: 'article-results' as PageName
-    },
-    {
-      title: 'Can I cancel my subscription anytime?',
-      category: 'Billing',
-      views: '1.2k views',
-      page: 'article-cancel' as PageName
-    },
-    {
-      title: 'How often are questions updated?',
-      category: 'Practice Exams',
-      views: '980 views',
-      page: 'article-updates' as PageName
-    }
+    { title: 'AWS Certified AI Practitioner (AIF-C01) - 30-Day Learning Path', category: 'Foundational', views: '3.2k views', page: 'article-ai-practitioner' as PageName },
+    { title: 'AWS Certified Solutions Architect – Associate (SAA-C03)', category: 'Associate', views: '5.8k views', page: 'article-solutions-architect-associate' as PageName },
+    { title: 'AWS Certified Developer – Associate (DVA-C02)', category: 'Associate', views: '4.2k views', page: 'article-developer-associate' as PageName },
+    { title: 'AWS Certified CloudOps Engineer – Associate (SOA-C03)', category: 'Associate', views: '3.5k views', page: 'article-sysops-administrator' as PageName },
+    { title: 'AWS Certified Data Engineer – Associate (DEA-C01)', category: 'Associate', views: '4.1k views', page: 'article-data-engineer' as PageName },
+    { title: 'AWS Certified Machine Learning Engineer – Associate (MLA-C01)', category: 'Associate', views: '3.8k views', page: 'article-ml-engineer' as PageName },
+    { title: 'AWS Certified Solutions Architect – Professional (SAP-C02)', category: 'Professional', views: '4.5k views', page: 'article-solutions-architect-professional' as PageName },
+    { title: 'AWS Certified DevOps Engineer – Professional (DOP-C02)', category: 'Professional', views: '3.9k views', page: 'article-devops-engineer' as PageName },
+    { title: 'AWS Certified Generative AI Developer – Professional (AIP-C01)', category: 'Professional', views: '2.8k views', page: 'article-genai-developer' as PageName },
+    { title: 'AWS Certified Security – Specialty (SCS-C03)', category: 'Specialty', views: '3.6k views', page: 'article-security-specialty' as PageName },
+    { title: 'AWS Certified Machine Learning – Specialty (MLS-C01)', category: 'Specialty', views: '3.4k views', page: 'article-ml-specialty' as PageName },
+    { title: 'AWS Certified Advanced Networking – Specialty (ANS-C01)', category: 'Specialty', views: '2.9k views', page: 'article-advanced-networking' as PageName },
+    { title: 'AWS Certified Cloud Practitioner (CLF-C02) - 30-Day Learning Path', category: 'Foundational', views: '6.1k views', page: 'article-cloud-practitioner' as PageName }
   ]
 
   useSEO({
