@@ -113,20 +113,12 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
         <div className="relative p-6">
           {/* Badge Image */}
-          <div className="w-20 h-20 mb-4">
+          <div className="w-24 h-24 mb-4 flex items-center justify-center">
             <img 
               src={getBadgeUrl(cert.code)} 
               alt={`${cert.name} badge`}
               className="w-full h-full object-contain drop-shadow-lg"
-              onError={(e) => {
-                // Fallback to icon if image fails
-                e.currentTarget.style.display = 'none'
-                e.currentTarget.nextElementSibling?.classList.remove('hidden')
-              }}
             />
-            <div className={`hidden w-20 h-20 rounded-2xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-lg`}>
-              <Crown className="w-10 h-10 text-white" />
-            </div>
           </div>
 
           {/* Content */}
