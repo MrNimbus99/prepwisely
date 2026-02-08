@@ -284,9 +284,9 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
             >
               <Flag className="w-5 h-5" />
               Flagged Questions
-              {getFlaggedByCert(certId).length > 0 && (
+              {getFlaggedByCert(certification.code).length > 0 && (
                 <span className="bg-yellow-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                  {getFlaggedByCert(certId).length}
+                  {getFlaggedByCert(certification.code).length}
                 </span>
               )}
               {activeTab === 'flagged' && (
@@ -400,7 +400,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
           ) : (
             /* Flagged Questions View */
             <div>
-              {getFlaggedByCert(certId).length === 0 ? (
+              {getFlaggedByCert(certification.code).length === 0 ? (
                 <Card className="bg-white dark:bg-slate-900 p-8 text-center">
                   <Flag className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
@@ -412,7 +412,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                 </Card>
               ) : (
                 <div className="space-y-4">
-                  {getFlaggedByCert(certId).map((flagged) => (
+                  {getFlaggedByCert(certification.code).map((flagged) => (
                     <Card key={flagged.questionId} className="bg-white dark:bg-slate-900 p-4 hover:shadow-lg transition-shadow">
                       <div className="flex items-start gap-3">
                         <Flag className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-1" fill="currentColor" />
