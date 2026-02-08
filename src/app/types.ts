@@ -3,6 +3,7 @@ export type PageName =
   | 'certifications' 
   | 'pricing'
   | 'help'
+  | 'articles'
   | 'terms'
   | 'privacy'
   | 'faq'

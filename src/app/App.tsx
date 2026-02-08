@@ -32,6 +32,7 @@ import CertificationDetailPage from './pages/CertificationDetailPage'
 import ExamPage from './pages/ExamPage'
 import NotFoundPage from './pages/NotFoundPage'
 import CancellationPolicyPage from './pages/CancellationPolicyPage'
+import ArticlesPage from './pages/ArticlesPage'
 import AdminDashboard from './pages/AdminDashboard'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -72,6 +73,7 @@ const AppContent: React.FC = () => {
       <Route path="/certifications" element={<CertificationsPage onNavigate={handleNavigate} />} />
       <Route path="/pricing" element={<PricingPage onNavigate={handleNavigate} />} />
       <Route path="/help" element={<HelpPage onNavigate={handleNavigate} />} />
+      <Route path="/articles" element={<ArticlesPage onNavigate={handleNavigate} />} />
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
       <Route path="/contact-support" element={<ContactSupportPage onNavigate={handleNavigate} />} />
       <Route path="/article-30day" element={<Article30DayPath onNavigate={handleNavigate} />} />

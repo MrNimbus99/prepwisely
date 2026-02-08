@@ -422,6 +422,7 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <h3 className="font-semibold text-white mb-4">Support</h3>
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => onNavigate('help')} className="hover:text-white transition-colors">Help Center</button></li>
+                <li><button onClick={() => onNavigate('articles')} className="hover:text-white transition-colors">Articles</button></li>
                 <li><button onClick={() => onNavigate('contact-support')} className="hover:text-white transition-colors">Contact</button></li>
                 <li><button onClick={() => onNavigate('faq')} className="hover:text-white transition-colors">FAQ</button></li>
               </ul>

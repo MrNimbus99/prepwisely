@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { NavigationProps, PageName } from '../types'
+import { NavigationProps } from '../types'
 import { useSEO } from '../hooks/useSEO'
 import { Header } from '../components/layout/Header'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
-import { Badge } from '../components/ui/badge'
 import { 
   Search,
   BookOpen,
@@ -69,39 +68,6 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         'Email preferences',
         'Deleting your account'
       ]
-    }
-  ]
-
-  const popularArticles = [
-    {
-      title: 'How does the 30-day learning path work?',
-      category: 'Getting Started',
-      views: '2.1k views',
-      page: 'article-30day' as PageName
-    },
-    {
-      title: 'What is the upgrade pricing system?',
-      category: 'Billing',
-      views: '1.8k views',
-      page: 'article-upgrade' as PageName
-    },
-    {
-      title: 'How to interpret my exam results?',
-      category: 'Practice Exams',
-      views: '1.5k views',
-      page: 'article-results' as PageName
-    },
-    {
-      title: 'Can I cancel my subscription anytime?',
-      category: 'Billing',
-      views: '1.2k views',
-      page: 'article-cancel' as PageName
-    },
-    {
-      title: 'How often are questions updated?',
-      category: 'Practice Exams',
-      views: '980 views',
-      page: 'article-updates' as PageName
     }
   ]
 
@@ -188,33 +154,6 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </Card>
               )
             })}
-          </div>
-
-          {/* Popular Articles */}
-          <div className="mb-10 sm:mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">
-              Popular Articles
-            </h2>
-            <div className="space-y-4">
-              {popularArticles.map((article, index) => (
-                <Card 
-                  key={index} 
-                  onClick={() => onNavigate(article.page)}
-                  className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]"
-                >
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{article.title}</CardTitle>
-                      <div className="flex items-center gap-4 text-sm">
-                        <Badge variant="outline" className="text-slate-700 dark:text-slate-100 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800">{article.category}</Badge>
-                        <span className="text-slate-600 dark:text-slate-200 font-medium">{article.views}</span>
-                      </div>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all" />
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
           </div>
 
           {/* Categories */}
