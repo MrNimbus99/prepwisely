@@ -417,7 +417,7 @@ const ViewQuestions: React.FC = () => {
                       {q.explanation && (
                         <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
                           <span className="font-semibold text-blue-900 dark:text-blue-300">Explanation:</span>
-                          <p className="text-slate-700 dark:text-slate-300 mt-1">{q.explanation}</p>
+                          <div className="text-slate-700 dark:text-slate-300 mt-1 whitespace-pre-line">{q.explanation}</div>
                         </div>
                       )}
                     </>
