@@ -400,9 +400,12 @@ const ViewQuestions: React.FC = () => {
                       </p>
                       <div className="space-y-2 mb-3">
                         {q.options?.map((opt: string, i: number) => {
-                          const isCorrect = Array.isArray(q.correctAnswer) 
-                            ? q.correctAnswer.includes(i)
-                            : i === q.correctAnswer
+                          const correctAnswers = Array.isArray(q.correctAnswer) 
+                            ? q.correctAnswer 
+                            : typeof q.correctAnswer === 'string' && q.correctAnswer.includes(',')
+                              ? q.correctAnswer.split(',').map((n: string) => parseInt(n.trim()))
+                              : [q.correctAnswer]
+                          const isCorrect = correctAnswers.includes(i)
                           return (
                             <div key={i} className={`px-3 py-2 rounded ${isCorrect ? 'bg-green-100 dark:bg-green-900/30 border-2 border-green-500' : 'bg-slate-100 dark:bg-slate-800'}`}>
                               <span className="font-semibold">{String.fromCharCode(65 + i)}.</span> {opt}
