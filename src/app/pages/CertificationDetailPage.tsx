@@ -240,6 +240,258 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     32: { domain: "Final Exam", task: "Practice Exam 2" }
   }
 
+  // Quiz metadata for Data Engineer Associate
+  const deaQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Data Ingestion", task: "Task 1.1: Streaming/batch reads" },
+    2: { domain: "Data Ingestion", task: "Task 1.1: Throttling & fan-in/out" },
+    3: { domain: "Data Ingestion", task: "Task 1.2: Transform services" },
+    4: { domain: "Data Ingestion", task: "Task 1.2: Containers & debugging" },
+    5: { domain: "Data Ingestion", task: "Task 1.3: Orchestration" },
+    6: { domain: "Data Ingestion", task: "Task 1.3: Serverless workflows" },
+    7: { domain: "Data Ingestion", task: "Task 1.4: Performance optimization" },
+    8: { domain: "Data Ingestion", task: "Task 1.4: IaC & CI/CD" },
+    9: { domain: "Data Ingestion", task: "Domain 1 Review" },
+    10: { domain: "Data Store Management", task: "Task 2.1: Choose data store" },
+    11: { domain: "Data Store Management", task: "Task 2.1: Federated queries" },
+    12: { domain: "Data Store Management", task: "Task 2.2: Data Catalog" },
+    13: { domain: "Data Store Management", task: "Task 2.3: Lifecycle & retention" },
+    14: { domain: "Data Store Management", task: "Task 2.4: Schema design" },
+    15: { domain: "Data Store Management", task: "Domain 2 Review" },
+    16: { domain: "Data Operations", task: "Task 3.1: Automation" },
+    17: { domain: "Data Operations", task: "Task 3.2: Analytics & visualization" },
+    18: { domain: "Data Operations", task: "Task 3.3: Monitoring & logging" },
+    19: { domain: "Data Operations", task: "Task 3.4: Data quality" },
+    20: { domain: "Data Operations", task: "Domain 3 Review" },
+    21: { domain: "Security & Governance", task: "Task 4.1: Authentication" },
+    22: { domain: "Security & Governance", task: "Task 4.2: Authorization" },
+    23: { domain: "Security & Governance", task: "Task 4.3: Encryption & masking" },
+    24: { domain: "Security & Governance", task: "Task 4.4: Audit logs" },
+    25: { domain: "Security & Governance", task: "Task 4.5: Privacy & governance" },
+    26: { domain: "Security & Governance", task: "Domain 4 Review" },
+    27: { domain: "Data Ingestion", task: "Streaming + Eventing" },
+    28: { domain: "Data Store Management", task: "Lakehouse + Warehouse" },
+    29: { domain: "Security & Governance", task: "Security Edge" },
+    30: { domain: "Mixed Review (All Domains)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for DevOps Engineer Professional
+  const dopQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "SDLC Automation", task: "Task 1.1: CI/CD pipeline design" },
+    2: { domain: "SDLC Automation", task: "Task 1.2: Testing strategy" },
+    3: { domain: "SDLC Automation", task: "Task 1.3: Artifacts management" },
+    4: { domain: "SDLC Automation", task: "Task 1.4: Deployment strategies" },
+    5: { domain: "IaC & Config Mgmt", task: "Task 2.1: CloudFormation/CDK/SAM" },
+    6: { domain: "IaC & Config Mgmt", task: "Task 2.2: Account vending" },
+    7: { domain: "IaC & Config Mgmt", task: "Task 2.3: Automation at scale" },
+    8: { domain: "Resilience & DR", task: "Task 3.1: Multi-AZ/Region HA" },
+    9: { domain: "Resilience & DR", task: "Task 3.2: Scaling strategies" },
+    10: { domain: "Resilience & DR", task: "Task 3.3: RTO/RPO & recovery" },
+    11: { domain: "Observability", task: "Task 4.1: Log/metric pipelines" },
+    12: { domain: "Observability", task: "Task 4.2: Detection & dashboards" },
+    13: { domain: "Observability", task: "Task 4.3: Event-driven monitoring" },
+    14: { domain: "Incident Response", task: "Task 5.1: Event sources" },
+    15: { domain: "Incident Response", task: "Task 5.2: Config remediation" },
+    16: { domain: "Incident Response", task: "Task 5.3: RCA for failures" },
+    17: { domain: "Security & Compliance", task: "Task 6.1: IAM at scale" },
+    18: { domain: "Security & Compliance", task: "Task 6.2: Automated controls" },
+    19: { domain: "Security & Compliance", task: "Task 6.3: Auditing & detection" },
+    20: { domain: "SDLC Automation", task: "Domain 1 Review" },
+    21: { domain: "IaC & Config Mgmt", task: "Domain 2 Review" },
+    22: { domain: "Resilience & DR", task: "Domain 3 Review" },
+    23: { domain: "Observability", task: "Domain 4 Review" },
+    24: { domain: "Incident Response", task: "Domain 5 Review" },
+    25: { domain: "Security & Compliance", task: "Domain 6 Review" },
+    26: { domain: "SDLC Automation", task: "CI/CD + DevTools" },
+    27: { domain: "IaC & Config Mgmt", task: "Multi-account governance" },
+    28: { domain: "Resilience & DR", task: "Networking delivery" },
+    29: { domain: "Observability", task: "Data/Storage/DR" },
+    30: { domain: "Mixed Review (Domains 1–6)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for GenAI Developer Professional
+  const aipQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "FM Integration & Data", task: "Task 1.1: Requirements & design" },
+    2: { domain: "FM Integration & Data", task: "Task 1.2: FM selection" },
+    3: { domain: "FM Integration & Data", task: "Task 1.3: Data validation" },
+    4: { domain: "FM Integration & Data", task: "Task 1.4: Vector stores" },
+    5: { domain: "FM Integration & Data", task: "Task 1.5: Retrieval mechanisms" },
+    6: { domain: "FM Integration & Data", task: "Task 1.6: Prompt engineering" },
+    7: { domain: "FM Integration & Data", task: "Domain 1 Review" },
+    8: { domain: "Implementation", task: "Task 2.1: Agentic AI" },
+    9: { domain: "Implementation", task: "Task 2.2: Model deployment" },
+    10: { domain: "Implementation", task: "Task 2.3: Enterprise integration" },
+    11: { domain: "Implementation", task: "Task 2.4: FM API integration" },
+    12: { domain: "Implementation", task: "Task 2.5: Dev tools" },
+    13: { domain: "Implementation", task: "Domain 2 Review" },
+    14: { domain: "AI Safety & Security", task: "Task 3.1: Input/output safety" },
+    15: { domain: "AI Safety & Security", task: "Task 3.2: Privacy & security" },
+    16: { domain: "AI Safety & Security", task: "Task 3.3: Governance" },
+    17: { domain: "AI Safety & Security", task: "Task 3.4: Responsible AI" },
+    18: { domain: "AI Safety & Security", task: "Domain 3 Review" },
+    19: { domain: "Operational Efficiency", task: "Task 4.1: Cost optimization" },
+    20: { domain: "Operational Efficiency", task: "Task 4.2: Performance optimization" },
+    21: { domain: "Operational Efficiency", task: "Task 4.3: Monitoring" },
+    22: { domain: "Operational Efficiency", task: "Domain 4 Review" },
+    23: { domain: "Testing & Troubleshooting", task: "Task 5.1: Evaluation systems" },
+    24: { domain: "Testing & Troubleshooting", task: "Task 5.2: Troubleshooting" },
+    25: { domain: "Testing & Troubleshooting", task: "Domain 5 Review" },
+    26: { domain: "FM Integration & Data", task: "RAG at scale" },
+    27: { domain: "Implementation", task: "Agents + workflows" },
+    28: { domain: "Implementation", task: "Enterprise integration" },
+    29: { domain: "Operational Efficiency", task: "Cost/perf/observability" },
+    30: { domain: "Mixed Review", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for ML Engineer Associate
+  const mlaQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Data Preparation", task: "Task 1.1: Ingest & store" },
+    2: { domain: "Data Preparation", task: "Task 1.1: Multi-source merge" },
+    3: { domain: "Data Preparation", task: "Task 1.2: Transform & feature eng" },
+    4: { domain: "Data Preparation", task: "Task 1.2: Encodings & labeling" },
+    5: { domain: "Data Preparation", task: "Task 1.3: Integrity & bias" },
+    6: { domain: "Data Preparation", task: "Task 1.3: Encryption & compliance" },
+    7: { domain: "Data Preparation", task: "Domain 1 Review" },
+    8: { domain: "Model Development", task: "Task 2.1: Modeling approach" },
+    9: { domain: "Model Development", task: "Task 2.2: Train & refine" },
+    10: { domain: "Model Development", task: "Task 2.2: HPO & ensembling" },
+    11: { domain: "Model Development", task: "Task 2.3: Performance metrics" },
+    12: { domain: "Model Development", task: "Task 2.3: Shadow testing" },
+    13: { domain: "Model Development", task: "Domain 2 Review" },
+    14: { domain: "Deployment", task: "Task 3.1: Deploy infra" },
+    15: { domain: "Deployment", task: "Task 3.1: Orchestrators" },
+    16: { domain: "Deployment", task: "Task 3.2: IaC & containers" },
+    17: { domain: "Deployment", task: "Task 3.2: BYOC containers" },
+    18: { domain: "Deployment", task: "Task 3.3: CI/CD pipelines" },
+    19: { domain: "Deployment", task: "Task 3.3: Retraining triggers" },
+    20: { domain: "Deployment", task: "Domain 3 Review" },
+    21: { domain: "Monitor & Maintain", task: "Task 4.1: Inference monitoring" },
+    22: { domain: "Monitor & Maintain", task: "Task 4.1: A/B testing" },
+    23: { domain: "Monitor & Maintain", task: "Task 4.2: Infra & cost KPIs" },
+    24: { domain: "Monitor & Maintain", task: "Task 4.2: CloudTrail & dashboards" },
+    25: { domain: "Monitor & Maintain", task: "Task 4.3: Security & IAM" },
+    26: { domain: "Monitor & Maintain", task: "Domain 4 Review" },
+    27: { domain: "Data Preparation", task: "Analytics + Lakehouse" },
+    28: { domain: "Model Development", task: "SageMaker Core" },
+    29: { domain: "Model Development", task: "Bedrock + AI Services" },
+    30: { domain: "Mixed Review (All Domains)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for Security Specialty
+  const scsQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Threat Detection", task: "Task 1.1: Monitoring & alerting" },
+    2: { domain: "Threat Detection", task: "Task 1.2: Logging solutions" },
+    3: { domain: "Threat Detection", task: "Task 1.3: Troubleshooting" },
+    4: { domain: "Threat Detection", task: "Domain 1 Review" },
+    5: { domain: "Incident Response", task: "Task 2.1: IR plan & testing" },
+    6: { domain: "Incident Response", task: "Task 2.2: Responding to events" },
+    7: { domain: "Incident Response", task: "Domain 2 Review" },
+    8: { domain: "Infrastructure Security", task: "Task 3.1: Edge security" },
+    9: { domain: "Infrastructure Security", task: "Task 3.2: Compute security" },
+    10: { domain: "Infrastructure Security", task: "Task 3.3: Network security" },
+    11: { domain: "Infrastructure Security", task: "Domain 3 Review" },
+    12: { domain: "Identity & Access Mgmt", task: "Task 4.1: Authentication" },
+    13: { domain: "Identity & Access Mgmt", task: "Task 4.2: Authorization" },
+    14: { domain: "Identity & Access Mgmt", task: "Domain 4 Review" },
+    15: { domain: "Data Protection", task: "Task 5.1: Data in transit" },
+    16: { domain: "Data Protection", task: "Task 5.2: Data at rest" },
+    17: { domain: "Data Protection", task: "Task 5.3: Secrets & keys" },
+    18: { domain: "Data Protection", task: "Domain 5 Review" },
+    19: { domain: "Management & Governance", task: "Task 6.1: Account management" },
+    20: { domain: "Management & Governance", task: "Task 6.2: Secure deployments" },
+    21: { domain: "Management & Governance", task: "Task 6.3: Compliance" },
+    22: { domain: "Management & Governance", task: "Domain 6 Review" },
+    23: { domain: "Threat Detection", task: "Security data lake" },
+    24: { domain: "Incident Response", task: "Ransomware resilience" },
+    25: { domain: "Infrastructure Security", task: "Edge protection" },
+    26: { domain: "Management & Governance", task: "Secure build pipeline" },
+    27: { domain: "Infrastructure Security", task: "Hybrid connectivity" },
+    28: { domain: "Identity & Access Mgmt", task: "IAM at scale" },
+    29: { domain: "Incident Response", task: "IR automation" },
+    30: { domain: "Mixed Review (Domains 1–6)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for Solutions Architect Professional
+  const sapQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Organizational Complexity", task: "Task 1.1: Network connectivity" },
+    2: { domain: "Organizational Complexity", task: "Task 1.2: Security controls" },
+    3: { domain: "Organizational Complexity", task: "Task 1.3: Reliable architectures" },
+    4: { domain: "Organizational Complexity", task: "Task 1.4: Multi-account" },
+    5: { domain: "Organizational Complexity", task: "Task 1.5: Cost visibility" },
+    6: { domain: "Organizational Complexity", task: "Domain 1 Review" },
+    7: { domain: "Design for New Solutions", task: "Task 2.1: Deployment strategy" },
+    8: { domain: "Design for New Solutions", task: "Task 2.2: Business continuity" },
+    9: { domain: "Design for New Solutions", task: "Task 2.3: Security controls" },
+    10: { domain: "Design for New Solutions", task: "Task 2.4: Reliability" },
+    11: { domain: "Design for New Solutions", task: "Task 2.5: Performance" },
+    12: { domain: "Design for New Solutions", task: "Task 2.6: Cost optimization" },
+    13: { domain: "Design for New Solutions", task: "Domain 2 Review A" },
+    14: { domain: "Design for New Solutions", task: "Domain 2 Review B" },
+    15: { domain: "Continuous Improvement", task: "Task 3.1: Operational excellence" },
+    16: { domain: "Continuous Improvement", task: "Task 3.2: Improve security" },
+    17: { domain: "Continuous Improvement", task: "Task 3.3: Improve performance" },
+    18: { domain: "Continuous Improvement", task: "Task 3.4: Improve reliability" },
+    19: { domain: "Continuous Improvement", task: "Task 3.5: Cost optimization" },
+    20: { domain: "Continuous Improvement", task: "Domain 3 Review" },
+    21: { domain: "Continuous Improvement", task: "Existing-solution capstone" },
+    22: { domain: "Migration & Modernization", task: "Task 4.1: Migration selection" },
+    23: { domain: "Migration & Modernization", task: "Task 4.2: Migration approach" },
+    24: { domain: "Migration & Modernization", task: "Task 4.3: New architecture" },
+    25: { domain: "Migration & Modernization", task: "Task 4.4: Modernization" },
+    26: { domain: "Migration & Modernization", task: "Domain 4 Review" },
+    27: { domain: "Organizational Complexity", task: "Org complexity capstone" },
+    28: { domain: "Design for New Solutions", task: "Resilience capstone" },
+    29: { domain: "Migration & Modernization", task: "Migration capstone" },
+    30: { domain: "Mixed Review (Domains 1–4)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
+  // Quiz metadata for Advanced Networking Specialty
+  const ansQuizMetadata: { [key: number]: { domain: string; task: string } } = {
+    1: { domain: "Network Design", task: "Task 1.1: Edge services" },
+    2: { domain: "Network Design", task: "Task 1.2: DNS solutions" },
+    3: { domain: "Network Design", task: "Task 1.3: Load balancing" },
+    4: { domain: "Network Design", task: "Task 1.4: Logging & monitoring" },
+    5: { domain: "Network Design", task: "Task 1.5: Hybrid routing" },
+    6: { domain: "Network Design", task: "Task 1.6: Multi-account connectivity" },
+    7: { domain: "Network Design", task: "Domain 1 Review" },
+    8: { domain: "Network Implementation", task: "Task 2.1: Hybrid implementation" },
+    9: { domain: "Network Implementation", task: "Task 2.2: Multi-account implementation" },
+    10: { domain: "Network Implementation", task: "Task 2.3: Complex DNS" },
+    11: { domain: "Network Implementation", task: "Task 2.4: Automation" },
+    12: { domain: "Network Implementation", task: "Domain 2 Review" },
+    13: { domain: "Network Management", task: "Task 3.1: Maintain routing" },
+    14: { domain: "Network Management", task: "Task 3.2: Monitor & troubleshoot" },
+    15: { domain: "Network Management", task: "Task 3.3: Optimize networks" },
+    16: { domain: "Network Management", task: "Domain 3 Review" },
+    17: { domain: "Security & Compliance", task: "Task 4.1: Security features" },
+    18: { domain: "Security & Compliance", task: "Task 4.2: Validate & audit" },
+    19: { domain: "Security & Compliance", task: "Task 4.3: Data confidentiality" },
+    20: { domain: "Security & Compliance", task: "Domain 4 Review" },
+    21: { domain: "Network Design", task: "Global architecture" },
+    22: { domain: "Network Design", task: "Multi-account hub" },
+    23: { domain: "Network Implementation", task: "Hybrid multi-site" },
+    24: { domain: "Network Implementation", task: "Private service exposure" },
+    25: { domain: "Network Implementation", task: "EKS networking" },
+    26: { domain: "Network Management", task: "Observability" },
+    27: { domain: "Network Management", task: "Cost & performance" },
+    28: { domain: "Security & Compliance", task: "Compliance perimeter" },
+    29: { domain: "Security & Compliance", task: "Automation & drift" },
+    30: { domain: "Mixed Review (Domains 1–4)", task: "Final Review" },
+    31: { domain: "Final Exam", task: "Practice Exam 1" },
+    32: { domain: "Final Exam", task: "Practice Exam 2" }
+  }
+
   const getQuizMetadata = (quizId: number) => {
     if (certId === 'cloud-practitioner') return clfQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'sysops-administrator-associate') return soaQuizMetadata[quizId] || { domain: "", task: "" }
@@ -247,6 +499,13 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     if (certId === 'machine-learning-specialty') return mlsQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'solutions-architect-associate') return saaQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'ai-practitioner') return aifQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'data-engineer-associate') return deaQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'devops-engineer-professional') return dopQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'generative-ai-developer-professional') return aipQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'machine-learning-engineer-associate') return mlaQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'security-specialty') return scsQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'solutions-architect-professional') return sapQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'advanced-networking-specialty') return ansQuizMetadata[quizId] || { domain: "", task: "" }
     return { domain: "", task: "" }
   }
 
