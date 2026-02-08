@@ -21,16 +21,16 @@ export const CERTIFICATIONS = {
   },
   // Associate (5)
   'solutions-architect-associate': {
-    name: 'AWS Certified Solutions Architect - Associate',
+    name: 'AWS Certified Solutions Architect – Associate',
     domains: [
+      'Design Secure Architectures',
       'Design Resilient Architectures',
       'Design High-Performing Architectures',
-      'Design Secure Applications and Architectures',
       'Design Cost-Optimized Architectures'
     ]
   },
   'developer-associate': {
-    name: 'AWS Certified Developer - Associate',
+    name: 'AWS Certified Developer – Associate',
     domains: [
       'Development with AWS Services',
       'Security',
@@ -39,18 +39,17 @@ export const CERTIFICATIONS = {
     ]
   },
   'sysops-administrator-associate': {
-    name: 'AWS Certified SysOps Administrator - Associate',
+    name: 'AWS Certified CloudOps Engineer – Associate',
     domains: [
-      'Monitoring, Logging, and Remediation',
+      'Monitoring, Logging, Analysis, Remediation, Performance Optimization',
       'Reliability and Business Continuity',
       'Deployment, Provisioning, and Automation',
       'Security and Compliance',
-      'Networking and Content Delivery',
-      'Cost and Performance Optimization'
+      'Networking and Content Delivery'
     ]
   },
   'data-engineer-associate': {
-    name: 'AWS Certified Data Engineer - Associate',
+    name: 'AWS Certified Data Engineer – Associate',
     domains: [
       'Data Ingestion and Transformation',
       'Data Store Management',
@@ -59,7 +58,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'machine-learning-engineer-associate': {
-    name: 'AWS Certified Machine Learning Engineer - Associate',
+    name: 'AWS Certified Machine Learning Engineer – Associate',
     domains: [
       'Data Preparation for ML',
       'ML Model Development',
@@ -69,7 +68,7 @@ export const CERTIFICATIONS = {
   },
   // Professional (3)
   'solutions-architect-professional': {
-    name: 'AWS Certified Solutions Architect - Professional',
+    name: 'AWS Certified Solutions Architect – Professional',
     domains: [
       'Design Solutions for Organizational Complexity',
       'Design for New Solutions',
@@ -78,7 +77,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'devops-engineer-professional': {
-    name: 'AWS Certified DevOps Engineer - Professional',
+    name: 'AWS Certified DevOps Engineer – Professional',
     domains: [
       'SDLC Automation',
       'Configuration Management and IaC',
@@ -88,8 +87,8 @@ export const CERTIFICATIONS = {
       'High Availability, Fault Tolerance, and Disaster Recovery'
     ]
   },
-  'advanced-networking-professional': {
-    name: 'AWS Certified Advanced Networking - Specialty',
+  'advanced-networking-specialty': {
+    name: 'AWS Certified Advanced Networking – Specialty',
     domains: [
       'Network Design',
       'Network Implementation',
@@ -99,7 +98,7 @@ export const CERTIFICATIONS = {
   },
   // Specialty (3)
   'security-specialty': {
-    name: 'AWS Certified Security - Specialty',
+    name: 'AWS Certified Security – Specialty',
     domains: [
       'Incident Response',
       'Logging and Monitoring',
@@ -109,7 +108,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'machine-learning-specialty': {
-    name: 'AWS Certified Machine Learning - Specialty',
+    name: 'AWS Certified Machine Learning – Specialty',
     domains: [
       'Data Engineering',
       'Exploratory Data Analysis',
@@ -128,7 +127,7 @@ export const CERTIFICATIONS = {
     ]
   },
   'generative-ai-developer-professional': {
-    name: 'AWS Certified Generative AI Developer - Professional',
+    name: 'AWS Certified Generative AI Developer – Professional',
     domains: [
       'Generative AI Fundamentals',
       'Foundation Models',
@@ -250,8 +249,8 @@ export const certifications = [
     isFree: false
   },
   { 
-    id: 'advanced-networking-professional', 
-    name: 'AWS Certified Advanced Networking - Specialty', 
+    id: 'advanced-networking-specialty', 
+    name: 'AWS Certified Advanced Networking – Specialty', 
     level: 'Specialty', 
     code: 'ANS-C01',
     description: 'Design and implement AWS and hybrid network architectures',
@@ -262,9 +261,9 @@ export const certifications = [
   // Specialty (3)
   { 
     id: 'security-specialty', 
-    name: 'AWS Certified Security - Specialty', 
+    name: 'AWS Certified Security – Specialty', 
     level: 'Specialty', 
-    code: 'SCS-C02',
+    code: 'SCS-C03',
     description: 'Secure AWS workloads and applications',
     examDetails: { questions: 65, duration: 170, passingScore: 750 },
     domains: ['Incident Response', 'Logging and Monitoring', 'Infrastructure Security', 'Identity and Access Management', 'Data Protection'],
@@ -272,7 +271,7 @@ export const certifications = [
   },
   { 
     id: 'machine-learning-specialty', 
-    name: 'AWS Certified Machine Learning - Specialty', 
+    name: 'AWS Certified Machine Learning – Specialty', 
     level: 'Specialty', 
     code: 'MLS-C01',
     description: 'Build, train, and deploy ML models on AWS',

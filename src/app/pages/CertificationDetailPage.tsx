@@ -36,54 +36,59 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     },
     // Associate (5)
     'solutions-architect-associate': {
-      name: 'AWS Solutions Architect Associate',
+      name: 'AWS Certified Solutions Architect – Associate',
       code: 'SAA-C03',
       gradient: 'from-blue-500 to-indigo-600'
     },
     'developer-associate': {
-      name: 'AWS Developer Associate',
+      name: 'AWS Certified Developer – Associate',
       code: 'DVA-C02',
       gradient: 'from-purple-500 to-pink-600'
     },
     'sysops-administrator-associate': {
-      name: 'AWS SysOps Administrator Associate',
-      code: 'SOA-C02',
+      name: 'AWS Certified CloudOps Engineer – Associate',
+      code: 'SOA-C03',
       gradient: 'from-orange-500 to-amber-600'
     },
     'data-engineer-associate': {
-      name: 'AWS Data Engineer Associate',
+      name: 'AWS Certified Data Engineer – Associate',
       code: 'DEA-C01',
       gradient: 'from-cyan-500 to-teal-600'
     },
     'machine-learning-engineer-associate': {
-      name: 'AWS Machine Learning Engineer Associate',
+      name: 'AWS Certified Machine Learning Engineer – Associate',
       code: 'MLA-C01',
       gradient: 'from-fuchsia-500 to-pink-600'
     },
     // Professional (3)
     'solutions-architect-professional': {
-      name: 'AWS Solutions Architect Professional',
+      name: 'AWS Certified Solutions Architect – Professional',
       code: 'SAP-C02',
       gradient: 'from-rose-500 to-red-600'
     },
     'devops-engineer-professional': {
-      name: 'AWS DevOps Engineer Professional',
+      name: 'AWS Certified DevOps Engineer – Professional',
       code: 'DOP-C02',
       gradient: 'from-slate-600 to-gray-700'
     },
-    'advanced-networking-professional': {
-      name: 'AWS Advanced Networking Professional',
+    'generative-ai-developer-professional': {
+      name: 'AWS Certified Generative AI Developer – Professional',
+      code: 'AIP-C01',
+      gradient: 'from-indigo-500 to-purple-600'
+    },
+    'advanced-networking-specialty': {
+      name: 'AWS Certified Advanced Networking – Specialty',
       code: 'ANS-C01',
       gradient: 'from-sky-500 to-blue-600'
     },
     // Specialty (3)
     'security-specialty': {
-      name: 'AWS Security Specialty',
-      code: 'SCS-C02',
+      name: 'AWS Certified Security – Specialty',
+      code: 'SCS-C03',
       gradient: 'from-emerald-500 to-green-600'
     },
     'machine-learning-specialty': {
-      name: 'AWS Machine Learning Specialty',
+      name: 'AWS Certified Machine Learning – Specialty',
       code: 'MLS-C01',
       gradient: 'from-lime-500 to-green-600'
     },

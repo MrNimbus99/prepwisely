@@ -48,7 +48,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     // Associate (5)
     {
       id: 'solutions-architect-associate',
-      name: 'AWS Solutions Architect Associate',
+      name: 'AWS Certified Solutions Architect – Associate',
       code: 'SAA-C03',
       level: 'Associate',
       gradient: 'from-blue-500 to-indigo-600',
@@ -56,7 +56,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     },
     {
       id: 'developer-associate',
-      name: 'AWS Developer Associate',
+      name: 'AWS Certified Developer – Associate',
       code: 'DVA-C02',
       level: 'Associate',
       gradient: 'from-purple-500 to-pink-600',
@@ -64,15 +64,15 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     },
     {
       id: 'sysops-administrator-associate',
-      name: 'AWS SysOps Administrator Associate',
-      code: 'SOA-C02',
+      name: 'AWS Certified CloudOps Engineer – Associate',
+      code: 'SOA-C03',
       level: 'Associate',
       gradient: 'from-orange-500 to-amber-600',
       isUnlocked: hasFullAccess
     },
     {
       id: 'data-engineer-associate',
-      name: 'AWS Data Engineer Associate',
+      name: 'AWS Certified Data Engineer – Associate',
       code: 'DEA-C01',
       level: 'Associate',
       gradient: 'from-cyan-500 to-teal-600',
@@ -80,7 +80,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     },
     {
       id: 'machine-learning-engineer-associate',
-      name: 'AWS Machine Learning Engineer Associate',
+      name: 'AWS Certified Machine Learning Engineer – Associate',
       code: 'MLA-C01',
       level: 'Associate',
       gradient: 'from-fuchsia-500 to-pink-600',
@@ -89,7 +89,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     // Professional (3)
     {
       id: 'solutions-architect-professional',
-      name: 'AWS Solutions Architect Professional',
+      name: 'AWS Certified Solutions Architect – Professional',
       code: 'SAP-C02',
       level: 'Professional',
       gradient: 'from-rose-500 to-red-600',
@@ -97,32 +97,40 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     },
     {
       id: 'devops-engineer-professional',
-      name: 'AWS DevOps Engineer Professional',
+      name: 'AWS Certified DevOps Engineer – Professional',
       code: 'DOP-C02',
       level: 'Professional',
       gradient: 'from-slate-600 to-gray-700',
       isUnlocked: hasFullAccess
     },
     {
-      id: 'advanced-networking-professional',
-      name: 'AWS Advanced Networking Professional',
-      code: 'ANS-C01',
+      id: 'generative-ai-developer-professional',
+      name: 'AWS Certified Generative AI Developer – Professional',
+      code: 'AIP-C01',
       level: 'Professional',
+      gradient: 'from-indigo-500 to-purple-600',
+      isUnlocked: hasFullAccess
+    },
+    {
+      id: 'advanced-networking-specialty',
+      name: 'AWS Certified Advanced Networking – Specialty',
+      code: 'ANS-C01',
+      level: 'Specialty',
       gradient: 'from-sky-500 to-blue-600',
       isUnlocked: hasFullAccess
     },
     // Specialty (3)
     {
       id: 'security-specialty',
-      name: 'AWS Security Specialty',
-      code: 'SCS-C02',
+      name: 'AWS Certified Security – Specialty',
+      code: 'SCS-C03',
       level: 'Specialty',
       gradient: 'from-emerald-500 to-green-600',
       isUnlocked: hasFullAccess
     },
     {
       id: 'machine-learning-specialty',
-      name: 'AWS Machine Learning Specialty',
+      name: 'AWS Certified Machine Learning – Specialty',
       code: 'MLS-C01',
       level: 'Specialty',
       gradient: 'from-lime-500 to-green-600',
@@ -164,7 +172,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',
       'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-professional': 'cert-advanced-networking-professional',
+      'advanced-networking-specialty': 'cert-advanced-networking-professional',
       'security-specialty': 'cert-security-specialty',
       'machine-learning-specialty': 'cert-machine-learning-specialty',
       'database-specialty': 'cert-database-specialty'
