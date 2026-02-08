@@ -2,6 +2,7 @@ export const CERTIFICATIONS = {
   // Foundational (2)
   'cloud-practitioner': {
     name: 'AWS Certified Cloud Practitioner',
+    code: 'CLF-C02',
     domains: [
       'Cloud Concepts',
       'Security and Compliance',
@@ -11,6 +12,7 @@ export const CERTIFICATIONS = {
   },
   'ai-practitioner': {
     name: 'AWS Certified AI Practitioner',
+    code: 'AIF-C01',
     domains: [
       'Fundamentals of AI and ML',
       'Fundamentals of Generative AI',
@@ -22,6 +24,7 @@ export const CERTIFICATIONS = {
   // Associate (5)
   'solutions-architect-associate': {
     name: 'AWS Certified Solutions Architect – Associate',
+    code: 'SAA-C03',
     domains: [
       'Design Secure Architectures',
       'Design Resilient Architectures',
@@ -31,6 +34,7 @@ export const CERTIFICATIONS = {
   },
   'developer-associate': {
     name: 'AWS Certified Developer – Associate',
+    code: 'DVA-C02',
     domains: [
       'Development with AWS Services',
       'Security',
@@ -40,6 +44,7 @@ export const CERTIFICATIONS = {
   },
   'sysops-administrator-associate': {
     name: 'AWS Certified CloudOps Engineer – Associate',
+    code: 'SOA-C03',
     domains: [
       'Monitoring, Logging, Analysis, Remediation, Performance Optimization',
       'Reliability and Business Continuity',
@@ -50,6 +55,7 @@ export const CERTIFICATIONS = {
   },
   'data-engineer-associate': {
     name: 'AWS Certified Data Engineer – Associate',
+    code: 'DEA-C01',
     domains: [
       'Data Ingestion and Transformation',
       'Data Store Management',
@@ -59,6 +65,7 @@ export const CERTIFICATIONS = {
   },
   'machine-learning-engineer-associate': {
     name: 'AWS Certified Machine Learning Engineer – Associate',
+    code: 'MLA-C01',
     domains: [
       'Data Preparation for ML',
       'ML Model Development',
@@ -69,6 +76,7 @@ export const CERTIFICATIONS = {
   // Professional (3)
   'solutions-architect-professional': {
     name: 'AWS Certified Solutions Architect – Professional',
+    code: 'SAP-C02',
     domains: [
       'Design Solutions for Organizational Complexity',
       'Design for New Solutions',
@@ -78,6 +86,7 @@ export const CERTIFICATIONS = {
   },
   'devops-engineer-professional': {
     name: 'AWS Certified DevOps Engineer – Professional',
+    code: 'DOP-C02',
     domains: [
       'SDLC Automation',
       'Configuration Management and IaC',
@@ -89,6 +98,7 @@ export const CERTIFICATIONS = {
   },
   'advanced-networking-specialty': {
     name: 'AWS Certified Advanced Networking – Specialty',
+    code: 'ANS-C01',
     domains: [
       'Network Design',
       'Network Implementation',
@@ -99,6 +109,7 @@ export const CERTIFICATIONS = {
   // Specialty (3)
   'security-specialty': {
     name: 'AWS Certified Security – Specialty',
+    code: 'SCS-C03',
     domains: [
       'Incident Response',
       'Logging and Monitoring',
@@ -109,6 +120,7 @@ export const CERTIFICATIONS = {
   },
   'machine-learning-specialty': {
     name: 'AWS Certified Machine Learning – Specialty',
+    code: 'MLS-C01',
     domains: [
       'Data Engineering',
       'Exploratory Data Analysis',
@@ -118,6 +130,7 @@ export const CERTIFICATIONS = {
   },
   'generative-ai-developer-professional': {
     name: 'AWS Certified Generative AI Developer – Professional',
+    code: 'AIP-C01',
     domains: [
       'Generative AI Fundamentals',
       'Foundation Models',
@@ -128,7 +141,7 @@ export const CERTIFICATIONS = {
 }
 
 export const QUIZ_TYPES = [
-  ...Array.from({ length: 30 }, (_, i) => ({ value: `quiz-${i + 1}`, label: `Quiz ${i + 1}` })),
+  ...Array.from({ length: 30 }, (_, i) => ({ value: `${i + 1}`, label: `Quiz ${i + 1}` })),
   { value: 'exam-1', label: 'Practice Exam 1' },
   { value: 'exam-2', label: 'Practice Exam 2' }
 ]

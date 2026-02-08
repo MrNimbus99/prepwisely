@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
@@ -12,7 +13,19 @@ import BillingManagement from './admin/BillingManagement'
 
 const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
-  const [activeTab, setActiveTab] = useState<'questions' | 'view-questions' | 'users' | 'billing'>('questions')
+  const location = useLocation()
+  const navigate = useNavigate()
+  
+  // Determine active tab from URL
+  const getActiveTab = () => {
+    const path = location.pathname
+    if (path.includes('/admin/view-questions')) return 'view-questions'
+    if (path.includes('/admin/users')) return 'users'
+    if (path.includes('/admin/billing')) return 'billing'
+    return 'questions'
+  }
+  
+  const activeTab = getActiveTab()
 
   const handleSignOut = async () => {
     await signOut()
@@ -61,7 +74,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-8">
             <button
-              onClick={() => setActiveTab('questions')}
+              onClick={() => navigate('/admin')}
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'questions'
                   ? 'border-blue-600 text-blue-600'
@@ -72,7 +85,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               Question Editor
             </button>
             <button
-              onClick={() => setActiveTab('view-questions')}
+              onClick={() => navigate('/admin/view-questions')}
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'view-questions'
                   ? 'border-blue-600 text-blue-600'
@@ -83,7 +96,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               View Questions
             </button>
             <button
-              onClick={() => setActiveTab('users')}
+              onClick={() => navigate('/admin/users')}
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'users'
                   ? 'border-blue-600 text-blue-600'
@@ -94,7 +107,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               User Management
             </button>
             <button
-              onClick={() => setActiveTab('billing')}
+              onClick={() => navigate('/admin/billing')}
               className={`py-4 px-2 border-b-2 font-medium transition-colors ${
                 activeTab === 'billing'
                   ? 'border-blue-600 text-blue-600'

@@ -114,7 +114,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       // Fetch counts for quizzes 1-30
       for (let i = 1; i <= 30; i++) {
         try {
-          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/quiz-${i}`)
+          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certification.code}/${i}`)
           const data = await response.json()
           counts[`quiz-${i}`] = Array.isArray(data) ? data.length : 0
         } catch (error) {
@@ -125,7 +125,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       // Fetch counts for final exams 1-2
       for (let i = 1; i <= 2; i++) {
         try {
-          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/exam-${i}`)
+          const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certification.code}/exam-${i}`)
           const data = await response.json()
           counts[`exam-${i}`] = Array.isArray(data) ? data.length : 0
         } catch (error) {

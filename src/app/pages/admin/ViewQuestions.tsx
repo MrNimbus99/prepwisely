@@ -5,7 +5,7 @@ import { CERTIFICATIONS, QUIZ_TYPES } from '../../data/certifications'
 
 const ViewQuestions: React.FC = () => {
   const [certId, setCertId] = useState('solutions-architect-associate')
-  const [quizId, setQuizId] = useState('quiz-1')
+  const [quizId, setQuizId] = useState('1')
   const [questions, setQuestions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -16,7 +16,9 @@ const ViewQuestions: React.FC = () => {
   const fetchQuestions = async () => {
     setLoading(true)
     try {
-      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}/all`)
+      // Use certification code (e.g., SAA-C03) and numeric quizId (e.g., 1, 2, exam-1)
+      const certCode = selectedCert?.code || certId
+      const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certCode}/${quizId}/all`)
       const data = await response.json()
       setQuestions(Array.isArray(data) ? data : [])
     } catch (error) {
