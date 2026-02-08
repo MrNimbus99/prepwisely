@@ -331,7 +331,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
                 <div className="relative p-4 sm:p-6">
                   {/* Badge Image */}
-                  <div className={`mb-3 sm:mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-16 h-16 sm:w-20 sm:h-20' : 'w-12 h-12 sm:w-16 sm:h-16'}`}>
+                  <div className={`mb-3 sm:mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-12 h-12 sm:w-16 sm:h-16'}`}>
                     <img 
                       src={getBadgeUrl(cert.code)} 
                       alt={`${cert.name} badge`}

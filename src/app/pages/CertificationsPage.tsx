@@ -150,7 +150,7 @@ const CertificationsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
                       <div className="relative p-6">
                         {/* Badge Image */}
-                        <div className={`mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-36 h-36' : 'w-24 h-24'}`}>
+                        <div className={`mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-40 h-40' : 'w-24 h-24'}`}>
                           <img 
                             src={getBadgeUrl(cert.code)} 
                             alt={`${cert.name} badge`}
