@@ -6,7 +6,7 @@ const MLEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="machine-learning-engineer-associate"
+      certId="aws-certified-machine-learning-engineer-associate-mla-c01"
       certName="AWS Certified Machine Learning Engineer – Associate"
       certCode="MLA-C01"
       level="Associate"

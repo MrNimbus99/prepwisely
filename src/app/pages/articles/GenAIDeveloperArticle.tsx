@@ -6,7 +6,7 @@ const GenAIDeveloperArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="generative-ai-developer-professional"
+      certId="aws-certified-generative-ai-developer-professional-aip-c01"
       certName="AWS Certified Generative AI Developer – Professional"
       certCode="AIP-C01"
       level="Professional"

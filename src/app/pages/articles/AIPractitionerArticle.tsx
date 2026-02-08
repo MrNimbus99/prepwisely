@@ -6,7 +6,7 @@ const AIPractitionerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="ai-practitioner"
+      certId="aws-certified-ai-practitioner-aif-c01"
       certName="AWS Certified AI Practitioner"
       certCode="AIF-C01"
       level="Foundational"

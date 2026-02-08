@@ -6,7 +6,7 @@ const SysOpsAdministratorArticle: React.FC<NavigationProps> = ({ onNavigate }) =
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="sysops-administrator-associate"
+      certId="aws-certified-cloudops-engineer-associate-soa-c03"
       certName="AWS Certified CloudOps Engineer – Associate"
       certCode="SOA-C03"
       level="Associate"

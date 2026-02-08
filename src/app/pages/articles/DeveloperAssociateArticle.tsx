@@ -6,7 +6,7 @@ const DeveloperAssociateArticle: React.FC<NavigationProps> = ({ onNavigate }) =>
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="developer-associate"
+      certId="aws-certified-developer-associate-dva-c02"
       certName="AWS Certified Developer – Associate"
       certCode="DVA-C02"
       level="Associate"

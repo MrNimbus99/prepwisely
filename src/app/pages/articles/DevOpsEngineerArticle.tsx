@@ -6,7 +6,7 @@ const DevOpsEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="devops-engineer-professional"
+      certId="aws-certified-devops-engineer-professional-dop-c02"
       certName="AWS Certified DevOps Engineer – Professional"
       certCode="DOP-C02"
       level="Professional"

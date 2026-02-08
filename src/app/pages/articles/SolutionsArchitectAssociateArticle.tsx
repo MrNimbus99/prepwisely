@@ -6,7 +6,7 @@ const SolutionsArchitectAssociateArticle: React.FC<NavigationProps> = ({ onNavig
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="solutions-architect-associate"
+      certId="aws-certified-solutions-architect-associate-saa-c03"
       certName="AWS Certified Solutions Architect – Associate"
       certCode="SAA-C03"
       level="Associate"

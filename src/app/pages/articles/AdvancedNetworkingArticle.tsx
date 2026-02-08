@@ -6,7 +6,7 @@ const AdvancedNetworkingArticle: React.FC<NavigationProps> = ({ onNavigate }) =>
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="advanced-networking-specialty"
+      certId="aws-certified-advanced-networking-specialty-ans-c01"
       certName="AWS Certified Advanced Networking – Specialty"
       certCode="ANS-C01"
       level="Specialty"

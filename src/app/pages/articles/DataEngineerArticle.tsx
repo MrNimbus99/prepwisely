@@ -6,7 +6,7 @@ const DataEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="data-engineer-associate"
+      certId="aws-certified-data-engineer-associate-dea-c01"
       certName="AWS Certified Data Engineer – Associate"
       certCode="DEA-C01"
       level="Associate"

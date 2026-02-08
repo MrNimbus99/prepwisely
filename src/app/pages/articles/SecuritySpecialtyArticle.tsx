@@ -6,7 +6,7 @@ const SecuritySpecialtyArticle: React.FC<NavigationProps> = ({ onNavigate }) => 
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="security-specialty"
+      certId="aws-certified-security-specialty-scs-c03"
       certName="AWS Certified Security – Specialty"
       certCode="SCS-C03"
       level="Specialty"

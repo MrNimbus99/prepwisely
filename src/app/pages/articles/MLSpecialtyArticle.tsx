@@ -6,7 +6,7 @@ const MLSpecialtyArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="machine-learning-specialty"
+      certId="aws-certified-machine-learning-specialty-mls-c01"
       certName="AWS Certified Machine Learning – Specialty"
       certCode="MLS-C01"
       level="Specialty"

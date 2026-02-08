@@ -6,7 +6,7 @@ const CloudPractitionerArticle: React.FC<NavigationProps> = ({ onNavigate }) => 
   return (
     <CertificationArticle
       onNavigate={onNavigate}
-      certId="cloud-practitioner"
+      certId="aws-certified-cloud-practitioner-clf-c02"
       certName="AWS Certified Cloud Practitioner"
       certCode="CLF-C02"
       level="Foundational"

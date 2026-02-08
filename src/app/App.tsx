@@ -87,19 +87,19 @@ const AppContent: React.FC = () => {
       <Route path="/pricing" element={<PricingPage onNavigate={handleNavigate} />} />
       <Route path="/help" element={<HelpPage onNavigate={handleNavigate} />} />
       <Route path="/articles" element={<ArticlesPage onNavigate={handleNavigate} />} />
-      <Route path="/article-ai-practitioner" element={<AIPractitionerArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-cloud-practitioner" element={<CloudPractitionerArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-solutions-architect-associate" element={<SolutionsArchitectAssociateArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-developer-associate" element={<DeveloperAssociateArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-sysops-administrator" element={<SysOpsAdministratorArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-data-engineer" element={<DataEngineerArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-ml-engineer" element={<MLEngineerArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-solutions-architect-professional" element={<SolutionsArchitectProfessionalArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-devops-engineer" element={<DevOpsEngineerArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-genai-developer" element={<GenAIDeveloperArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-security-specialty" element={<SecuritySpecialtyArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-ml-specialty" element={<MLSpecialtyArticle onNavigate={handleNavigate} />} />
-      <Route path="/article-advanced-networking" element={<AdvancedNetworkingArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-ai-practitioner-aif-c01" element={<AIPractitionerArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-cloud-practitioner-clf-c02" element={<CloudPractitionerArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-solutions-architect-associate-saa-c03" element={<SolutionsArchitectAssociateArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-developer-associate-dva-c02" element={<DeveloperAssociateArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-cloudops-engineer-associate-soa-c03" element={<SysOpsAdministratorArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-data-engineer-associate-dea-c01" element={<DataEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-machine-learning-engineer-associate-mla-c01" element={<MLEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-solutions-architect-professional-sap-c02" element={<SolutionsArchitectProfessionalArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-devops-engineer-professional-dop-c02" element={<DevOpsEngineerArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-generative-ai-developer-professional-aip-c01" element={<GenAIDeveloperArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-security-specialty-scs-c03" element={<SecuritySpecialtyArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-machine-learning-specialty-mls-c01" element={<MLSpecialtyArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-advanced-networking-specialty-ans-c01" element={<AdvancedNetworkingArticle onNavigate={handleNavigate} />} />
       <Route path="/faq" element={<FAQPage onNavigate={handleNavigate} />} />
       <Route path="/contact-support" element={<ContactSupportPage onNavigate={handleNavigate} />} />
       <Route path="/article-30day" element={<Article30DayPath onNavigate={handleNavigate} />} />
