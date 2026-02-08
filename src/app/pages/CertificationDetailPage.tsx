@@ -509,6 +509,26 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     return { domain: "", task: "" }
   }
 
+  // Exam durations (in minutes) based on AWS official times
+  const getExamDuration = () => {
+    const examDurations: { [key: string]: number } = {
+      'cloud-practitioner': 90,
+      'ai-practitioner': 120,
+      'solutions-architect-associate': 130,
+      'developer-associate': 130,
+      'sysops-administrator-associate': 130,
+      'data-engineer-associate': 130,
+      'machine-learning-engineer-associate': 130,
+      'solutions-architect-professional': 180,
+      'devops-engineer-professional': 180,
+      'generative-ai-developer-professional': 180,
+      'advanced-networking-specialty': 170,
+      'security-specialty': 170,
+      'machine-learning-specialty': 180
+    }
+    return examDurations[certId] || 180
+  }
+
   // Certification data
   const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
     // Foundational (2)
@@ -638,7 +658,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
         id: quizId,
         title: `Quiz ${quizId}`,
         questions: questionCount,
-        duration: questionCount, // 1 minute per question
+        duration: 30, // 30 minutes for all quizzes
         isCompleted: completion?.completed || false,
         score: completion?.score,
         isLocked: false
@@ -654,7 +674,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
         id: quizId,
         title: `Final Exam ${i + 1}`,
         questions: questionCount,
-        duration: questionCount, // 1 minute per question
+        duration: getExamDuration(), // AWS official exam time
         isCompleted: completion?.completed || false,
         score: completion?.score,
         isLocked: false,
