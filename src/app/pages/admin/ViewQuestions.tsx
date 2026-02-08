@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 import { Card } from '../../components/ui/card'
 import { CERTIFICATIONS, QUIZ_TYPES } from '../../data/certifications'
 
 const ViewQuestions: React.FC = () => {
-  const [certId, setCertId] = useState('solutions-architect-associate')
+  const { certId: urlCertId } = useParams<{ certId: string }>()
+  const navigate = useNavigate()
+  const [certId, setCertId] = useState(urlCertId || 'solutions-architect-associate')
   const [quizId, setQuizId] = useState('1')
   const [questions, setQuestions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
@@ -12,6 +15,13 @@ const ViewQuestions: React.FC = () => {
   const [editForm, setEditForm] = useState<any>({})
 
   const selectedCert = CERTIFICATIONS[certId as keyof typeof CERTIFICATIONS]
+  
+  // Update URL when cert changes
+  useEffect(() => {
+    if (certId !== urlCertId) {
+      navigate(`/admin/view-questions/${certId}`, { replace: true })
+    }
+  }, [certId, urlCertId, navigate])
 
   const fetchQuestions = async () => {
     setLoading(true)
