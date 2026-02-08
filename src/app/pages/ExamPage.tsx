@@ -155,28 +155,26 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const handleComplete = () => {
     // Save completion if passed
     if (passed) {
-      const quizNumber = quizId.startsWith('quiz-') 
-        ? parseInt(quizId.replace('quiz-', ''))
-        : parseInt(quizId.replace('exam-', '')) + 30
+      const quizNumber = parseInt(quizId)
       completeQuiz(certId, quizNumber, score)
     }
     // Navigate back to certification detail
-    const pageMap: { [key: string]: PageName } = {
-      'cloud-practitioner': 'cert-cloud-practitioner',
-      'ai-practitioner': 'cert-ai-practitioner',
-      'solutions-architect-associate': 'cert-solutions-architect-associate',
-      'developer-associate': 'cert-developer-associate',
-      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
-      'data-engineer-associate': 'cert-data-engineer-associate',
-      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
-      'solutions-architect-professional': 'cert-solutions-architect-professional',
-      'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
-      'security-specialty': 'cert-security-specialty',
-      'machine-learning-specialty': 'cert-machine-learning-specialty',
-      'database-specialty': 'cert-database-specialty'
+    const codeToPageMap: { [key: string]: PageName } = {
+      'CLF-C02': 'cert-cloud-practitioner',
+      'AIF-C01': 'cert-ai-practitioner',
+      'SAA-C03': 'cert-solutions-architect-associate',
+      'DVA-C02': 'cert-developer-associate',
+      'SOA-C03': 'cert-sysops-administrator-associate',
+      'DEA-C01': 'cert-data-engineer-associate',
+      'MLA-C01': 'cert-machine-learning-engineer-associate',
+      'SAP-C02': 'cert-solutions-architect-professional',
+      'DOP-C02': 'cert-devops-engineer-professional',
+      'AIP-C01': 'cert-generative-ai-developer-professional',
+      'ANS-C01': 'cert-advanced-networking-specialty',
+      'SCS-C03': 'cert-security-specialty',
+      'MLS-C01': 'cert-machine-learning-specialty'
     }
-    onNavigate(pageMap[certId] || 'dashboard')
+    onNavigate(codeToPageMap[certId] || 'dashboard')
   }
 
   const handleBackToCert = () => {
@@ -184,42 +182,43 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setShowExitModal(true)
       return
     }
-    const pageMap: { [key: string]: PageName } = {
-      'cloud-practitioner': 'cert-cloud-practitioner',
-      'ai-practitioner': 'cert-ai-practitioner',
-      'solutions-architect-associate': 'cert-solutions-architect-associate',
-      'developer-associate': 'cert-developer-associate',
-      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
-      'data-engineer-associate': 'cert-data-engineer-associate',
-      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
-      'solutions-architect-professional': 'cert-solutions-architect-professional',
-      'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
-      'security-specialty': 'cert-security-specialty',
-      'machine-learning-specialty': 'cert-machine-learning-specialty',
-      'database-specialty': 'cert-database-specialty'
+    // Map exam codes to page names
+    const codeToPageMap: { [key: string]: PageName } = {
+      'CLF-C02': 'cert-cloud-practitioner',
+      'AIF-C01': 'cert-ai-practitioner',
+      'SAA-C03': 'cert-solutions-architect-associate',
+      'DVA-C02': 'cert-developer-associate',
+      'SOA-C03': 'cert-sysops-administrator-associate',
+      'DEA-C01': 'cert-data-engineer-associate',
+      'MLA-C01': 'cert-machine-learning-engineer-associate',
+      'SAP-C02': 'cert-solutions-architect-professional',
+      'DOP-C02': 'cert-devops-engineer-professional',
+      'AIP-C01': 'cert-generative-ai-developer-professional',
+      'ANS-C01': 'cert-advanced-networking-specialty',
+      'SCS-C03': 'cert-security-specialty',
+      'MLS-C01': 'cert-machine-learning-specialty'
     }
-    onNavigate(pageMap[certId] || 'dashboard')
+    onNavigate(codeToPageMap[certId] || 'dashboard')
   }
 
   const confirmExit = () => {
     setShowExitModal(false)
-    const pageMap: { [key: string]: PageName } = {
-      'cloud-practitioner': 'cert-cloud-practitioner',
-      'ai-practitioner': 'cert-ai-practitioner',
-      'solutions-architect-associate': 'cert-solutions-architect-associate',
-      'developer-associate': 'cert-developer-associate',
-      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
-      'data-engineer-associate': 'cert-data-engineer-associate',
-      'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
-      'solutions-architect-professional': 'cert-solutions-architect-professional',
-      'devops-engineer-professional': 'cert-devops-engineer-professional',
-      'advanced-networking-specialty': 'cert-advanced-networking-specialty',
-      'security-specialty': 'cert-security-specialty',
-      'machine-learning-specialty': 'cert-machine-learning-specialty',
-      'database-specialty': 'cert-database-specialty'
+    const codeToPageMap: { [key: string]: PageName } = {
+      'CLF-C02': 'cert-cloud-practitioner',
+      'AIF-C01': 'cert-ai-practitioner',
+      'SAA-C03': 'cert-solutions-architect-associate',
+      'DVA-C02': 'cert-developer-associate',
+      'SOA-C03': 'cert-sysops-administrator-associate',
+      'DEA-C01': 'cert-data-engineer-associate',
+      'MLA-C01': 'cert-machine-learning-engineer-associate',
+      'SAP-C02': 'cert-solutions-architect-professional',
+      'DOP-C02': 'cert-devops-engineer-professional',
+      'AIP-C01': 'cert-generative-ai-developer-professional',
+      'ANS-C01': 'cert-advanced-networking-specialty',
+      'SCS-C03': 'cert-security-specialty',
+      'MLS-C01': 'cert-machine-learning-specialty'
     }
-    onNavigate(pageMap[certId] || 'dashboard')
+    onNavigate(codeToPageMap[certId] || 'dashboard')
   }
   
   // Calculate score based on all answers
