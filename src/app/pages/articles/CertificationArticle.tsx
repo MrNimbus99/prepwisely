@@ -179,6 +179,33 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
                 </div>
               </div>
             </Card>
+
+            {/* Practice Exams */}
+            <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-2 border-green-200 dark:border-green-800">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Full-Length Practice Exams</h2>
+              <p className="text-slate-700 dark:text-slate-200 mb-4">
+                After completing all 30 quizzes, test your readiness with our 2 full-length practice exams. These exams are designed to closely mirror the actual {certCode} exam experience.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border border-green-200 dark:border-green-800">
+                  <div className="font-bold text-slate-900 dark:text-white mb-2">Practice Exam 1</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300">Realistic exam simulation with the same number of questions, time limit, and difficulty as the real exam</div>
+                </div>
+                <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border border-green-200 dark:border-green-800">
+                  <div className="font-bold text-slate-900 dark:text-white mb-2">Practice Exam 2</div>
+                  <div className="text-sm text-slate-600 dark:text-slate-300">Additional full-length exam to validate your preparation and identify any remaining gaps</div>
+                </div>
+              </div>
+              <div className="mt-4 p-4 bg-white dark:bg-slate-900 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="font-semibold text-slate-900 dark:text-white mb-2">Exam-Like Experience</div>
+                <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1">
+                  <li>• Same question format and difficulty as the real exam</li>
+                  <li>• Timed environment to practice time management</li>
+                  <li>• Detailed explanations for every question</li>
+                  <li>• Score breakdown by domain to identify weak areas</li>
+                </ul>
+              </div>
+            </Card>
           </div>
 
           <div className="mt-8 flex gap-4">
