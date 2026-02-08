@@ -312,10 +312,9 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 key={cert.id}
                 className={`group relative overflow-hidden bg-white dark:bg-slate-900 border-2 transition-all duration-300 hover:shadow-2xl ${
                   cert.isUnlocked
-                    ? 'border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 cursor-pointer hover:scale-105'
+                    ? 'border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500'
                     : 'border-slate-200 dark:border-slate-700 opacity-60'
                 }`}
-                onClick={() => cert.isUnlocked && handleStartCertification(cert.id)}
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${cert.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
@@ -331,7 +330,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
                 <div className="relative p-4 sm:p-6">
                   {/* Badge Image */}
-                  <div className={`mb-3 sm:mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-20 h-20 sm:w-28 sm:h-28' : 'w-16 h-16 sm:w-24 sm:h-24'}`}>
+                  <div className={`mb-3 sm:mb-4 flex items-center justify-center ${cert.code === 'MLA-C01' ? 'w-24 h-24 sm:w-32 sm:h-32' : 'w-16 h-16 sm:w-24 sm:h-24'}`}>
                     <img 
                       src={getBadgeUrl(cert.code)} 
                       alt={`${cert.name} badge`}
@@ -373,6 +372,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
                         {/* CTA Button */}
                         <Button
+                          onClick={() => handleStartCertification(cert.id)}
                           className={`w-full bg-gradient-to-r ${cert.gradient} hover:shadow-lg transition-all duration-300 text-white font-semibold`}
                         >
                           <Play className="w-4 h-4 mr-2" />
