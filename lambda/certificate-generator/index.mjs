@@ -3,8 +3,9 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
-const s3Client = new S3Client({ region: process.env.AWS_REGION });
-const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_REGION }));
+const REGION = process.env.AWS_REGION || 'ap-southeast-2';
+const s3Client = new S3Client({ region: REGION });
+const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 
 const CERT_BUCKET = process.env.CERT_BUCKET;
 const TEMPLATE_BUCKET = process.env.TEMPLATE_BUCKET;
@@ -135,7 +136,7 @@ export const handler = async (event) => {
       }
     }));
 
-    const downloadUrl = `https://${CERT_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${s3Key}`;
+    const downloadUrl = `https://${CERT_BUCKET}.s3.${REGION}.amazonaws.com/${s3Key}`;
 
     return {
       statusCode: 200,

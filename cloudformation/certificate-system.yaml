@@ -106,7 +106,6 @@ Resources:
           CERT_BUCKET: !Ref CertificateBucket
           TEMPLATE_BUCKET: !Sub 'prepwisely-app-${Environment}-${AWS::AccountId}'
           USER_TABLE: !Ref UserTableName
-          AWS_REGION: !Ref AWS::Region
       Code:
         ZipFile: |
           export const handler = async (event) => {
