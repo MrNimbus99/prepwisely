@@ -28,6 +28,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [timeLeft, setTimeLeft] = useState(0) // Will be set based on question count
   const [quizId, setQuizId] = useState('quiz-1')
   const [certId, setCertId] = useState('cloud-practitioner')
+  const [quizDuration, setQuizDuration] = useState(30) // Duration in minutes
   const [startTime, setStartTime] = useState<number>(Date.now())
   const [timeTaken, setTimeTaken] = useState(0)
   const [overtime, setOvertime] = useState(0)
@@ -37,12 +38,14 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   useEffect(() => {
     const storedQuizId = sessionStorage.getItem('currentQuizId')
     const storedCertId = sessionStorage.getItem('currentCertId')
+    const storedDuration = sessionStorage.getItem('quizDuration')
     
     if (storedQuizId) {
       // Use the quiz number directly (1-32)
       setQuizId(storedQuizId)
     }
     if (storedCertId) setCertId(storedCertId)
+    if (storedDuration) setQuizDuration(parseInt(storedDuration))
     setStartTime(Date.now())
   }, [])
 
@@ -69,10 +72,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     if (questions.length > 0) {
       setAnswers(new Array(questions.length).fill(null))
       setSelectedAnswer(null)
-      // Set timer: 1 minute per question (60 seconds * question count)
-      setTimeLeft(questions.length * 60)
+      // Set timer: duration in minutes * 60 seconds
+      setTimeLeft(quizDuration * 60)
     }
-  }, [questions])
+  }, [questions, quizDuration])
 
   // Load saved answer when changing questions
   useEffect(() => {
@@ -134,9 +137,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const handleSubmit = () => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000)
+    const allowedTime = quizDuration * 60 // Convert minutes to seconds
     setTimeTaken(elapsed)
-    if (elapsed > 120) {
-      setOvertime(elapsed - 120)
+    if (elapsed > allowedTime) {
+      setOvertime(elapsed - allowedTime)
     }
     setShowResult(true)
   }
@@ -146,7 +150,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     setSelectedAnswer(null)
     setCurrentQuestionIndex(0)
     setShowResult(false)
-    setTimeLeft(120)
+    setTimeLeft(quizDuration * 60)
     setStartTime(Date.now())
     setTimeTaken(0)
     setOvertime(0)
