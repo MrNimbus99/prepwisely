@@ -530,75 +530,88 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
   }
 
   // Certification data
-  const certifications: { [key: string]: { name: string; code: string; gradient: string } } = {
+  const certifications: { [key: string]: { name: string; code: string; gradient: string; badge: string } } = {
     // Foundational (2)
     'cloud-practitioner': {
       name: 'AWS Certified Cloud Practitioner',
       code: 'CLF-C02',
-      gradient: 'from-green-500 to-emerald-600'
+      gradient: 'from-green-500 to-emerald-600',
+      badge: '/badges/aws-clf-badge-transparent-500x500.png'
     },
     'ai-practitioner': {
       name: 'AWS Certified AI Practitioner',
       code: 'AIF-C01',
-      gradient: 'from-violet-500 to-purple-600'
+      gradient: 'from-violet-500 to-purple-600',
+      badge: '/badges/aws_ai_practitioner_foundational_badge_500x500_v2.png'
     },
     // Associate (5)
     'solutions-architect-associate': {
       name: 'AWS Certified Solutions Architect – Associate',
       code: 'SAA-C03',
-      gradient: 'from-blue-500 to-indigo-600'
+      gradient: 'from-blue-500 to-indigo-600',
+      badge: '/badges/saa-badge-transparent-500.png'
     },
     'developer-associate': {
       name: 'AWS Certified Developer – Associate',
       code: 'DVA-C02',
-      gradient: 'from-purple-500 to-pink-600'
+      gradient: 'from-purple-500 to-pink-600',
+      badge: '/badges/aws-developer-associate-badge-500x500.png'
     },
     'sysops-administrator-associate': {
       name: 'AWS Certified CloudOps Engineer – Associate',
       code: 'SOA-C03',
-      gradient: 'from-orange-500 to-amber-600'
+      gradient: 'from-orange-500 to-amber-600',
+      badge: '/badges/aws-cloudops-engineer-badge-500.png'
     },
     'data-engineer-associate': {
       name: 'AWS Certified Data Engineer – Associate',
       code: 'DEA-C01',
-      gradient: 'from-cyan-500 to-teal-600'
+      gradient: 'from-cyan-500 to-teal-600',
+      badge: '/badges/dea-badge-500.png'
     },
     'machine-learning-engineer-associate': {
       name: 'AWS Certified Machine Learning Engineer – Associate',
       code: 'MLA-C01',
-      gradient: 'from-fuchsia-500 to-pink-600'
+      gradient: 'from-fuchsia-500 to-pink-600',
+      badge: '/badges/mla-badge-500-transparent.png'
     },
     // Professional (3)
     'solutions-architect-professional': {
       name: 'AWS Certified Solutions Architect – Professional',
       code: 'SAP-C02',
-      gradient: 'from-rose-500 to-red-600'
+      gradient: 'from-rose-500 to-red-600',
+      badge: '/badges/sap-badge-transparent-500.png'
     },
     'devops-engineer-professional': {
       name: 'AWS Certified DevOps Engineer – Professional',
       code: 'DOP-C02',
-      gradient: 'from-slate-600 to-gray-700'
+      gradient: 'from-slate-600 to-gray-700',
+      badge: '/badges/dop-badge-500-transparent.png'
     },
     'generative-ai-developer-professional': {
       name: 'AWS Certified Generative AI Developer – Professional',
       code: 'AIP-C01',
-      gradient: 'from-indigo-500 to-purple-600'
+      gradient: 'from-indigo-500 to-purple-600',
+      badge: '/badges/aws_generative_ai_developer_pro_badge_500x500_v2.png'
     },
     'advanced-networking-specialty': {
       name: 'AWS Certified Advanced Networking – Specialty',
       code: 'ANS-C01',
-      gradient: 'from-sky-500 to-blue-600'
+      gradient: 'from-sky-500 to-blue-600',
+      badge: '/badges/aws-advanced-networking-badge-500.png'
     },
     // Specialty (3)
     'security-specialty': {
       name: 'AWS Certified Security – Specialty',
       code: 'SCS-C03',
-      gradient: 'from-emerald-500 to-green-600'
+      gradient: 'from-emerald-500 to-green-600',
+      badge: '/badges/aws-security-specialty-badge-500x500.png'
     },
     'machine-learning-specialty': {
       name: 'AWS Certified Machine Learning – Specialty',
       code: 'MLS-C01',
-      gradient: 'from-lime-500 to-green-600'
+      gradient: 'from-lime-500 to-green-600',
+      badge: '/badges/mls-badge-500.png'
     }
   }
 
@@ -727,8 +740,8 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
         {/* Certification Header */}
         <div className="mb-8 sm:mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${certification.gradient} flex items-center justify-center shadow-xl`}>
-              <Trophy className="w-10 h-10 text-white" />
+            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${certification.gradient} flex items-center justify-center shadow-xl overflow-hidden`}>
+              <img src={certification.badge} alt={certification.name} className="w-full h-full object-contain p-2" />
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
