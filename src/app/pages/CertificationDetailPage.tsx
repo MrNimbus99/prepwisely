@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { useFlaggedQuestions } from '../contexts/FlaggedQuestionsContext'
+import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X } from 'lucide-react'
+import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X, Download, Award } from 'lucide-react'
+import { generateCertificate, downloadCertificate } from '../utils/certificateService'
 
 interface Quiz {
   id: number
@@ -20,9 +22,11 @@ interface Quiz {
 const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = ({ onNavigate, certId }) => {
   const { completions } = useQuiz()
   const { getFlaggedByCert, removeFlagged } = useFlaggedQuestions()
+  const { user, getCredentials } = useAuth()
   const [quizCounts, setQuizCounts] = useState<{ [key: string]: number }>({})
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'quizzes' | 'flagged'>('quizzes')
+  const [generatingCert, setGeneratingCert] = useState(false)
 
   // Quiz metadata for Cloud Practitioner
   const clfQuizMetadata: { [key: number]: { domain: string; task: string } } = {
@@ -711,6 +715,29 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
   const completedCount = quizzes.filter(q => q.isCompleted).length
   const progress = (completedCount / quizzes.length) * 100
+  const isFullyCompleted = completedCount === quizzes.length
+
+  const handleDownloadCertificate = async () => {
+    if (!user) return
+    
+    setGeneratingCert(true)
+    try {
+      const credentials = await getCredentials()
+      const result = await generateCertificate(user.userId, certification.code, credentials)
+      
+      if (result.downloadUrl) {
+        downloadCertificate(
+          result.downloadUrl, 
+          `${certification.code}-Certificate-${user.userId}.pdf`
+        )
+      }
+    } catch (error) {
+      console.error('Failed to generate certificate:', error)
+      alert('Failed to generate certificate. Please try again.')
+    } finally {
+      setGeneratingCert(false)
+    }
+  }
 
   const getQuizGradient = (quiz: Quiz) => {
     if (quiz.isFinalExam) return 'from-red-500 to-rose-600'
@@ -811,6 +838,27 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
               )}
             </button>
+            
+            {/* Certificate Download Button - Only show when fully completed */}
+            {isFullyCompleted && (
+              <button
+                onClick={handleDownloadCertificate}
+                disabled={generatingCert}
+                className="ml-auto pb-3 px-4 font-bold text-base transition-colors flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {generatingCert ? (
+                  <>
+                    <Clock className="w-5 h-5 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Award className="w-5 h-5" />
+                    Download Certificate
+                  </>
+                )}
+              </button>
+            )}
           </div>
 
           {activeTab === 'quizzes' ? (

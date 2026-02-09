@@ -1,0 +1,213 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Certificate Generation System for NestedCerts'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - dev
+      - prod
+  
+  UserTableName:
+    Type: String
+    Description: Existing DynamoDB user table name
+    Default: prepwisely-users-prod
+
+Resources:
+  # S3 Bucket for storing generated certificates
+  CertificateBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'nestedcerts-certificates-${Environment}-${AWS::AccountId}'
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - HEAD
+            AllowedOrigins:
+              - 'https://nestedcerts.com'
+              - 'http://localhost:5173'
+            MaxAge: 3600
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 90
+
+  # Bucket policy to allow public read access to certificates
+  CertificateBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref CertificateBucket
+      PolicyDocument:
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub '${CertificateBucket.Arn}/*'
+
+  # Lambda execution role
+  CertificateLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'nestedcerts-cert-lambda-role-${Environment}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: CertificateGenerationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:PutObject'
+                  - 's3:PutObjectAcl'
+                Resource: !Sub '${CertificateBucket.Arn}/*'
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                Resource: 
+                  - !Sub 'arn:aws:s3:::prepwisely-app-${Environment}-${AWS::AccountId}/Certificate/*'
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:GetItem'
+                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${UserTableName}'
+
+  # Lambda function
+  CertificateGeneratorFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub 'nestedcerts-certificate-generator-${Environment}'
+      Runtime: nodejs20.x
+      Handler: index.handler
+      Role: !GetAtt CertificateLambdaRole.Arn
+      Timeout: 30
+      MemorySize: 512
+      Environment:
+        Variables:
+          CERT_BUCKET: !Ref CertificateBucket
+          TEMPLATE_BUCKET: !Sub 'prepwisely-app-${Environment}-${AWS::AccountId}'
+          USER_TABLE: !Ref UserTableName
+          AWS_REGION: !Ref AWS::Region
+      Code:
+        ZipFile: |
+          export const handler = async (event) => {
+            return {
+              statusCode: 200,
+              body: JSON.stringify({ message: 'Placeholder - will be updated with deployment package' })
+            };
+          };
+
+  # API Gateway REST API
+  CertificateApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Sub 'nestedcerts-certificate-api-${Environment}'
+      Description: API for certificate generation
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  # API Gateway Resource
+  CertificateResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref CertificateApi
+      ParentId: !GetAtt CertificateApi.RootResourceId
+      PathPart: generate
+
+  # API Gateway Method
+  CertificateMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CertificateApi
+      ResourceId: !Ref CertificateResource
+      HttpMethod: POST
+      AuthorizationType: AWS_IAM
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CertificateGeneratorFunction.Arn}/invocations'
+
+  # OPTIONS method for CORS
+  CertificateOptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref CertificateApi
+      ResourceId: !Ref CertificateResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            ResponseTemplates:
+              application/json: ''
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+            method.response.header.Access-Control-Allow-Origin: true
+
+  # Lambda permission for API Gateway
+  CertificateLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref CertificateGeneratorFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${CertificateApi}/*'
+
+  # API Gateway Deployment
+  CertificateApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - CertificateMethod
+      - CertificateOptionsMethod
+    Properties:
+      RestApiId: !Ref CertificateApi
+      StageName: !Ref Environment
+
+Outputs:
+  CertificateBucketName:
+    Description: S3 bucket for certificates
+    Value: !Ref CertificateBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-CertificateBucket'
+
+  CertificateApiUrl:
+    Description: API Gateway endpoint URL
+    Value: !Sub 'https://${CertificateApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/generate'
+    Export:
+      Name: !Sub '${AWS::StackName}-ApiUrl'
+
+  LambdaFunctionArn:
+    Description: Certificate generator Lambda ARN
+    Value: !GetAtt CertificateGeneratorFunction.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-LambdaArn'
