@@ -856,7 +856,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                 {generatingCert ? (
                   <>
                     <Clock className="w-6 h-6 animate-spin" />
-                    <span className="font-extrabold">Generating Certificate...</span>
+                    <span className="font-extrabold">Downloading...</span>
                   </>
                 ) : (
                   <>
