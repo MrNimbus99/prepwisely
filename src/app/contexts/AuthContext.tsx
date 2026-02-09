@@ -42,10 +42,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { user: currentUser } = await authService.getCurrentUser()
       if (currentUser) {
+        // Fetch user attributes to get the real name
+        const { fetchUserAttributes } = await import('aws-amplify/auth')
+        const attributes = await fetchUserAttributes()
+        
         setUser({
           userId: currentUser.userId,
           email: currentUser.signInDetails?.loginId || '',
-          name: currentUser.signInDetails?.loginId || ''
+          name: attributes.name || currentUser.signInDetails?.loginId || ''
         })
       }
     } catch (error) {

@@ -298,7 +298,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         {/* Welcome Section */}
         <div className="mb-8 sm:mb-12">
           <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-2">
-            Welcome back, {user?.name?.split('@')[0] || 'Student'}!
+            Welcome back, {user?.name || 'Student'}!
           </h1>
           <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300">
             Continue your AWS certification journey
