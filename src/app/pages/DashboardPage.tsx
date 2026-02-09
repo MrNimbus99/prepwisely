@@ -142,13 +142,12 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const certifications: CertificationCard[] = allCertifications.map(cert => {
     const { completed, percentage } = getProgress(cert.id, 32)
-    const completedQuizzes = Math.min(completed, 30)
     const completedExams = Math.max(0, completed - 30)
     return {
       ...cert,
       progress: percentage,
       totalQuizzes: 32,
-      completedQuizzes: completedQuizzes,
+      completedQuizzes: completed,
       completedExams: completedExams
     }
   })
@@ -377,10 +376,28 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         {/* CTA Button */}
                         <Button
                           onClick={() => handleStartCertification(cert.id)}
-                          className={`w-full bg-gradient-to-r ${cert.gradient} hover:shadow-lg transition-all duration-300 text-white font-semibold`}
+                          className={`w-full ${
+                            cert.completedQuizzes === cert.totalQuizzes
+                              ? 'bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700'
+                              : `bg-gradient-to-r ${cert.gradient}`
+                          } hover:shadow-lg transition-all duration-300 text-white font-semibold`}
                         >
-                          <Play className="w-4 h-4 mr-2" />
-                          {cert.completedQuizzes === 0 ? 'Start Learning' : cert.completedQuizzes === cert.totalQuizzes ? 'Completed' : 'Continue'}
+                          {cert.completedQuizzes === 0 ? (
+                            <>
+                              <Play className="w-4 h-4 mr-2" />
+                              Start Learning
+                            </>
+                          ) : cert.completedQuizzes === cert.totalQuizzes ? (
+                            <>
+                              <CheckCircle className="w-4 h-4 mr-2" />
+                              Completed
+                            </>
+                          ) : (
+                            <>
+                              <Play className="w-4 h-4 mr-2" />
+                              Continue
+                            </>
+                          )}
                         </Button>
                       </>
                     )}
