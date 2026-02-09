@@ -413,7 +413,6 @@ const LandingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <ul className="space-y-2 text-sm">
                 <li><button onClick={() => onNavigate('certifications')} className="hover:text-white transition-colors">Certifications</button></li>
                 <li><button onClick={() => onNavigate('pricing')} className="hover:text-white transition-colors">Pricing</button></li>
-                <li><span className="cursor-not-allowed opacity-50">Features</span></li>
               </ul>
             </div>
             
