@@ -252,15 +252,17 @@ const ViewQuestions: React.FC = () => {
                             size="sm"
                             variant="outline"
                             onClick={() => handleEdit(q)}
+                            className="px-2 sm:px-3"
                           >
-                            Edit
+                            <span className="hidden sm:inline">Edit</span>
+                            <span className="sm:hidden">✏️</span>
                           </Button>
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => handleMoveUp(idx)}
                             disabled={idx === 0}
-                            className="disabled:opacity-30"
+                            className="disabled:opacity-30 px-2 sm:px-3"
                           >
                             ↑
                           </Button>
@@ -269,7 +271,7 @@ const ViewQuestions: React.FC = () => {
                             variant="outline"
                             onClick={() => handleMoveDown(idx)}
                             disabled={idx === questions.length - 1}
-                            className="disabled:opacity-30"
+                            className="disabled:opacity-30 px-2 sm:px-3"
                           >
                             ↓
                           </Button>
@@ -278,9 +280,10 @@ const ViewQuestions: React.FC = () => {
                             variant="outline"
                             onClick={() => handleDelete(q.questionId)}
                             disabled={questions.length <= 1}
-                            className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 disabled:opacity-30"
+                            className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 disabled:opacity-30 px-2 sm:px-3"
                           >
-                            Delete
+                            <span className="hidden sm:inline">Delete</span>
+                            <span className="sm:hidden">🗑️</span>
                           </Button>
                         </>
                       )}
