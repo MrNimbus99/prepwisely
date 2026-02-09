@@ -2,7 +2,8 @@ import React from 'react'
 import { NavigationProps } from '../types'
 import { useSEO } from '../hooks/useSEO'
 import { Button } from '../components/ui/button'
-import { ArrowLeft } from 'lucide-react'
+import { Card } from '../components/ui/card'
+import { ArrowLeft, Calendar, CreditCard, Infinity, Mail, CheckCircle, AlertCircle } from 'lucide-react'
 
 const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   useSEO({
@@ -29,48 +30,129 @@ const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-8">Cancellation Policy</h1>
-        
-        <div className="prose prose-slate dark:prose-invert max-w-none space-y-6 text-slate-700 dark:text-slate-300">
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Monthly Subscriptions</h2>
-            <p>You can cancel your monthly subscription at any time. Upon cancellation:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>You will retain access until the end of your current billing period</li>
-              <li>No further charges will be made</li>
-              <li>You can reactivate your subscription at any time</li>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Cancellation Policy</h1>
+          <p className="text-xl text-slate-600 dark:text-slate-400">Simple, flexible cancellation for all subscription types</p>
+        </div>
+
+        <Card className="bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 border-0 p-8 md:p-10 shadow-2xl mb-10">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <CheckCircle className="w-9 h-9 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Cancel Anytime
+            </h2>
+            <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
+              No commitments, no hassle. Cancel your subscription whenever you want with just a few clicks.
+            </p>
+          </div>
+        </Card>
+
+        <div className="space-y-8">
+          <Card className="bg-white dark:bg-slate-900 p-6 md:p-8 shadow-xl border-2 border-slate-200 dark:border-slate-700">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Calendar className="w-7 h-7 text-white" />
+              </div>
+              Monthly Subscriptions
+            </h2>
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              You can cancel your monthly subscription at any time. Upon cancellation:
+            </p>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                <span>You will retain access until the end of your current billing period</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                <span>No further charges will be made</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                <span>You can reactivate your subscription at any time</span>
+              </li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Annual Subscriptions</h2>
-            <p>Annual subscriptions can be cancelled at any time:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Access continues until the end of the annual period</li>
-              <li>No refunds for partial periods</li>
-              <li>Subscription will not auto-renew after cancellation</li>
+          <Card className="bg-white dark:bg-slate-900 p-6 md:p-8 shadow-xl border-2 border-slate-200 dark:border-slate-700">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+                <CreditCard className="w-7 h-7 text-white" />
+              </div>
+              Annual Subscriptions
+            </h2>
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+              Annual subscriptions can be cancelled at any time:
+            </p>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <CheckCircle className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                <span>Access continues until the end of the annual period</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                <span>No refunds for partial periods</span>
+              </li>
+              <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                <CheckCircle className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                <span>Subscription will not auto-renew after cancellation</span>
+              </li>
             </ul>
-          </section>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Lifetime Access</h2>
-            <p>Lifetime access purchases are non-refundable and cannot be cancelled as they provide permanent access to all content.</p>
-          </section>
+          <Card className="bg-white dark:bg-slate-900 p-6 md:p-8 shadow-xl border-2 border-slate-200 dark:border-slate-700">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Infinity className="w-7 h-7 text-white" />
+              </div>
+              Lifetime Access
+            </h2>
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+              Lifetime access purchases are non-refundable and cannot be cancelled as they provide permanent access to all content.
+            </p>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">How to Cancel</h2>
-            <ol className="list-decimal pl-6 space-y-2">
-              <li>Log in to your account</li>
-              <li>Go to Account Settings</li>
-              <li>Click "Manage Subscription"</li>
-              <li>Select "Cancel Subscription"</li>
-            </ol>
-          </section>
+          <Card className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-blue-950/30 p-6 md:p-8 border-2 border-slate-200 dark:border-slate-700">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                <CheckCircle className="w-7 h-7 text-white" />
+              </div>
+              How to Cancel
+            </h2>
+            <div className="space-y-3">
+              <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
+                <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+                <div className="text-slate-700 dark:text-slate-300">Log in to your account</div>
+              </div>
+              <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
+                <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+                <div className="text-slate-700 dark:text-slate-300">Go to Account Settings</div>
+              </div>
+              <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
+                <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+                <div className="text-slate-700 dark:text-slate-300">Click "Manage Subscription"</div>
+              </div>
+              <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
+                <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
+                <div className="text-slate-700 dark:text-slate-300">Select "Cancel Subscription"</div>
+              </div>
+            </div>
+          </Card>
 
-          <section>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Contact Us</h2>
-            <p>If you need assistance with cancellation, please contact our support team at <a href="mailto:support@prepwisely.com" className="text-blue-600 hover:underline">support@prepwisely.com</a></p>
-          </section>
+          <Card className="bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 p-6 md:p-8 border-0 shadow-lg">
+            <h2 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+              <Mail className="w-6 h-6 text-white" />
+              Need Help?
+            </h2>
+            <p className="text-white/90 leading-relaxed">
+              If you need assistance with cancellation, please contact our support team at{' '}
+              <a href="mailto:support@prepwisely.com" className="text-white hover:underline font-semibold">
+                support@prepwisely.com
+              </a>
+            </p>
+          </Card>
         </div>
       </main>
 
