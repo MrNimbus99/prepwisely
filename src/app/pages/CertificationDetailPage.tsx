@@ -740,9 +740,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
         {/* Certification Header */}
         <div className="mb-8 sm:mb-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${certification.gradient} flex items-center justify-center shadow-xl overflow-hidden`}>
-              <img src={certification.badge} alt={certification.name} className="w-full h-full object-contain p-2" />
-            </div>
+            <img src={certification.badge} alt={certification.name} className="w-20 h-20 object-contain" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                 {certification.name}
