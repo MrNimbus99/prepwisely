@@ -5,7 +5,8 @@ import { useQuiz } from '../contexts/QuizContext'
 import { getBadgeUrl } from '../data/certBadges'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { Trophy, LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard, MapPin, Phone, Package, History } from 'lucide-react'
+import { LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard, MapPin, Phone, Package, History } from 'lucide-react'
+import { NestedCertsLogo } from '../components/NestedCertsLogo'
 
 interface CertificationCard {
   id: string
@@ -432,7 +433,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             <Card className="group p-4 sm:p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('pricing')}>
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <NestedCertsLogo className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
                 <div>
                   <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-0.5 sm:mb-1">Unlock More</h3>
@@ -456,7 +457,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             <Card className="group p-4 sm:p-6 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-500 hover:shadow-xl transition-all duration-300 cursor-pointer" onClick={() => onNavigate('help')}>
               <div className="flex items-center gap-3 sm:gap-4">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Trophy className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <HelpCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
                   <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-0.5 sm:mb-1">Get Help</h3>
