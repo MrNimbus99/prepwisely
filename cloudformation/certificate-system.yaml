@@ -75,7 +75,11 @@ Resources:
                 Action:
                   - 's3:PutObject'
                   - 's3:PutObjectAcl'
-                Resource: !Sub '${CertificateBucket.Arn}/*'
+                  - 's3:GetObject'
+                  - 's3:ListBucket'
+                Resource: 
+                  - !Sub '${CertificateBucket.Arn}/*'
+                  - !Sub '${CertificateBucket.Arn}'
               - Effect: Allow
                 Action:
                   - 's3:GetObject'
