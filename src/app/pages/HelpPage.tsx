@@ -80,8 +80,8 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       color: 'bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400'
     },
     {
-      title: 'System Status',
-      description: 'Check if all systems are operational',
+      title: 'FAQ',
+      description: 'Find answers to frequently asked questions',
       icon: Trophy,
       action: () => onNavigate('faq'),
       color: 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400'
