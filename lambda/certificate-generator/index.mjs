@@ -58,6 +58,37 @@ export const handler = async (event) => {
     }
 
     const userId = userResult.Username;
+    
+    // Check if certificate already exists
+    const existingCertKey = `certificates/${userId}/${certCode}.pdf`;
+    try {
+      await s3Client.send(new GetObjectCommand({
+        Bucket: CERT_BUCKET,
+        Key: existingCertKey
+      }));
+      
+      // Certificate exists, return existing URL
+      const downloadUrl = `https://${CERT_BUCKET}.s3.${REGION}.amazonaws.com/${existingCertKey}`;
+      return {
+        statusCode: 200,
+        headers: { 
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          success: true,
+          downloadUrl,
+          existing: true,
+          certName: certificationNames[certCode] || certCode
+        })
+      };
+    } catch (error) {
+      // Certificate doesn't exist, generate new one
+      if (error.name !== 'NoSuchKey') {
+        throw error;
+      }
+    }
+
     const certName = certificationNames[certCode] || certCode;
     const completionDate = new Date().toLocaleDateString('en-US', { 
       year: 'numeric', 
@@ -213,11 +244,10 @@ export const handler = async (event) => {
     // Save PDF
     const pdfBytes = await pdfDoc.save();
     
-    // Upload to S3
-    const s3Key = `certificates/${userId}/${certCode}-${Date.now()}.pdf`;
+    // Upload to S3 with fixed key (no timestamp)
     await s3Client.send(new PutObjectCommand({
       Bucket: CERT_BUCKET,
-      Key: s3Key,
+      Key: existingCertKey,
       Body: pdfBytes,
       ContentType: 'application/pdf',
       Metadata: {
@@ -228,7 +258,7 @@ export const handler = async (event) => {
       }
     }));
 
-    const downloadUrl = `https://${CERT_BUCKET}.s3.${REGION}.amazonaws.com/${s3Key}`;
+    const downloadUrl = `https://${CERT_BUCKET}.s3.${REGION}.amazonaws.com/${existingCertKey}`;
 
     return {
       statusCode: 200,
@@ -240,7 +270,8 @@ export const handler = async (event) => {
         success: true,
         downloadUrl,
         serialNumber,
-        certName
+        certName,
+        existing: false
       })
     };
 
