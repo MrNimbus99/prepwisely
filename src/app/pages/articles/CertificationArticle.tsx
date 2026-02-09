@@ -230,6 +230,49 @@ const CertificationArticle: React.FC<CertificationArticleProps> = ({
                 </ul>
               </div>
             </Card>
+
+            {/* Certificate of Completion */}
+            <Card className="p-6 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 border-2 border-amber-200 dark:border-amber-800">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-amber-100 dark:bg-amber-900 rounded-lg">
+                  <CheckCircle className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Earn Your Certificate</h2>
+                  <p className="text-slate-700 dark:text-slate-200 mb-4">
+                    Complete all 30 quizzes and 2 practice exams to earn your NestedCerts Certificate of Completion for {certName}.
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <div className="font-semibold text-slate-900 dark:text-white mb-2">Professional Certificate Design</div>
+                      <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1">
+                        <li>• Personalized with your full name</li>
+                        <li>• Official certification title and code ({certCode})</li>
+                        <li>• Completion date and unique certificate ID</li>
+                        <li>• Professional PDF format ready to share</li>
+                      </ul>
+                    </div>
+
+                    <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <div className="font-semibold text-slate-900 dark:text-white mb-2">Instant Download</div>
+                      <p className="text-sm text-slate-600 dark:text-slate-300">
+                        Once you complete all requirements, a "Download Certificate" button will appear on your certification page. 
+                        Click it to instantly generate and download your personalized certificate.
+                      </p>
+                    </div>
+
+                    <div className="p-4 bg-white dark:bg-slate-900 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <div className="font-semibold text-slate-900 dark:text-white mb-2">Share Your Achievement</div>
+                      <p className="text-sm text-slate-600 dark:text-slate-300">
+                        Add your certificate to your LinkedIn profile, resume, or portfolio to showcase your AWS certification preparation 
+                        and commitment to professional development.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </div>
 
           <div className="mt-8 flex gap-4">
