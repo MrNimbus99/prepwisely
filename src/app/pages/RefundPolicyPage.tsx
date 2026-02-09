@@ -53,17 +53,17 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       {/* Content */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* 30-Day Guarantee */}
-          <Card className="bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 border-0 p-8 md:p-12 shadow-2xl mb-8">
+          {/* 7-Day Refund Policy */}
+          <Card className="bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 border-0 p-8 md:p-12 shadow-2xl mb-8">
             <div className="text-center">
               <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <CheckCircle className="w-10 h-10 text-white" />
+                <AlertCircle className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                30-Day Money-Back Guarantee
+                7-Day Refund Policy
               </h2>
               <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-                We stand behind the quality of NestedCerts. If you're not completely satisfied with your purchase, we'll refund your money—no questions asked.
+                Refunds are available within 7 days of purchase, subject to eligibility criteria and usage limits outlined below.
               </p>
             </div>
           </Card>
@@ -75,27 +75,54 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
                     <CheckCircle className="w-7 h-7 text-white" />
                   </div>
-                  Eligible Purchases
+                  Refund Eligibility
                 </h2>
                 <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
-                  Our 30-day money-back guarantee applies to:
+                  Refunds may be requested within 7 days of purchase for:
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Individual certification purchases ($49 each)</span>
+                    <span>Individual certification purchases ($49 each) - first purchase only</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Certification bundles (Associates, Professional, Specialty)</span>
+                    <span>Monthly subscriptions - first payment only, within 7 days</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Everything Pass ($299 lifetime access)</span>
+                    <span>Annual subscriptions - within 7 days, if less than 10% of content accessed</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-red-50 dark:bg-red-950/30 p-6 rounded-xl border-2 border-red-200 dark:border-red-800">
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <AlertCircle className="w-7 h-7 text-white" />
+                  </div>
+                  Non-Refundable Items
+                </h2>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Everything Pass ($299)</strong> - All sales final, no refunds</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
-                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Monthly and annual subscriptions (first payment only)</span>
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Certification bundles</strong> - All sales final, no refunds</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Repeat purchases</strong> - Only first purchase eligible for refund</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>After 7 days</strong> - All sales final after 7-day window</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Excessive usage</strong> - Refund denied if more than 20% of questions attempted or 10 practice exams taken</span>
                   </li>
                 </ul>
               </div>
@@ -111,13 +138,13 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800">
                     <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-3">Request Period</h3>
                     <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                      You have <strong className="text-blue-600 dark:text-blue-400">30 days from the date of purchase</strong> to request a refund. After 30 days, all sales are final.
+                      You have <strong className="text-blue-600 dark:text-blue-400">7 days from the date of purchase</strong> to request a refund. After 7 days, all sales are final and no refunds will be issued.
                     </p>
                   </div>
                   <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 p-6 rounded-xl border-2 border-purple-200 dark:border-purple-800">
                     <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-3">Processing Time</h3>
                     <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                      Refunds are processed within <strong className="text-purple-600 dark:text-purple-400">5-7 business days</strong> after approval. Funds appear in 7-10 business days.
+                      Refund requests are reviewed within <strong className="text-purple-600 dark:text-purple-400">3-5 business days</strong>. Approved refunds are processed within 7-10 business days to original payment method.
                     </p>
                   </div>
                 </div>
@@ -149,21 +176,28 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
                       <div>
                         <strong className="text-slate-900 dark:text-white">Include Details:</strong>
-                        <span className="text-slate-700 dark:text-slate-300"> Provide your account email and order number</span>
+                        <span className="text-slate-700 dark:text-slate-300"> Provide account email, order number, and reason for refund request</span>
                       </div>
                     </div>
                     <div className="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
                       <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
                       <div>
-                        <strong className="text-slate-900 dark:text-white">Confirmation:</strong>
-                        <span className="text-slate-700 dark:text-slate-300"> You'll receive a confirmation email within 24 hours</span>
+                        <strong className="text-slate-900 dark:text-white">Review:</strong>
+                        <span className="text-slate-700 dark:text-slate-300"> We'll review your request and usage data within 3-5 business days</span>
                       </div>
                     </div>
                     <div className="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
                       <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
                       <div>
+                        <strong className="text-slate-900 dark:text-white">Decision:</strong>
+                        <span className="text-slate-700 dark:text-slate-300"> You'll receive approval or denial notification via email</span>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                      <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">5</div>
+                      <div>
                         <strong className="text-slate-900 dark:text-white">Processing:</strong>
-                        <span className="text-slate-700 dark:text-slate-300"> Your refund will be processed within 5-7 business days</span>
+                        <span className="text-slate-700 dark:text-slate-300"> Approved refunds processed within 7-10 business days</span>
                       </div>
                     </div>
                   </div>
@@ -175,55 +209,63 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
                     <AlertCircle className="w-7 h-7 text-white" />
                   </div>
-                  Important Notes
+                  Important Terms
                 </h2>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span>Refunds are issued to the original payment method</span>
+                    <span>Refunds issued to original payment method only - no cash alternatives</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span>Subscription refunds only apply to the first payment</span>
+                    <span>All refund decisions are final and at our sole discretion</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span>After a refund, access to paid content is immediately revoked</span>
+                    <span>Abuse of refund policy may result in account termination</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span>Free Cloud Practitioner access remains available</span>
+                    <span>Upon refund approval, all paid content access is immediately revoked</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span>Refunds are processed in USD</span>
+                    <span>Free Cloud Practitioner content remains accessible after refund</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span>Refunds processed in USD regardless of original currency</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span>Payment processor fees are non-refundable</span>
                   </li>
                 </ul>
               </div>
 
               <div className="bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-blue-950/30 p-6 rounded-xl border-2 border-slate-200 dark:border-slate-700">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-                  Subscription Cancellations
+                  Subscription Cancellations vs Refunds
                 </h2>
                 <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
-                  For active subscriptions:
+                  Cancellation is different from a refund:
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <span>You can cancel anytime from your account settings</span>
+                    <span>Cancel anytime from account settings - stops future billing</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <span>You'll keep access until the end of your billing period</span>
+                    <span>Access continues until end of current billing period</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                    <span>No refunds for partial months/years - cancellation only stops renewal</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <span>No refunds for partial months/years</span>
-                  </li>
-                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
-                    <CheckCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-                    <span>You won't be charged again after cancellation</span>
+                    <span>No future charges after cancellation</span>
                   </li>
                 </ul>
               </div>
