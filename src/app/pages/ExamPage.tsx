@@ -309,10 +309,10 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </Card>
 
             {/* Question */}
-            <Card className="bg-white dark:bg-slate-900 p-2 sm:p-4 flex-1 flex flex-col min-h-0">
-              <div className="mb-2 flex-shrink-0">
-                <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight line-clamp-3 flex-1">
+            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-5 flex-1 flex flex-col min-h-0">
+              <div className="mb-3 flex-shrink-0">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug flex-1">
                     {question?.questionText}
                   </h3>
                   <button
@@ -329,51 +329,54 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     }`}
                     title={isFlagged(question?.questionId || '') ? 'Unflag question' : 'Flag question for review'}
                   >
-                    <Flag className="w-4 h-4" fill={isFlagged(question?.questionId || '') ? 'currentColor' : 'none'} />
+                    <Flag className="w-5 h-5" fill={isFlagged(question?.questionId || '') ? 'currentColor' : 'none'} />
                   </button>
                 </div>
                 {isMultiSelect && (
-                  <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                    Select all that apply
-                  </p>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                    <CheckCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                      Select all that apply
+                    </p>
+                  </div>
                 )}
               </div>
 
-              {/* Options */}
-              <div className="space-y-1.5 sm:space-y-2 flex-1 min-h-0 overflow-y-auto mb-2">
+              {/* Options - Compact Grid Layout */}
+              <div className="grid grid-cols-1 gap-2 flex-1 mb-3">
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
-                    className={`w-full text-left p-2 sm:p-3 rounded-lg border-2 transition-all ${
+                    className={`w-full text-left p-3 rounded-xl border-2 transition-all transform hover:scale-[1.01] ${
                       isOptionSelected(index)
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20'
-                        : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                        ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 shadow-md'
+                        : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm'
                     }`}
                   >
-                    <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="flex items-start gap-3">
                       {isMultiSelect ? (
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 ${
+                        <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
-                            ? 'border-blue-500 bg-blue-500'
+                            ? 'border-blue-500 bg-blue-500 shadow-sm'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                            <CheckCircle className="w-5 h-5 text-white" />
                           )}
                         </div>
                       ) : (
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
-                            ? 'border-blue-500 bg-blue-500'
+                            ? 'border-blue-500 bg-blue-500 shadow-sm'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
+                            <div className="w-3 h-3 bg-white rounded-full" />
                           )}
                         </div>
                       )}
-                      <span className="text-xs sm:text-sm text-slate-900 dark:text-white font-medium line-clamp-2">
+                      <span className="text-sm sm:text-base text-slate-900 dark:text-white font-medium leading-snug flex-1">
                         {option}
                       </span>
                     </div>
@@ -382,19 +385,19 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex gap-2 sm:gap-3 flex-shrink-0">
+              <div className="flex gap-3 flex-shrink-0">
                 <Button
                   onClick={handlePrevious}
                   disabled={currentQuestionIndex === 0}
                   variant="outline"
-                  className="flex-1 py-2 sm:py-3 text-sm sm:text-base font-semibold disabled:opacity-30"
+                  className="flex-1 py-3 text-base font-bold disabled:opacity-30 border-2"
                 >
                   ← Previous
                 </Button>
                 {currentQuestionIndex < questions.length - 1 ? (
                   <Button
                     onClick={handleNext}
-                    className="flex-1 py-2 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-blue-500 to-indigo-600"
+                    className="flex-1 py-3 text-base font-bold bg-gradient-to-r from-blue-500 to-indigo-600 shadow-lg hover:shadow-xl"
                   >
                     Next →
                   </Button>
