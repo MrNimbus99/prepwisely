@@ -136,7 +136,7 @@ const AppContent: React.FC = () => {
       <Route path="/cert/machine-learning-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="machine-learning-engineer-associate" /></ProtectedRoute>} />
       <Route path="/cert/solutions-architect-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="solutions-architect-professional" /></ProtectedRoute>} />
       <Route path="/cert/devops-engineer-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="devops-engineer-professional" /></ProtectedRoute>} />
-      <Route path="/cert/advanced-networking-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="advanced-networking-professional" /></ProtectedRoute>} />
+      <Route path="/cert/advanced-networking-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="advanced-networking-specialty" /></ProtectedRoute>} />
       <Route path="/cert/security-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="security-specialty" /></ProtectedRoute>} />
       <Route path="/cert/machine-learning-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="machine-learning-specialty" /></ProtectedRoute>} />
       <Route path="/cert/database-specialty" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="database-specialty" /></ProtectedRoute>} />
