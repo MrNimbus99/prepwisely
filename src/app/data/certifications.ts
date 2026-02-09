@@ -42,7 +42,7 @@ export const CERTIFICATIONS = {
       'Troubleshooting and Optimization'
     ]
   },
-  'sysops-administrator-associate': {
+  'cloudops-engineer-associate': {
     name: 'AWS Certified CloudOps Engineer – Associate',
     code: 'SOA-C03',
     domains: [
@@ -191,7 +191,7 @@ export const certifications = [
     isFree: false
   },
   { 
-    id: 'sysops-administrator-associate', 
+    id: 'cloudops-engineer-associate', 
     name: 'AWS Certified CloudOps Engineer – Associate', 
     level: 'Associate', 
     code: 'SOA-C03',

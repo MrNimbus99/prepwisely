@@ -65,7 +65,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       isUnlocked: hasFullAccess
     },
     {
-      id: 'sysops-administrator-associate',
+      id: 'cloudops-engineer-associate',
       name: 'AWS Certified CloudOps Engineer – Associate',
       code: 'SOA-C03',
       level: 'Associate',
@@ -163,7 +163,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       'ai-practitioner': 'cert-ai-practitioner',
       'solutions-architect-associate': 'cert-solutions-architect-associate',
       'developer-associate': 'cert-developer-associate',
-      'sysops-administrator-associate': 'cert-sysops-administrator-associate',
+      'cloudops-engineer-associate': 'cert-cloudops-engineer-associate',
       'data-engineer-associate': 'cert-data-engineer-associate',
       'machine-learning-engineer-associate': 'cert-machine-learning-engineer-associate',
       'solutions-architect-professional': 'cert-solutions-architect-professional',

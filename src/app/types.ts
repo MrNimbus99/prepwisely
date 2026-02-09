@@ -16,7 +16,7 @@ export type PageName =
   | 'cert-ai-practitioner'
   | 'cert-solutions-architect-associate'
   | 'cert-developer-associate'
-  | 'cert-sysops-administrator-associate'
+  | 'cert-cloudops-engineer-associate'
   | 'cert-data-engineer-associate'
   | 'cert-machine-learning-engineer-associate'
   | 'cert-solutions-architect-professional'

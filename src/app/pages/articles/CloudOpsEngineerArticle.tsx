@@ -2,7 +2,7 @@ import React from 'react'
 import { NavigationProps } from '../../types'
 import CertificationArticle from './CertificationArticle'
 
-const SysOpsAdministratorArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
+const CloudOpsEngineerArticle: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <CertificationArticle
       onNavigate={onNavigate}
@@ -74,4 +74,4 @@ const SysOpsAdministratorArticle: React.FC<NavigationProps> = ({ onNavigate }) =
   )
 }
 
-export default SysOpsAdministratorArticle
+export default CloudOpsEngineerArticle

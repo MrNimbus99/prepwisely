@@ -54,7 +54,7 @@ export const sampleQuestions = {
       certification: 'developer-associate'
     }
   ],
-  'sysops-administrator-associate': [
+  'cloudops-engineer-associate': [
     {
       id: 'soa-001',
       question: 'An application running on EC2 instances is experiencing high CPU utilization. Which AWS service can automatically scale the number of instances based on demand?',
@@ -69,7 +69,7 @@ export const sampleQuestions = {
       explanation: 'AWS Auto Scaling monitors your applications and automatically adjusts capacity to maintain steady, predictable performance at the lowest possible cost. It can scale EC2 instances up or down based on demand using CloudWatch metrics like CPU utilization.',
       domain: 'Automation & Optimization',
       difficulty: 'Medium' as const,
-      certification: 'sysops-administrator-associate'
+      certification: 'cloudops-engineer-associate'
     }
   ],
   'solutions-architect-professional': [

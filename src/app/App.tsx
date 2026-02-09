@@ -39,7 +39,7 @@ import AIPractitionerArticle from './pages/articles/AIPractitionerArticle'
 import CloudPractitionerArticle from './pages/articles/CloudPractitionerArticle'
 import SolutionsArchitectAssociateArticle from './pages/articles/SolutionsArchitectAssociateArticle'
 import DeveloperAssociateArticle from './pages/articles/DeveloperAssociateArticle'
-import SysOpsAdministratorArticle from './pages/articles/SysOpsAdministratorArticle'
+import CloudOpsEngineerArticle from './pages/articles/CloudOpsEngineerArticle'
 import DataEngineerArticle from './pages/articles/DataEngineerArticle'
 import MLEngineerArticle from './pages/articles/MLEngineerArticle'
 import SolutionsArchitectProfessionalArticle from './pages/articles/SolutionsArchitectProfessionalArticle'
@@ -93,7 +93,7 @@ const AppContent: React.FC = () => {
       <Route path="/aws-certified-cloud-practitioner-clf-c02" element={<CloudPractitionerArticle onNavigate={handleNavigate} />} />
       <Route path="/aws-certified-solutions-architect-associate-saa-c03" element={<SolutionsArchitectAssociateArticle onNavigate={handleNavigate} />} />
       <Route path="/aws-certified-developer-associate-dva-c02" element={<DeveloperAssociateArticle onNavigate={handleNavigate} />} />
-      <Route path="/aws-certified-cloudops-engineer-associate-soa-c03" element={<SysOpsAdministratorArticle onNavigate={handleNavigate} />} />
+      <Route path="/aws-certified-cloudops-engineer-associate-soa-c03" element={<CloudOpsEngineerArticle onNavigate={handleNavigate} />} />
       <Route path="/aws-certified-data-engineer-associate-dea-c01" element={<DataEngineerArticle onNavigate={handleNavigate} />} />
       <Route path="/aws-certified-machine-learning-engineer-associate-mla-c01" element={<MLEngineerArticle onNavigate={handleNavigate} />} />
       <Route path="/aws-certified-solutions-architect-professional-sap-c02" element={<SolutionsArchitectProfessionalArticle onNavigate={handleNavigate} />} />
@@ -131,7 +131,7 @@ const AppContent: React.FC = () => {
       <Route path="/cert/ai-practitioner" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="ai-practitioner" /></ProtectedRoute>} />
       <Route path="/cert/solutions-architect-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="solutions-architect-associate" /></ProtectedRoute>} />
       <Route path="/cert/developer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="developer-associate" /></ProtectedRoute>} />
-      <Route path="/cert/sysops-administrator-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="sysops-administrator-associate" /></ProtectedRoute>} />
+      <Route path="/cert/cloudops-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="cloudops-engineer-associate" /></ProtectedRoute>} />
       <Route path="/cert/data-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="data-engineer-associate" /></ProtectedRoute>} />
       <Route path="/cert/machine-learning-engineer-associate" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="machine-learning-engineer-associate" /></ProtectedRoute>} />
       <Route path="/cert/solutions-architect-professional" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="solutions-architect-professional" /></ProtectedRoute>} />

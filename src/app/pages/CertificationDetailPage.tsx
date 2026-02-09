@@ -65,7 +65,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     32: { domain: "Final Exam", task: "Practice Exam 2" }
   }
 
-  // Quiz metadata for SysOps Administrator
+  // Quiz metadata for CloudOps Engineer
   const soaQuizMetadata: { [key: number]: { domain: string; task: string } } = {
     1: { domain: "Monitoring & Reporting", task: "Task 1.1: Setup & alarms" },
     2: { domain: "Monitoring & Reporting", task: "Task 1.1: Dashboards & notifications" },
@@ -499,7 +499,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
   const getQuizMetadata = (quizId: number) => {
     if (certId === 'cloud-practitioner') return clfQuizMetadata[quizId] || { domain: "", task: "" }
-    if (certId === 'sysops-administrator-associate') return soaQuizMetadata[quizId] || { domain: "", task: "" }
+    if (certId === 'cloudops-engineer-associate') return soaQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'developer-associate') return dvaQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'machine-learning-specialty') return mlsQuizMetadata[quizId] || { domain: "", task: "" }
     if (certId === 'solutions-architect-associate') return saaQuizMetadata[quizId] || { domain: "", task: "" }
@@ -521,7 +521,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       'ai-practitioner': 120,
       'solutions-architect-associate': 130,
       'developer-associate': 130,
-      'sysops-administrator-associate': 130,
+      'cloudops-engineer-associate': 130,
       'data-engineer-associate': 130,
       'machine-learning-engineer-associate': 130,
       'solutions-architect-professional': 180,
@@ -562,7 +562,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       gradient: 'from-purple-500 to-pink-600',
       badge: '/badges/aws-developer-associate-badge-500x500.png'
     },
-    'sysops-administrator-associate': {
+    'cloudops-engineer-associate': {
       name: 'AWS Certified CloudOps Engineer – Associate',
       code: 'SOA-C03',
       gradient: 'from-orange-500 to-amber-600',
