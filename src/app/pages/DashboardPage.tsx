@@ -142,12 +142,13 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
   const certifications: CertificationCard[] = allCertifications.map(cert => {
     const { completed, percentage } = getProgress(cert.id, 32)
+    const completedQuizzes = Math.min(completed, 30)
     const completedExams = Math.max(0, completed - 30)
     return {
       ...cert,
       progress: percentage,
       totalQuizzes: 32,
-      completedQuizzes: completed,
+      completedQuizzes: completedQuizzes,
       completedExams: completedExams
     }
   })
