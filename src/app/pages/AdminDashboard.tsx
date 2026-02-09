@@ -49,20 +49,20 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
       <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 NestedCerts Admin
               </h1>
-              <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">Admin</Badge>
+              <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 text-xs">Admin</Badge>
             </div>
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={() => onNavigate('dashboard')}>
-                <Eye className="w-4 h-4 mr-2" />
-                Student View
+            <div className="flex gap-2 sm:gap-3">
+              <Button variant="outline" onClick={() => onNavigate('dashboard')} className="text-xs sm:text-sm px-2 sm:px-4">
+                <Eye className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Student View</span>
               </Button>
-              <Button variant="outline" onClick={handleSignOut}>
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
+              <Button variant="outline" onClick={handleSignOut} className="text-xs sm:text-sm px-2 sm:px-4">
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sign Out</span>
               </Button>
             </div>
           </div>
@@ -70,52 +70,56 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
       </header>
 
       {/* Tabs */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-8">
+          <div className="flex gap-2 sm:gap-8 min-w-max">
             <button
               onClick={() => navigate('/admin')}
-              className={`py-4 px-2 border-b-2 font-medium transition-colors ${
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
                 activeTab === 'questions'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
-              <FileEdit className="w-5 h-5 inline mr-2" />
-              Question Editor
+              <FileEdit className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Question Editor</span>
+              <span className="sm:hidden">Editor</span>
             </button>
             <button
               onClick={() => navigate('/admin/view-questions')}
-              className={`py-4 px-2 border-b-2 font-medium transition-colors ${
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
                 activeTab === 'view-questions'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
-              <List className="w-5 h-5 inline mr-2" />
-              View Questions
+              <List className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">View Questions</span>
+              <span className="sm:hidden">View</span>
             </button>
             <button
               onClick={() => navigate('/admin/users')}
-              className={`py-4 px-2 border-b-2 font-medium transition-colors ${
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
                 activeTab === 'users'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
-              <Users className="w-5 h-5 inline mr-2" />
-              User Management
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">User Management</span>
+              <span className="sm:hidden">Users</span>
             </button>
             <button
               onClick={() => navigate('/admin/billing')}
-              className={`py-4 px-2 border-b-2 font-medium transition-colors ${
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
                 activeTab === 'billing'
                   ? 'border-blue-600 text-blue-600'
                   : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
               }`}
             >
-              <CreditCard className="w-5 h-5 inline mr-2" />
-              Billing & Invoices
+              <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Billing & Invoices</span>
+              <span className="sm:hidden">Billing</span>
             </button>
           </div>
         </div>
