@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X, Download, Award } from 'lucide-react'
+import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X, Award } from 'lucide-react'
 import { generateCertificate, downloadCertificate } from '../utils/certificateService'
 
 interface Quiz {
@@ -23,7 +23,7 @@ interface Quiz {
 const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = ({ onNavigate, certId }) => {
   const { completions } = useQuiz()
   const { getFlaggedByCert, removeFlagged } = useFlaggedQuestions()
-  const { user, getCredentials } = useAuth()
+  const { user } = useAuth()
   const [quizCounts, setQuizCounts] = useState<{ [key: string]: number }>({})
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'quizzes' | 'flagged'>('quizzes')

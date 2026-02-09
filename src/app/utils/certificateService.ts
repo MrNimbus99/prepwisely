@@ -1,9 +1,4 @@
-import { SignatureV4 } from '@aws-sdk/signature-v4';
-import { Sha256 } from '@aws-crypto/sha256-js';
-import { HttpRequest } from '@aws-sdk/protocol-http';
-
-const CERTIFICATE_API_URL = import.meta.env.VITE_CERTIFICATE_API_URL || 
-  'https://YOUR_API_ID.execute-api.ap-southeast-2.amazonaws.com/prod/generate';
+const CERTIFICATE_API_URL = 'https://yxa4lhwakg.execute-api.ap-southeast-2.amazonaws.com/prod/generate';
 
 export async function generateCertificate(certCode: string, accessToken: string) {
   try {
