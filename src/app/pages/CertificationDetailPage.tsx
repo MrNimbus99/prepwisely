@@ -3,6 +3,7 @@ import { NavigationProps } from '../types'
 import { useQuiz } from '../contexts/QuizContext'
 import { useFlaggedQuestions } from '../contexts/FlaggedQuestionsContext'
 import { useAuth } from '../contexts/AuthContext'
+import { fetchAuthSession } from 'aws-amplify/auth'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { ArrowLeft, Trophy, CheckCircle, Lock, Play, Clock, Flag, X, Download, Award } from 'lucide-react'
@@ -722,13 +723,19 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
     
     setGeneratingCert(true)
     try {
-      const credentials = await getCredentials()
-      const result = await generateCertificate(user.userId, certification.code, credentials)
+      const session = await fetchAuthSession();
+      const accessToken = session.tokens?.accessToken?.toString();
+      
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+      
+      const result = await generateCertificate(certification.code, accessToken)
       
       if (result.downloadUrl) {
         downloadCertificate(
           result.downloadUrl, 
-          `${certification.code}-Certificate-${user.userId}.pdf`
+          `${certification.code}-Certificate.pdf`
         )
       }
     } catch (error) {

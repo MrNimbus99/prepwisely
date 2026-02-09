@@ -1,15 +1,13 @@
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { CognitoIdentityProviderClient, GetUserCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 const REGION = process.env.AWS_REGION || 'ap-southeast-2';
 const s3Client = new S3Client({ region: REGION });
-const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
 const CERT_BUCKET = process.env.CERT_BUCKET;
 const TEMPLATE_BUCKET = process.env.TEMPLATE_BUCKET;
-const USER_TABLE = process.env.USER_TABLE;
 
 const certificationNames = {
   'CLF-C02': 'AWS Certified Cloud Practitioner',
@@ -29,31 +27,37 @@ const certificationNames = {
 
 export const handler = async (event) => {
   try {
-    const { userId, certCode } = JSON.parse(event.body);
+    const { accessToken, certCode } = JSON.parse(event.body);
     
-    if (!userId || !certCode) {
+    if (!accessToken || !certCode) {
       return {
         statusCode: 400,
         headers: { 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: 'Missing userId or certCode' })
+        body: JSON.stringify({ error: 'Missing accessToken or certCode' })
       };
     }
 
-    // Get user details from DynamoDB
-    const userResult = await dynamoClient.send(new GetCommand({
-      TableName: USER_TABLE,
-      Key: { userId }
+    // Get user details from Cognito using access token
+    const userResult = await cognitoClient.send(new GetUserCommand({
+      AccessToken: accessToken
     }));
 
-    if (!userResult.Item) {
-      return {
-        statusCode: 404,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ error: 'User not found' })
-      };
+    // Extract name from Cognito attributes
+    const attributes = userResult.UserAttributes || [];
+    const nameAttr = attributes.find(attr => attr.Name === 'name');
+    const givenNameAttr = attributes.find(attr => attr.Name === 'given_name');
+    const familyNameAttr = attributes.find(attr => attr.Name === 'family_name');
+    
+    let userName = 'Certificate Holder';
+    if (nameAttr?.Value) {
+      userName = nameAttr.Value;
+    } else if (givenNameAttr?.Value && familyNameAttr?.Value) {
+      userName = `${givenNameAttr.Value} ${familyNameAttr.Value}`;
+    } else if (givenNameAttr?.Value) {
+      userName = givenNameAttr.Value;
     }
 
-    const userName = userResult.Item.name || 'Certificate Holder';
+    const userId = userResult.Username;
     const certName = certificationNames[certCode] || certCode;
     const completionDate = new Date().toLocaleDateString('en-US', { 
       year: 'numeric', 

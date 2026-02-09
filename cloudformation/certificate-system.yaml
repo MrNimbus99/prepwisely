@@ -8,11 +8,6 @@ Parameters:
     AllowedValues:
       - dev
       - prod
-  
-  UserTableName:
-    Type: String
-    Description: Existing DynamoDB user table name
-    Default: prepwisely-users-prod
 
 Resources:
   # S3 Bucket for storing generated certificates
@@ -88,8 +83,8 @@ Resources:
                   - !Sub 'arn:aws:s3:::prepwisely-app-${Environment}-${AWS::AccountId}/Certificate/*'
               - Effect: Allow
                 Action:
-                  - 'dynamodb:GetItem'
-                Resource: !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${UserTableName}'
+                  - 'cognito-idp:GetUser'
+                Resource: '*'
 
   # Lambda function
   CertificateGeneratorFunction:
@@ -105,7 +100,6 @@ Resources:
         Variables:
           CERT_BUCKET: !Ref CertificateBucket
           TEMPLATE_BUCKET: !Sub 'prepwisely-app-${Environment}-${AWS::AccountId}'
-          USER_TABLE: !Ref UserTableName
       Code:
         ZipFile: |
           export const handler = async (event) => {
@@ -140,7 +134,7 @@ Resources:
       RestApiId: !Ref CertificateApi
       ResourceId: !Ref CertificateResource
       HttpMethod: POST
-      AuthorizationType: AWS_IAM
+      AuthorizationType: NONE
       Integration:
         Type: AWS_PROXY
         IntegrationHttpMethod: POST

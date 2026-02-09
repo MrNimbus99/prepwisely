@@ -38,7 +38,6 @@ aws cloudformation deploy \
   --stack-name $STACK_NAME \
   --parameter-overrides \
     Environment=$ENVIRONMENT \
-    UserTableName=prepwisely-users-prod \
   --capabilities CAPABILITY_NAMED_IAM \
   --region $REGION
 
