@@ -851,17 +851,17 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               <button
                 onClick={handleDownloadCertificate}
                 disabled={generatingCert}
-                className="ml-auto pb-3 px-4 font-bold text-base transition-colors flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="ml-auto pb-3 px-6 py-3 font-bold text-base transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 text-white rounded-xl hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 {generatingCert ? (
                   <>
                     <Clock className="w-5 h-5 animate-spin" />
-                    Generating...
+                    <span>Generating Certificate...</span>
                   </>
                 ) : (
                   <>
                     <Award className="w-5 h-5" />
-                    Download Certificate
+                    <span>Download Certificate</span>
                   </>
                 )}
               </button>

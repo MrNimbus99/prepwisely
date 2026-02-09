@@ -66,63 +66,151 @@ export const handler = async (event) => {
     });
     const serialNumber = `NC-${certCode}-${Date.now().toString(36).toUpperCase()}`;
 
-    // Load template PDF from S3
-    const templateResponse = await s3Client.send(new GetObjectCommand({
-      Bucket: TEMPLATE_BUCKET,
-      Key: 'Certificate/nestedcerts_simple_colored_certificate.pdf'
-    }));
-    
-    const templateBytes = await streamToBuffer(templateResponse.Body);
-    const pdfDoc = await PDFDocument.load(templateBytes);
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
-    const { width, height } = firstPage.getSize();
+    // Create a new PDF document
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([842, 595]); // A4 landscape
+    const { width, height } = page.getSize();
 
     // Embed fonts
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    // Draw text on certificate
-    // Name (centered, larger)
-    firstPage.drawText(userName, {
-      x: width / 2 - (userName.length * 12),
-      y: height / 2 + 40,
-      size: 32,
-      font: boldFont,
-      color: rgb(0.2, 0.2, 0.5)
+    // Colors
+    const primaryBlue = rgb(0.2, 0.4, 0.8);
+    const darkGray = rgb(0.2, 0.2, 0.2);
+    const lightGray = rgb(0.5, 0.5, 0.5);
+    const gold = rgb(0.85, 0.65, 0.13);
+
+    // Draw border
+    page.drawRectangle({
+      x: 30,
+      y: 30,
+      width: width - 60,
+      height: height - 60,
+      borderColor: primaryBlue,
+      borderWidth: 3,
     });
 
-    // Certification title (centered)
-    const certTitleSize = 18;
-    const certTitleWidth = certName.length * (certTitleSize * 0.5);
-    firstPage.drawText(certName, {
-      x: width / 2 - certTitleWidth / 2,
-      y: height / 2 - 20,
-      size: certTitleSize,
+    page.drawRectangle({
+      x: 35,
+      y: 35,
+      width: width - 70,
+      height: height - 70,
+      borderColor: gold,
+      borderWidth: 1,
+    });
+
+    // Title
+    page.drawText('CERTIFICATE OF COMPLETION', {
+      x: width / 2 - 200,
+      y: height - 100,
+      size: 28,
+      font: boldFont,
+      color: primaryBlue,
+    });
+
+    // Subtitle
+    page.drawText('This certifies that', {
+      x: width / 2 - 70,
+      y: height - 150,
+      size: 14,
       font: regularFont,
-      color: rgb(0.3, 0.3, 0.3)
+      color: darkGray,
+    });
+
+    // Name (large and centered)
+    const nameSize = 36;
+    const nameWidth = boldFont.widthOfTextAtSize(userName, nameSize);
+    page.drawText(userName, {
+      x: width / 2 - nameWidth / 2,
+      y: height - 210,
+      size: nameSize,
+      font: boldFont,
+      color: darkGray,
+    });
+
+    // Underline for name
+    page.drawLine({
+      start: { x: width / 2 - nameWidth / 2 - 20, y: height - 220 },
+      end: { x: width / 2 + nameWidth / 2 + 20, y: height - 220 },
+      thickness: 2,
+      color: gold,
+    });
+
+    // Achievement text
+    page.drawText('has successfully completed the preparation program for', {
+      x: width / 2 - 210,
+      y: height - 260,
+      size: 14,
+      font: regularFont,
+      color: darkGray,
+    });
+
+    // Certification name (wrapped if needed)
+    const certLines = wrapText(certName, 60);
+    let certY = height - 310;
+    certLines.forEach(line => {
+      const lineWidth = boldFont.widthOfTextAtSize(line, 20);
+      page.drawText(line, {
+        x: width / 2 - lineWidth / 2,
+        y: certY,
+        size: 20,
+        font: boldFont,
+        color: primaryBlue,
+      });
+      certY -= 25;
+    });
+
+    // NestedCerts branding
+    page.drawText('NestedCerts', {
+      x: width / 2 - 60,
+      y: 120,
+      size: 18,
+      font: boldFont,
+      color: primaryBlue,
+    });
+
+    page.drawText('Professional Certification Preparation', {
+      x: width / 2 - 110,
+      y: 100,
+      size: 10,
+      font: regularFont,
+      color: lightGray,
     });
 
     // Date (bottom left)
-    firstPage.drawText(`Date: ${completionDate}`, {
-      x: 50,
+    page.drawText('Date of Completion', {
+      x: 80,
       y: 80,
-      size: 12,
+      size: 10,
+      font: boldFont,
+      color: darkGray,
+    });
+    page.drawText(completionDate, {
+      x: 80,
+      y: 65,
+      size: 10,
       font: regularFont,
-      color: rgb(0.4, 0.4, 0.4)
+      color: lightGray,
     });
 
     // Serial number (bottom right)
-    const serialText = `Serial: ${serialNumber}`;
-    firstPage.drawText(serialText, {
-      x: width - 250,
+    page.drawText('Certificate ID', {
+      x: width - 200,
       y: 80,
-      size: 12,
+      size: 10,
+      font: boldFont,
+      color: darkGray,
+    });
+    page.drawText(serialNumber, {
+      x: width - 200,
+      y: 65,
+      size: 10,
       font: regularFont,
-      color: rgb(0.4, 0.4, 0.4)
+      color: lightGray,
     });
 
-    // Save modified PDF
+    // Save PDF
     const pdfBytes = await pdfDoc.save();
     
     // Upload to S3
@@ -165,6 +253,24 @@ export const handler = async (event) => {
     };
   }
 };
+
+function wrapText(text, maxLength) {
+  if (text.length <= maxLength) return [text];
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = '';
+  
+  words.forEach(word => {
+    if ((currentLine + word).length <= maxLength) {
+      currentLine += (currentLine ? ' ' : '') + word;
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    }
+  });
+  if (currentLine) lines.push(currentLine);
+  return lines;
+}
 
 async function streamToBuffer(stream) {
   const chunks = [];

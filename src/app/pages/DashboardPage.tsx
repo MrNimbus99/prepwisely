@@ -380,7 +380,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                           className={`w-full bg-gradient-to-r ${cert.gradient} hover:shadow-lg transition-all duration-300 text-white font-semibold`}
                         >
                           <Play className="w-4 h-4 mr-2" />
-                          {cert.completedQuizzes === 0 ? 'Start Learning' : 'Continue'}
+                          {cert.completedQuizzes === 0 ? 'Start Learning' : cert.completedQuizzes === cert.totalQuizzes ? 'Completed' : 'Continue'}
                         </Button>
                       </>
                     )}
