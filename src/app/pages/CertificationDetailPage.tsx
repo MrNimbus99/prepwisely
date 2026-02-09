@@ -855,17 +855,17 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
               <button
                 onClick={handleDownloadCertificate}
                 disabled={generatingCert}
-                className="ml-auto px-4 sm:px-8 py-3 sm:py-4 font-bold text-sm sm:text-base transition-all flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 hover:from-amber-500 hover:via-yellow-600 hover:to-amber-600 text-slate-900 rounded-xl sm:rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-0.5 border-2 border-amber-300"
+                className="ml-auto px-3 sm:px-8 py-2 sm:py-4 font-bold text-xs sm:text-base transition-all flex items-center gap-1.5 sm:gap-3 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 hover:from-amber-500 hover:via-yellow-600 hover:to-amber-600 text-slate-900 rounded-lg sm:rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-translate-y-0.5 border-2 border-amber-300"
               >
                 {generatingCert ? (
                   <>
-                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
+                    <Clock className="w-4 h-4 sm:w-6 sm:h-6 animate-spin" />
                     <span className="font-extrabold hidden sm:inline">Downloading...</span>
                     <span className="font-extrabold sm:hidden">Downloading</span>
                   </>
                 ) : (
                   <>
-                    <Award className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <Award className="w-4 h-4 sm:w-6 sm:h-6" />
                     <span className="font-extrabold hidden sm:inline">Download Certificate</span>
                     <span className="font-extrabold sm:hidden">Certificate</span>
                   </>
