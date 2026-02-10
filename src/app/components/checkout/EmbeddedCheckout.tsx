@@ -133,9 +133,10 @@ interface EmbeddedCheckoutProps {
   planName: string
   onSuccess: () => void
   onCancel: () => void
+  user?: { email?: string, name?: string }
 }
 
-export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, userId, amount, planName, onSuccess, onCancel }) => {
+export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, userId, amount, planName, onSuccess, onCancel, user }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -143,7 +144,12 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
     fetch(`${API_BASE}/api/billing/payment-intent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ priceId, userId })
+      body: JSON.stringify({ 
+        priceId, 
+        userId,
+        email: user?.email,
+        name: user?.name
+      })
     })
       .then(r => r.json())
       .then(data => {
@@ -151,7 +157,7 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
         setClientSecret(data.clientSecret)
       })
       .catch(err => setError(err.message))
-  }, [priceId, userId])
+  }, [priceId, userId, user])
 
   if (error) {
     return (

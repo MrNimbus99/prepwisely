@@ -1,6 +1,7 @@
 import React from 'react'
 import { X, ShieldCheck } from 'lucide-react'
 import { EmbeddedCheckout } from './EmbeddedCheckout'
+import { useAuth } from '../../contexts/AuthContext'
 
 interface CheckoutModalProps {
   priceId: string
@@ -12,6 +13,8 @@ interface CheckoutModalProps {
 }
 
 export const CheckoutModal: React.FC<CheckoutModalProps> = ({ priceId, userId, planName, amount, onClose, onSuccess }) => {
+  const { user } = useAuth()
+  
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
@@ -39,6 +42,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({ priceId, userId, p
             planName={planName}
             onSuccess={onSuccess}
             onCancel={onClose}
+            user={user || undefined}
           />
         </div>
       </div>

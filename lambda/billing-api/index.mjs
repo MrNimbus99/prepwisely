@@ -92,7 +92,7 @@ export const handler = async (event) => {
     // POST /payment-intent - Create payment intent for embedded checkout
     if (path === '/api/billing/payment-intent' && method === 'POST') {
       const body = JSON.parse(event.body)
-      const { priceId, userId } = body
+      const { priceId, userId, email, name } = body
 
       if (!priceId || !userId) {
         return {
@@ -106,8 +106,20 @@ export const handler = async (event) => {
       let customerId = customer?.customerId
 
       if (!customerId) {
-        const stripeCustomer = await stripe.customers.create({ metadata: { userId } })
+        const stripeCustomer = await stripe.customers.create({ 
+          metadata: { userId },
+          email: email,
+          name: name
+        })
         customerId = stripeCustomer.id
+      } else {
+        // Update customer with email and name if provided
+        if (email || name) {
+          await stripe.customers.update(customerId, {
+            email: email,
+            name: name
+          })
+        }
       }
 
       const price = await stripe.prices.retrieve(priceId)
