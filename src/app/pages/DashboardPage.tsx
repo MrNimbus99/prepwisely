@@ -27,6 +27,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { getProgress } = useQuiz()
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [purchasedCerts, setPurchasedCerts] = useState<string[]>([])
+  const [hasSubscription, setHasSubscription] = useState(false)
 
   // Check if user has access to all certs (admin and owner)
   const hasFullAccess = user?.email === 'admin@prepwisely.com'
@@ -47,7 +48,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const isCertUnlocked = (certId: string) => {
-    if (hasFullAccess) return true
+    if (hasFullAccess || hasSubscription) return true
     if (certId === 'cloud-practitioner') return true
     const priceId = priceMap[certId]
     const unlocked = purchasedCerts.includes(priceId)
@@ -66,6 +67,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           if (data.purchasedCerts) {
             setPurchasedCerts(data.purchasedCerts)
           }
+          setHasSubscription(data.hasAccess && (data.status === 'active' || data.status === 'trialing'))
         })
         .catch(console.error)
     }
@@ -181,7 +183,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       gradient: 'from-lime-500 to-green-600',
       isUnlocked: isCertUnlocked('machine-learning-specialty')
     }
-  ], [purchasedCerts, hasFullAccess])
+  ], [purchasedCerts, hasFullAccess, hasSubscription])
 
   const certifications: CertificationCard[] = allCertifications.map(cert => {
     const { completed, percentage } = getProgress(cert.id, 32)
