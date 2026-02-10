@@ -102,6 +102,8 @@ export const handler = async (event) => {
         plan: s.items.data[0]?.price?.id,
         amount: s.items.data[0]?.price?.unit_amount,
         current_period_end: s.current_period_end,
+        cancel_at_period_end: s.cancel_at_period_end,
+        canceled_at: s.canceled_at,
         created: s.created
       }))
 

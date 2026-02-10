@@ -12,6 +12,8 @@ interface Subscription {
   plan: string
   amount: number
   current_period_end: number
+  cancel_at_period_end?: boolean
+  canceled_at?: number
   created: number
 }
 
@@ -107,6 +109,7 @@ const SubscriptionsPage: React.FC = () => {
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Amount</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Started</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Next Billing</th>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Cancellation</th>
                 </tr>
               </thead>
               <tbody>
@@ -135,6 +138,20 @@ const SubscriptionsPage: React.FC = () => {
                         <Calendar className="w-4 h-4" />
                         {new Date(sub.current_period_end * 1000).toLocaleDateString()}
                       </div>
+                    </td>
+                    <td className="py-4 px-6">
+                      {sub.cancel_at_period_end ? (
+                        <div className="text-sm">
+                          <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 mb-1">
+                            Canceling
+                          </Badge>
+                          <div className="text-xs text-slate-600 dark:text-slate-400">
+                            Ends: {new Date(sub.current_period_end * 1000).toLocaleDateString()}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-slate-500 dark:text-slate-500">Active</span>
+                      )}
                     </td>
                   </tr>
                 ))}
