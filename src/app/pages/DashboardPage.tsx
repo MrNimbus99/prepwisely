@@ -105,7 +105,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'DVA-C02',
       level: 'Associate',
       gradient: 'from-purple-500 to-pink-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('developer-associate')
     },
     {
       id: 'cloudops-engineer-associate',
@@ -113,7 +113,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'SOA-C03',
       level: 'Associate',
       gradient: 'from-orange-500 to-amber-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('cloudops-engineer-associate')
     },
     {
       id: 'data-engineer-associate',
@@ -121,7 +121,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'DEA-C01',
       level: 'Associate',
       gradient: 'from-cyan-500 to-teal-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('data-engineer-associate')
     },
     {
       id: 'machine-learning-engineer-associate',
@@ -129,7 +129,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'MLA-C01',
       level: 'Associate',
       gradient: 'from-fuchsia-500 to-pink-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('machine-learning-engineer-associate')
     },
     // Professional (3)
     {
@@ -138,7 +138,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'SAP-C02',
       level: 'Professional',
       gradient: 'from-rose-500 to-red-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('solutions-architect-professional')
     },
     {
       id: 'devops-engineer-professional',
@@ -146,7 +146,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'DOP-C02',
       level: 'Professional',
       gradient: 'from-slate-600 to-gray-700',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('devops-engineer-professional')
     },
     {
       id: 'generative-ai-developer-professional',
@@ -154,24 +154,24 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'AIP-C01',
       level: 'Professional',
       gradient: 'from-indigo-500 to-purple-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('generative-ai-developer-professional')
     },
+    // Specialty (3)
     {
       id: 'advanced-networking-specialty',
       name: 'AWS Certified Advanced Networking – Specialty',
       code: 'ANS-C01',
       level: 'Specialty',
       gradient: 'from-sky-500 to-blue-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('advanced-networking-specialty')
     },
-    // Specialty (3)
     {
       id: 'security-specialty',
       name: 'AWS Certified Security – Specialty',
       code: 'SCS-C03',
       level: 'Specialty',
       gradient: 'from-emerald-500 to-green-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('security-specialty')
     },
     {
       id: 'machine-learning-specialty',
@@ -179,7 +179,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'MLS-C01',
       level: 'Specialty',
       gradient: 'from-lime-500 to-green-600',
-      isUnlocked: isCertUnlocked('solutions-architect-associate')
+      isUnlocked: isCertUnlocked('machine-learning-specialty')
     }
   ], [purchasedCerts, hasFullAccess])
 
