@@ -74,18 +74,41 @@ export const handler = async (event) => {
 
       const price = await stripe.prices.retrieve(priceId)
       
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: price.unit_amount,
-        currency: price.currency,
-        customer: customerId,
-        automatic_payment_methods: { enabled: true },
-        metadata: { userId, priceId }
-      })
+      // Check if it's a subscription or one-time payment
+      if (price.type === 'recurring') {
+        // Create subscription with payment intent
+        const subscription = await stripe.subscriptions.create({
+          customer: customerId,
+          items: [{ price: priceId }],
+          payment_behavior: 'default_incomplete',
+          payment_settings: { save_default_payment_method: 'on_subscription' },
+          expand: ['latest_invoice.payment_intent'],
+          metadata: { userId, priceId }
+        })
 
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-        body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify({ 
+            clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+            subscriptionId: subscription.id
+          })
+        }
+      } else {
+        // One-time payment
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: price.unit_amount,
+          currency: price.currency,
+          customer: customerId,
+          automatic_payment_methods: { enabled: true },
+          metadata: { userId, priceId }
+        })
+
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
+        }
       }
     }
 
