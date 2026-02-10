@@ -57,6 +57,9 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     if (hasFullAccess || hasSubscription) return true
     if (certId === 'cloud-practitioner') return true
     
+    // Check if user has lifetime access
+    if (purchasedCerts.includes('price_1Sz5qQETKsGuZh3dD9HMyxMT')) return true
+    
     // Check if cert was purchased individually
     const priceId = priceMap[certId]
     if (purchasedCerts.includes(priceId)) return true
