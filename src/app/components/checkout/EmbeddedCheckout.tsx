@@ -41,8 +41,8 @@ const CheckoutForm: React.FC<{ userId: string, priceId: string, onSuccess: () =>
     }
 
     if (paymentIntent?.status === 'succeeded') {
-      // Wait for webhook to process and unlock cert
-      const maxAttempts = 10
+      // Wait for webhook to process and unlock cert (up to 20 seconds)
+      const maxAttempts = 20
       let previousCount = 0
       
       for (let i = 0; i < maxAttempts; i++) {
@@ -64,7 +64,7 @@ const CheckoutForm: React.FC<{ userId: string, priceId: string, onSuccess: () =>
         }
       }
       
-      // Timeout after 10 seconds - redirect anyway
+      // Timeout after 20 seconds - redirect anyway
       onSuccess()
     }
   }

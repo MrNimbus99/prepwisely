@@ -137,12 +137,16 @@ export const handler = async (event) => {
         const userId = paymentIntent.metadata?.userId
         const priceId = paymentIntent.metadata?.priceId
         
+        console.log('Payment intent data:', { userId, priceId, customer: paymentIntent.customer })
+        
         if (userId && priceId && paymentIntent.customer) {
           // Get existing customer record
           const { Item: customer } = await dynamoClient.send(new GetCommand({
             TableName: CUSTOMERS_TABLE,
             Key: { customerId: paymentIntent.customer }
           }))
+          
+          console.log('Existing customer:', customer ? 'found' : 'not found')
           
           if (!customer) {
             // Create new customer with first cert
@@ -161,6 +165,7 @@ export const handler = async (event) => {
           } else {
             // Add cert to existing customer
             const purchasedCerts = customer.purchasedCerts || []
+            console.log('Current certs:', purchasedCerts, 'Adding:', priceId)
             if (!purchasedCerts.includes(priceId)) {
               purchasedCerts.push(priceId)
               await dynamoClient.send(new UpdateCommand({
@@ -173,8 +178,12 @@ export const handler = async (event) => {
                 }
               }))
               console.log('Added cert:', priceId, 'to customer:', paymentIntent.customer)
+            } else {
+              console.log('Cert already exists, skipping')
             }
           }
+        } else {
+          console.log('Missing required data - skipping')
         }
         break
       }
