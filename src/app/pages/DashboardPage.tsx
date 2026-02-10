@@ -306,24 +306,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     
                     <div className="border-t border-slate-200 dark:border-slate-700 py-1">
                       <button
-                        onClick={async () => {
-                          setUserMenuOpen(false)
-                          if (user) {
-                            try {
-                              const { url } = await createPortalSession(user.userId)
-                              window.location.href = url
-                            } catch (error) {
-                              console.error('Portal error:', error)
-                            }
-                          }
-                        }}
-                        className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
-                      >
-                        <CreditCard className="w-4 h-4" />
-                        Manage Billing
-                      </button>
-                      <button
-                        onClick={() => { setUserMenuOpen(false); onNavigate('pricing'); }}
+                        onClick={() => { setUserMenuOpen(false); onNavigate('subscription'); }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
                         <Package className="w-4 h-4" />
@@ -351,7 +334,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
                         <CreditCard className="w-4 h-4" />
-                        Add / Change Credit Card
+                        Manage Billing & Payment
                       </button>
                     </div>
                     
