@@ -330,14 +330,24 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         Membership & Subscriptions
                       </button>
                       <button
-                        onClick={() => { setUserMenuOpen(false); /* Add purchase history */ }}
+                        onClick={() => { setUserMenuOpen(false); onNavigate('purchase-history'); }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
                         <History className="w-4 h-4" />
                         Purchase History
                       </button>
                       <button
-                        onClick={() => { setUserMenuOpen(false); /* Add payment method */ }}
+                        onClick={async () => {
+                          setUserMenuOpen(false)
+                          if (user) {
+                            try {
+                              const { url } = await createPortalSession(user.userId)
+                              window.location.href = url
+                            } catch (error) {
+                              console.error('Portal error:', error)
+                            }
+                          }
+                        }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
                         <CreditCard className="w-4 h-4" />
