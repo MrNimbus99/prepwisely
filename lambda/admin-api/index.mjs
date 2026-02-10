@@ -31,12 +31,22 @@ export const handler = async (event) => {
     if (path === '/api/admin/users' && method === 'GET') {
       const cognitoUsers = await cognitoClient.send(new ListUsersCommand({ UserPoolId: USER_POOL_ID, Limit: 60 }))
       
-      const users = cognitoUsers.Users.map(u => ({
-        userId: u.Attributes.find(a => a.Name === 'sub')?.Value,
-        email: u.Attributes.find(a => a.Name === 'email')?.Value,
-        createdAt: u.UserCreateDate?.toISOString(),
-        status: u.UserStatus
-      }))
+      console.log('Raw Cognito user:', JSON.stringify(cognitoUsers.Users[0], null, 2))
+      
+      const users = cognitoUsers.Users.map(u => {
+        const getAttr = (name) => u.Attributes?.find(a => a.Name === name)?.Value
+        const user = {
+          userId: getAttr('sub'),
+          email: getAttr('email'),
+          name: getAttr('name'),
+          emailVerified: getAttr('email_verified') === 'true',
+          createdAt: u.UserCreateDate?.toISOString(),
+          status: u.UserStatus,
+          enabled: u.Enabled
+        }
+        console.log('Mapped user:', JSON.stringify(user, null, 2))
+        return user
+      })
 
       return {
         statusCode: 200,
@@ -59,14 +69,15 @@ export const handler = async (event) => {
     // GET /api/admin/payments - List all payments from Stripe
     if (path === '/api/admin/payments' && method === 'GET') {
       const stripeClient = await getStripe()
-      const charges = await stripeClient.charges.list({ limit: 100 })
+      const charges = await stripeClient.charges.list({ limit: 100, expand: ['data.customer'] })
       
       const payments = charges.data.map(c => ({
         id: c.id,
         amount: c.amount,
         currency: c.currency,
         status: c.status,
-        customer_email: c.billing_details?.email || c.receipt_email,
+        customer_email: c.customer?.email || c.billing_details?.email || c.receipt_email,
+        customer_name: c.customer?.name || c.billing_details?.name,
         created: c.created,
         description: c.description,
         receipt_url: c.receipt_url

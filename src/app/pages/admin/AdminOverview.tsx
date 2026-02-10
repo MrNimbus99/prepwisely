@@ -102,20 +102,20 @@ const AdminOverview: React.FC = () => {
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Quick Stats</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <div className="text-2xl font-bold text-blue-600">{stats.totalPayments}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Total Payments</div>
+            <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.totalPayments}</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">Total Payments</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-green-600">${(stats.totalRevenue / stats.totalPayments).toFixed(2)}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Avg Payment</div>
+            <div className="text-2xl font-bold text-green-600 dark:text-green-400">${(stats.totalRevenue / stats.totalPayments).toFixed(2)}</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">Avg Payment</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-purple-600">{stats.activeSubscriptions}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Active Subs</div>
+            <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.activeSubscriptions}</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">Active Subs</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-orange-600">${(stats.activeSubscriptions * 20).toFixed(2)}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">MRR</div>
+            <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">${(stats.activeSubscriptions * 20).toFixed(2)}</div>
+            <div className="text-sm text-slate-700 dark:text-slate-300">MRR</div>
           </div>
         </div>
       </Card>
