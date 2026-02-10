@@ -159,41 +159,52 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </Badge>
             </div>
 
-            {/* Price */}
-            {showPrice && !user && (
-              <div className="flex items-center justify-between pt-2">
-                <div>
-                  {cert.isFree ? (
-                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                      FREE
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$20</div>
-                      <div className="text-2xl font-bold text-slate-900 dark:text-white">
-                        $10
+            {/* Price and Actions */}
+            {!user ? (
+              // Not logged in - show pricing and register button
+              showPrice && (
+                <div className="flex items-center justify-between pt-2">
+                  <div>
+                    {cert.isFree ? (
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        FREE
                       </div>
-                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-bold">50% OFF</Badge>
-                    </div>
-                  )}
+                    ) : (
+                      <div>
+                        <div className="text-sm text-slate-500 dark:text-slate-400 line-through">$20</div>
+                        <div className="text-2xl font-bold text-slate-900 dark:text-white">
+                          $10
+                        </div>
+                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-bold">50% OFF</Badge>
+                      </div>
+                    )}
+                  </div>
+                  <Button 
+                    className={`bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
+                    onClick={() => onNavigate('register')}
+                  >
+                    Get Started
+                  </Button>
                 </div>
-                <Button 
-                  className={`bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
-                  onClick={() => onNavigate('register')}
-                >
-                  {cert.isFree ? 'Start Free' : 'Get Started'}
-                </Button>
-              </div>
-            )}
-            
-            {/* Logged in user - show practice button */}
-            {user && (
+              )
+            ) : cert.isFree ? (
+              // Logged in + free cert - show practice button
               <div className="pt-2">
                 <Button 
                   className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
                   onClick={() => onNavigate('dashboard')}
                 >
                   Start Practicing
+                </Button>
+              </div>
+            ) : (
+              // Logged in + paid cert - show buy button
+              <div className="pt-2">
+                <Button 
+                  className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
+                  onClick={() => handleCheckout(PRICE_IDS[cert.id as keyof typeof PRICE_IDS], cert.name)}
+                >
+                  Buy for $10
                 </Button>
               </div>
             )}
@@ -264,8 +275,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.MONTHLY, 'monthly')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : 'Start Monthly'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.MONTHLY, 'monthly') : onNavigate('register')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Monthly' : 'Get Started'}
                 </Button>
               </div>
             </Card>
@@ -300,8 +311,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.ANNUAL, 'annual')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : 'Start Annual'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.ANNUAL, 'annual') : onNavigate('register')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Annual' : 'Get Started'}
                 </Button>
               </div>
             </Card>
@@ -333,8 +344,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.LIFETIME, 'lifetime')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : 'Buy Lifetime'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.LIFETIME, 'lifetime') : onNavigate('register')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : user ? 'Buy Lifetime' : 'Get Started'}
                 </Button>
               </div>
             </Card>
