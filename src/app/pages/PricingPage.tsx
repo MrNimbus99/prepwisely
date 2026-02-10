@@ -56,6 +56,32 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const professionalCerts = certifications.filter(cert => cert.level === 'Professional')
   const specialtyCerts = certifications.filter(cert => cert.level === 'Specialty')
 
+  // Bundle mapping
+  const bundleMap: Record<string, string[]> = {
+    [PRICE_IDS.ASSOCIATE_BUNDLE]: ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
+    [PRICE_IDS.PROFESSIONAL_BUNDLE]: ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
+    [PRICE_IDS.SPECIALTY_BUNDLE]: ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
+  }
+
+  // Check if cert is unlocked (purchased individually, in bundle, or lifetime)
+  const isCertPurchased = (certId: string) => {
+    const certPriceId = PRICE_IDS[certId as keyof typeof PRICE_IDS]
+    
+    // Check individual purchase
+    if (purchasedCerts.includes(certPriceId)) return true
+    
+    // Check lifetime
+    if (purchasedCerts.includes(PRICE_IDS.LIFETIME)) return true
+    
+    // Check bundles
+    for (const bundlePriceId of purchasedCerts) {
+      const bundleCerts = bundleMap[bundlePriceId]
+      if (bundleCerts?.includes(certId)) return true
+    }
+    
+    return false
+  }
+
   const BundleCard = ({ title, price, originalPrice, certs, gradient, priceId }: { title: string, price: number, originalPrice: number, certs: typeof certifications, gradient: string, priceId: string }) => (
     <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-yellow-500 dark:border-yellow-500 p-6 text-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
       <Badge className="absolute top-4 right-4 bg-yellow-500 text-white font-bold">BUNDLE</Badge>
@@ -227,7 +253,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   Start Practicing
                 </Button>
               </div>
-            ) : purchasedCerts.includes(PRICE_IDS[cert.id as keyof typeof PRICE_IDS]) ? (
+            ) : isCertPurchased(cert.id) ? (
               // Logged in + already purchased - show practice button
               <div className="pt-2">
                 <Button 
