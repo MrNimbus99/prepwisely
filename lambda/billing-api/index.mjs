@@ -62,8 +62,15 @@ export const handler = async (event) => {
         }
       }
 
-      const customer = await getCustomerByUserId(userId)
-      if (!customer?.customerId) {
+      // Get all customers for this user
+      const result = await dynamoClient.send(new QueryCommand({
+        TableName: CUSTOMERS_TABLE,
+        IndexName: 'UserIdIndex',
+        KeyConditionExpression: 'userId = :uid',
+        ExpressionAttributeValues: { ':uid': userId }
+      }))
+
+      if (!result.Items || result.Items.length === 0) {
         return {
           statusCode: 200,
           headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
@@ -71,8 +78,17 @@ export const handler = async (event) => {
         }
       }
 
-      const charges = await stripe.charges.list({ customer: customer.customerId, limit: 100 })
-      const payments = charges.data.map(c => ({
+      // Get charges from all customers
+      const allPayments = []
+      for (const customer of result.Items) {
+        const charges = await stripe.charges.list({ customer: customer.customerId, limit: 100 })
+        allPayments.push(...charges.data)
+      }
+
+      // Sort by created date (newest first)
+      allPayments.sort((a, b) => b.created - a.created)
+
+      const payments = allPayments.map(c => ({
         id: c.id,
         amount: c.amount,
         currency: c.currency,
