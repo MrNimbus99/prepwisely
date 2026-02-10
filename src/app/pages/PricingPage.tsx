@@ -15,6 +15,7 @@ import { CheckoutModal } from '../components/checkout/CheckoutModal'
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
   const [checkoutData, setCheckoutData] = useState<{ priceId: string, planName: string, amount: number } | null>(null)
+  const [purchasedCerts, setPurchasedCerts] = useState<string[]>([])
 
   useSEO({
     title: 'Pricing Plans - AWS Certification Exam Prep | NestedCerts',
@@ -23,11 +24,30 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     canonical: 'https://nestedcerts.com/pricing'
   })
 
+  // Fetch purchased certs
+  React.useEffect(() => {
+    if (user?.userId) {
+      fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}&t=${Date.now()}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.purchasedCerts) setPurchasedCerts(data.purchasedCerts)
+        })
+        .catch(console.error)
+    }
+  }, [user?.userId])
+
   const handleCheckout = (priceId: string, planName: string, amount: number = 10) => {
     if (!user) {
       onNavigate('register')
       return
     }
+    
+    // Check if already purchased
+    if (purchasedCerts.includes(priceId)) {
+      onNavigate('dashboard')
+      return
+    }
+    
     setCheckoutData({ priceId, planName, amount })
   }
   
@@ -189,6 +209,16 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               )
             ) : cert.isFree ? (
               // Logged in + free cert - show practice button
+              <div className="pt-2">
+                <Button 
+                  className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
+                  onClick={() => onNavigate('dashboard')}
+                >
+                  Start Practicing
+                </Button>
+              </div>
+            ) : purchasedCerts.includes(PRICE_IDS[cert.id as keyof typeof PRICE_IDS]) ? (
+              // Logged in + already purchased - show practice button
               <div className="pt-2">
                 <Button 
                   className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
