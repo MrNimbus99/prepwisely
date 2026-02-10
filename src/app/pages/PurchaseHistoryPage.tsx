@@ -37,9 +37,21 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   return (
     <AccountLayout onNavigate={onNavigate} activeTab="history">
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Purchase History</h1>
-          <p className="text-slate-700 dark:text-slate-300 mt-2">View and download your receipts</p>
+        {/* Hero Header */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 rounded-2xl p-8 text-white shadow-2xl">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <Receipt className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-black">Purchase History</h1>
+                <p className="text-green-100 text-lg font-medium">All your transactions in one place</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {loading ? (
@@ -47,60 +59,74 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
           </div>
         ) : payments.length === 0 ? (
-          <Card className="p-12 text-center bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-900">
-            <div className="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Receipt className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+          <Card className="p-12 text-center bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-800 dark:to-slate-900 border-2 border-slate-200 dark:border-slate-700">
+            <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <Receipt className="w-12 h-12 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">No purchases yet</h3>
-            <p className="text-slate-600 dark:text-slate-400 mb-6">Your purchase history will appear here once you make your first purchase</p>
-            <Button onClick={() => onNavigate('pricing')} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">No purchases yet</h3>
+            <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">Your purchase history will appear here once you make your first purchase</p>
+            <Button onClick={() => onNavigate('pricing')} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg font-semibold px-8 py-3">
               Browse Certifications
             </Button>
           </Card>
         ) : (
           <>
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Total Purchases</p>
-                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{payments.length}</p>
+            {/* Stats Cards */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-2 border-blue-200 dark:border-blue-800 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide mb-1">Total Purchases</p>
+                    <p className="text-4xl font-black text-blue-600 dark:text-blue-400">{payments.length}</p>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Receipt className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Total Spent</p>
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">
-                    ${(payments.reduce((sum, p) => sum + (p.status === 'succeeded' ? p.amount : 0), 0) / 100).toFixed(2)}
-                  </p>
+              </Card>
+
+              <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-800 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide mb-1">Total Spent</p>
+                    <p className="text-4xl font-black text-green-600 dark:text-green-400">
+                      ${(payments.reduce((sum, p) => sum + (p.status === 'succeeded' ? p.amount : 0), 0) / 100).toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Download className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-              </div>
+              </Card>
             </div>
 
-            <div className="space-y-3">
+            {/* Transactions List */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Recent Transactions</h3>
               {payments.map((payment) => (
-                <Card key={payment.id} className="p-6 hover:shadow-lg transition-shadow border-2 border-slate-100 dark:border-slate-800">
+                <Card key={payment.id} className="p-6 hover:shadow-xl transition-all border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                          <Receipt className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    <div className="flex items-start gap-4 flex-1">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
+                        <Receipt className="w-7 h-7 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                             ${(payment.amount / 100).toFixed(2)} {payment.currency.toUpperCase()}
                           </h3>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">
-                            {payment.description || 'Purchase'}
-                          </p>
+                          <Badge className={
+                            payment.status === 'succeeded' ? 'bg-green-600 text-white font-semibold' :
+                            payment.status === 'pending' ? 'bg-yellow-600 text-white font-semibold' :
+                            'bg-red-600 text-white font-semibold'
+                          }>
+                            {payment.status}
+                          </Badge>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-3 ml-13">
-                        <Badge className={
-                          payment.status === 'succeeded' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                          payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                          'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                        }>
-                          {payment.status}
-                        </Badge>
-                        <span className="text-xs text-slate-500 dark:text-slate-500">
+                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                          {payment.description || 'Purchase'}
+                        </p>
+                        <p className="text-xs text-slate-500 dark:text-slate-500 font-medium">
                           {new Date(payment.created * 1000).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -108,7 +134,7 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                             hour: '2-digit',
                             minute: '2-digit'
                           })}
-                        </span>
+                        </p>
                       </div>
                     </div>
                     
@@ -116,7 +142,7 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                       <Button
                         variant="outline"
                         onClick={() => window.open(payment.receipt_url, '_blank')}
-                        className="flex items-center gap-2 border-2 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                        className="flex items-center gap-2 border-2 border-blue-300 dark:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 font-semibold"
                       >
                         <Download className="w-4 h-4" />
                         Receipt
