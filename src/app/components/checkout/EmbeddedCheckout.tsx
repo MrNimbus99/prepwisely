@@ -16,7 +16,7 @@ const getStripe = async () => {
   return stripePromise
 }
 
-const CheckoutForm: React.FC<{ onSuccess: () => void, onCancel: () => void }> = ({ onSuccess, onCancel }) => {
+const CheckoutForm: React.FC<{ userId: string, priceId: string, onSuccess: () => void, onCancel: () => void }> = ({ userId, priceId, onSuccess, onCancel }) => {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
@@ -29,17 +29,42 @@ const CheckoutForm: React.FC<{ onSuccess: () => void, onCancel: () => void }> = 
     setLoading(true)
     setError(null)
 
-    const { error: submitError } = await stripe.confirmPayment({
+    const { error: submitError, paymentIntent } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/dashboard?payment=success`,
-      },
+      redirect: 'if_required'
     })
 
     if (submitError) {
       setError(submitError.message || 'Payment failed')
       setLoading(false)
-    } else {
+      return
+    }
+
+    if (paymentIntent?.status === 'succeeded') {
+      // Wait for webhook to process and unlock cert
+      const maxAttempts = 10
+      let previousCount = 0
+      
+      for (let i = 0; i < maxAttempts; i++) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        try {
+          const response = await fetch(`${API_BASE}/api/billing/subscription?userId=${userId}&t=${Date.now()}`)
+          const data = await response.json()
+          const currentCount = data.purchasedCerts?.length || 0
+          
+          // Check if a new cert was added
+          if (currentCount > previousCount || data.purchasedCerts?.includes(priceId)) {
+            onSuccess()
+            return
+          }
+          previousCount = currentCount
+        } catch (err) {
+          console.error('Error checking cert status:', err)
+        }
+      }
+      
+      // Timeout after 10 seconds - redirect anyway
       onSuccess()
     }
   }
@@ -181,7 +206,7 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
         }
       }
     }}>
-      <CheckoutForm onSuccess={onSuccess} onCancel={onCancel} />
+      <CheckoutForm userId={userId} priceId={priceId} onSuccess={onSuccess} onCancel={onCancel} />
     </Elements>
     </div>
   )
