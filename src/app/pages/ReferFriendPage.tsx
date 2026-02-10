@@ -37,7 +37,7 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         </div>
 
         {/* Main Offer Card */}
-        <Card className="p-8 bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 dark:from-blue-800/50 dark:via-indigo-800/50 dark:to-purple-800/50 border-2 border-indigo-200 dark:border-indigo-800 shadow-xl">
+        <Card className="p-8 bg-white dark:bg-slate-800 border-2 border-indigo-300 dark:border-indigo-700 shadow-xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-2xl mb-4 shadow-lg">
               <Sparkles className="w-6 h-6" />
