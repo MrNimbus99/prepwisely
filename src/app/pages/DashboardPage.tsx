@@ -47,7 +47,8 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const isCertUnlocked = (certId: string) => {
-    if (hasFullAccess || certId === 'cloud-practitioner') return true
+    if (hasFullAccess) return true
+    if (certId === 'cloud-practitioner') return true
     return purchasedCerts.includes(priceMap[certId])
   }
 
