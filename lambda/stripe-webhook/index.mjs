@@ -3,8 +3,8 @@ import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-sec
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
 
-const secretsClient = new SecretsManagerClient({ region: process.env.AWS_DEFAULT_REGION || 'ap-southeast-2' })
-const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: process.env.AWS_DEFAULT_REGION || 'ap-southeast-2' }))
+const secretsClient = new SecretsManagerClient({ region: 'ap-southeast-2' })
+const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'ap-southeast-2' }))
 
 const EVENTS_TABLE = process.env.EVENTS_TABLE
 const CUSTOMERS_TABLE = process.env.CUSTOMERS_TABLE
@@ -43,20 +43,17 @@ async function markEventProcessed(eventId) {
     Item: {
       eventId,
       processedAt: new Date().toISOString(),
-      ttl: Math.floor(Date.now() / 1000) + (90 * 24 * 60 * 60) // 90 days
+      ttl: Math.floor(Date.now() / 1000) + (90 * 24 * 60 * 60)
     }
   }))
 }
 
-async function updateCustomerSubscription(customerId, subscriptionData) {
+async function updateCustomer(customerId, data) {
   await dynamoClient.send(new PutCommand({
     TableName: CUSTOMERS_TABLE,
     Item: {
       customerId,
-      subscriptionId: subscriptionData.id,
-      status: subscriptionData.status,
-      currentPeriodEnd: subscriptionData.current_period_end,
-      priceId: subscriptionData.items.data[0]?.price.id,
+      ...data,
       updatedAt: new Date().toISOString()
     }
   }))
@@ -79,7 +76,6 @@ export const handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid signature' }) }
     }
 
-    // Idempotency check
     if (await isEventProcessed(stripeEvent.id)) {
       console.log('Event already processed:', stripeEvent.id)
       return { statusCode: 200, body: JSON.stringify({ received: true, duplicate: true }) }
@@ -90,36 +86,56 @@ export const handler = async (event) => {
     switch (stripeEvent.type) {
       case 'checkout.session.completed': {
         const session = stripeEvent.data.object
-        console.log('Checkout completed:', session.id, 'Customer:', session.customer)
-        // Will update customer mapping in next phase
+        const userId = session.metadata?.userId
+        
+        if (userId) {
+          await updateCustomer(session.customer, {
+            userId,
+            email: session.customer_details?.email,
+            status: session.mode === 'subscription' ? 'active' : 'lifetime'
+          })
+        }
+        console.log('Checkout completed:', session.id)
         break
       }
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated': {
         const subscription = stripeEvent.data.object
-        await updateCustomerSubscription(subscription.customer, subscription)
+        const customer = await stripe.customers.retrieve(subscription.customer)
+        
+        await updateCustomer(subscription.customer, {
+          userId: customer.metadata?.userId,
+          subscriptionId: subscription.id,
+          status: subscription.status,
+          currentPeriodEnd: subscription.current_period_end,
+          priceId: subscription.items.data[0]?.price.id
+        })
         console.log('Subscription updated:', subscription.id, 'Status:', subscription.status)
         break
       }
 
       case 'customer.subscription.deleted': {
         const subscription = stripeEvent.data.object
-        await updateCustomerSubscription(subscription.customer, { ...subscription, status: 'canceled' })
+        await updateCustomer(subscription.customer, {
+          subscriptionId: subscription.id,
+          status: 'canceled',
+          currentPeriodEnd: subscription.current_period_end
+        })
         console.log('Subscription deleted:', subscription.id)
         break
       }
 
       case 'invoice.payment_succeeded': {
         const invoice = stripeEvent.data.object
-        console.log('Payment succeeded:', invoice.id, 'Customer:', invoice.customer)
-        // Will store invoice PDF in next phase
+        console.log('Payment succeeded:', invoice.id)
         break
       }
 
       case 'invoice.payment_failed': {
         const invoice = stripeEvent.data.object
-        console.log('Payment failed:', invoice.id, 'Customer:', invoice.customer)
+        await updateCustomer(invoice.customer, { status: 'past_due' })
+        console.log('Payment failed:', invoice.id)
         break
       }
 

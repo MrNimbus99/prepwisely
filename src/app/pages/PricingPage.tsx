@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { useSEO } from '../hooks/useSEO'
 import { Header } from '../components/layout/Header'
@@ -8,14 +8,36 @@ import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Check, Crown, Calendar, Infinity } from 'lucide-react'
+import { createCheckoutSession, PRICE_IDS } from '../services/stripe'
+import { useAuth } from '../contexts/AuthContext'
 
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
+  const { user } = useAuth()
+  const [loading, setLoading] = useState<string | null>(null)
+
   useSEO({
     title: 'Pricing Plans - AWS Certification Exam Prep | NestedCerts',
     description: 'Choose the perfect plan for your AWS certification journey. Free trial available. Flexible pricing for individuals and teams. Access practice tests, analytics, and study materials for all AWS certifications.',
     keywords: 'AWS certification pricing, AWS exam prep cost, AWS practice test subscription, AWS certification plans, affordable AWS training',
     canonical: 'https://nestedcerts.com/pricing'
   })
+
+  const handleCheckout = async (priceId: string, planName: string) => {
+    if (!user) {
+      onNavigate('register')
+      return
+    }
+
+    try {
+      setLoading(planName)
+      const { url } = await createCheckoutSession(priceId, user.userId)
+      window.location.href = url
+    } catch (error) {
+      console.error('Checkout error:', error)
+      alert('Failed to start checkout. Please try again.')
+      setLoading(null)
+    }
+  }
   
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
   const associateCerts = certifications.filter(cert => cert.level === 'Associate')
@@ -228,8 +250,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
-                  Start Monthly
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.MONTHLY, 'monthly')} disabled={loading === 'monthly'}>
+                  {loading === 'monthly' ? 'Loading...' : 'Start Monthly'}
                 </Button>
               </div>
             </Card>
@@ -264,8 +286,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
-                  Start Annual
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.ANNUAL, 'annual')} disabled={loading === 'annual'}>
+                  {loading === 'annual' ? 'Loading...' : 'Start Annual'}
                 </Button>
               </div>
             </Card>
@@ -297,8 +319,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => onNavigate('register')}>
-                  Buy Lifetime
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.LIFETIME, 'lifetime')} disabled={loading === 'lifetime'}>
+                  {loading === 'lifetime' ? 'Loading...' : 'Buy Lifetime'}
                 </Button>
               </div>
             </Card>
