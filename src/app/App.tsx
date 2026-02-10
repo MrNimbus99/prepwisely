@@ -48,6 +48,9 @@ import GenAIDeveloperArticle from './pages/articles/GenAIDeveloperArticle'
 import SecuritySpecialtyArticle from './pages/articles/SecuritySpecialtyArticle'
 import MLSpecialtyArticle from './pages/articles/MLSpecialtyArticle'
 import AdvancedNetworkingArticle from './pages/articles/AdvancedNetworkingArticle'
+import AccountSettingsPage from './pages/AccountSettingsPage'
+import PurchaseHistoryPage from './pages/PurchaseHistoryPage'
+import ReferFriendPage from './pages/ReferFriendPage'
 import AdminDashboard from './pages/AdminDashboard'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -127,6 +130,9 @@ const AppContent: React.FC = () => {
       <Route path="/admin/questions" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/admin/view-questions" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/admin/view-questions/:certId" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/account-settings" element={<ProtectedRoute><AccountSettingsPage onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/purchase-history" element={<ProtectedRoute><PurchaseHistoryPage onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/refer-friend" element={<ProtectedRoute><ReferFriendPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       
       {/* Certification Routes */}
       <Route path="/cert/cloud-practitioner" element={<ProtectedRoute><CertificationDetailPage onNavigate={handleNavigate} certId="cloud-practitioner" /></ProtectedRoute>} />

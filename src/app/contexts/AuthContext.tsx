@@ -17,6 +17,8 @@ interface AuthContextType {
   confirmSignUp: (email: string, code: string) => Promise<{ success: boolean; error?: string }>
   resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>
   confirmResetPassword: (email: string, code: string, newPassword: string) => Promise<{ success: boolean; error?: string }>
+  updateUserProfile: (data: { name?: string; email?: string }) => Promise<void>
+  deleteAccount: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -148,6 +150,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
+  const updateUserProfile = async (data: { name?: string; email?: string }) => {
+    const { updateUserAttributes } = await import('aws-amplify/auth')
+    const updates: any = {}
+    if (data.name) updates.name = data.name
+    if (data.email) updates.email = data.email
+    await updateUserAttributes({ userAttributes: updates })
+    if (user) {
+      setUser({ ...user, ...data })
+    }
+  }
+
+  const deleteAccount = async () => {
+    const { deleteUser } = await import('aws-amplify/auth')
+    await deleteUser()
+    setUser(null)
+  }
+
   const value = {
     user,
     loading,
@@ -157,7 +176,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signOut,
     confirmSignUp,
     resetPassword,
-    confirmResetPassword
+    confirmResetPassword,
+    updateUserProfile,
+    deleteAccount
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

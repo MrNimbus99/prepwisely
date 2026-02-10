@@ -8,8 +8,10 @@ const API_BASE = 'https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com'
 interface User {
   userId: string
   email: string
+  name?: string
   createdAt: string
   status: string
+  enabled?: boolean
 }
 
 const UserManagement: React.FC = () => {
@@ -79,8 +81,8 @@ const UserManagement: React.FC = () => {
             <table className="w-full">
               <thead className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
                 <tr>
+                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Name</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Email</th>
-                  <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">User ID</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Status</th>
                   <th className="text-left py-4 px-6 font-semibold text-slate-900 dark:text-white">Joined</th>
                 </tr>
@@ -88,10 +90,12 @@ const UserManagement: React.FC = () => {
               <tbody>
                 {filteredUsers.map((user) => (
                   <tr key={user.userId} className="border-t border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-900/50 transition-colors">
-                    <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">{user.email}</td>
-                    <td className="py-4 px-6 text-slate-600 dark:text-slate-400 font-mono text-sm">{user.userId}</td>
+                    <td className="py-4 px-6 text-slate-900 dark:text-white font-medium">{user.name || 'N/A'}</td>
+                    <td className="py-4 px-6 text-slate-700 dark:text-slate-300">{user.email}</td>
                     <td className="py-4 px-6">
-                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Active</Badge>
+                      <Badge className={user.enabled === false ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'}>
+                        {user.enabled === false ? 'Inactive' : user.status}
+                      </Badge>
                     </td>
                     <td className="py-4 px-6 text-slate-700 dark:text-slate-300">
                       {new Date(user.createdAt).toLocaleDateString()}

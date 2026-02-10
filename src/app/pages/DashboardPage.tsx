@@ -5,7 +5,7 @@ import { useQuiz } from '../contexts/QuizContext'
 import { getBadgeUrl } from '../data/certBadges'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
-import { LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard, MapPin, Phone, Package, History } from 'lucide-react'
+import { LogOut, CheckCircle, Lock, Play, Shield, Menu, X, Settings, User, HelpCircle, CreditCard, Package, History } from 'lucide-react'
 import { NestedCertsLogo } from '../components/NestedCertsLogo'
 import { createPortalSession } from '../services/stripe'
 
@@ -282,25 +282,25 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         Dashboard
                       </button>
                       <button
-                        onClick={() => { setUserMenuOpen(false); /* Add profile page */ }}
+                        onClick={() => { setUserMenuOpen(false); onNavigate('account-settings'); }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
                         <Settings className="w-4 h-4" />
-                        Edit Profile
+                        Account Settings
                       </button>
                       <button
-                        onClick={() => { setUserMenuOpen(false); /* Add address page */ }}
+                        onClick={() => { setUserMenuOpen(false); onNavigate('purchase-history'); }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
-                        <MapPin className="w-4 h-4" />
-                        Address
+                        <History className="w-4 h-4" />
+                        Purchase History
                       </button>
                       <button
-                        onClick={() => { setUserMenuOpen(false); onNavigate('contact-support'); }}
+                        onClick={() => { setUserMenuOpen(false); onNavigate('refer-friend'); }}
                         className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center gap-3"
                       >
-                        <Phone className="w-4 h-4" />
-                        Contact
+                        <Package className="w-4 h-4" />
+                        Refer a Friend (20% Off)
                       </button>
                     </div>
                     

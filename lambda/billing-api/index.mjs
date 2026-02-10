@@ -51,6 +51,44 @@ export const handler = async (event) => {
       }
     }
 
+    // GET /api/billing/payments - Get user payments
+    if (path.startsWith('/api/billing/payments') && method === 'GET') {
+      const userId = event.queryStringParameters?.userId
+      if (!userId) {
+        return {
+          statusCode: 400,
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify({ error: 'Missing userId' })
+        }
+      }
+
+      const customer = await getCustomerByUserId(userId)
+      if (!customer?.customerId) {
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify({ payments: [] })
+        }
+      }
+
+      const charges = await stripe.charges.list({ customer: customer.customerId, limit: 100 })
+      const payments = charges.data.map(c => ({
+        id: c.id,
+        amount: c.amount,
+        currency: c.currency,
+        status: c.status,
+        created: c.created,
+        description: c.description,
+        receipt_url: c.receipt_url
+      }))
+
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ payments })
+      }
+    }
+
     // POST /payment-intent - Create payment intent for embedded checkout
     if (path === '/api/billing/payment-intent' && method === 'POST') {
       const body = JSON.parse(event.body)
