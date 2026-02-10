@@ -9,7 +9,6 @@ import { User, Lock, Trash2, AlertTriangle, Save } from 'lucide-react'
 const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, updateUserProfile, deleteAccount } = useAuth()
   const [name, setName] = useState(user?.name || '')
-  const [email, setEmail] = useState(user?.email || '')
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -22,7 +21,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     setLoading(true)
     setMessage(null)
     try {
-      await updateUserProfile({ name, email })
+      await updateUserProfile({ name })
       setMessage({ type: 'success', text: 'Profile updated successfully!' })
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Failed to update profile' })
@@ -40,10 +39,12 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setMessage({ type: 'error', text: 'Password must be at least 8 characters' })
       return
     }
-    
+
     setLoading(true)
     setMessage(null)
     try {
+      const { updatePassword } = await import('aws-amplify/auth')
+      await updatePassword({ oldPassword: currentPassword, newPassword })
       setMessage({ type: 'success', text: 'Password changed successfully!' })
       setCurrentPassword('')
       setNewPassword('')
@@ -60,7 +61,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setMessage({ type: 'error', text: 'Please type DELETE to confirm' })
       return
     }
-    
+
     setLoading(true)
     try {
       await deleteAccount()
@@ -112,11 +113,11 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Email Address</label>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900"
-                placeholder="Enter your email"
+                value={user?.email || ''}
+                disabled
+                className="w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-700 rounded-lg bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 cursor-not-allowed"
               />
+              <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">Email cannot be changed</p>
             </div>
 
             <Button onClick={handleUpdateProfile} disabled={loading} className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg">
