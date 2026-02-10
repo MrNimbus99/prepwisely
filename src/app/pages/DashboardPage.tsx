@@ -49,7 +49,10 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const isCertUnlocked = (certId: string) => {
     if (hasFullAccess) return true
     if (certId === 'cloud-practitioner') return true
-    return purchasedCerts.includes(priceMap[certId])
+    const priceId = priceMap[certId]
+    const unlocked = purchasedCerts.includes(priceId)
+    console.log(`Cert ${certId}: priceId=${priceId}, unlocked=${unlocked}`)
+    return unlocked
   }
 
   // Fetch purchased certs on mount
@@ -58,6 +61,8 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}&t=${Date.now()}`)
         .then(r => r.json())
         .then(data => {
+          console.log('API Response:', data)
+          console.log('Purchased certs:', data.purchasedCerts)
           if (data.purchasedCerts) {
             setPurchasedCerts(data.purchasedCerts)
           }
