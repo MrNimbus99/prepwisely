@@ -8,12 +8,13 @@ import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Check, Crown, Calendar, Infinity } from 'lucide-react'
-import { createCheckoutSession, PRICE_IDS } from '../services/stripe'
+import { PRICE_IDS } from '../services/stripe'
 import { useAuth } from '../contexts/AuthContext'
+import { CheckoutModal } from '../components/checkout/CheckoutModal'
 
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
-  const [loading, setLoading] = useState<string | null>(null)
+  const [checkoutData, setCheckoutData] = useState<{ priceId: string, planName: string } | null>(null)
 
   useSEO({
     title: 'Pricing Plans - AWS Certification Exam Prep | NestedCerts',
@@ -22,21 +23,12 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     canonical: 'https://nestedcerts.com/pricing'
   })
 
-  const handleCheckout = async (priceId: string, planName: string) => {
+  const handleCheckout = (priceId: string, planName: string) => {
     if (!user) {
       onNavigate('register')
       return
     }
-
-    try {
-      setLoading(planName)
-      const { url } = await createCheckoutSession(priceId, user.userId)
-      window.location.href = url
-    } catch (error) {
-      console.error('Checkout error:', error)
-      alert('Failed to start checkout. Please try again.')
-      setLoading(null)
-    }
+    setCheckoutData({ priceId, planName })
   }
   
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
@@ -203,6 +195,16 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
       <Header onNavigate={onNavigate} />
 
+      {checkoutData && user && (
+        <CheckoutModal
+          priceId={checkoutData.priceId}
+          userId={user.userId}
+          planName={checkoutData.planName}
+          onClose={() => setCheckoutData(null)}
+          onSuccess={() => onNavigate('dashboard')}
+        />
+      )}
+
       {/* Hero Section */}
       <section className="py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -250,8 +252,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.MONTHLY, 'monthly')} disabled={loading === 'monthly'}>
-                  {loading === 'monthly' ? 'Loading...' : 'Start Monthly'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.MONTHLY, 'monthly')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : 'Start Monthly'}
                 </Button>
               </div>
             </Card>
@@ -286,8 +288,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.ANNUAL, 'annual')} disabled={loading === 'annual'}>
-                  {loading === 'annual' ? 'Loading...' : 'Start Annual'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.ANNUAL, 'annual')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : 'Start Annual'}
                 </Button>
               </div>
             </Card>
@@ -319,8 +321,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.LIFETIME, 'lifetime')} disabled={loading === 'lifetime'}>
-                  {loading === 'lifetime' ? 'Loading...' : 'Buy Lifetime'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => handleCheckout(PRICE_IDS.LIFETIME, 'lifetime')} disabled={checkoutData !== null}>
+                  {checkoutData !== null ? 'Loading...' : 'Buy Lifetime'}
                 </Button>
               </div>
             </Card>
@@ -355,7 +357,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {associateCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Associate" price={40} originalPrice={100} certs={associateCerts} gradient="from-blue-500 to-indigo-600" />
+              <BundleCard title="Associate" price={45} originalPrice={50} certs={associateCerts} gradient="from-blue-500 to-indigo-600" />
             </div>
           </div>
 

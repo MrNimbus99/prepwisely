@@ -10,6 +10,21 @@ Parameters:
       - test
 
 Resources:
+  # S3 Bucket for Invoice PDFs
+  InvoicesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'nestedcerts-invoices-${Environment}-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
   # DynamoDB Tables
   StripeEventsTable:
     Type: AWS::DynamoDB::Table
@@ -83,6 +98,15 @@ Resources:
                 Action:
                   - secretsmanager:GetSecretValue
                 Resource: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:stripe/test-*'
+        - PolicyName: S3InvoiceAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                Resource: !Sub '${InvoicesBucket.Arn}/*'
 
   # Lambda Function
   WebhookLambda:
@@ -98,6 +122,7 @@ Resources:
         Variables:
           EVENTS_TABLE: !Ref StripeEventsTable
           CUSTOMERS_TABLE: !Ref StripeCustomersTable
+          INVOICES_BUCKET: !Ref InvoicesBucket
       Code:
         ZipFile: |
           export const handler = async () => ({ statusCode: 200, body: 'Placeholder' })
@@ -154,5 +179,7 @@ Outputs:
     Value: !Ref StripeEventsTable
   CustomersTableName:
     Value: !Ref StripeCustomersTable
+  InvoicesBucketName:
+    Value: !Ref InvoicesBucket
   LambdaFunctionArn:
     Value: !GetAtt WebhookLambda.Arn

@@ -30,6 +30,7 @@ Resources:
                   - dynamodb:PutItem
                   - dynamodb:GetItem
                   - dynamodb:Query
+                  - dynamodb:Scan
                 Resource:
                   - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/stripe-customers-${Environment}'
                   - !Sub 'arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/stripe-customers-${Environment}/index/*'
@@ -95,6 +96,27 @@ Resources:
     Properties:
       ApiId: !Ref BillingApi
       RouteKey: 'POST /api/billing/checkout-session'
+      Target: !Sub 'integrations/${BillingIntegration}'
+
+  PaymentIntentRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref BillingApi
+      RouteKey: 'POST /api/billing/payment-intent'
+      Target: !Sub 'integrations/${BillingIntegration}'
+
+  AdminUsersRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref BillingApi
+      RouteKey: 'GET /api/admin/users'
+      Target: !Sub 'integrations/${BillingIntegration}'
+
+  AdminPaymentsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref BillingApi
+      RouteKey: 'GET /api/admin/payments'
       Target: !Sub 'integrations/${BillingIntegration}'
 
   PortalRoute:

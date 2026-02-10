@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, GetCommand, QueryCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, GetCommand, QueryCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 
 const secretsClient = new SecretsManagerClient({ region: 'ap-southeast-2' })
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'ap-southeast-2' }))
@@ -51,6 +51,44 @@ export const handler = async (event) => {
       }
     }
 
+    // POST /payment-intent - Create payment intent for embedded checkout
+    if (path === '/api/billing/payment-intent' && method === 'POST') {
+      const body = JSON.parse(event.body)
+      const { priceId, userId } = body
+
+      if (!priceId || !userId) {
+        return {
+          statusCode: 400,
+          headers: { 'Access-Control-Allow-Origin': '*' },
+          body: JSON.stringify({ error: 'Missing priceId or userId' })
+        }
+      }
+
+      let customer = await getCustomerByUserId(userId)
+      let customerId = customer?.customerId
+
+      if (!customerId) {
+        const stripeCustomer = await stripe.customers.create({ metadata: { userId } })
+        customerId = stripeCustomer.id
+      }
+
+      const price = await stripe.prices.retrieve(priceId)
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: price.unit_amount,
+        currency: price.currency,
+        customer: customerId,
+        automatic_payment_methods: { enabled: true },
+        metadata: { userId, priceId }
+      })
+
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ clientSecret: paymentIntent.client_secret })
+      }
+    }
+
     // POST /checkout-session - Create checkout
     if (path === '/api/billing/checkout-session' && method === 'POST') {
       const body = JSON.parse(event.body)
@@ -87,6 +125,7 @@ export const handler = async (event) => {
         success_url: SUCCESS_URL,
         cancel_url: CANCEL_URL,
         automatic_tax: { enabled: true },
+        customer_update: { address: 'auto' },
         metadata: { userId }
       })
 
@@ -153,6 +192,51 @@ export const handler = async (event) => {
           status: customer?.status || 'none',
           currentPeriodEnd: customer?.currentPeriodEnd
         })
+      }
+    }
+
+    // GET /api/admin/users - List all users
+    if (path === '/api/admin/users' && method === 'GET') {
+      const result = await dynamoClient.send(new ScanCommand({
+        TableName: CUSTOMERS_TABLE,
+        ProjectionExpression: 'userId, customerId, createdAt'
+      }))
+      
+      // Get emails from Stripe
+      const usersWithEmails = await Promise.all(
+        result.Items.map(async (item) => {
+          try {
+            const customer = await stripe.customers.retrieve(item.customerId)
+            return {
+              userId: item.userId,
+              email: customer.email,
+              createdAt: item.createdAt || new Date().toISOString()
+            }
+          } catch (e) {
+            return {
+              userId: item.userId,
+              email: 'Unknown',
+              createdAt: item.createdAt || new Date().toISOString()
+            }
+          }
+        })
+      )
+      
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ users: usersWithEmails })
+      }
+    }
+
+    // GET /api/admin/payments - List all payments
+    if (path === '/api/admin/payments' && method === 'GET') {
+      const charges = await stripe.charges.list({ limit: 100 })
+      
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ payments: charges.data })
       }
     }
 
