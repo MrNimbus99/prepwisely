@@ -27,10 +27,14 @@ const UserManagement: React.FC = () => {
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${API_BASE}/api/admin/users`)
+      if (!response.ok) {
+        throw new Error('Admin API not available')
+      }
       const data = await response.json()
       setUsers(data.users || [])
     } catch (error) {
       console.error('Failed to fetch users:', error)
+      setUsers([])
     } finally {
       setLoading(false)
     }
@@ -73,7 +77,7 @@ const UserManagement: React.FC = () => {
           </div>
         ) : filteredUsers.length === 0 ? (
           <div className="text-center py-12 text-slate-500">
-            {search ? 'No users found matching your search' : 'No users yet'}
+            {search ? 'No users found matching your search' : 'Admin API not configured. User management is currently unavailable.'}
           </div>
         ) : (
           <div className="overflow-x-auto">
