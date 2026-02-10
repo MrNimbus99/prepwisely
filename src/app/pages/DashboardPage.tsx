@@ -47,13 +47,27 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     'machine-learning-specialty': 'price_1Sz6P6ETKsGuZh3dmtFZBT0s'
   }
 
+  const bundleMap: Record<string, string[]> = {
+    'price_1Sz6P7ETKsGuZh3d1j5j0cio': ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
+    'price_1Sz6P8ETKsGuZh3dTtpUnpUU': ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
+    'price_1Sz6P8ETKsGuZh3drB19tXES': ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
+  }
+
   const isCertUnlocked = (certId: string) => {
     if (hasFullAccess || hasSubscription) return true
     if (certId === 'cloud-practitioner') return true
+    
+    // Check if cert was purchased individually
     const priceId = priceMap[certId]
-    const unlocked = purchasedCerts.includes(priceId)
-    console.log(`Cert ${certId}: priceId=${priceId}, unlocked=${unlocked}`)
-    return unlocked
+    if (purchasedCerts.includes(priceId)) return true
+    
+    // Check if cert is included in any purchased bundle
+    for (const bundlePriceId of purchasedCerts) {
+      const bundleCerts = bundleMap[bundlePriceId]
+      if (bundleCerts?.includes(certId)) return true
+    }
+    
+    return false
   }
 
   // Fetch purchased certs on mount
