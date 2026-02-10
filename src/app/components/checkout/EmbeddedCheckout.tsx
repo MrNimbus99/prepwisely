@@ -166,7 +166,8 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
         priceId, 
         userId,
         email: user?.email,
-        name: user?.name
+        name: user?.name,
+        description: planName
       })
     })
       .then(r => r.json())
@@ -175,7 +176,7 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
         setClientSecret(data.clientSecret)
       })
       .catch(err => setError(err.message))
-  }, [priceId, userId, user])
+  }, [priceId, userId, user, planName])
 
   if (error) {
     return (

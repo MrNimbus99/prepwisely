@@ -108,7 +108,7 @@ export const handler = async (event) => {
     // POST /payment-intent - Create payment intent for embedded checkout
     if (path === '/api/billing/payment-intent' && method === 'POST') {
       const body = JSON.parse(event.body)
-      const { priceId, userId, email, name } = body
+      const { priceId, userId, email, name, description } = body
 
       if (!priceId || !userId) {
         return {
@@ -167,6 +167,7 @@ export const handler = async (event) => {
           currency: price.currency,
           customer: customerId,
           automatic_payment_methods: { enabled: true },
+          description: description || 'Certification Purchase',
           metadata: { userId, priceId }
         })
 
