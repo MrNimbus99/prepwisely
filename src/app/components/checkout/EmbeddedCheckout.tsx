@@ -53,6 +53,7 @@ const CheckoutForm: React.FC<{ onSuccess: () => void, onCancel: () => void }> = 
         </div>
         <PaymentElement options={{
           layout: 'tabs',
+          paymentMethodOrder: ['card'],
           defaultValues: { billingDetails: { address: { country: 'AU' } } }
         }} />
       </div>
@@ -103,11 +104,13 @@ const CheckoutForm: React.FC<{ onSuccess: () => void, onCancel: () => void }> = 
 interface EmbeddedCheckoutProps {
   priceId: string
   userId: string
+  amount: number
+  planName: string
   onSuccess: () => void
   onCancel: () => void
 }
 
-export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, userId, onSuccess, onCancel }) => {
+export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, userId, amount, planName, onSuccess, onCancel }) => {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
@@ -146,7 +149,25 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
   }
 
   return (
-    <Elements stripe={getStripe()} options={{ 
+    <div className="space-y-6">
+      {/* Order Summary */}
+      <div className="bg-white dark:bg-slate-800 p-4 rounded-lg border-2 border-blue-200 dark:border-slate-700">
+        <h3 className="font-semibold text-slate-900 dark:text-white mb-3">Order Summary</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-slate-600 dark:text-slate-400">{planName}</span>
+            <span className="font-semibold text-slate-900 dark:text-white">${amount.toFixed(2)} AUD</span>
+          </div>
+          <div className="border-t border-slate-200 dark:border-slate-700 pt-2 mt-2">
+            <div className="flex justify-between font-bold">
+              <span className="text-slate-900 dark:text-white">Total</span>
+              <span className="text-blue-600 dark:text-blue-400">${amount.toFixed(2)} AUD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Elements stripe={getStripe()} options={{ 
       clientSecret,
       appearance: {
         theme: 'stripe',
@@ -162,5 +183,6 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
     }}>
       <CheckoutForm onSuccess={onSuccess} onCancel={onCancel} />
     </Elements>
+    </div>
   )
 }

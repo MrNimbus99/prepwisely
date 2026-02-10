@@ -14,7 +14,7 @@ import { CheckoutModal } from '../components/checkout/CheckoutModal'
 
 const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
-  const [checkoutData, setCheckoutData] = useState<{ priceId: string, planName: string } | null>(null)
+  const [checkoutData, setCheckoutData] = useState<{ priceId: string, planName: string, amount: number } | null>(null)
 
   useSEO({
     title: 'Pricing Plans - AWS Certification Exam Prep | NestedCerts',
@@ -23,12 +23,12 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     canonical: 'https://nestedcerts.com/pricing'
   })
 
-  const handleCheckout = (priceId: string, planName: string) => {
+  const handleCheckout = (priceId: string, planName: string, amount: number = 10) => {
     if (!user) {
       onNavigate('register')
       return
     }
-    setCheckoutData({ priceId, planName })
+    setCheckoutData({ priceId, planName, amount })
   }
   
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
@@ -223,6 +223,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           priceId={checkoutData.priceId}
           userId={user.userId}
           planName={checkoutData.planName}
+          amount={checkoutData.amount}
           onClose={() => setCheckoutData(null)}
           onSuccess={() => onNavigate('dashboard')}
         />
@@ -275,7 +276,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.MONTHLY, 'monthly') : onNavigate('register')} disabled={checkoutData !== null}>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.MONTHLY, 'Monthly Subscription', 20) : onNavigate('register')} disabled={checkoutData !== null}>
                   {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Monthly' : 'Get Started'}
                 </Button>
               </div>
@@ -311,7 +312,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.ANNUAL, 'annual') : onNavigate('register')} disabled={checkoutData !== null}>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.ANNUAL, 'Annual Subscription', 70) : onNavigate('register')} disabled={checkoutData !== null}>
                   {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Annual' : 'Get Started'}
                 </Button>
               </div>
@@ -344,7 +345,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.LIFETIME, 'lifetime') : onNavigate('register')} disabled={checkoutData !== null}>
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.LIFETIME, 'Lifetime Access', 100) : onNavigate('register')} disabled={checkoutData !== null}>
                   {checkoutData !== null ? 'Loading...' : user ? 'Buy Lifetime' : 'Get Started'}
                 </Button>
               </div>
