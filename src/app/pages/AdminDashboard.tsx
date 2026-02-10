@@ -5,11 +5,13 @@ import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { FileEdit, Users, CreditCard, LogOut, Eye, List } from 'lucide-react'
+import { FileEdit, Users, LogOut, Eye, List, BarChart3, Receipt, Repeat } from 'lucide-react'
 import QuestionEditor from './admin/QuestionEditor'
 import ViewQuestions from './admin/ViewQuestions'
 import UserManagement from './admin/UserManagement'
-import BillingManagement from './admin/BillingManagement'
+import AdminOverview from './admin/AdminOverview'
+import PaymentsPage from './admin/PaymentsPage'
+import SubscriptionsPage from './admin/SubscriptionsPage'
 
 const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
@@ -21,8 +23,10 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
     const path = location.pathname
     if (path.includes('/admin/view-questions')) return 'view-questions'
     if (path.includes('/admin/users')) return 'users'
-    if (path.includes('/admin/billing')) return 'billing'
-    return 'questions'
+    if (path.includes('/admin/payments')) return 'payments'
+    if (path.includes('/admin/subscriptions')) return 'subscriptions'
+    if (path.includes('/admin/questions')) return 'questions'
+    return 'overview'
   }
   
   const activeTab = getActiveTab()
@@ -72,9 +76,57 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
       {/* Tabs */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-2 sm:gap-8 min-w-max">
+          <div className="flex gap-2 sm:gap-8 min-w-max overflow-x-auto">
             <button
               onClick={() => navigate('/admin')}
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
+                activeTab === 'overview'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Overview</span>
+              <span className="sm:hidden">Home</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/payments')}
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
+                activeTab === 'payments'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Receipt className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Payments</span>
+              <span className="sm:hidden">Pay</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/subscriptions')}
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
+                activeTab === 'subscriptions'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Repeat className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Subscriptions</span>
+              <span className="sm:hidden">Subs</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/users')}
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
+                activeTab === 'users'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Users</span>
+              <span className="sm:hidden">Users</span>
+            </button>
+            <button
+              onClick={() => navigate('/admin/questions')}
               className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
                 activeTab === 'questions'
                   ? 'border-blue-600 text-blue-600'
@@ -82,8 +134,8 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               }`}
             >
               <FileEdit className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Question Editor</span>
-              <span className="sm:hidden">Editor</span>
+              <span className="hidden sm:inline">Add Question</span>
+              <span className="sm:hidden">Add</span>
             </button>
             <button
               onClick={() => navigate('/admin/view-questions')}
@@ -97,40 +149,18 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               <span className="hidden sm:inline">View Questions</span>
               <span className="sm:hidden">View</span>
             </button>
-            <button
-              onClick={() => navigate('/admin/users')}
-              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
-                activeTab === 'users'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
-              }`}
-            >
-              <Users className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">User Management</span>
-              <span className="sm:hidden">Users</span>
-            </button>
-            <button
-              onClick={() => navigate('/admin/billing')}
-              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
-                activeTab === 'billing'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
-              }`}
-            >
-              <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Billing & Invoices</span>
-              <span className="sm:hidden">Billing</span>
-            </button>
           </div>
         </div>
       </div>
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'overview' && <AdminOverview />}
+        {activeTab === 'payments' && <PaymentsPage />}
+        {activeTab === 'subscriptions' && <SubscriptionsPage />}
+        {activeTab === 'users' && <UserManagement />}
         {activeTab === 'questions' && <QuestionEditor />}
         {activeTab === 'view-questions' && <ViewQuestions />}
-        {activeTab === 'users' && <UserManagement />}
-        {activeTab === 'billing' && <BillingManagement />}
       </main>
     </div>
   )

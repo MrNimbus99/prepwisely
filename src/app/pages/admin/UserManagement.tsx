@@ -9,10 +9,7 @@ interface User {
   userId: string
   email: string
   createdAt: string
-  subscription?: {
-    status: string
-    plan: string
-  }
+  status: string
 }
 
 const UserManagement: React.FC = () => {
@@ -27,9 +24,7 @@ const UserManagement: React.FC = () => {
   const fetchUsers = async () => {
     try {
       const response = await fetch(`${API_BASE}/api/admin/users`)
-      if (!response.ok) {
-        throw new Error('Admin API not available')
-      }
+      if (!response.ok) throw new Error('Failed to fetch')
       const data = await response.json()
       setUsers(data.users || [])
     } catch (error) {
@@ -77,7 +72,7 @@ const UserManagement: React.FC = () => {
           </div>
         ) : filteredUsers.length === 0 ? (
           <div className="text-center py-12 text-slate-500">
-            {search ? 'No users found matching your search' : 'Admin API not configured. User management is currently unavailable.'}
+            {search ? 'No users found matching your search' : 'No users registered yet'}
           </div>
         ) : (
           <div className="overflow-x-auto">
