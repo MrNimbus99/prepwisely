@@ -15,6 +15,7 @@ export type PageName =
   | 'account-settings'
   | 'purchase-history'
   | 'refer-friend'
+  | 'subscription'
   | 'cert-cloud-practitioner'
   | 'cert-ai-practitioner'
   | 'cert-solutions-architect-associate'

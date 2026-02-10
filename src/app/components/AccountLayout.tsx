@@ -32,7 +32,7 @@ export const AccountLayout: React.FC<AccountLayoutProps> = ({ children, onNaviga
         }
       }
     },
-    { id: 'membership', label: 'Membership & Subscriptions', icon: Package, action: () => onNavigate('pricing') },
+    { id: 'membership', label: 'Membership & Subscriptions', icon: Package, action: () => onNavigate('subscription') },
     { 
       id: 'card', 
       label: 'Add / Change Credit Card', 
