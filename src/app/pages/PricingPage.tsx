@@ -160,7 +160,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
 
             {/* Price */}
-            {showPrice && (
+            {showPrice && !user && (
               <div className="flex items-center justify-between pt-2">
                 <div>
                   {cert.isFree ? (
@@ -182,6 +182,18 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('register')}
                 >
                   {cert.isFree ? 'Start Free' : 'Get Started'}
+                </Button>
+              </div>
+            )}
+            
+            {/* Logged in user - show practice button */}
+            {user && (
+              <div className="pt-2">
+                <Button 
+                  className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
+                  onClick={() => onNavigate('dashboard')}
+                >
+                  Start Practicing
                 </Button>
               </div>
             )}
