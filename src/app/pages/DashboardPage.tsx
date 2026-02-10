@@ -71,8 +71,8 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     }
   }, [user?.userId])
 
-  // All certifications with unique colors
-  const allCertifications = [
+  // All certifications with unique colors - recalculate when purchasedCerts changes
+  const allCertifications = React.useMemo(() => [
     // Foundational (2)
     {
       id: 'cloud-practitioner',
@@ -181,7 +181,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       gradient: 'from-lime-500 to-green-600',
       isUnlocked: isCertUnlocked('solutions-architect-associate')
     }
-  ]
+  ], [purchasedCerts, hasFullAccess])
 
   const certifications: CertificationCard[] = allCertifications.map(cert => {
     const { completed, percentage } = getProgress(cert.id, 32)
