@@ -233,7 +233,8 @@ export const handler = async (event) => {
 
       const session = await stripe.billingPortal.sessions.create({
         customer: customer.customerId,
-        return_url: 'https://nestedcerts.com/dashboard'
+        return_url: 'https://nestedcerts.com/dashboard',
+        configuration: undefined // Use default portal config which includes billing details
       })
 
       return {

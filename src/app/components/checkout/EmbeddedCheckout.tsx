@@ -79,7 +79,25 @@ const CheckoutForm: React.FC<{ userId: string, priceId: string, onSuccess: () =>
         <PaymentElement options={{
           layout: 'tabs',
           paymentMethodOrder: ['card'],
-          defaultValues: { billingDetails: { address: { country: 'AU' } } }
+          fields: {
+            billingDetails: {
+              name: 'auto',
+              email: 'auto',
+              address: {
+                country: 'auto',
+                postalCode: 'auto',
+                line1: 'auto',
+                line2: 'auto',
+                city: 'auto',
+                state: 'auto'
+              }
+            }
+          },
+          defaultValues: { 
+            billingDetails: { 
+              address: { country: 'AU' } 
+            } 
+          }
         }} />
       </div>
       
