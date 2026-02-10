@@ -53,48 +53,48 @@ const AdminOverview: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800">
+        <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-green-500 rounded-xl">
+            <div className="p-3 bg-green-500 rounded-xl shadow-md">
               <DollarSign className="w-6 h-6 text-white" />
             </div>
-            <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">All Time</Badge>
+            <Badge className="bg-green-600 text-white dark:bg-green-700 font-semibold">All Time</Badge>
           </div>
-          <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">${stats.totalRevenue.toFixed(2)}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Total Revenue</div>
+          <div className="text-3xl font-bold text-green-700 dark:text-green-300 mb-1">${stats.totalRevenue.toFixed(2)}</div>
+          <div className="text-sm font-medium text-green-800 dark:text-green-200">Total Revenue</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800">
+        <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-2 border-blue-200 dark:border-blue-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-500 rounded-xl">
+            <div className="p-3 bg-blue-500 rounded-xl shadow-md">
               <TrendingUp className="w-6 h-6 text-white" />
             </div>
-            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">This Month</Badge>
+            <Badge className="bg-blue-600 text-white dark:bg-blue-700 font-semibold">This Month</Badge>
           </div>
-          <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">${stats.monthlyRevenue.toFixed(2)}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Monthly Revenue</div>
+          <div className="text-3xl font-bold text-blue-700 dark:text-blue-300 mb-1">${stats.monthlyRevenue.toFixed(2)}</div>
+          <div className="text-sm font-medium text-blue-800 dark:text-blue-200">Monthly Revenue</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800">
+        <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 border-2 border-purple-200 dark:border-purple-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-purple-500 rounded-xl">
+            <div className="p-3 bg-purple-500 rounded-xl shadow-md">
               <Users className="w-6 h-6 text-white" />
             </div>
-            <Badge className="bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">Total</Badge>
+            <Badge className="bg-purple-600 text-white dark:bg-purple-700 font-semibold">Total</Badge>
           </div>
-          <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{stats.totalUsers}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Total Users</div>
+          <div className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-1">{stats.totalUsers}</div>
+          <div className="text-sm font-medium text-purple-800 dark:text-purple-200">Total Users</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-2 border-orange-200 dark:border-orange-800">
+        <Card className="p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 border-2 border-orange-200 dark:border-orange-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-orange-500 rounded-xl">
+            <div className="p-3 bg-orange-500 rounded-xl shadow-md">
               <CreditCard className="w-6 h-6 text-white" />
             </div>
-            <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">Active</Badge>
+            <Badge className="bg-orange-600 text-white dark:bg-orange-700 font-semibold">Active</Badge>
           </div>
-          <div className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{stats.activeSubscriptions}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Subscriptions</div>
+          <div className="text-3xl font-bold text-orange-700 dark:text-orange-300 mb-1">{stats.activeSubscriptions}</div>
+          <div className="text-sm font-medium text-orange-800 dark:text-orange-200">Subscriptions</div>
         </Card>
       </div>
 
