@@ -63,6 +63,23 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     [PRICE_IDS.SPECIALTY_BUNDLE]: ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
   }
 
+  // Check if bundle is purchased (bundle itself, lifetime, or all certs in bundle)
+  const isBundlePurchased = (bundlePriceId: string) => {
+    // Check if bundle was purchased directly
+    if (purchasedCerts.includes(bundlePriceId)) return true
+    
+    // Check if lifetime was purchased
+    if (purchasedCerts.includes(PRICE_IDS.LIFETIME)) return true
+    
+    // Check if all certs in bundle were purchased individually
+    const bundleCerts = bundleMap[bundlePriceId]
+    if (bundleCerts) {
+      return bundleCerts.every(certId => isCertPurchased(certId))
+    }
+    
+    return false
+  }
+
   // Check if cert is unlocked (purchased individually, in bundle, or lifetime)
   const isCertPurchased = (certId: string) => {
     const certPriceId = PRICE_IDS[certId as keyof typeof PRICE_IDS]
@@ -108,7 +125,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => onNavigate('register')}>
             Get Started
           </Button>
-        ) : purchasedCerts.includes(priceId) ? (
+        ) : isBundlePurchased(priceId) ? (
           <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => onNavigate('dashboard')}>
             Start Practicing
           </Button>
