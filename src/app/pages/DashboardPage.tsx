@@ -55,7 +55,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   // Fetch purchased certs on mount
   React.useEffect(() => {
     if (user?.userId) {
-      fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}`)
+      fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}&t=${Date.now()}`)
         .then(r => r.json())
         .then(data => {
           if (data.purchasedCerts) {
