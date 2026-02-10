@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager'
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBDocumentClient, PutCommand, GetCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb'
 
 const secretsClient = new SecretsManagerClient({ region: 'ap-southeast-2' })
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: 'ap-southeast-2' }))
@@ -137,7 +137,7 @@ export const handler = async (event) => {
         const userId = paymentIntent.metadata?.userId
         const priceId = paymentIntent.metadata?.priceId
         
-        if (userId && priceId) {
+        if (userId && priceId && paymentIntent.customer) {
           // Get existing customer record
           const { Item: customer } = await dynamoClient.send(new GetCommand({
             TableName: CUSTOMERS_TABLE,
@@ -145,23 +145,36 @@ export const handler = async (event) => {
           }))
           
           if (!customer) {
-            // Create new customer
-            await updateCustomer(paymentIntent.customer, {
-              userId,
-              status: 'none',
-              purchasedCerts: [priceId]
-            })
+            // Create new customer with first cert
+            await dynamoClient.send(new PutCommand({
+              TableName: CUSTOMERS_TABLE,
+              Item: {
+                customerId: paymentIntent.customer,
+                userId,
+                status: 'none',
+                purchasedCerts: [priceId],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              }
+            }))
+            console.log('Created customer:', paymentIntent.customer, 'with cert:', priceId)
           } else {
-            // Add cert to purchased list
+            // Add cert to existing customer
             const purchasedCerts = customer.purchasedCerts || []
             if (!purchasedCerts.includes(priceId)) {
               purchasedCerts.push(priceId)
-              await updateCustomer(paymentIntent.customer, {
-                purchasedCerts
-              })
+              await dynamoClient.send(new UpdateCommand({
+                TableName: CUSTOMERS_TABLE,
+                Key: { customerId: paymentIntent.customer },
+                UpdateExpression: 'SET purchasedCerts = :certs, updatedAt = :now',
+                ExpressionAttributeValues: {
+                  ':certs': purchasedCerts,
+                  ':now': new Date().toISOString()
+                }
+              }))
+              console.log('Added cert:', priceId, 'to customer:', paymentIntent.customer)
             }
           }
-          console.log('Payment intent succeeded:', paymentIntent.id, 'User:', userId, 'Cert:', priceId)
         }
         break
       }
