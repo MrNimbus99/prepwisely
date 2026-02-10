@@ -49,17 +49,19 @@ async function markEventProcessed(eventId) {
 }
 
 async function updateCustomer(customerId, data) {
-  // Build update expression
+  // Build update expression, filtering out null/undefined values
   const updateParts = []
   const attrNames = {}
   const attrValues = { ':updatedAt': new Date().toISOString() }
   
   Object.keys(data).forEach((key, i) => {
-    const placeholder = `#attr${i}`
-    const valuePlaceholder = `:val${i}`
-    updateParts.push(`${placeholder} = ${valuePlaceholder}`)
-    attrNames[placeholder] = key
-    attrValues[valuePlaceholder] = data[key]
+    if (data[key] !== null && data[key] !== undefined) {
+      const placeholder = `#attr${i}`
+      const valuePlaceholder = `:val${i}`
+      updateParts.push(`${placeholder} = ${valuePlaceholder}`)
+      attrNames[placeholder] = key
+      attrValues[valuePlaceholder] = data[key]
+    }
   })
   
   updateParts.push('#updatedAt = :updatedAt')
