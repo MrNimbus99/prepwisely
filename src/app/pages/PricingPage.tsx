@@ -50,6 +50,26 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     
     setCheckoutData({ priceId, planName, amount })
   }
+
+  const handleSubscription = async (priceId: string) => {
+    if (!user) {
+      onNavigate('register')
+      return
+    }
+
+    try {
+      const response = await fetch('https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, userId: user.userId })
+      })
+      
+      const { url } = await response.json()
+      window.location.href = url
+    } catch (error) {
+      console.error('Subscription error:', error)
+    }
+  }
   
   const foundationalCerts = certifications.filter(cert => cert.level === 'Foundational')
   const associateCerts = certifications.filter(cert => cert.level === 'Associate')
@@ -306,8 +326,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">All study tools</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.MONTHLY, 'Monthly Subscription', 20) : onNavigate('register')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Monthly' : 'Get Started'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-orange-500 to-red-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleSubscription(PRICE_IDS.MONTHLY) : onNavigate('register')}>
+                  {user ? 'Subscribe Monthly' : 'Get Started'}
                 </Button>
               </div>
             </Card>
@@ -342,8 +362,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.ANNUAL, 'Annual Subscription', 70) : onNavigate('register')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : user ? 'Subscribe Annual' : 'Get Started'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleSubscription(PRICE_IDS.ANNUAL) : onNavigate('register')}>
+                  {user ? 'Subscribe Annual' : 'Get Started'}
                 </Button>
               </div>
             </Card>
@@ -375,8 +395,8 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <span className="text-slate-700 dark:text-slate-300 font-medium">Future updates</span>
                   </li>
                 </ul>
-                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleCheckout(PRICE_IDS.LIFETIME, 'Lifetime Access', 100) : onNavigate('register')} disabled={checkoutData !== null}>
-                  {checkoutData !== null ? 'Loading...' : user ? 'Buy Lifetime' : 'Get Started'}
+                <Button className="w-full py-4 text-lg font-bold bg-gradient-to-r from-purple-500 to-pink-600 hover:shadow-xl transition-all duration-300" onClick={() => user ? handleSubscription(PRICE_IDS.LIFETIME) : onNavigate('register')}>
+                  {user ? 'Buy Lifetime' : 'Get Started'}
                 </Button>
               </div>
             </Card>
