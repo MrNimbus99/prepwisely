@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { AccountLayout } from '../components/AccountLayout'
 import { Card } from '../components/ui/card'
 import { Button } from '../components/ui/button'
-import { User, Lock, Trash2, AlertTriangle, ArrowLeft, Save } from 'lucide-react'
+import { User, Lock, Trash2, AlertTriangle, Save } from 'lucide-react'
 
 const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, updateUserProfile, deleteAccount } = useAuth()
@@ -43,7 +44,6 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     setLoading(true)
     setMessage(null)
     try {
-      // Call Cognito change password
       setMessage({ type: 'success', text: 'Password changed successfully!' })
       setCurrentPassword('')
       setNewPassword('')
@@ -72,19 +72,13 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Button variant="outline" onClick={() => onNavigate('dashboard')} className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
+    <AccountLayout onNavigate={onNavigate} activeTab="settings">
+      <div className="space-y-6">
+        <div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Account Settings</h1>
           <p className="text-slate-600 dark:text-slate-400 mt-2">Manage your account information and preferences</p>
         </div>
-      </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {message && (
           <Card className={`p-4 ${message.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20' : 'bg-red-50 border-red-200 dark:bg-red-900/20'}`}>
             <p className={message.type === 'success' ? 'text-green-800 dark:text-green-200' : 'text-red-800 dark:text-red-200'}>
@@ -93,13 +87,12 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </Card>
         )}
 
-        {/* Profile Information */}
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <User className="w-6 h-6 text-blue-600" />
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Profile Information</h2>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
@@ -111,7 +104,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 placeholder="Enter your full name"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
               <input
@@ -122,7 +115,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 placeholder="Enter your email"
               />
             </div>
-            
+
             <Button onClick={handleUpdateProfile} disabled={loading} className="w-full sm:w-auto">
               <Save className="w-4 h-4 mr-2" />
               {loading ? 'Saving...' : 'Save Changes'}
@@ -130,13 +123,12 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
         </Card>
 
-        {/* Change Password */}
         <Card className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <Lock className="w-6 h-6 text-purple-600" />
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Change Password</h2>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Current Password</label>
@@ -148,7 +140,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 placeholder="Enter current password"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">New Password</label>
               <input
@@ -159,7 +151,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 placeholder="Enter new password (min 8 characters)"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Confirm New Password</label>
               <input
@@ -170,7 +162,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 placeholder="Confirm new password"
               />
             </div>
-            
+
             <Button onClick={handleChangePassword} disabled={loading || !currentPassword || !newPassword} className="w-full sm:w-auto">
               <Lock className="w-4 h-4 mr-2" />
               {loading ? 'Changing...' : 'Change Password'}
@@ -178,13 +170,12 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
         </Card>
 
-        {/* Delete Account */}
         <Card className="p-6 border-red-200 dark:border-red-800">
           <div className="flex items-center gap-3 mb-6">
             <AlertTriangle className="w-6 h-6 text-red-600" />
             <h2 className="text-2xl font-bold text-red-600 dark:text-red-400">Danger Zone</h2>
           </div>
-          
+
           {!showDeleteConfirm ? (
             <div>
               <p className="text-slate-700 dark:text-slate-300 mb-4">
@@ -196,8 +187,8 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <li>Your account information and preferences</li>
                 <li>All associated data</li>
               </ul>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setShowDeleteConfirm(true)}
                 className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20"
               >
@@ -213,7 +204,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   Please type <strong>DELETE</strong> to confirm account deletion.
                 </p>
               </div>
-              
+
               <input
                 type="text"
                 value={deleteConfirmText}
@@ -221,9 +212,9 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 className="w-full px-4 py-2 border border-red-300 dark:border-red-800 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
                 placeholder="Type DELETE to confirm"
               />
-              
+
               <div className="flex gap-3">
-                <Button 
+                <Button
                   onClick={handleDeleteAccount}
                   disabled={loading || deleteConfirmText !== 'DELETE'}
                   className="bg-red-600 hover:bg-red-700 text-white"
@@ -231,7 +222,7 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <Trash2 className="w-4 h-4 mr-2" />
                   {loading ? 'Deleting...' : 'Permanently Delete Account'}
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={() => {
                     setShowDeleteConfirm(false)
@@ -244,8 +235,8 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           )}
         </Card>
-      </main>
-    </div>
+      </div>
+    </AccountLayout>
   )
 }
 

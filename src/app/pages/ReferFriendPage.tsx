@@ -1,9 +1,10 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
+import { AccountLayout } from '../components/AccountLayout'
 import { Card } from '../components/ui/card'
 import { Button } from '../components/ui/button'
-import { ArrowLeft, Gift, Copy } from 'lucide-react'
+import { Gift, Copy } from 'lucide-react'
 
 const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
@@ -16,19 +17,10 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Button variant="outline" onClick={() => onNavigate('dashboard')} className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Refer a Friend</h1>
-          <p className="text-slate-600 dark:text-slate-400 mt-2">Share NestedCerts and earn rewards</p>
-        </div>
-      </header>
-
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <AccountLayout onNavigate={onNavigate} activeTab="refer">
+      <div>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Refer a Friend</h1>
+        <p className="text-slate-600 dark:text-slate-400 mb-6">Share NestedCerts and earn rewards</p>
         <Card className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800">
           <div className="text-center mb-8">
             <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -77,8 +69,8 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </p>
           </div>
         </Card>
-      </main>
-    </div>
+      </div>
+    </AccountLayout>
   )
 }
 
