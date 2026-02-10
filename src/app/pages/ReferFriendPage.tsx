@@ -37,7 +37,7 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         </div>
 
         {/* Main Offer Card */}
-        <Card className="p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-purple-900/30 border-2 border-indigo-200 dark:border-indigo-800 shadow-xl">
+        <Card className="p-8 bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 dark:from-blue-800/50 dark:via-indigo-800/50 dark:to-purple-800/50 border-2 border-indigo-200 dark:border-indigo-800 shadow-xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-600 text-white px-6 py-3 rounded-full font-bold text-2xl mb-4 shadow-lg">
               <Sparkles className="w-6 h-6" />
@@ -107,7 +107,7 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
 
           {/* Coming Soon Notice */}
-          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-2 border-yellow-300 dark:border-yellow-700 rounded-xl p-5 text-center">
+          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-800/50 dark:to-orange-800/50 border-2 border-yellow-300 dark:border-yellow-700 rounded-xl p-5 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
               <p className="text-sm font-bold text-yellow-900 dark:text-yellow-200 uppercase tracking-wide">
@@ -115,7 +115,7 @@ const ReferFriendPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </p>
               <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
             </div>
-            <p className="text-sm text-yellow-800 dark:text-yellow-300 font-medium">
+            <p className="text-sm text-yellow-900 dark:text-yellow-100 font-semibold">
               Automatic referral tracking and rewards will be activated shortly. Your referral code is ready to share now!
             </p>
           </div>

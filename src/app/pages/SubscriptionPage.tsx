@@ -141,13 +141,13 @@ const SubscriptionPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             )}
 
             {/* Quick Actions */}
-            <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-2 border-blue-200 dark:border-blue-800 shadow-lg">
+            <Card className="p-6 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800/50 dark:to-indigo-800/50 border-2 border-blue-300 dark:border-blue-700 shadow-lg">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <Button 
                   variant="outline" 
                   onClick={() => onNavigate('purchase-history')} 
-                  className="justify-start border-2 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30 font-semibold text-slate-900 dark:text-white h-12"
+                  className="justify-start border-2 border-blue-400 dark:border-blue-600 hover:bg-blue-200 dark:hover:bg-blue-900/50 font-semibold text-slate-900 dark:text-white h-12"
                 >
                   <History className="w-5 h-5 mr-2" />
                   View Purchase History
@@ -155,7 +155,7 @@ const SubscriptionPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <Button 
                   variant="outline" 
                   onClick={handleManageBilling} 
-                  className="justify-start border-2 border-blue-300 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30 font-semibold text-slate-900 dark:text-white h-12"
+                  className="justify-start border-2 border-blue-400 dark:border-blue-600 hover:bg-blue-200 dark:hover:bg-blue-900/50 font-semibold text-slate-900 dark:text-white h-12"
                 >
                   <CreditCard className="w-5 h-5 mr-2" />
                   Update Payment Method
