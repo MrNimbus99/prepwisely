@@ -139,11 +139,10 @@ export const handler = async (event) => {
         
         if (userId && priceId) {
           // Get existing customer record
-          const getParams = {
+          const { Item: customer } = await dynamoClient.send(new GetCommand({
             TableName: CUSTOMERS_TABLE,
             Key: { customerId: paymentIntent.customer }
-          }
-          const { Item: customer } = await dynamodb.send(new GetItemCommand(getParams))
+          }))
           
           if (!customer) {
             // Create new customer
@@ -154,7 +153,7 @@ export const handler = async (event) => {
             })
           } else {
             // Add cert to purchased list
-            const purchasedCerts = customer.purchasedCerts?.L?.map(item => item.S) || []
+            const purchasedCerts = customer.purchasedCerts || []
             if (!purchasedCerts.includes(priceId)) {
               purchasedCerts.push(priceId)
               await updateCustomer(paymentIntent.customer, {
