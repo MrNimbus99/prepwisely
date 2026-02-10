@@ -1,0 +1,158 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Stripe Webhook Infrastructure'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - prod
+      - test
+
+Resources:
+  # DynamoDB Tables
+  StripeEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'stripe-events-${Environment}'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: eventId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: eventId
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+
+  StripeCustomersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub 'stripe-customers-${Environment}'
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: customerId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: customerId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: UserIdIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  # Lambda Execution Role
+  WebhookLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'stripe-webhook-lambda-role-${Environment}'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:GetItem
+                  - dynamodb:Query
+                Resource:
+                  - !GetAtt StripeEventsTable.Arn
+                  - !GetAtt StripeCustomersTable.Arn
+                  - !Sub '${StripeCustomersTable.Arn}/index/*'
+        - PolicyName: SecretsManagerAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Sub 'arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:stripe/test-*'
+
+  # Lambda Function
+  WebhookLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Sub 'stripe-webhook-${Environment}'
+      Runtime: nodejs20.x
+      Handler: index.handler
+      Role: !GetAtt WebhookLambdaRole.Arn
+      Timeout: 30
+      MemorySize: 256
+      Environment:
+        Variables:
+          EVENTS_TABLE: !Ref StripeEventsTable
+          CUSTOMERS_TABLE: !Ref StripeCustomersTable
+      Code:
+        ZipFile: |
+          export const handler = async () => ({ statusCode: 200, body: 'Placeholder' })
+
+  # API Gateway
+  WebhookApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub 'stripe-webhook-api-${Environment}'
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - POST
+        AllowHeaders:
+          - '*'
+
+  WebhookIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebhookApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt WebhookLambda.Arn
+      PayloadFormatVersion: '2.0'
+
+  WebhookRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebhookApi
+      RouteKey: 'POST /webhook'
+      Target: !Sub 'integrations/${WebhookIntegration}'
+
+  WebhookStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref WebhookApi
+      StageName: '$default'
+      AutoDeploy: true
+
+  WebhookLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref WebhookLambda
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebhookApi}/*/*'
+
+Outputs:
+  WebhookUrl:
+    Description: Stripe Webhook URL
+    Value: !Sub 'https://${WebhookApi}.execute-api.${AWS::Region}.amazonaws.com/webhook'
+  EventsTableName:
+    Value: !Ref StripeEventsTable
+  CustomersTableName:
+    Value: !Ref StripeCustomersTable
+  LambdaFunctionArn:
+    Value: !GetAtt WebhookLambda.Arn
