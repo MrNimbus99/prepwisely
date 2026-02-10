@@ -49,13 +49,28 @@ async function markEventProcessed(eventId) {
 }
 
 async function updateCustomer(customerId, data) {
-  await dynamoClient.send(new PutCommand({
+  // Build update expression
+  const updateParts = []
+  const attrNames = {}
+  const attrValues = { ':updatedAt': new Date().toISOString() }
+  
+  Object.keys(data).forEach((key, i) => {
+    const placeholder = `#attr${i}`
+    const valuePlaceholder = `:val${i}`
+    updateParts.push(`${placeholder} = ${valuePlaceholder}`)
+    attrNames[placeholder] = key
+    attrValues[valuePlaceholder] = data[key]
+  })
+  
+  updateParts.push('#updatedAt = :updatedAt')
+  attrNames['#updatedAt'] = 'updatedAt'
+  
+  await dynamoClient.send(new UpdateCommand({
     TableName: CUSTOMERS_TABLE,
-    Item: {
-      customerId,
-      ...data,
-      updatedAt: new Date().toISOString()
-    }
+    Key: { customerId },
+    UpdateExpression: `SET ${updateParts.join(', ')}`,
+    ExpressionAttributeNames: attrNames,
+    ExpressionAttributeValues: attrValues
   }))
 }
 
