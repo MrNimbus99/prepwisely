@@ -138,18 +138,23 @@ export const handler = async (event) => {
         const priceId = paymentIntent.metadata?.priceId
         
         if (userId && priceId) {
-          // Get customer or create entry
-          let customer = await getCustomerByUserId(userId)
+          // Get existing customer record
+          const getParams = {
+            TableName: CUSTOMERS_TABLE,
+            Key: { customerId: paymentIntent.customer }
+          }
+          const { Item: customer } = await dynamodb.send(new GetItemCommand(getParams))
           
           if (!customer) {
+            // Create new customer
             await updateCustomer(paymentIntent.customer, {
               userId,
-              status: 'active',
+              status: 'none',
               purchasedCerts: [priceId]
             })
           } else {
             // Add cert to purchased list
-            const purchasedCerts = customer.purchasedCerts || []
+            const purchasedCerts = customer.purchasedCerts?.L?.map(item => item.S) || []
             if (!purchasedCerts.includes(priceId)) {
               purchasedCerts.push(priceId)
               await updateCustomer(paymentIntent.customer, {
