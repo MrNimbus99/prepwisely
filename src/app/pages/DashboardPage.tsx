@@ -29,7 +29,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [purchasedCerts, setPurchasedCerts] = useState<string[]>([])
 
   // Check if user has access to all certs (admin and owner)
-  const hasFullAccess = user?.email === 'althwabtirasool@gmail.com' || user?.email === 'admin@prepwisely.com'
+  const hasFullAccess = user?.email === 'admin@prepwisely.com'
 
   const priceMap: Record<string, string> = {
     'ai-practitioner': 'price_1Sz6OwETKsGuZh3dpMKNYEGk',
