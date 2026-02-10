@@ -17,25 +17,10 @@ export const AccountLayout: React.FC<AccountLayoutProps> = ({ children, onNaviga
     { id: 'settings', label: 'Account Settings', icon: Settings, action: () => onNavigate('account-settings') },
     { id: 'history', label: 'Purchase History', icon: Receipt, action: () => onNavigate('purchase-history') },
     { id: 'refer', label: 'Refer a Friend (20% Off)', icon: Gift, action: () => onNavigate('refer-friend') },
-    { 
-      id: 'billing', 
-      label: 'Manage Billing', 
-      icon: CreditCard, 
-      action: async () => {
-        if (user) {
-          try {
-            const { url } = await createPortalSession(user.userId)
-            window.location.href = url
-          } catch (error) {
-            console.error('Portal error:', error)
-          }
-        }
-      }
-    },
     { id: 'membership', label: 'Membership & Subscriptions', icon: Package, action: () => onNavigate('subscription') },
     { 
-      id: 'card', 
-      label: 'Add / Change Credit Card', 
+      id: 'billing', 
+      label: 'Manage Billing & Payment', 
       icon: CreditCard, 
       action: async () => {
         if (user) {
