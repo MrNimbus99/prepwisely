@@ -49,8 +49,8 @@ const SubscriptionsPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">Subscriptions</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400">Manage all active and past subscriptions</p>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Subscriptions</h2>
+          <p className="text-lg text-slate-700 dark:text-slate-300">Manage all active and past subscriptions</p>
         </div>
         <div className="text-right">
           <div className="text-3xl font-bold text-blue-600">${mrr.toFixed(2)}</div>

@@ -54,8 +54,8 @@ const PaymentsPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">Payments & Transactions</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400">View all payment history and download receipts</p>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">Payments & Transactions</h2>
+          <p className="text-lg text-slate-700 dark:text-slate-300">View all payment history and download receipts</p>
         </div>
         <div className="text-right">
           <div className="text-3xl font-bold text-green-600">${totalRevenue.toFixed(2)}</div>

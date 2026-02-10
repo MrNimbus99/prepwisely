@@ -43,10 +43,10 @@ const UserManagement: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">User Management</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400">View and manage all platform users</p>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">User Management</h2>
+          <p className="text-lg text-slate-700 dark:text-slate-300">View and manage all platform users</p>
         </div>
-        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+        <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
           <Users className="w-5 h-5" />
           <span className="font-semibold">{users.length} Total Users</span>
         </div>
