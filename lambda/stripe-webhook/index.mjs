@@ -132,6 +132,36 @@ export const handler = async (event) => {
         break
       }
 
+      case 'payment_intent.succeeded': {
+        const paymentIntent = stripeEvent.data.object
+        const userId = paymentIntent.metadata?.userId
+        const priceId = paymentIntent.metadata?.priceId
+        
+        if (userId && priceId) {
+          // Get customer or create entry
+          let customer = await getCustomerByUserId(userId)
+          
+          if (!customer) {
+            await updateCustomer(paymentIntent.customer, {
+              userId,
+              status: 'active',
+              purchasedCerts: [priceId]
+            })
+          } else {
+            // Add cert to purchased list
+            const purchasedCerts = customer.purchasedCerts || []
+            if (!purchasedCerts.includes(priceId)) {
+              purchasedCerts.push(priceId)
+              await updateCustomer(paymentIntent.customer, {
+                purchasedCerts
+              })
+            }
+          }
+          console.log('Payment intent succeeded:', paymentIntent.id, 'User:', userId, 'Cert:', priceId)
+        }
+        break
+      }
+
       case 'invoice.payment_failed': {
         const invoice = stripeEvent.data.object
         await updateCustomer(invoice.customer, { status: 'past_due' })
