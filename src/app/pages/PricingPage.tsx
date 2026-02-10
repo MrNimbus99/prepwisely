@@ -56,7 +56,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const professionalCerts = certifications.filter(cert => cert.level === 'Professional')
   const specialtyCerts = certifications.filter(cert => cert.level === 'Specialty')
 
-  const BundleCard = ({ title, price, originalPrice, certs, gradient }: { title: string, price: number, originalPrice: number, certs: typeof certifications, gradient: string }) => (
+  const BundleCard = ({ title, price, originalPrice, certs, gradient, priceId }: { title: string, price: number, originalPrice: number, certs: typeof certifications, gradient: string, priceId: string }) => (
     <Card className="group relative overflow-hidden bg-white dark:bg-slate-900 border-2 border-yellow-500 dark:border-yellow-500 p-6 text-center shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">
       <Badge className="absolute top-4 right-4 bg-yellow-500 text-white font-bold">BUNDLE</Badge>
       <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-5`} />
@@ -78,9 +78,19 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </div>
           ))}
         </div>
-        <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => onNavigate('register')}>
-          Get Bundle
-        </Button>
+        {!user ? (
+          <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => onNavigate('register')}>
+            Get Started
+          </Button>
+        ) : purchasedCerts.includes(priceId) ? (
+          <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => onNavigate('dashboard')}>
+            Start Practicing
+          </Button>
+        ) : (
+          <Button className={`w-full bg-gradient-to-r ${gradient} text-white font-semibold`} onClick={() => handleCheckout(priceId, `${title} Bundle`, price)}>
+            Buy Bundle
+          </Button>
+        )}
       </div>
     </Card>
   )
@@ -411,7 +421,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {associateCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Associate" price={45} originalPrice={50} certs={associateCerts} gradient="from-blue-500 to-indigo-600" />
+              <BundleCard title="Associate" price={45} originalPrice={50} certs={associateCerts} gradient="from-blue-500 to-indigo-600" priceId={PRICE_IDS.ASSOCIATE_BUNDLE} />
             </div>
           </div>
 
@@ -422,7 +432,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {professionalCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Professional" price={25} originalPrice={60} certs={professionalCerts} gradient="from-rose-500 to-red-600" />
+              <BundleCard title="Professional" price={25} originalPrice={60} certs={professionalCerts} gradient="from-rose-500 to-red-600" priceId={PRICE_IDS.PROFESSIONAL_BUNDLE} />
             </div>
           </div>
 
@@ -433,7 +443,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {specialtyCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Specialty" price={25} originalPrice={60} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" />
+              <BundleCard title="Specialty" price={25} originalPrice={60} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" priceId={PRICE_IDS.SPECIALTY_BUNDLE} />
             </div>
           </div>
         </div>
