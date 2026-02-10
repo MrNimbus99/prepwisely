@@ -190,7 +190,8 @@ export const handler = async (event) => {
         body: JSON.stringify({
           hasAccess: customer?.status === 'active' || customer?.status === 'trialing',
           status: customer?.status || 'none',
-          currentPeriodEnd: customer?.currentPeriodEnd
+          currentPeriodEnd: customer?.currentPeriodEnd,
+          purchasedCerts: customer?.purchasedCerts || []
         })
       }
     }

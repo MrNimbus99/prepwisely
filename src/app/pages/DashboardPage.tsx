@@ -26,9 +26,24 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
   const { getProgress } = useQuiz()
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [purchasedCerts, setPurchasedCerts] = useState<string[]>([])
 
   // Check if user has access to all certs (admin and owner)
   const hasFullAccess = user?.email === 'althwabtirasool@gmail.com' || user?.email === 'admin@prepwisely.com'
+
+  // Fetch purchased certs on mount
+  React.useEffect(() => {
+    if (user?.userId) {
+      fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.purchasedCerts) {
+            setPurchasedCerts(data.purchasedCerts)
+          }
+        })
+        .catch(console.error)
+    }
+  }, [user?.userId])
 
   // All certifications with unique colors
   const allCertifications = [
@@ -47,7 +62,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       code: 'AIF-C01',
       level: 'Foundational',
       gradient: 'from-violet-500 to-purple-600',
-      isUnlocked: hasFullAccess
+      isUnlocked: hasFullAccess || purchasedCerts.includes('price_1Sz6OwETKsGuZh3dpMKNYEGk')
     },
     // Associate (5)
     {
