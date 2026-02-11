@@ -128,15 +128,15 @@ const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
               <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
                 <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
-                <div className="text-slate-700 dark:text-slate-300">Go to Account Settings</div>
+                <div className="text-slate-700 dark:text-slate-300">Go to Membership & Subscriptions</div>
               </div>
               <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
                 <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
-                <div className="text-slate-700 dark:text-slate-300">Click "Manage Subscription"</div>
+                <div className="text-slate-700 dark:text-slate-300">Click "Manage Subscription" button</div>
               </div>
               <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg">
                 <div className="w-8 h-8 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">4</div>
-                <div className="text-slate-700 dark:text-slate-300">Select "Cancel Subscription"</div>
+                <div className="text-slate-700 dark:text-slate-300">In Stripe portal, select "Cancel Subscription"</div>
               </div>
             </div>
           </Card>
