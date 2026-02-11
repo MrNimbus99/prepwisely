@@ -21,10 +21,10 @@ export const PRICE_IDS = {
   'security-specialty': 'price_1SzR6vETKsGuZh3dcQ9x9QNt',
   'machine-learning-specialty': 'price_1SzR6wETKsGuZh3dyRdCYJ5k',
   
-  // Bundles - USD prices (same as before)
-  ASSOCIATE_BUNDLE: 'price_1SzR6uETKsGuZh3dQL2S8qOl',
-  PROFESSIONAL_BUNDLE: 'price_1SzR6vETKsGuZh3dP2tSYj9k',
-  SPECIALTY_BUNDLE: 'price_1SzR6xETKsGuZh3duUWYKVcK'
+  // Bundles - USD prices ($45 Associate, $25 Professional, $25 Specialty)
+  ASSOCIATE_BUNDLE: 'price_1SzcarEbihaDPG1kG8BfbBPV',
+  PROFESSIONAL_BUNDLE: 'price_1SzcasEbihaDPG1kIz8sZSS3',
+  SPECIALTY_BUNDLE: 'price_1SzcasEbihaDPG1kDTt2Nmcm'
 }
 
 export async function createCheckoutSession(priceId: string, userId: string) {
