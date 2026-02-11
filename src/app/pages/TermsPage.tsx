@@ -108,7 +108,7 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   </h2>
                   <div className="bg-green-50 dark:bg-green-950/20 border-l-4 border-green-500 p-4 rounded">
                     <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                      <strong className="text-green-700 dark:text-green-400">No Refunds Policy:</strong> All sales are final. We provide a free Cloud Practitioner certification to try our platform before purchasing any paid content.
+                      <strong className="text-green-700 dark:text-green-400">7-Day Money-Back Guarantee:</strong> We offer refunds within 7 days if you've accessed less than 20% of the content. Try our free Cloud Practitioner certification before purchasing to ensure our platform meets your needs.
                     </p>
                   </div>
                 </div>

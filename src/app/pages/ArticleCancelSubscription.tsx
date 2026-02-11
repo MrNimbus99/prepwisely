@@ -119,7 +119,7 @@ const ArticleCancelSubscription: React.FC<NavigationProps> = ({ onNavigate }) =>
 
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-8">Refund Policy</h2>
             <p className="text-slate-800 dark:text-slate-100 mb-4 leading-relaxed">
-              <strong>No Refunds:</strong> All sales are final. We provide a free Cloud Practitioner certification to try our platform before purchasing. Cancellation only prevents future charges and does not result in a refund for the current billing period.
+              <strong>7-Day Money-Back Guarantee:</strong> If you cancel within 7 days of your initial purchase and have accessed less than 20% of the content, you can request a full refund by contacting our support team. After 7 days or if you've used more than 20% of content, cancellation only prevents future charges.
             </p>
 
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-8">Reactivating Your Subscription</h2>

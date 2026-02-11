@@ -47,7 +47,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         },
         {
           q: 'Do you offer refunds?',
-          a: 'All sales are final. We offer a free Cloud Practitioner certification so you can try our platform before purchasing. This allows you to experience the quality of our content risk-free.'
+          a: 'Yes! We offer a 7-day money-back guarantee if you\'ve accessed less than 20% of the content. We\'re confident you\'ll love our platform, but if it\'s not right for you, we\'ll refund you - no questions asked. Try our free Cloud Practitioner certification first!'
         },
         {
           q: 'What payment methods do you accept?',

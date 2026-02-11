@@ -7,9 +7,9 @@ import { DollarSign, CheckCircle, Mail, AlertCircle } from 'lucide-react'
 
 const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   useSEO({
-    title: 'Refund Policy - Money-Back Guarantee Terms | NestedCerts',
-    description: 'Understand our refund policy for NestedCerts subscriptions. Learn about eligibility, refund timelines, money-back guarantee, and how to request a refund for your purchase.',
-    keywords: 'refund policy, money-back guarantee, refund request, payment refund, subscription refund',
+    title: '7-Day Money-Back Guarantee - Refund Policy | NestedCerts',
+    description: 'NestedCerts offers a 7-day money-back guarantee if you\'ve accessed less than 20% of content. Fair refund policy with usage limits.',
+    keywords: 'refund policy, money-back guarantee, 7 day refund, refund request',
     canonical: 'https://nestedcerts.com/refund-policy'
   })
   
@@ -45,7 +45,7 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             Refund Policy
           </h1>
           <p className="text-xl text-emerald-100">
-            Your satisfaction is our priority
+            7-day money-back guarantee
           </p>
         </div>
       </section>
@@ -60,10 +60,10 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <AlertCircle className="w-10 h-10 text-white" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                All Sales Are Final
+                7-Day Money-Back Guarantee
               </h2>
               <p className="text-xl text-white/90 leading-relaxed max-w-2xl mx-auto">
-                We do not offer refunds. Try our free Cloud Practitioner certification before purchasing to ensure our platform meets your needs.
+                Get a full refund within 7 days if you've accessed less than 20% of the content. We're confident you'll love our platform!
               </p>
             </div>
           </Card>
@@ -75,27 +75,31 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
                     <CheckCircle className="w-7 h-7 text-white" />
                   </div>
-                  Try Before You Buy
+                  Refund Eligibility
                 </h2>
                 <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
-                  We provide a completely free Cloud Practitioner certification so you can experience our platform before purchasing:
+                  You're eligible for a full refund within 7 days if:
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>All practice quizzes and exams</span>
+                    <span>You've accessed less than 20% of the content (fewer than 3 quizzes completed)</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Detailed explanations for every question</span>
+                    <span>You haven't completed the final exam</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                    <span>Progress tracking and performance analytics</span>
+                    <span>Technical issues we cannot resolve</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <span>Accidental duplicate purchase</span>
                   </li>
                 </ul>
                 <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mt-4">
-                  This allows you to fully experience our platform quality before making any purchase decision.
+                  We also offer a free Cloud Practitioner certification so you can try our platform risk-free before purchasing.
                 </p>
               </div>
 
@@ -104,20 +108,28 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
                     <AlertCircle className="w-7 h-7 text-white" />
                   </div>
-                  No Refunds Policy
+                  No Refunds If
                 </h2>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span><strong>All sales are final</strong> - No refunds on any purchases</span>
+                    <span><strong>Completed final exam</strong> - You've finished the certification</span>
                   </li>
                   <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <span><strong>Try before you buy</strong> - Free Cloud Practitioner available</span>
+                    <span><strong>Accessed 20%+ content</strong> - Completed 3 or more quizzes</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>After 7 days</strong> - Refund window has closed</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <span><strong>Subscriptions after first month</strong> - Only first payment eligible</span>
                   </li>
                 </ul>
                 <p className="text-slate-700 dark:text-slate-300 mt-4 leading-relaxed">
-                  Since we provide free access to try our platform, all purchases are considered final.
+                  This policy protects against abuse while ensuring fairness for genuine cases.
                 </p>
               </div>
 
