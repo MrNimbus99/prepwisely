@@ -301,30 +301,30 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </Card>
         ) : !showResult ? (
           /* Question View */
-          <div className="h-full flex flex-col gap-3 sm:gap-4">
-            {/* Question Header */}
-            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-4 flex-shrink-0">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+          <div className="h-full flex flex-col gap-2">
+            {/* Question Header - More Compact */}
+            <Card className="bg-white dark:bg-slate-900 p-2.5 flex-shrink-0">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <h2 className="text-sm font-bold text-slate-900 dark:text-white">
                   Question {currentQuestionIndex + 1} of {questions.length}
                 </h2>
-                <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                <div className="text-xs text-slate-600 dark:text-slate-400">
                   {quizId.replace('-', ' ').toUpperCase()}
                 </div>
               </div>
-              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5">
                 <div 
-                  className="h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all" 
+                  className="h-1.5 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all" 
                   style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
                 />
               </div>
             </Card>
 
-            {/* Question */}
-            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-5 flex-1 flex flex-col min-h-0 overflow-hidden">
-              <div className="mb-3 flex-shrink-0">
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug flex-1">
+            {/* Question - Compact */}
+            <Card className="bg-white dark:bg-slate-900 p-3 flex-1 flex flex-col min-h-0">
+              <div className="mb-2 flex-shrink-0">
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight flex-1">
                     {question?.questionText}
                   </h3>
                   <button
@@ -334,19 +334,19 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                         : question?.options[question?.correctAnswer as number] || ''
                       toggleFlag(certId, quizId, question?.questionId || '', question?.questionText || '', question?.options || [], correctAnswerText)
                     }}
-                    className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
+                    className={`flex-shrink-0 p-1.5 rounded-lg transition-colors ${
                       isFlagged(question?.questionId || '')
                         ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
                         : 'bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-yellow-600 dark:hover:text-yellow-400'
                     }`}
                     title={isFlagged(question?.questionId || '') ? 'Unflag question' : 'Flag question for review'}
                   >
-                    <Flag className="w-5 h-5" fill={isFlagged(question?.questionId || '') ? 'currentColor' : 'none'} />
+                    <Flag className="w-4 h-4" fill={isFlagged(question?.questionId || '') ? 'currentColor' : 'none'} />
                   </button>
                 </div>
                 {isMultiSelect && (
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
-                    <CheckCircle className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                    <CheckCircle className="w-3 h-3 text-blue-600 dark:text-blue-400" />
                     <p className="text-xs font-semibold text-blue-600 dark:text-blue-400">
                       Select all that apply
                     </p>
@@ -354,42 +354,42 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 )}
               </div>
 
-              {/* Options - Scrollable Container */}
+              {/* Options - Auto-fit with overflow only if needed */}
               <div className="flex-1 overflow-y-auto min-h-0">
-                <div className="grid grid-cols-1 gap-2 pb-3">
+                <div className="grid grid-cols-1 gap-1.5 pb-2">
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
-                    className={`w-full text-left p-2.5 rounded-xl border-2 transition-all transform hover:scale-[1.01] ${
+                    className={`w-full text-left p-2 rounded-lg border-2 transition-all ${
                       isOptionSelected(index)
-                        ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 shadow-md'
-                        : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm'
+                        ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30'
+                        : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
                     }`}
                   >
-                    <div className="flex items-start gap-2.5">
+                    <div className="flex items-start gap-2">
                       {isMultiSelect ? (
-                        <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
-                            ? 'border-blue-500 bg-blue-500 shadow-sm'
+                            ? 'border-blue-500 bg-blue-500'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <CheckCircle className="w-4 h-4 text-white" />
+                            <CheckCircle className="w-3 h-3 text-white" />
                           )}
                         </div>
                       ) : (
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
-                            ? 'border-blue-500 bg-blue-500 shadow-sm'
+                            ? 'border-blue-500 bg-blue-500'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                            <div className="w-2 h-2 bg-white rounded-full" />
                           )}
                         </div>
                       )}
-                      <span className="text-sm text-slate-900 dark:text-white font-medium leading-snug flex-1">
+                      <span className="text-xs text-slate-900 dark:text-white font-medium leading-tight flex-1">
                         {option}
                       </span>
                     </div>
