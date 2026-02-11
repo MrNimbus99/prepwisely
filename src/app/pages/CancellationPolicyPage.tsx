@@ -147,10 +147,11 @@ const CancellationPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               Need Help?
             </h2>
             <p className="text-white/90 leading-relaxed">
-              If you need assistance with cancellation, please contact our support team at{' '}
-              <a href="mailto:support@prepwisely.com" className="text-white hover:underline font-semibold">
-                support@prepwisely.com
-              </a>
+              If you need assistance with cancellation, please{' '}
+              <button onClick={() => onNavigate('contact-support')} className="text-white hover:underline font-semibold">
+                contact us
+              </button>
+              {' '}via our contact form.
             </p>
           </Card>
         </div>

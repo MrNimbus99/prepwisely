@@ -169,10 +169,11 @@ const RefundPolicyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   Questions?
                 </h2>
                 <p className="text-white/90 leading-relaxed">
-                  If you have any questions about our refund policy, please contact our support team at{' '}
-                  <a href="mailto:support@prepwisely.com" className="text-white hover:underline font-semibold">
-                    support@prepwisely.com
-                  </a>
+                  If you have any questions about our refund policy, please{' '}
+                  <button onClick={() => onNavigate('contact-support')} className="text-white hover:underline font-semibold">
+                    contact us
+                  </button>
+                  {' '}via our contact form.
                   {' '}or visit our{' '}
                   <button onClick={() => onNavigate('help')} className="text-white hover:underline font-semibold">
                     Help Center

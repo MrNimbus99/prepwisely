@@ -206,10 +206,11 @@ const PrivacyPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Contact Us
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    If you have questions about this Privacy Policy or want to exercise your rights, contact us at{' '}
-                    <a href="mailto:privacy@prepwisely.com" className="text-green-600 dark:text-green-400 hover:underline font-medium">
-                      privacy@prepwisely.com
-                    </a>
+                    If you have questions about this Privacy Policy or want to exercise your rights, please{' '}
+                    <button onClick={() => onNavigate('contact-support')} className="text-green-600 dark:text-green-400 hover:underline font-semibold">
+                      contact us
+                    </button>
+                    {' '}via our contact form.
                   </p>
                 </div>
               </div>

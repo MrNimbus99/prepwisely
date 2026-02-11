@@ -177,10 +177,11 @@ const TermsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Contact Information
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                    If you have any questions about these Terms of Service, please contact us at{' '}
-                    <a href="mailto:legal@prepwisely.com" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                      legal@prepwisely.com
-                    </a>
+                    If you have any questions about these Terms of Service, please{' '}
+                    <button onClick={() => onNavigate('contact-support')} className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">
+                      contact us
+                    </button>
+                    {' '}via our contact form.
                   </p>
                 </div>
               </div>

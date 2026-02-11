@@ -149,10 +149,13 @@ const AccessibilityPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     Feedback & Assistance
                   </h2>
                   <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
-                    We welcome your feedback on the accessibility of NestedCerts. If you encounter any accessibility barriers, please let us know:
+                    We welcome your feedback on the accessibility of NestedCerts. If you encounter any accessibility barriers, please{' '}
+                    <button onClick={() => onNavigate('contact-support')} className="text-purple-600 dark:text-purple-400 hover:underline font-semibold">
+                      contact us
+                    </button>
+                    {' '}via our contact form.
                   </p>
                   <ul className="space-y-2 text-slate-700 dark:text-slate-300">
-                    <li><strong>Email:</strong> <a href="mailto:accessibility@prepwisely.com" className="text-purple-600 dark:text-purple-400 hover:underline">accessibility@prepwisely.com</a></li>
                     <li><strong>Response Time:</strong> We aim to respond within 2 business days</li>
                   </ul>
                 </div>
