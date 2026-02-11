@@ -115,27 +115,49 @@ const BulkImportPage: React.FC = () => {
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-900 dark:text-white mb-2">
-              Certification ID
+              Certification
             </label>
-            <input
-              type="text"
+            <select
               value={certId}
               onChange={(e) => setCertId(e.target.value)}
-              placeholder="e.g., CLF-C02"
               className="w-full px-4 py-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-            />
+            >
+              <option value="">Select certification...</option>
+              <option value="CLF-C02">Cloud Practitioner (CLF-C02)</option>
+              <option value="AIF-C01">AI Practitioner (AIF-C01)</option>
+              <option value="SAA-C03">Solutions Architect Associate (SAA-C03)</option>
+              <option value="DVA-C02">Developer Associate (DVA-C02)</option>
+              <option value="SOA-C03">CloudOps Engineer Associate (SOA-C03)</option>
+              <option value="DEA-C01">Data Engineer Associate (DEA-C01)</option>
+              <option value="MLA-C01">ML Engineer Associate (MLA-C01)</option>
+              <option value="SAP-C02">Solutions Architect Professional (SAP-C02)</option>
+              <option value="DOP-C02">DevOps Engineer Professional (DOP-C02)</option>
+              <option value="AIP-C01">GenAI Developer Professional (AIP-C01)</option>
+              <option value="ANS-C01">Advanced Networking Specialty (ANS-C01)</option>
+              <option value="SCS-C03">Security Specialty (SCS-C03)</option>
+              <option value="MLS-C01">ML Specialty (MLS-C01)</option>
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-900 dark:text-white mb-2">
-              Quiz ID
+              Quiz
             </label>
-            <input
-              type="text"
+            <select
               value={quizId}
               onChange={(e) => setQuizId(e.target.value)}
-              placeholder="e.g., 1 or exam-1"
               className="w-full px-4 py-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-            />
+            >
+              <option value="">Select quiz...</option>
+              <optgroup label="Practice Quizzes">
+                {Array.from({ length: 30 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>Quiz {i + 1}</option>
+                ))}
+              </optgroup>
+              <optgroup label="Final Exams">
+                <option value="exam-1">Final Exam 1</option>
+                <option value="exam-2">Final Exam 2</option>
+              </optgroup>
+            </select>
           </div>
         </div>
       </Card>
