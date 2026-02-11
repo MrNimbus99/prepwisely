@@ -11,6 +11,8 @@ const BulkImportPage: React.FC = () => {
   const [importing, setImporting] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
 
   const handleExport = async () => {
     if (!certId || !quizId) {
@@ -50,21 +52,21 @@ const BulkImportPage: React.FC = () => {
       return
     }
 
-    // Confirm replacement
-    const confirmed = window.confirm(
-      `⚠️ WARNING: This will DELETE all existing questions in ${certId} - Quiz ${quizId} and replace them with the imported questions.\n\nAre you sure you want to continue?`
-    )
-    
-    if (!confirmed) {
-      event.target.value = '' // Reset file input
-      return
-    }
+    // Show confirmation modal
+    setPendingFile(file)
+    setShowConfirmModal(true)
+    event.target.value = '' // Reset file input
+  }
 
+  const confirmImport = async () => {
+    if (!pendingFile) return
+
+    setShowConfirmModal(false)
     setImporting(true)
     setMessage(null)
 
     try {
-      const text = await file.text()
+      const text = await pendingFile.text()
       const questions = JSON.parse(text)
 
       if (!Array.isArray(questions)) {
@@ -111,7 +113,7 @@ const BulkImportPage: React.FC = () => {
       setMessage({ type: 'error', text: 'Failed to import questions. Check JSON format.' })
     } finally {
       setImporting(false)
-      event.target.value = '' // Reset file input
+      setPendingFile(null)
     }
   }
 
@@ -268,6 +270,57 @@ const BulkImportPage: React.FC = () => {
 ]`}
         </pre>
       </Card>
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <Card className="max-w-lg w-full bg-white dark:bg-slate-900 shadow-2xl border-2 border-red-500 dark:border-red-700 animate-in zoom-in-95 duration-200">
+            <div className="p-6">
+              <div className="flex items-start gap-4 mb-6">
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                    ⚠️ Replace All Questions?
+                  </h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300 mb-4">
+                    This action will permanently delete all existing questions and replace them with your imported file.
+                  </p>
+                  <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Certification:</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{certId}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Quiz:</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{quizId.startsWith('exam') ? `Final Exam ${quizId.split('-')[1]}` : `Quiz ${quizId}`}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => {
+                    setShowConfirmModal(false)
+                    setPendingFile(null)
+                  }}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={confirmImport}
+                  className="flex-1 bg-red-600 hover:bg-red-700"
+                >
+                  Yes, Replace All
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
