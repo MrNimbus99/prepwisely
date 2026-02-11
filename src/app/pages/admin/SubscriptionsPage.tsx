@@ -21,6 +21,7 @@ const SubscriptionsPage: React.FC = () => {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [showIncomplete, setShowIncomplete] = useState(false)
 
   useEffect(() => {
     fetchSubscriptions()
@@ -38,10 +39,12 @@ const SubscriptionsPage: React.FC = () => {
     }
   }
 
-  const filteredSubs = subscriptions.filter(s =>
-    s.customer_email?.toLowerCase().includes(search.toLowerCase()) ||
-    s.id.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredSubs = subscriptions
+    .filter(s => showIncomplete ? true : s.status !== 'incomplete')
+    .filter(s =>
+      s.customer_email?.toLowerCase().includes(search.toLowerCase()) ||
+      s.id.toLowerCase().includes(search.toLowerCase())
+    )
 
   const mrr = subscriptions
     .filter(s => s.status === 'active')
@@ -61,15 +64,27 @@ const SubscriptionsPage: React.FC = () => {
       </div>
 
       <Card className="p-4 bg-gradient-to-br from-white to-blue-50 dark:from-slate-800 dark:to-slate-900">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          <input
-            type="search"
-            placeholder="Search by email or subscription ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 transition-all"
-          />
+        <div className="flex gap-4 items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="search"
+              placeholder="Search by email or subscription ID..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 transition-all"
+            />
+          </div>
+          <button
+            onClick={() => setShowIncomplete(!showIncomplete)}
+            className={`px-4 py-3 rounded-xl font-semibold transition-all ${
+              showIncomplete 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+            }`}
+          >
+            {showIncomplete ? 'Hide' : 'Show'} Incomplete
+          </button>
         </div>
       </Card>
 
@@ -122,6 +137,7 @@ const SubscriptionsPage: React.FC = () => {
                       <Badge className={
                         sub.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
                         sub.status === 'trialing' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                        sub.status === 'incomplete' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                         'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                       }>
                         {sub.status}
@@ -134,10 +150,14 @@ const SubscriptionsPage: React.FC = () => {
                       {new Date(sub.created * 1000).toLocaleDateString()}
                     </td>
                     <td className="py-4 px-6 text-slate-600 dark:text-slate-400">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4" />
-                        {new Date(sub.current_period_end * 1000).toLocaleDateString()}
-                      </div>
+                      {sub.status === 'incomplete' ? (
+                        <span className="text-slate-400">-</span>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          {new Date(sub.current_period_end * 1000).toLocaleDateString()}
+                        </div>
+                      )}
                     </td>
                     <td className="py-4 px-6">
                       {sub.cancel_at_period_end ? (
