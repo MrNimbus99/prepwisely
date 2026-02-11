@@ -1,10 +1,10 @@
 const API_BASE = 'https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com'
 
 export const PRICE_IDS = {
-  // Subscriptions - Live prices
-  MONTHLY: 'price_1SzcXaEbihaDPG1kDwqsatg0',
-  ANNUAL: 'price_1SzcXbEbihaDPG1kfULVFUu0',
-  LIFETIME: 'price_1SzcXbEbihaDPG1kwwTOxvKT',
+  // Subscriptions - Live prices ($20/mo, $70/yr, $100 lifetime)
+  MONTHLY: 'price_1SzcZNEbihaDPG1kNHu1zEPa',
+  ANNUAL: 'price_1SzcZOEbihaDPG1kwsD6PVEh',
+  LIFETIME: 'price_1SzcZOEbihaDPG1krNLLplWG',
   
   // Individual Certs - USD $10 each (Cloud Practitioner FREE)
   'cloud-practitioner': 'price_1SzR79ETKsGuZh3dFwYceoLe',
