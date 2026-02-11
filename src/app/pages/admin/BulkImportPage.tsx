@@ -46,7 +46,17 @@ const BulkImportPage: React.FC = () => {
     if (!file) return
 
     if (!certId || !quizId) {
-      setMessage({ type: 'error', text: 'Please enter both Cert ID and Quiz ID first' })
+      setMessage({ type: 'error', text: 'Please select both Certification and Quiz first' })
+      return
+    }
+
+    // Confirm replacement
+    const confirmed = window.confirm(
+      `⚠️ WARNING: This will DELETE all existing questions in ${certId} - Quiz ${quizId} and replace them with the imported questions.\n\nAre you sure you want to continue?`
+    )
+    
+    if (!confirmed) {
+      event.target.value = '' // Reset file input
       return
     }
 
@@ -61,7 +71,23 @@ const BulkImportPage: React.FC = () => {
         throw new Error('Invalid format: must be an array of questions')
       }
 
-      // Upload each question
+      // Step 1: Delete all existing questions
+      setMessage({ type: 'success', text: 'Deleting existing questions...' })
+      try {
+        const existingResponse = await fetch(`${API_BASE}/questions/${certId}/${quizId}`)
+        const existingQuestions = await existingResponse.json()
+        
+        for (const q of existingQuestions) {
+          await fetch(`${API_BASE}/questions/${certId}/${quizId}/${q.id}`, {
+            method: 'DELETE'
+          })
+        }
+      } catch (err) {
+        console.log('No existing questions to delete or delete failed')
+      }
+
+      // Step 2: Import new questions
+      setMessage({ type: 'success', text: 'Importing new questions...' })
       let successCount = 0
       for (const question of questions) {
         try {
@@ -80,11 +106,12 @@ const BulkImportPage: React.FC = () => {
         }
       }
 
-      setMessage({ type: 'success', text: `Imported ${successCount}/${questions.length} questions` })
+      setMessage({ type: 'success', text: `✅ Successfully replaced all questions! Imported ${successCount}/${questions.length} questions` })
     } catch (error) {
       setMessage({ type: 'error', text: 'Failed to import questions. Check JSON format.' })
     } finally {
       setImporting(false)
+      event.target.value = '' // Reset file input
     }
   }
 
