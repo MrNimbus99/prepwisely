@@ -168,20 +168,20 @@ const PaymentsPage: React.FC = () => {
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Payment Summary</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <div className="text-2xl font-bold text-green-600">{filteredPayments.filter(p => p.status === 'succeeded').length}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Successful</div>
+            <div className="text-2xl font-bold text-green-900 dark:text-green-100">{filteredPayments.filter(p => p.status === 'succeeded').length}</div>
+            <div className="text-sm text-slate-900 dark:text-slate-100">Successful</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-yellow-600">{filteredPayments.filter(p => p.status === 'pending').length}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Pending</div>
+            <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">{filteredPayments.filter(p => p.status === 'pending').length}</div>
+            <div className="text-sm text-slate-900 dark:text-slate-100">Pending</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-red-600">{filteredPayments.filter(p => p.status === 'failed').length}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Failed</div>
+            <div className="text-2xl font-bold text-red-900 dark:text-red-100">{filteredPayments.filter(p => p.status === 'failed').length}</div>
+            <div className="text-sm text-slate-900 dark:text-slate-100">Failed</div>
           </div>
           <div>
-            <div className="text-2xl font-bold text-blue-600">${totalRevenue.toFixed(2)}</div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">Total Revenue</div>
+            <div className="text-2xl font-bold text-blue-900 dark:text-blue-100">${totalRevenue.toFixed(2)}</div>
+            <div className="text-sm text-slate-900 dark:text-slate-100">Total Revenue</div>
           </div>
         </div>
       </Card>
