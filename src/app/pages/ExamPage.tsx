@@ -53,7 +53,27 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     const fetchQuestions = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+        // Map cert slugs to actual cert IDs
+        const certIdMap: Record<string, string> = {
+          'cloud-practitioner': 'CLF-C02',
+          'ai-practitioner': 'AIF-C01',
+          'solutions-architect-associate': 'SAA-C03',
+          'developer-associate': 'DVA-C02',
+          'cloudops-engineer-associate': 'SOA-C02',
+          'data-engineer-associate': 'DEA-C01',
+          'machine-learning-engineer-associate': 'MLA-C01',
+          'solutions-architect-professional': 'SAP-C02',
+          'devops-engineer-professional': 'DOP-C02',
+          'generative-ai-developer-professional': 'AIP-C01',
+          'advanced-networking-specialty': 'ANS-C01',
+          'security-specialty': 'SCS-C02',
+          'machine-learning-specialty': 'MLS-C01'
+        }
+        
+        const apiCertId = certIdMap[certId] || certId
+        const apiQuizId = quizId.replace('quiz-', '').replace('exam-', 'exam-')
+        
+        const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${apiCertId}/${apiQuizId}`)
         
         if (!response.ok) {
           throw new Error(`API returned ${response.status}`)
@@ -64,7 +84,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         if (Array.isArray(data) && data.length > 0) {
           setQuestions(data)
         } else {
-          console.error('No questions returned from API for', certId, quizId)
+          console.error('No questions returned from API for', apiCertId, apiQuizId)
           setQuestions([])
         }
       } catch (error) {
