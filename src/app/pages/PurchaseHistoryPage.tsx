@@ -73,11 +73,11 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <>
             {/* Stats Cards */}
             <div className="grid md:grid-cols-2 gap-6">
-              <Card className="p-6 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800/50 dark:to-indigo-800/50 border-2 border-blue-300 dark:border-blue-700 shadow-lg">
+              <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-blue-300 dark:border-blue-700 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide mb-1">Total Purchases</p>
-                    <p className="text-4xl font-black text-blue-700 dark:text-blue-300">{payments.length}</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide mb-1">Total Purchases</p>
+                    <p className="text-4xl font-black text-blue-900 dark:text-blue-100">{payments.length}</p>
                   </div>
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <Receipt className="w-8 h-8 text-white" />
@@ -85,11 +85,11 @@ const PurchaseHistoryPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 </div>
               </Card>
 
-              <Card className="p-6 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-800/50 dark:to-emerald-800/50 border-2 border-green-300 dark:border-green-700 shadow-lg">
+              <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-green-300 dark:border-green-700 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide mb-1">Total Spent</p>
-                    <p className="text-4xl font-black text-green-700 dark:text-green-300">
+                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide mb-1">Total Spent</p>
+                    <p className="text-4xl font-black text-green-900 dark:text-green-100">
                       ${(payments.reduce((sum, p) => sum + (p.status === 'succeeded' ? p.amount : 0), 0) / 100).toFixed(2)}
                     </p>
                   </div>
