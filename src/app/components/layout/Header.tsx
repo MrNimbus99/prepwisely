@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { NavigationProps } from '../../types'
 import { useAuth } from '../../contexts/AuthContext'
 import { Button } from '../ui/button'
-import { Trophy, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { NestedCertsLogo } from '../NestedCertsLogo'
 
 export const Header: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user } = useAuth()
@@ -13,9 +14,7 @@ export const Header: React.FC<NavigationProps> = ({ onNavigate }) => {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           <button onClick={() => onNavigate('landing')} className="flex items-center space-x-2">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-            </div>
+            <NestedCertsLogo className="w-7 h-7 sm:w-8 sm:h-8" />
             <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               NestedCerts
             </span>
