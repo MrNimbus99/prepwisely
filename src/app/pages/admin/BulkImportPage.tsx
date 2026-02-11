@@ -80,13 +80,27 @@ const BulkImportPage: React.FC = () => {
         const existingResponse = await fetch(`${API_BASE}/questions/${certId}/${quizId}`)
         const existingQuestions = await existingResponse.json()
         
-        for (const q of existingQuestions) {
-          await fetch(`${API_BASE}/questions/${certId}/${quizId}/${q.id}`, {
-            method: 'DELETE'
-          })
+        if (Array.isArray(existingQuestions) && existingQuestions.length > 0) {
+          console.log(`Deleting ${existingQuestions.length} existing questions...`)
+          
+          // Delete all questions sequentially
+          for (const q of existingQuestions) {
+            try {
+              const deleteResponse = await fetch(`${API_BASE}/questions/${certId}/${quizId}/${q.id}`, {
+                method: 'DELETE'
+              })
+              console.log(`Deleted question ${q.id}:`, deleteResponse.status)
+            } catch (err) {
+              console.error('Failed to delete question:', q.id, err)
+            }
+          }
+          
+          // Wait a moment for DynamoDB to process deletes
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          console.log('All existing questions deleted')
         }
       } catch (err) {
-        console.log('No existing questions to delete or delete failed')
+        console.log('No existing questions to delete or delete failed:', err)
       }
 
       // Step 2: Import new questions
