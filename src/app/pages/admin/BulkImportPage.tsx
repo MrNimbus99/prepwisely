@@ -141,14 +141,14 @@ const BulkImportPage: React.FC = () => {
       </Card>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-300 dark:border-blue-700">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-blue-300 dark:border-blue-700">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
               <Download className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">Export Questions</h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300">Download as JSON file</p>
+              <p className="text-sm text-slate-900 dark:text-slate-100">Download as JSON file</p>
             </div>
           </div>
           <Button
@@ -160,14 +160,14 @@ const BulkImportPage: React.FC = () => {
           </Button>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-300 dark:border-green-700">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-green-300 dark:border-green-700">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
               <Upload className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">Import Questions</h3>
-              <p className="text-sm text-slate-700 dark:text-slate-300">Upload JSON file</p>
+              <p className="text-sm text-slate-900 dark:text-slate-100">Upload JSON file</p>
             </div>
           </div>
           <label className="block">
