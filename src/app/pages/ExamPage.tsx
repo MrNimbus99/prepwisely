@@ -73,6 +73,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         const apiCertId = certIdMap[certId] || certId
         const apiQuizId = quizId.replace('quiz-', '').replace('exam-', 'exam-')
         
+        console.log('Fetching questions:', { certId, quizId, apiCertId, apiQuizId })
+        
         const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${apiCertId}/${apiQuizId}`)
         
         if (!response.ok) {
@@ -80,6 +82,8 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         }
         
         const data = await response.json()
+        
+        console.log('Questions received:', data.length)
         
         if (Array.isArray(data) && data.length > 0) {
           setQuestions(data)
