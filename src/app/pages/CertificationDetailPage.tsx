@@ -717,8 +717,19 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
   const handleStartQuiz = (quizId: number) => {
     const quiz = quizzes.find(q => q.id === quizId)
+    
+    // Convert quiz IDs: 1-30 stay as numbers, 31-32 become exam-1, exam-2
+    let quizIdString: string
+    if (quizId === 31) {
+      quizIdString = 'exam-1'
+    } else if (quizId === 32) {
+      quizIdString = 'exam-2'
+    } else {
+      quizIdString = quizId.toString()
+    }
+    
     // Store quiz and cert code (not slug) in sessionStorage
-    sessionStorage.setItem('currentQuizId', quizId.toString())
+    sessionStorage.setItem('currentQuizId', quizIdString)
     sessionStorage.setItem('currentCertId', certifications[certId].code)
     sessionStorage.setItem('quizDuration', quiz?.duration.toString() || '30')
     onNavigate('exam')
@@ -989,7 +1000,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
                           className={`w-full bg-gradient-to-r ${getQuizGradient(quiz)} text-white font-semibold`}
                           onClick={() => handleStartQuiz(quiz.id)}
                         >
-                          Start Quiz
+                          {quiz.id >= 31 ? 'Start Exam' : 'Start Quiz'}
                         </Button>
                       )}
                     </div>
