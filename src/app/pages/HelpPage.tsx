@@ -14,11 +14,41 @@ import {
   Settings,
   Trophy,
   ChevronRight,
+  ChevronDown,
   Mail
 } from 'lucide-react'
 
 const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
+  const [expandedArticle, setExpandedArticle] = useState<string | null>(null)
+
+  const helpContent: Record<string, Record<string, string>> = {
+    'getting-started': {
+      'How to create your account': 'Visit nestedcerts.com and click "Sign Up". Enter your email, create a password, and verify your email. You\'ll get instant access to the free Cloud Practitioner certification to try our platform.',
+      'Taking your first practice exam': 'Navigate to your certification page, select a quiz or exam, and click "Start". Answer questions at your own pace. You can flag questions for review and navigate between questions using the sidebar.',
+      'Understanding your results': 'After completing an exam, you\'ll see your score, pass/fail status, and detailed breakdown by domain. Review explanations for each question to understand correct answers and learn from mistakes.',
+      'Setting up your study schedule': 'Create a consistent study routine. We recommend 30-60 minutes daily. Use our 30-day learning paths for structured preparation. Track your progress in the dashboard to stay motivated.'
+    },
+    'exams': {
+      'How daily exams work': 'Daily practice exams contain 20 questions covering all exam domains. They\'re perfect for consistent practice. Complete one daily to build knowledge gradually and track improvement over time.',
+      'Question types and formats': 'Our exams include single-choice, multiple-choice, and scenario-based questions. All questions match AWS exam format with detailed explanations. Difficulty ranges from foundational to expert level.',
+      'Reviewing your answers': 'After completing an exam, review each question with detailed explanations. See why answers are correct or incorrect. Use this to identify knowledge gaps and focus your study efforts.',
+      'Flagging and bookmarking questions': 'Click the flag icon during exams to mark questions for later review. Access all flagged questions from your dashboard. Perfect for revisiting challenging topics before your real exam.'
+    },
+    'billing': {
+      'Understanding our pricing plans': 'We offer individual certifications ($10 each), bundles ($25-$45), and subscriptions ($20/month, $70/year, $100 lifetime). Cloud Practitioner is always free. All prices in USD.',
+      'How upgrade pricing works': 'Upgrade anytime from your Membership page. Pay only the difference between plans. Upgrades are instant. Downgrades take effect at the end of your billing period.',
+      'Canceling your subscription': 'Go to Membership & Subscriptions, click "Manage Subscription", then cancel in the Stripe portal. Access continues until period ends. No refunds for partial periods.',
+      'Requesting a refund': 'We offer 7-day refunds if you\'ve accessed less than 20% of content. Contact us via the contact form with your order details. Refunds processed within 7-10 business days.'
+    },
+    'account': {
+      'Updating your profile': 'Go to Account Settings from the dashboard menu. Update your name, email, or other profile information. Changes save automatically. Email changes require verification.',
+      'Changing your password': 'Visit Account Settings and click "Change Password". Enter your current password and new password. Use a strong password with at least 8 characters, including numbers and symbols.',
+      'Email preferences': 'Manage email notifications in Account Settings. Choose which emails you receive: progress updates, new content alerts, or promotional offers. Unsubscribe anytime.',
+      'Deleting your account': 'Contact us via the contact form to request account deletion. We\'ll permanently delete your data within 30 days. This action cannot be undone. Active subscriptions will be canceled.'
+    }
+  }
 
   const categories = [
     {
@@ -156,37 +186,60 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             })}
           </div>
 
-          {/* Categories */}
+          {/* Categories with Expandable Articles */}
           <div>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">
               Browse by Category
             </h2>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
               {categories.map((category) => {
                 const Icon = category.icon
+                const isExpanded = expandedCategory === category.id
                 return (
-                  <Card key={category.id} className="group bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-[1.02]">
-                    <CardHeader>
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="w-7 h-7 text-white" />
+                  <Card key={category.id} className="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 shadow-md overflow-hidden">
+                    <CardHeader 
+                      className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                      onClick={() => setExpandedCategory(isExpanded ? null : category.id)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <Icon className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">{category.name}</CardTitle>
+                            <CardDescription className="text-slate-600 dark:text-slate-400">{category.description}</CardDescription>
+                          </div>
                         </div>
-                        <div>
-                          <CardTitle className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{category.name}</CardTitle>
-                          <CardDescription className="text-slate-700 dark:text-slate-100">{category.description}</CardDescription>
-                        </div>
+                        <ChevronDown className={`w-5 h-5 text-slate-600 dark:text-slate-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {category.articles.map((article, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors group/item">
-                            <ChevronRight className="w-4 h-4 group-hover/item:translate-x-1 transition-transform" />
-                            <span className="font-medium">{article}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
+                    {isExpanded && (
+                      <CardContent className="pt-0 pb-6">
+                        <div className="space-y-3">
+                          {category.articles.map((article, index) => {
+                            const articleKey = `${category.id}-${article}`
+                            const isArticleExpanded = expandedArticle === articleKey
+                            return (
+                              <div key={index} className="border-l-2 border-blue-500 pl-4">
+                                <button
+                                  onClick={() => setExpandedArticle(isArticleExpanded ? null : articleKey)}
+                                  className="w-full text-left flex items-center justify-between gap-2 text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
+                                >
+                                  <span className="font-medium">{article}</span>
+                                  <ChevronRight className={`w-4 h-4 transition-transform duration-200 ${isArticleExpanded ? 'rotate-90' : ''}`} />
+                                </button>
+                                {isArticleExpanded && (
+                                  <div className="mt-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    {helpContent[category.id][article]}
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </CardContent>
+                    )}
                   </Card>
                 )
               })}
