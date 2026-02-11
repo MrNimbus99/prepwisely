@@ -9,9 +9,6 @@ import { User, Lock, Trash2, AlertTriangle, Save } from 'lucide-react'
 const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, updateUserProfile, deleteAccount } = useAuth()
   const [name, setName] = useState(user?.name || '')
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleteConfirmText, setDeleteConfirmText] = useState('')
   const [loading, setLoading] = useState(false)
@@ -25,44 +22,6 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setMessage({ type: 'success', text: 'Profile updated successfully!' })
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Failed to update profile' })
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleChangePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      setMessage({ type: 'error', text: 'Passwords do not match' })
-      return
-    }
-    if (newPassword.length < 8) {
-      setMessage({ type: 'error', text: 'Password must be at least 8 characters' })
-      return
-    }
-
-    setLoading(true)
-    setMessage(null)
-    try {
-      const { updatePassword, fetchAuthSession } = await import('aws-amplify/auth')
-      
-      // Ensure we have a valid session
-      await fetchAuthSession({ forceRefresh: true })
-      
-      // Update password
-      await updatePassword({ oldPassword: currentPassword, newPassword })
-      
-      setMessage({ type: 'success', text: 'Password changed successfully!' })
-      setCurrentPassword('')
-      setNewPassword('')
-      setConfirmPassword('')
-    } catch (error: any) {
-      let errorMessage = 'Failed to change password'
-      if (error.name === 'NotAuthorizedException' || error.message?.includes('Incorrect username or password')) {
-        errorMessage = 'Current password is incorrect. Please check and try again.'
-      } else if (error.message) {
-        errorMessage = error.message
-      }
-      setMessage({ type: 'error', text: errorMessage })
     } finally {
       setLoading(false)
     }
@@ -141,60 +100,24 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
 
         {/* Change Password */}
         <Card className="p-6 border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
               <Lock className="w-6 h-6 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Change Password</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Password</h2>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Current Password</label>
-              <input
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-900"
-                placeholder="Enter current password"
-              />
-            </div>
+          <p className="text-slate-700 dark:text-slate-300 mb-4">
+            To change your password, use the password reset process for security.
+          </p>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">New Password</label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-900"
-                placeholder="Enter new password (min 8 characters)"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Confirm New Password</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-purple-500 focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-900"
-                placeholder="Confirm new password"
-              />
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-              <Button onClick={handleChangePassword} disabled={loading || !currentPassword || !newPassword} className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg">
-              <Lock className="w-4 h-4 mr-2" />
-              {loading ? 'Changing...' : 'Change Password'}
-            </Button>
-              <button
-                onClick={() => onNavigate('forgot-password')}
-                className="text-sm text-purple-600 dark:text-purple-400 hover:underline"
-              >
-                Forgot your current password?
-              </button>
-            </div>
-          </div>
+          <Button 
+            onClick={() => onNavigate('forgot-password')} 
+            className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg"
+          >
+            <Lock className="w-4 h-4 mr-2" />
+            Reset Password
+          </Button>
         </Card>
 
         {/* Delete Account */}
