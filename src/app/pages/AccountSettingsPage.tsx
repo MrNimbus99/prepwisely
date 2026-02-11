@@ -50,7 +50,15 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setNewPassword('')
       setConfirmPassword('')
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message || 'Failed to change password' })
+      let errorMessage = 'Failed to change password'
+      if (error.message?.includes('Incorrect username or password')) {
+        errorMessage = 'Current password is incorrect. Please try again.'
+      } else if (error.message?.includes('NotAuthorizedException')) {
+        errorMessage = 'Current password is incorrect. Please try again.'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      setMessage({ type: 'error', text: errorMessage })
     } finally {
       setLoading(false)
     }
