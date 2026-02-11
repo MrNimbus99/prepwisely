@@ -321,6 +321,7 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                               window.location.href = url
                             } catch (error) {
                               console.error('Portal error:', error)
+                              alert('No billing history found. Please make a purchase first to access billing management.')
                             }
                           }
                         }}
