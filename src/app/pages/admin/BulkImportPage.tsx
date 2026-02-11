@@ -83,12 +83,11 @@ const BulkImportPage: React.FC = () => {
         })
         
         if (deleteResponse.ok) {
-          const result = await deleteResponse.json()
-          console.log(`Deleted ${result.count} existing questions`)
+          await deleteResponse.json()
           await new Promise(resolve => setTimeout(resolve, 1000))
         }
       } catch (err) {
-        console.log('No existing questions to delete:', err)
+        // No existing questions to delete
       }
 
       // Step 2: Import new questions

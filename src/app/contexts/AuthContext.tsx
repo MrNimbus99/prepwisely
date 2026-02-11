@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         })
       }
     } catch (error) {
-      console.log('No authenticated user')
+      // No authenticated user
     } finally {
       setLoading(false)
     }

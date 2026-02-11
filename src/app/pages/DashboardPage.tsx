@@ -80,8 +80,6 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}&t=${Date.now()}`)
         .then(r => r.json())
         .then(data => {
-          console.log('API Response:', data)
-          console.log('Purchased certs:', data.purchasedCerts)
           if (data.purchasedCerts) {
             setPurchasedCerts(data.purchasedCerts)
           }
