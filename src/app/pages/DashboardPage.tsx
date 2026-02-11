@@ -34,18 +34,18 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const hasFullAccess = user?.email === 'admin@prepwisely.com'
 
   const priceMap: Record<string, string> = {
-    'ai-practitioner': 'price_1SzR78ETKsGuZh3d7OpgaPJS',
-    'solutions-architect-associate': 'price_1SzR78ETKsGuZh3dK7qPc9GZ',
-    'developer-associate': 'price_1SzR6sETKsGuZh3diuRdi6LJ',
-    'cloudops-engineer-associate': 'price_1SzR6wETKsGuZh3d3vd4lrvd',
-    'data-engineer-associate': 'price_1SzR6tETKsGuZh3dSDD6BmZY',
-    'machine-learning-engineer-associate': 'price_1SzR6tETKsGuZh3dgiAV7cN0',
-    'solutions-architect-professional': 'price_1SzR6uETKsGuZh3dmDtDZrpD',
-    'devops-engineer-professional': 'price_1SzR6uETKsGuZh3dIRB47zmD',
-    'generative-ai-developer-professional': 'price_1SzR6tETKsGuZh3deM4ldTOd',
-    'advanced-networking-specialty': 'price_1SzR6wETKsGuZh3dv5OICXNW',
-    'security-specialty': 'price_1SzR6vETKsGuZh3dcQ9x9QNt',
-    'machine-learning-specialty': 'price_1SzR6wETKsGuZh3dyRdCYJ5k'
+    'ai-practitioner': 'price_1SzcuMEbihaDPG1kPAVEPcTg',
+    'solutions-architect-associate': 'price_1SzcuNEbihaDPG1kiMoBrMOG',
+    'developer-associate': 'price_1Szcq3EbihaDPG1kyYpuwV1v',
+    'cloudops-engineer-associate': 'price_1Szcq3EbihaDPG1kgDDhAhFE',
+    'data-engineer-associate': 'price_1Szcq4EbihaDPG1kaFOw88dF',
+    'machine-learning-engineer-associate': 'price_1Szcq4EbihaDPG1k31yOpegi',
+    'solutions-architect-professional': 'price_1Szcq5EbihaDPG1kxLL91FJM',
+    'devops-engineer-professional': 'price_1Szcq5EbihaDPG1kk0aVHiPD',
+    'generative-ai-developer-professional': 'price_1Szcq6EbihaDPG1kMwwRgPfk',
+    'advanced-networking-specialty': 'price_1Szcq6EbihaDPG1kn3TaHiwe',
+    'security-specialty': 'price_1Szcq6EbihaDPG1kvZaBmUlp',
+    'machine-learning-specialty': 'price_1Szcq7EbihaDPG1keZYsrKfJ'
   }
 
   const bundleMap: Record<string, string[]> = {
