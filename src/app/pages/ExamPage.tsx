@@ -54,21 +54,24 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setLoading(true)
       try {
         const response = await fetch(`https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/prod/questions/${certId}/${quizId}`)
+        
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`)
+        }
+        
         const data = await response.json()
         
-        // Ensure we have valid data before setting questions
         if (Array.isArray(data) && data.length > 0) {
           setQuestions(data)
         } else {
-          console.error('No questions returned from API')
+          console.error('No questions returned from API for', certId, quizId)
           setQuestions([])
         }
       } catch (error) {
         console.error('Failed to fetch questions:', error)
         setQuestions([])
       } finally {
-        // Small delay to ensure state updates complete
-        setTimeout(() => setLoading(false), 100)
+        setLoading(false)
       }
     }
     if (certId && quizId) {

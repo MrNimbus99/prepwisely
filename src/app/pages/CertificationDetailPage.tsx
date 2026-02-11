@@ -631,8 +631,17 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
 
   const certCompletions = completions[certification.id] || {}
 
-  // Fetch question counts for all quizzes
+  // Fetch question counts for all quizzes (with caching)
   useEffect(() => {
+    const cacheKey = `quiz-counts-${certification.code}`
+    const cached = sessionStorage.getItem(cacheKey)
+    
+    if (cached) {
+      setQuizCounts(JSON.parse(cached))
+      setLoading(false)
+      return
+    }
+    
     const fetchQuestionCounts = async () => {
       setLoading(true)
       const counts: { [key: string]: number } = {}
@@ -660,6 +669,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       }
       
       setQuizCounts(counts)
+      sessionStorage.setItem(cacheKey, JSON.stringify(counts))
       setLoading(false)
     }
     
