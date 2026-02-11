@@ -22,12 +22,31 @@ export async function generateCertificate(certCode: string, accessToken: string)
   }
 }
 
-export function downloadCertificate(url: string, fileName: string) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = fileName;
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+export async function downloadCertificate(url: string, fileName: string) {
+  try {
+    // Fetch the file as a blob
+    const response = await fetch(url);
+    const blob = await response.blob();
+    
+    // Create object URL
+    const blobUrl = window.URL.createObjectURL(blob);
+    
+    // Create and trigger download
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    
+    // Cleanup
+    setTimeout(() => {
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    }, 100);
+  } catch (error) {
+    console.error('Download failed:', error);
+    // Fallback to opening in new tab
+    window.open(url, '_blank');
+  }
 }
