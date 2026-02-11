@@ -361,35 +361,35 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   <button
                     key={index}
                     onClick={() => handleAnswerSelect(index)}
-                    className={`w-full text-left p-3 rounded-xl border-2 transition-all transform hover:scale-[1.01] ${
+                    className={`w-full text-left p-2.5 rounded-xl border-2 transition-all transform hover:scale-[1.01] ${
                       isOptionSelected(index)
                         ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 shadow-md'
                         : 'border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm'
                     }`}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-2.5">
                       {isMultiSelect ? (
-                        <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                        <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
                             ? 'border-blue-500 bg-blue-500 shadow-sm'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <CheckCircle className="w-5 h-5 text-white" />
+                            <CheckCircle className="w-4 h-4 text-white" />
                           )}
                         </div>
                       ) : (
-                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                           isOptionSelected(index)
                             ? 'border-blue-500 bg-blue-500 shadow-sm'
                             : 'border-slate-300 dark:border-slate-600'
                         }`}>
                           {isOptionSelected(index) && (
-                            <div className="w-3 h-3 bg-white rounded-full" />
+                            <div className="w-2.5 h-2.5 bg-white rounded-full" />
                           )}
                         </div>
                       )}
-                      <span className="text-sm sm:text-base text-slate-900 dark:text-white font-medium leading-snug flex-1">
+                      <span className="text-sm text-slate-900 dark:text-white font-medium leading-snug flex-1">
                         {option}
                       </span>
                     </div>
