@@ -47,7 +47,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         },
         {
           q: 'Do you offer refunds?',
-          a: 'Yes, we offer a 7-day money-back guarantee. If you\'re not satisfied within the first 7 days, contact support for a full refund.'
+          a: 'All sales are final. We offer a free Cloud Practitioner certification so you can try our platform before purchasing. This allows you to experience the quality of our content risk-free.'
         },
         {
           q: 'What payment methods do you accept?',
