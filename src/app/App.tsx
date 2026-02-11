@@ -131,6 +131,7 @@ const AppContent: React.FC = () => {
       <Route path="/admin/questions" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/admin/view-questions" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/admin/view-questions/:certId" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
+      <Route path="/admin/bulk-import" element={<ProtectedRoute><AdminDashboard onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/account-settings" element={<ProtectedRoute><AccountSettingsPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/purchase-history" element={<ProtectedRoute><PurchaseHistoryPage onNavigate={handleNavigate} /></ProtectedRoute>} />
       <Route path="/refer-friend" element={<ProtectedRoute><ReferFriendPage onNavigate={handleNavigate} /></ProtectedRoute>} />
