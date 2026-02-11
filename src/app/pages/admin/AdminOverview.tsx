@@ -53,7 +53,7 @@ const AdminOverview: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-2 border-green-200 dark:border-green-700 shadow-lg">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-green-500 rounded-xl shadow-md">
               <DollarSign className="w-6 h-6 text-white" />
@@ -64,7 +64,7 @@ const AdminOverview: React.FC = () => {
           <div className="text-sm font-medium text-green-900 dark:text-green-100">Total Revenue</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 border-2 border-blue-200 dark:border-blue-700 shadow-lg">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-blue-200 dark:border-blue-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-blue-500 rounded-xl shadow-md">
               <TrendingUp className="w-6 h-6 text-white" />
@@ -75,7 +75,7 @@ const AdminOverview: React.FC = () => {
           <div className="text-sm font-medium text-blue-900 dark:text-blue-100">Monthly Revenue</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 border-2 border-purple-200 dark:border-purple-700 shadow-lg">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-purple-200 dark:border-purple-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-purple-500 rounded-xl shadow-md">
               <Users className="w-6 h-6 text-white" />
@@ -86,7 +86,7 @@ const AdminOverview: React.FC = () => {
           <div className="text-sm font-medium text-purple-900 dark:text-purple-100">Total Users</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 border-2 border-orange-200 dark:border-orange-700 shadow-lg">
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-orange-200 dark:border-orange-700 shadow-lg">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-orange-500 rounded-xl shadow-md">
               <CreditCard className="w-6 h-6 text-white" />

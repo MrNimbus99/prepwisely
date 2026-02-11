@@ -164,7 +164,7 @@ const PaymentsPage: React.FC = () => {
         )}
       </Card>
 
-      <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800">
+      <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-800">
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Payment Summary</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
