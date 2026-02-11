@@ -1,10 +1,10 @@
 const API_BASE = 'https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com'
 
 export const PRICE_IDS = {
-  // Subscriptions - DISABLED (need to create in live Stripe)
-  MONTHLY: '', // 'price_1Sz5qOETKsGuZh3ds7lwQw8P',
-  ANNUAL: '', // 'price_1Sz5qPETKsGuZh3d6oYjKBul',
-  LIFETIME: '', // 'price_1Sz5qQETKsGuZh3dD9HMyxMT',
+  // Subscriptions - Live prices
+  MONTHLY: 'price_1SzcXaEbihaDPG1kDwqsatg0',
+  ANNUAL: 'price_1SzcXbEbihaDPG1kfULVFUu0',
+  LIFETIME: 'price_1SzcXbEbihaDPG1kwwTOxvKT',
   
   // Individual Certs - USD $10 each (Cloud Practitioner FREE)
   'cloud-practitioner': 'price_1SzR79ETKsGuZh3dFwYceoLe',
