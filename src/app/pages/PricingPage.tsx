@@ -295,7 +295,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                   className={`w-full bg-gradient-to-r ${colors.gradient} hover:shadow-lg transition-all duration-200 text-white font-semibold`}
                   onClick={() => handleCheckout(PRICE_IDS[cert.id as keyof typeof PRICE_IDS], cert.name)}
                 >
-                  Buy for $49
+                  Buy for $10
                 </Button>
               </div>
             )}
@@ -472,7 +472,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {associateCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Associate" price={199} originalPrice={245} certs={associateCerts} gradient="from-blue-500 to-indigo-600" priceId={PRICE_IDS.ASSOCIATE_BUNDLE} />
+              <BundleCard title="Associate" price={45} originalPrice={50} certs={associateCerts} gradient="from-blue-500 to-indigo-600" priceId={PRICE_IDS.ASSOCIATE_BUNDLE} />
             </div>
           </div>
 
@@ -483,7 +483,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {professionalCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Professional" price={129} originalPrice={147} certs={professionalCerts} gradient="from-rose-500 to-red-600" priceId={PRICE_IDS.PROFESSIONAL_BUNDLE} />
+              <BundleCard title="Professional" price={25} originalPrice={60} certs={professionalCerts} gradient="from-rose-500 to-red-600" priceId={PRICE_IDS.PROFESSIONAL_BUNDLE} />
             </div>
           </div>
 
@@ -494,7 +494,7 @@ const PricingPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               {specialtyCerts.map(cert => (
                 <CertificationCard key={cert.id} cert={cert} />
               ))}
-              <BundleCard title="Specialty" price={129} originalPrice={147} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" priceId={PRICE_IDS.SPECIALTY_BUNDLE} />
+              <BundleCard title="Specialty" price={25} originalPrice={60} certs={specialtyCerts} gradient="from-emerald-500 to-green-600" priceId={PRICE_IDS.SPECIALTY_BUNDLE} />
             </div>
           </div>
         </div>

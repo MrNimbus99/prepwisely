@@ -5,25 +5,25 @@ export const PRICE_IDS = {
   ANNUAL: 'price_1Sz5qPETKsGuZh3d6oYjKBul',
   LIFETIME: 'price_1Sz5qQETKsGuZh3dD9HMyxMT',
   
-  // Individual Certs - USD $49 each
-  'cloud-practitioner': 'price_1Sz5yAETKsGuZh3dYz1jk7Db',
-  'ai-practitioner': 'price_1Sz5yBETKsGuZh3dHqZe0xKD',
-  'solutions-architect-associate': 'price_1Sz5yCETKsGuZh3d6AytlJd2',
-  'developer-associate': 'price_1Sz5yCETKsGuZh3dOdoYnJQW',
-  'cloudops-engineer-associate': 'price_1Sz5yDETKsGuZh3d5ZiJHwuy',
-  'data-engineer-associate': 'price_1Sz5yEETKsGuZh3doWIbNDKJ',
-  'machine-learning-engineer-associate': 'price_1Sz5yFETKsGuZh3dtQ77V1l7',
-  'solutions-architect-professional': 'price_1Sz5yGETKsGuZh3d4rZNH2jF',
-  'devops-engineer-professional': 'price_1Sz5yGETKsGuZh3dTNOknjsj',
-  'generative-ai-developer-professional': 'price_1Sz5yHETKsGuZh3dg7ELNwGS',
-  'advanced-networking-specialty': 'price_1Sz5yIETKsGuZh3dxa7ocfXK',
-  'security-specialty': 'price_1Sz5yJETKsGuZh3dQylBg1Up',
-  'machine-learning-specialty': 'price_1Sz5yKETKsGuZh3d0LXP0Kd5',
+  // Individual Certs - USD $10 each (Cloud Practitioner FREE)
+  'cloud-practitioner': 'price_1SzR79ETKsGuZh3dFwYceoLe',
+  'ai-practitioner': 'price_1SzR78ETKsGuZh3d7OpgaPJS',
+  'solutions-architect-associate': 'price_1SzR78ETKsGuZh3dK7qPc9GZ',
+  'developer-associate': 'price_1SzR6sETKsGuZh3diuRdi6LJ',
+  'cloudops-engineer-associate': 'price_1SzR6wETKsGuZh3d3vd4lrvd',
+  'data-engineer-associate': 'price_1SzR6tETKsGuZh3dSDD6BmZY',
+  'machine-learning-engineer-associate': 'price_1SzR6tETKsGuZh3dgiAV7cN0',
+  'solutions-architect-professional': 'price_1SzR6uETKsGuZh3dmDtDZrpD',
+  'devops-engineer-professional': 'price_1SzR6uETKsGuZh3dIRB47zmD',
+  'generative-ai-developer-professional': 'price_1SzR6tETKsGuZh3deM4ldTOd',
+  'advanced-networking-specialty': 'price_1SzR6wETKsGuZh3dv5OICXNW',
+  'security-specialty': 'price_1SzR6vETKsGuZh3dcQ9x9QNt',
+  'machine-learning-specialty': 'price_1SzR6wETKsGuZh3dyRdCYJ5k',
   
-  // Bundles - USD prices
-  ASSOCIATE_BUNDLE: 'price_1Sz5yLETKsGuZh3dAzQErHjz',
-  PROFESSIONAL_BUNDLE: 'price_1Sz5yLETKsGuZh3dzu9ArWCL',
-  SPECIALTY_BUNDLE: 'price_1Sz5yMETKsGuZh3dO8n8c7N2'
+  // Bundles - USD prices (same as before)
+  ASSOCIATE_BUNDLE: 'price_1SzR6uETKsGuZh3dQL2S8qOl',
+  PROFESSIONAL_BUNDLE: 'price_1SzR6vETKsGuZh3dP2tSYj9k',
+  SPECIALTY_BUNDLE: 'price_1SzR6xETKsGuZh3duUWYKVcK'
 }
 
 export async function createCheckoutSession(priceId: string, userId: string) {
