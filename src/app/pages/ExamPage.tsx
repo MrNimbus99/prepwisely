@@ -633,7 +633,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 <XCircle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 dark:text-red-400" />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                Exit Quiz?
+                Exit {quizId.startsWith('exam-') ? 'Exam' : 'Quiz'}?
               </h3>
               <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
                 Are you sure you want to exit? Your progress will be lost and you'll need to start over.
@@ -651,7 +651,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 onClick={confirmExit}
                 className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base font-semibold bg-red-600 hover:bg-red-700 text-white"
               >
-                Exit Quiz
+                Exit {quizId.startsWith('exam-') ? 'Exam' : 'Quiz'}
               </Button>
             </div>
           </div>
