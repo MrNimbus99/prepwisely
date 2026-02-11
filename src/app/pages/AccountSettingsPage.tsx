@@ -43,14 +43,12 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     setLoading(true)
     setMessage(null)
     try {
-      const { signIn, updatePassword } = await import('aws-amplify/auth')
+      const { updatePassword, fetchAuthSession } = await import('aws-amplify/auth')
       
-      // Re-authenticate with current password first
-      if (user?.email) {
-        await signIn({ username: user.email, password: currentPassword })
-      }
+      // Ensure we have a valid session
+      await fetchAuthSession({ forceRefresh: true })
       
-      // Now update the password
+      // Update password
       await updatePassword({ oldPassword: currentPassword, newPassword })
       
       setMessage({ type: 'success', text: 'Password changed successfully!' })
@@ -59,10 +57,8 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       setConfirmPassword('')
     } catch (error: any) {
       let errorMessage = 'Failed to change password'
-      if (error.message?.includes('Incorrect username or password')) {
-        errorMessage = 'Current password is incorrect. Please try again.'
-      } else if (error.message?.includes('NotAuthorizedException')) {
-        errorMessage = 'Current password is incorrect. Please try again.'
+      if (error.name === 'NotAuthorizedException' || error.message?.includes('Incorrect username or password')) {
+        errorMessage = 'Current password is incorrect. Please check and try again.'
       } else if (error.message) {
         errorMessage = error.message
       }
