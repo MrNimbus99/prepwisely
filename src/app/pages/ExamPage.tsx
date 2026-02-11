@@ -321,7 +321,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
             </Card>
 
             {/* Question */}
-            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-5 flex-1 flex flex-col min-h-0">
+            <Card className="bg-white dark:bg-slate-900 p-3 sm:p-5 flex-1 flex flex-col min-h-0 overflow-hidden">
               <div className="mb-3 flex-shrink-0">
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug flex-1">
@@ -354,8 +354,9 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                 )}
               </div>
 
-              {/* Options - Compact Grid Layout */}
-              <div className="grid grid-cols-1 gap-2 flex-1 mb-3">
+              {/* Options - Scrollable Container */}
+              <div className="flex-1 overflow-y-auto min-h-0">
+                <div className="grid grid-cols-1 gap-2 pb-3">
                 {question?.options.map((option, index) => (
                   <button
                     key={index}
@@ -394,6 +395,7 @@ const ExamPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     </div>
                   </button>
                 ))}
+                </div>
               </div>
 
               {/* Navigation Buttons */}
