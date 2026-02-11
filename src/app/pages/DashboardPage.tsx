@@ -49,9 +49,9 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   }
 
   const bundleMap: Record<string, string[]> = {
-    'price_1SzR6uETKsGuZh3dQL2S8qOl': ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
-    'price_1SzR6vETKsGuZh3dP2tSYj9k': ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
-    'price_1SzR6xETKsGuZh3duUWYKVcK': ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
+    'price_1SzcarEbihaDPG1kG8BfbBPV': ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
+    'price_1SzcasEbihaDPG1kIz8sZSS3': ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
+    'price_1SzcasEbihaDPG1kDTt2Nmcm': ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
   }
 
   const isCertUnlocked = (certId: string) => {
