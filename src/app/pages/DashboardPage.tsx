@@ -34,24 +34,24 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   const hasFullAccess = user?.email === 'admin@prepwisely.com'
 
   const priceMap: Record<string, string> = {
-    'ai-practitioner': 'price_1Sz6OwETKsGuZh3dpMKNYEGk',
-    'solutions-architect-associate': 'price_1Sz6OyETKsGuZh3dy3UVCkKE',
-    'developer-associate': 'price_1Sz6OzETKsGuZh3dpW6LAvZc',
-    'cloudops-engineer-associate': 'price_1Sz6OzETKsGuZh3d7cymNzUG',
-    'data-engineer-associate': 'price_1Sz6P0ETKsGuZh3dystnojnN',
-    'machine-learning-engineer-associate': 'price_1Sz6P1ETKsGuZh3dCXNenr5x',
-    'solutions-architect-professional': 'price_1Sz6P2ETKsGuZh3dSYHzmkZE',
-    'devops-engineer-professional': 'price_1Sz6P3ETKsGuZh3dQgbGvZXg',
-    'generative-ai-developer-professional': 'price_1Sz6P3ETKsGuZh3dwkCHMMmA',
-    'advanced-networking-specialty': 'price_1Sz6P4ETKsGuZh3dfS498Ua0',
-    'security-specialty': 'price_1Sz6P5ETKsGuZh3d73HnsepF',
-    'machine-learning-specialty': 'price_1Sz6P6ETKsGuZh3dmtFZBT0s'
+    'ai-practitioner': 'price_1SzR78ETKsGuZh3d7OpgaPJS',
+    'solutions-architect-associate': 'price_1SzR78ETKsGuZh3dK7qPc9GZ',
+    'developer-associate': 'price_1SzR6sETKsGuZh3diuRdi6LJ',
+    'cloudops-engineer-associate': 'price_1SzR6wETKsGuZh3d3vd4lrvd',
+    'data-engineer-associate': 'price_1SzR6tETKsGuZh3dSDD6BmZY',
+    'machine-learning-engineer-associate': 'price_1SzR6tETKsGuZh3dgiAV7cN0',
+    'solutions-architect-professional': 'price_1SzR6uETKsGuZh3dmDtDZrpD',
+    'devops-engineer-professional': 'price_1SzR6uETKsGuZh3dIRB47zmD',
+    'generative-ai-developer-professional': 'price_1SzR6tETKsGuZh3deM4ldTOd',
+    'advanced-networking-specialty': 'price_1SzR6wETKsGuZh3dv5OICXNW',
+    'security-specialty': 'price_1SzR6vETKsGuZh3dcQ9x9QNt',
+    'machine-learning-specialty': 'price_1SzR6wETKsGuZh3dyRdCYJ5k'
   }
 
   const bundleMap: Record<string, string[]> = {
-    'price_1Sz6P7ETKsGuZh3d1j5j0cio': ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
-    'price_1Sz6P8ETKsGuZh3dTtpUnpUU': ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
-    'price_1Sz6P8ETKsGuZh3drB19tXES': ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
+    'price_1SzR6uETKsGuZh3dQL2S8qOl': ['solutions-architect-associate', 'developer-associate', 'cloudops-engineer-associate', 'data-engineer-associate', 'machine-learning-engineer-associate'],
+    'price_1SzR6vETKsGuZh3dP2tSYj9k': ['solutions-architect-professional', 'devops-engineer-professional', 'generative-ai-developer-professional'],
+    'price_1SzR6xETKsGuZh3duUWYKVcK': ['advanced-networking-specialty', 'security-specialty', 'machine-learning-specialty']
   }
 
   const isCertUnlocked = (certId: string) => {
