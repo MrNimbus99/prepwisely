@@ -182,10 +182,18 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               />
             </div>
 
-            <Button onClick={handleChangePassword} disabled={loading || !currentPassword || !newPassword} className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+              <Button onClick={handleChangePassword} disabled={loading || !currentPassword || !newPassword} className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg">
               <Lock className="w-4 h-4 mr-2" />
               {loading ? 'Changing...' : 'Change Password'}
             </Button>
+              <button
+                onClick={() => onNavigate('forgot-password')}
+                className="text-sm text-purple-600 dark:text-purple-400 hover:underline"
+              >
+                Forgot your current password?
+              </button>
+            </div>
           </div>
         </Card>
 
