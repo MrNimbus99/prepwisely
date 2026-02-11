@@ -43,8 +43,16 @@ const AccountSettingsPage: React.FC<NavigationProps> = ({ onNavigate }) => {
     setLoading(true)
     setMessage(null)
     try {
-      const { updatePassword } = await import('aws-amplify/auth')
+      const { signIn, updatePassword } = await import('aws-amplify/auth')
+      
+      // Re-authenticate with current password first
+      if (user?.email) {
+        await signIn({ username: user.email, password: currentPassword })
+      }
+      
+      // Now update the password
       await updatePassword({ oldPassword: currentPassword, newPassword })
+      
       setMessage({ type: 'success', text: 'Password changed successfully!' })
       setCurrentPassword('')
       setNewPassword('')
