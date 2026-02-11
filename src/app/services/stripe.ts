@@ -8,8 +8,8 @@ export const PRICE_IDS = {
   
   // Individual Certs - USD $10 each (Cloud Practitioner FREE)
   'cloud-practitioner': 'price_1SzR79ETKsGuZh3dFwYceoLe',
-  'ai-practitioner': 'price_1SzR78ETKsGuZh3d7OpgaPJS',
-  'solutions-architect-associate': 'price_1SzR78ETKsGuZh3dK7qPc9GZ',
+  'ai-practitioner': 'price_1SzcuMEbihaDPG1kPAVEPcTg',
+  'solutions-architect-associate': 'price_1SzcuNEbihaDPG1kiMoBrMOG',
   'developer-associate': 'price_1Szcq3EbihaDPG1kyYpuwV1v',
   'cloudops-engineer-associate': 'price_1Szcq3EbihaDPG1kgDDhAhFE',
   'data-engineer-associate': 'price_1Szcq4EbihaDPG1kaFOw88dF',
