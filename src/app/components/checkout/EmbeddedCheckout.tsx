@@ -206,12 +206,12 @@ export const EmbeddedCheckout: React.FC<EmbeddedCheckoutProps> = ({ priceId, use
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-slate-600 dark:text-slate-400">{planName}</span>
-            <span className="font-semibold text-slate-900 dark:text-white">${amount.toFixed(2)} AUD</span>
+            <span className="font-semibold text-slate-900 dark:text-white">${amount.toFixed(2)} USD</span>
           </div>
           <div className="border-t border-slate-200 dark:border-slate-700 pt-2 mt-2">
             <div className="flex justify-between font-bold">
               <span className="text-slate-900 dark:text-white">Total</span>
-              <span className="text-blue-600 dark:text-blue-400">${amount.toFixed(2)} AUD</span>
+              <span className="text-blue-600 dark:text-blue-400">${amount.toFixed(2)} USD</span>
             </div>
           </div>
         </div>
