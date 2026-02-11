@@ -868,7 +868,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
             <button
               onClick={handleDownloadCertificate}
               disabled={!isFullyCompleted || generatingCert}
-              className={`ml-auto px-3 sm:px-8 py-2 sm:py-4 font-bold text-xs sm:text-base transition-all flex items-center gap-1.5 sm:gap-3 rounded-lg sm:rounded-2xl shadow-xl border-2 -mt-2 ${
+              className={`ml-auto px-3 sm:px-8 py-2 sm:py-4 font-bold text-xs sm:text-base transition-all flex items-center gap-1.5 sm:gap-3 rounded-lg sm:rounded-2xl shadow-xl border-2 -mt-6 ${
                 isFullyCompleted
                   ? 'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-500 hover:from-amber-500 hover:via-yellow-600 hover:to-amber-600 text-slate-900 border-amber-300 hover:shadow-2xl transform hover:scale-105 hover:-translate-y-0.5 cursor-pointer'
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 border-slate-300 dark:border-slate-600 cursor-not-allowed opacity-60'
