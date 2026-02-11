@@ -71,7 +71,7 @@ const SubscriptionPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         ) : (
           <>
             {/* Subscription Status Card */}
-            <Card className={`p-8 border-2 shadow-xl ${isActive ? 'border-green-300 dark:border-green-700 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30' : 'border-slate-300 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900'}`}>
+            <Card className={`p-8 border-2 shadow-xl ${isActive ? 'border-green-300 dark:border-green-700 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/50 dark:to-emerald-950/50' : 'border-slate-300 dark:border-slate-700 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/80 dark:to-slate-900/80'}`}>
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-4">
                   <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg ${isActive ? 'bg-gradient-to-br from-green-500 to-emerald-600' : 'bg-gradient-to-br from-slate-400 to-slate-500'}`}>
