@@ -28,6 +28,14 @@ const AdminOverview: React.FC = () => {
       setStats(data)
     } catch (error) {
       console.error('Failed to fetch stats:', error)
+      // Set default stats on error
+      setStats({
+        totalRevenue: 0,
+        monthlyRevenue: 0,
+        totalUsers: 0,
+        activeSubscriptions: 0,
+        totalPayments: 0
+      })
     } finally {
       setLoading(false)
     }
