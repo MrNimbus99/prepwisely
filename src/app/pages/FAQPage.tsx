@@ -60,7 +60,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
       questions: [
         {
           q: 'How many questions are in each practice exam?',
-          a: 'Daily practice exams contain 20 questions. Full practice exams (available for each certification) contain 65 questions, matching the actual AWS exam format.'
+          a: 'Daily practice exams contain 20 questions. Full practice exams match the actual AWS exam format: 65 questions for Associate and Foundational exams, 75 questions for Professional and Specialty exams.'
         },
         {
           q: 'Can I retake practice exams?',
