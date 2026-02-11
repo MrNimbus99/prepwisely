@@ -240,6 +240,42 @@ const HelpPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-slate-300 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-white font-bold mb-4">NestedCerts</h3>
+              <p className="text-sm">Master AWS certifications with comprehensive practice exams and study materials.</p>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('certifications')} className="hover:text-white">Certifications</button></li>
+                <li><button onClick={() => onNavigate('pricing')} className="hover:text-white">Pricing</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('help')} className="hover:text-white">Help Center</button></li>
+                <li><button onClick={() => onNavigate('faq')} className="hover:text-white">FAQ</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><button onClick={() => onNavigate('terms')} className="hover:text-white">Terms</button></li>
+                <li><button onClick={() => onNavigate('privacy')} className="hover:text-white">Privacy</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
+            <p>&copy; 2026 NestedCerts. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
