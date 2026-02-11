@@ -68,7 +68,7 @@ const FAQPage: React.FC<NavigationProps> = ({ onNavigate }) => {
         },
         {
           q: 'How is my score calculated?',
-          a: 'Your score is calculated as a percentage of correct answers. AWS exams typically require 70-75% to pass, and we recommend aiming for 75%+ on our practice exams to ensure you\'re well-prepared.'
+          a: 'Your score is calculated as a percentage of correct answers. AWS exams use scaled scoring (100-1000 scale) with passing scores typically 720-750/1000. Our practice exams require 75% to pass, which aligns with AWS standards and ensures you\'re well-prepared for the real exam.'
         },
         {
           q: 'Do you provide explanations for answers?',
