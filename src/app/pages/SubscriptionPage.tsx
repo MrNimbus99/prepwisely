@@ -85,7 +85,7 @@ const SubscriptionPage: React.FC<NavigationProps> = ({ onNavigate }) => {
                     <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-1">
                       {isActive ? 'Active Subscription' : 'No Active Subscription'}
                     </h2>
-                    <p className="text-base font-semibold text-slate-700 dark:text-slate-300">
+                    <p className="text-base font-semibold text-slate-900 dark:text-slate-100">
                       {isActive ? 'You have full access to all certifications' : 'Subscribe to unlock all certifications'}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ const SubscriptionPage: React.FC<NavigationProps> = ({ onNavigate }) => {
               </div>
 
               {data?.currentPeriodEnd && isActive && (
-                <div className="flex items-center gap-2 text-base font-semibold text-slate-800 dark:text-slate-200 mb-6 bg-white/50 dark:bg-slate-800/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100 mb-6 bg-white dark:bg-slate-800 rounded-lg p-4 border-2 border-slate-200 dark:border-slate-700">
                   <Calendar className="w-5 h-5 text-green-600" />
                   <span>Renews on {new Date(data.currentPeriodEnd * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 </div>
