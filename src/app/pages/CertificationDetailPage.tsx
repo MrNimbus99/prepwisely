@@ -635,8 +635,11 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
   useEffect(() => {
     const cacheKey = `quiz-counts-${certification.code}`
     const cached = sessionStorage.getItem(cacheKey)
+    const cacheTime = sessionStorage.getItem(`${cacheKey}-time`)
+    const now = Date.now()
     
-    if (cached) {
+    // Cache valid for 5 minutes
+    if (cached && cacheTime && (now - parseInt(cacheTime)) < 5 * 60 * 1000) {
       setQuizCounts(JSON.parse(cached))
       setLoading(false)
       return
@@ -670,6 +673,7 @@ const CertificationDetailPage: React.FC<NavigationProps & { certId: string }> = 
       
       setQuizCounts(counts)
       sessionStorage.setItem(cacheKey, JSON.stringify(counts))
+      sessionStorage.setItem(`${cacheKey}-time`, now.toString())
       setLoading(false)
     }
     
