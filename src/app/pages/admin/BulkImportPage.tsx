@@ -7,6 +7,7 @@ const API_BASE = 'https://ep78jmwohk.execute-api.ap-southeast-2.amazonaws.com/pr
 
 const BulkImportPage: React.FC = () => {
   const [certId, setCertId] = useState('')
+  const [certName, setCertName] = useState('')
   const [quizId, setQuizId] = useState('')
   const [importing, setImporting] = useState(false)
   const [exporting, setExporting] = useState(false)
@@ -148,7 +149,11 @@ const BulkImportPage: React.FC = () => {
             </label>
             <select
               value={certId}
-              onChange={(e) => setCertId(e.target.value)}
+              onChange={(e) => {
+                setCertId(e.target.value)
+                const selectedOption = e.target.options[e.target.selectedIndex]
+                setCertName(selectedOption.text)
+              }}
               className="w-full px-4 py-2 border-2 border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
             >
               <option value="">Select certification...</option>
@@ -290,7 +295,7 @@ const BulkImportPage: React.FC = () => {
                   <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-lg space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Certification:</span>
-                      <span className="text-sm font-bold text-slate-900 dark:text-white">{certId}</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{certName}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Quiz:</span>
