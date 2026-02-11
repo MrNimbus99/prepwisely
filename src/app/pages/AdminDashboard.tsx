@@ -5,13 +5,14 @@ import { useAuth } from '../contexts/AuthContext'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { FileEdit, Users, LogOut, Eye, List, BarChart3, Receipt, Repeat } from 'lucide-react'
+import { FileEdit, Users, LogOut, Eye, List, BarChart3, Receipt, Repeat, Upload } from 'lucide-react'
 import QuestionEditor from './admin/QuestionEditor'
 import ViewQuestions from './admin/ViewQuestions'
 import UserManagement from './admin/UserManagement'
 import AdminOverview from './admin/AdminOverview'
 import PaymentsPage from './admin/PaymentsPage'
 import SubscriptionsPage from './admin/SubscriptionsPage'
+import BulkImportPage from './admin/BulkImportPage'
 
 const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth()
@@ -25,6 +26,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
     if (path.includes('/admin/users')) return 'users'
     if (path.includes('/admin/payments')) return 'payments'
     if (path.includes('/admin/subscriptions')) return 'subscriptions'
+    if (path.includes('/admin/bulk-import')) return 'bulk-import'
     if (path.includes('/admin/questions')) return 'questions'
     return 'overview'
   }
@@ -149,6 +151,18 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
               <span className="hidden sm:inline">View Questions</span>
               <span className="sm:hidden">View</span>
             </button>
+            <button
+              onClick={() => navigate('/admin/bulk-import')}
+              className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium transition-colors text-xs sm:text-base whitespace-nowrap ${
+                activeTab === 'bulk-import'
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+            >
+              <Upload className="w-4 h-4 sm:w-5 sm:h-5 inline mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Bulk Import</span>
+              <span className="sm:hidden">Bulk</span>
+            </button>
           </div>
         </div>
       </div>
@@ -161,6 +175,7 @@ const AdminDashboard: React.FC<NavigationProps> = ({ onNavigate }) => {
         {activeTab === 'users' && <UserManagement />}
         {activeTab === 'questions' && <QuestionEditor />}
         {activeTab === 'view-questions' && <ViewQuestions />}
+        {activeTab === 'bulk-import' && <BulkImportPage />}
       </main>
     </div>
   )
