@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { Settings, Receipt, Gift, CreditCard, Package, ArrowLeft } from 'lucide-react'
 import { Button } from './ui/button'
+import { Card } from './ui/card'
 import { createPortalSession } from '../services/stripe'
 
 interface AccountLayoutProps extends NavigationProps {
@@ -12,6 +13,7 @@ interface AccountLayoutProps extends NavigationProps {
 
 export const AccountLayout: React.FC<AccountLayoutProps> = ({ children, onNavigate, activeTab }) => {
   const { user } = useAuth()
+  const [showBillingError, setShowBillingError] = useState(false)
 
   const menuItems = [
     { id: 'settings', label: 'Account Settings', icon: Settings, action: () => onNavigate('account-settings') },
@@ -29,6 +31,8 @@ export const AccountLayout: React.FC<AccountLayoutProps> = ({ children, onNaviga
             window.location.href = url
           } catch (error) {
             console.error('Portal error:', error)
+            setShowBillingError(true)
+            setTimeout(() => setShowBillingError(false), 5000)
           }
         }
       }
@@ -78,6 +82,35 @@ export const AccountLayout: React.FC<AccountLayoutProps> = ({ children, onNaviga
           </main>
         </div>
       </div>
+
+      {/* Billing Error Modal */}
+      {showBillingError && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <Card className="max-w-md w-full bg-white dark:bg-slate-900 shadow-2xl border-2 border-red-200 dark:border-red-800 animate-in zoom-in-95 duration-200">
+            <div className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <CreditCard className="w-6 h-6 text-red-600 dark:text-red-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                    No Billing History Found
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
+                    Please make a purchase first to access billing management.
+                  </p>
+                  <Button 
+                    onClick={() => setShowBillingError(false)}
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  >
+                    Got it
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
