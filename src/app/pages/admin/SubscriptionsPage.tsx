@@ -74,19 +74,19 @@ const SubscriptionsPage: React.FC = () => {
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800">
-          <div className="text-3xl font-bold text-green-600 mb-2">{subscriptions.filter(s => s.status === 'active').length}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Active Subscriptions</div>
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-green-200 dark:border-green-800">
+          <div className="text-3xl font-bold text-green-900 dark:text-green-100 mb-2">{subscriptions.filter(s => s.status === 'active').length}</div>
+          <div className="text-sm text-slate-900 dark:text-slate-100">Active Subscriptions</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-200 dark:border-yellow-800">
-          <div className="text-3xl font-bold text-yellow-600 mb-2">{subscriptions.filter(s => s.status === 'trialing').length}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Trial Subscriptions</div>
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-yellow-200 dark:border-yellow-800">
+          <div className="text-3xl font-bold text-yellow-900 dark:text-yellow-100 mb-2">{subscriptions.filter(s => s.status === 'trialing').length}</div>
+          <div className="text-sm text-slate-900 dark:text-slate-100">Trial Subscriptions</div>
         </Card>
 
-        <Card className="p-6 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 border-2 border-red-200 dark:border-red-800">
-          <div className="text-3xl font-bold text-red-600 mb-2">{subscriptions.filter(s => s.status === 'canceled' || s.status === 'past_due').length}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Inactive Subscriptions</div>
+        <Card className="p-6 bg-white dark:bg-slate-800 border-2 border-red-200 dark:border-red-800">
+          <div className="text-3xl font-bold text-red-900 dark:text-red-100 mb-2">{subscriptions.filter(s => s.status === 'canceled' || s.status === 'past_due').length}</div>
+          <div className="text-sm text-slate-900 dark:text-slate-100">Inactive Subscriptions</div>
         </Card>
       </div>
 
