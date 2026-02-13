@@ -1,24 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 75 20 L 55 50 L 75 80" stroke="url(#gradient1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 25 20 L 45 50 L 25 80" stroke="url(#gradient1)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 62 30 L 50 50 L 62 70" stroke="url(#gradient2)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 38 30 L 50 50 L 38 70" stroke="url(#gradient2)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="75" cy="25" r="12" fill="url(#gradient2)"/>
+  <path d="M 70 25 L 73 28 L 80 21" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#6366F1;stop-opacity:1" />
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="512" height="512" rx="80" fill="url(#bg)"/>
-  
-  <!-- Nested Chevrons/Brackets representing "Nested" -->
-  <!-- Outer white brackets -->
-  <path d="M 380 140 L 280 256 L 380 372" stroke="#FFFFFF" stroke-width="40" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 132 140 L 232 256 L 132 372" stroke="#FFFFFF" stroke-width="40" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <!-- Inner gold brackets -->
-  <path d="M 320 180 L 256 256 L 320 332" stroke="#FCD34D" stroke-width="35" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 192 180 L 256 256 L 192 332" stroke="#FCD34D" stroke-width="35" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  
-  <!-- Certificate badge accent (small) -->
-  <circle cx="400" cy="112" r="45" fill="#FCD34D"/>
-  <path d="M 385 112 L 395 122 L 415 102" stroke="#3B82F6" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
