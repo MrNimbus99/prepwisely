@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { NestedCertsLogo } from '../components/NestedCertsLogo'
 import { NavigationProps } from '../types'
 import { useAuth } from '../contexts/AuthContext'
 import { useSEO } from '../hooks/useSEO'
@@ -116,9 +117,12 @@ const ContactSupportPage: React.FC<NavigationProps> = ({ onNavigate }) => {
           <div className="flex justify-between items-center h-14 sm:h-16">
             <button
               onClick={() => onNavigate('landing')}
-              className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+              className="flex items-center space-x-2"
             >
-              NestedCerts
+              <NestedCertsLogo className="w-10 h-10 sm:w-12 sm:h-12" />
+              <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                NestedCerts
+              </span>
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
