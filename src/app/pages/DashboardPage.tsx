@@ -78,14 +78,20 @@ const DashboardPage: React.FC<NavigationProps> = ({ onNavigate }) => {
   React.useEffect(() => {
     if (user?.userId) {
       fetch(`https://a9x2daz2vg.execute-api.ap-southeast-2.amazonaws.com/api/billing/subscription?userId=${user.userId}&t=${Date.now()}`)
-        .then(r => r.json())
+        .then(r => {
+          if (!r.ok) throw new Error('Failed to fetch subscription')
+          return r.json()
+        })
         .then(data => {
           if (data.purchasedCerts) {
             setPurchasedCerts(data.purchasedCerts)
           }
           setHasSubscription(data.hasAccess && (data.status === 'active' || data.status === 'trialing'))
         })
-        .catch(console.error)
+        .catch(err => {
+          console.error('Error fetching subscription:', err)
+          // Silently fail - user can still see free content
+        })
     }
   }, [user?.userId])
 
