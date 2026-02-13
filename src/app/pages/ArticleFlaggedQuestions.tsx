@@ -28,6 +28,9 @@ const ArticleFlaggedQuestions: React.FC<NavigationProps> = ({ onNavigate }) => {
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
+              <button onClick={() => onNavigate('landing')} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
+                Home
+              </button>
               <button onClick={() => onNavigate('certifications')} className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">
                 Certifications
               </button>
