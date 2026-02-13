@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavigationProps } from '../types'
 import { useSEO } from '../hooks/useSEO'
+import { NestedCertsLogo } from '../components/NestedCertsLogo'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -19,8 +20,11 @@ const Article30DayPath: React.FC<NavigationProps> = ({ onNavigate }) => {
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14 sm:h-16">
-            <button onClick={() => onNavigate('landing')} className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              NestedCerts
+            <button onClick={() => onNavigate('landing')} className="flex items-center space-x-2">
+              <NestedCertsLogo className="w-10 h-10 sm:w-12 sm:h-12" />
+              <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                NestedCerts
+              </span>
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
