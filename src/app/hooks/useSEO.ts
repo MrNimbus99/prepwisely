@@ -54,6 +54,7 @@ export const useSEO = ({
     // Twitter
     updateMetaTag('twitter:title', title)
     updateMetaTag('twitter:description', description)
+    updateMetaTag('twitter:url', canonical)
     updateMetaTag('twitter:image', ogImage)
 
     // Canonical link
