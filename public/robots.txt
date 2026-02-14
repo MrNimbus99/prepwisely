@@ -1,44 +1,4 @@
-# Allow all search engines to crawl public pages
 User-agent: *
 Allow: /
 
-# Block private/protected areas
-Disallow: /dashboard
-Disallow: /admin
-Disallow: /cert/
-Disallow: /exam
-Disallow: /api/
-
-# Block auth pages (should be noindex)
-Disallow: /login
-Disallow: /register
-Disallow: /email-verification
-Disallow: /forgot-password
-
-# Block file types
-Disallow: /*.json$
-
-# Crawl delay (be nice to servers)
-Crawl-delay: 1
-
-# Sitemap location
 Sitemap: https://nestedcerts.com/sitemap.xml
-
-# Specific bot rules
-User-agent: Googlebot
-Allow: /
-Disallow: /dashboard
-Disallow: /admin
-Disallow: /cert/
-Disallow: /exam
-Disallow: /login
-Disallow: /register
-
-User-agent: Bingbot
-Allow: /
-Disallow: /dashboard
-Disallow: /admin
-Disallow: /cert/
-Disallow: /exam
-Disallow: /login
-Disallow: /register

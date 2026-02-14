@@ -1,0 +1,69 @@
+# NestedCerts - AWS Certification Exam Prep Platform
+
+> Master AWS certifications with daily practice exams, comprehensive analytics, and structured 30-day learning paths.
+
+## Overview
+
+NestedCerts is a modern SaaS platform offering exam preparation for 13 AWS certifications. Each certification includes 30 practice quizzes (20 questions each) and 2 full-length exams (65 questions each), totaling over 8,000 practice questions.
+
+## Key Features
+
+- 13 AWS certifications (Cloud Practitioner to Professional & Specialty levels)
+- 30 quizzes + 2 exams per certification
+- Real-time progress tracking and analytics
+- Certificate generation upon completion
+- Flexible pricing: subscriptions, bundles, or individual certs
+
+## Pricing
+
+- Monthly: $20/month - All certifications
+- Annual: $70/year - All certifications
+- Lifetime: $100 one-time - All certifications forever
+- Individual Certs: $10 each
+- Bundles: $25-$45 (Associate, Professional, Specialty)
+
+## Public Resources
+
+- Homepage: https://nestedcerts.com/
+- Pricing: https://nestedcerts.com/pricing
+- All Certifications: https://nestedcerts.com/certifications
+- Help Center: https://nestedcerts.com/help
+- FAQ: https://nestedcerts.com/faq
+- Articles & Guides: https://nestedcerts.com/articles
+- Contact Support: https://nestedcerts.com/contact-support
+
+## Certification Guides
+
+- Cloud Practitioner (CLF-C02): https://nestedcerts.com/articles/cloud-practitioner
+- AI Practitioner (AIF-C01): https://nestedcerts.com/articles/ai-practitioner
+- Solutions Architect Associate (SAA-C03): https://nestedcerts.com/articles/solutions-architect-associate
+- Developer Associate (DVA-C02): https://nestedcerts.com/articles/developer-associate
+- CloudOps Engineer Associate (SOA-C02): https://nestedcerts.com/articles/cloudops-engineer-associate
+- Data Engineer Associate (DEA-C01): https://nestedcerts.com/articles/data-engineer-associate
+- ML Engineer Associate (MLA-C01): https://nestedcerts.com/articles/machine-learning-engineer-associate
+- Solutions Architect Professional (SAP-C02): https://nestedcerts.com/articles/solutions-architect-professional
+- DevOps Engineer Professional (DOP-C02): https://nestedcerts.com/articles/devops-engineer-professional
+- GenAI Developer Professional (AIP-C01): https://nestedcerts.com/articles/generative-ai-developer-professional
+- Advanced Networking Specialty (ANS-C01): https://nestedcerts.com/articles/advanced-networking-specialty
+- Security Specialty (SCS-C02): https://nestedcerts.com/articles/security-specialty
+- ML Specialty (MLS-C01): https://nestedcerts.com/articles/machine-learning-specialty
+
+## Legal
+
+- Terms of Service: https://nestedcerts.com/terms
+- Privacy Policy: https://nestedcerts.com/privacy
+- Cancellation Policy: https://nestedcerts.com/cancellation-policy
+- Refund Policy: https://nestedcerts.com/refund-policy
+
+## Tech Stack
+
+- Frontend: React 18 + TypeScript + Vite
+- Styling: Tailwind CSS v4
+- Backend: AWS Lambda + API Gateway + DynamoDB
+- Auth: AWS Cognito
+- Payments: Stripe (live mode)
+- Hosting: S3 + CloudFront CDN
+
+## Status
+
+Production ready with zero security vulnerabilities, 95/100 SEO score, and full mobile responsiveness.

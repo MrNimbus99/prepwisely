@@ -1,124 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  
-  <!-- Homepage -->
-  <url>
-    <loc>https://nestedcerts.com/</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  
-  <!-- Main Marketing Pages -->
-  <url>
-    <loc>https://nestedcerts.com/certifications</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/pricing</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Support Pages -->
-  <url>
-    <loc>https://nestedcerts.com/help</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/faq</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/contact-support</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Help Articles -->
-  <url>
-    <loc>https://nestedcerts.com/article-30day</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/article-upgrade</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/article-results</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/article-cancel</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/article-updates</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main Pages -->
+  <url><loc>https://nestedcerts.com/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://nestedcerts.com/pricing</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://nestedcerts.com/certifications</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://nestedcerts.com/help</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/faq</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://nestedcerts.com/contact-support</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/accessibility</loc><priority>0.6</priority><changefreq>yearly</changefreq></url>
   
   <!-- Legal Pages -->
-  <url>
-    <loc>https://nestedcerts.com/terms</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <url><loc>https://nestedcerts.com/terms</loc><priority>0.5</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://nestedcerts.com/privacy</loc><priority>0.5</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://nestedcerts.com/cancellation-policy</loc><priority>0.5</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://nestedcerts.com/refund-policy</loc><priority>0.5</priority><changefreq>yearly</changefreq></url>
   
-  <url>
-    <loc>https://nestedcerts.com/privacy</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <!-- Auth Pages -->
+  <url><loc>https://nestedcerts.com/login</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/signup</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/register</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/forgot-password</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/verify-email</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   
-  <url>
-    <loc>https://nestedcerts.com/accessibility</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <!-- Help Articles -->
+  <url><loc>https://nestedcerts.com/articles/cancel-subscription</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/30-day-path</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/exam-results</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/flagged-questions</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/question-updates</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/upgrade-pricing</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   
-  <url>
-    <loc>https://nestedcerts.com/refund-policy</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  
-  <url>
-    <loc>https://nestedcerts.com/cancellation-policy</loc>
-    <lastmod>2026-02-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  
+  <!-- Certification Articles -->
+  <url><loc>https://nestedcerts.com/articles/cloud-practitioner</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/ai-practitioner</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/solutions-architect-associate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/developer-associate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/cloudops-engineer-associate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/data-engineer-associate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/machine-learning-engineer-associate</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/solutions-architect-professional</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/devops-engineer-professional</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/generative-ai-developer-professional</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/advanced-networking-specialty</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/security-specialty</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://nestedcerts.com/articles/machine-learning-specialty</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>
